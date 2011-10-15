@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">appETS</string>
+	<string name="main_title">Accueil</string>
+	<string name="feed_list_title">Flux RSS disponible</string>
+	<string name="program_list_title">Programmes</string>
+	<string name="info_ets_title">L’ÉTS, le génie avec un +</string>
+	<string name="info_ets_text">L’École de technologie supérieure est une
+		constituante du réseau de l’Université du Québec. Spécialisée dans
+		l’enseignement et la recherche appliqués en génie et le transfert
+		technologique, elle forme des ingénieurs et des chercheurs reconnus
+		pour leur approche pratique et innovatrice. Depuis sa création, elle
+		entretient un partenariat unique avec le milieu des affaires et
+		l’industrie, tant avec les grandes entreprises que les PME.</string>
+	<string name="info_ets_address">Adresses :
+		Pavillon principal (A) : HEAD
+		1100, rue
+		Notre-Dame Ouest (angle Peel au sud)
+		Montréal (Qc) H3C 1K3
+		Téléphone:
+		514 396-8800</string>
+	<string name="info_applets_title">Applets, Ingénierie mobile</string>
+	<string name="info_applets_text">Good news! After more than a year of work and
+		planning, the club Applets is now officially recognized by the ÉTS as
+		of january 2011! We have a lot of great projects to come and we
+		encourage you to stay aware and to come back often on our website to
+		be aware of them.</string>
+	<string name="about_info_tab_title">Informations</string>
+	<string name="about_urgence_tab_title">Urgence</string>
+	<string name="about_actionbar_title">À Propos</string>
+	<string name="urgence_rez_title">Les résidences Étudiantes</string>
+	<string name="urgence_rez_phone">1-514-396-8416</string>
+	<string name="urgence_rez_email">residences@etsmtl.ca</string>
+	<string name="urgence_secu_phone">1-514-396-8900</string>
+	<string name="urgence_secu_title">Sécurité et objets perdu</string>
+	<string name="urgence_secr_title">Secrétaria général</string>
+	<string name="urgence_serc_phone">1-514 396-8804</string>
+	<string name="urgence_secr_local">A-3152</string>
+	<string name="courses_list_title">Cours</string>
+</resources>
