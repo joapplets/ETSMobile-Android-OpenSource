@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="app_name">appETS</string>
-	<string name="feed_list_title">Available RSS feeds</string>
-	<string name="program_list_title">Programs</string>
-	<string name="about_title">About</string>
-	<string name="main_title">Home</string>
-</resources>

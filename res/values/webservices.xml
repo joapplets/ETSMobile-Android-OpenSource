@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="host">http://applets.info-sonic.com/</string>
-    <string name="api_feed">feeds/api.xml</string>
-</resources>
