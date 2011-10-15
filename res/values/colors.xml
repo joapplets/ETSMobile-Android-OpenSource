@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="black">#000</color>
+	<color name="ets_red">#E70033</color>
+	<color name="blue_ets">#4E88BE</color>
+	<color name="white">#FFF</color>
+	<color name="main_backgroud">#807F83</color>
+	<color name="actionbar_separator">#666666</color>
+	<color name="actionbar_background_start">#E70033</color>
+	<color name="actionbar_background_end">#E70033</color>
+</resources>

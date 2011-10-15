@@ -1,0 +1,9 @@
+# Build and Release Folders
+bin/
+gen/
+
+# Project property files
+.actionScriptProperties
+.flexProperties
+.settings/
+.project

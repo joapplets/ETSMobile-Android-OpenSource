@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/news_layout" android:layout_width="match_parent"
+	android:layout_height="match_parent" android:orientation="vertical">
+	<com.markupartist.android.widget.ActionBar
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		style="@style/ActionBar" android:id="@+id/news_list_actionbar"></com.markupartist.android.widget.ActionBar>
+	<ListView android:orientation="vertical" android:layout_width="match_parent"
+		android:layout_height="match_parent" android:id="@android:id/list" android:background="@color/white">
+
+	</ListView>
+</LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:orientation="horizontal" android:id="@+id/news_row_layout" android:background="@color/white">
+	<ImageView android:layout_width="wrap_content" android:src="@drawable/icon"
+		android:layout_height="wrap_content" android:id="@+id/news_row_image"></ImageView>
+	<RelativeLayout android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:id="@+id/RelativeLayout1">
+		<TextView android:textAppearance="?android:attr/textAppearanceLarge"
+			android:text="TextView" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:id="@+id/news_row_title" android:textColor="@color/black"></TextView>
+		<TextView android:layout_alignParentLeft="true" android:text="TextView"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:layout_alignParentTop="false"
+			android:layout_alignParentBottom="false" android:id="@+id/news_row_desc"
+			android:layout_below="@+id/news_row_title" android:textColor="@color/black"></TextView>
+	</RelativeLayout>
+</LinearLayout>

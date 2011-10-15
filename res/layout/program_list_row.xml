@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:orientation="horizontal" android:id="@+id/program_list_row_main_layout" android:background="@color/white">
+	<ImageView android:layout_width="wrap_content" android:src="@drawable/icon"
+		android:layout_height="wrap_content" android:id="@+id/program_list_row_image"></ImageView>
+	<RelativeLayout android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:id="@+id/program_list_row_rl">
+		<TextView android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:id="@+id/program_list_row_title" android:layout_marginRight="40px"
+			android:text="TextView" android:textColor="@color/black"></TextView>
+		<TextView android:layout_height="wrap_content" android:id="@+id/program_list_row_desc"
+			android:text="TextView" android:layout_width="wrap_content"
+			android:layout_below="@+id/program_list_row_title"
+			android:layout_alignLeft="@+id/program_list_row_title"
+			android:layout_alignRight="@+id/program_list_row_title" android:textColor="@color/black"></TextView>
+		<ImageView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/ic_menu_forward"
+			android:id="@+id/iv_program_list_row"
+			android:layout_alignParentRight="true"></ImageView>
+	</RelativeLayout>
+
+</LinearLayout>
