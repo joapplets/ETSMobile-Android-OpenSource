@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <department name="Direction générale">
+    		<team name ="Direction">
+    		
+    			<Person>
+    					 <lastname>Beauchamp</lastname> 
+    					 <firstname>Yves</firstname>
+    					 <phonenumber>514 396-8802</phonenumber>
+    					 <fax>514 396-8539</fax>
+    					 <email>yves.beauchamp@etsmtl.ca</email>
+    					<title>Directeur général</title>
+    					<work_department>Direction générale</work_department>
+    					<room>A-3818</room>
+    			</Person>
+    			
+    			 <Person>
+    					 <lastname>Catoir</lastname> 
+    					 <firstname>Patrice</firstname>
+    					 <phonenumber>514 396-8927</phonenumber>
+    					 <fax>514 396-8539</fax>
+    					 <email>Patrice.Catoir@etsmtl.ca</email>
+    					<title>Directeur du développement des affaires immobilières</title>
+    					<work_department>Direction générale</work_department>
+    					<room>A-3825</room>
+    			</Person>
+    			
+    			<Person>
+    					 <lastname>Morin</lastname> 
+    					 <firstname>Jean</firstname>
+    					 <phonenumber>514 396-8404</phonenumber>
+    					 <fax>514 396-8539</fax>
+    					 <email>jean.morin@etsmtl.ca</email>
+    					<title>Directeur des relations gouvernementales</title>
+    					<work_department>Direction générale</work_department>
+    					<room>A-3840</room>
+    			</Person>
+
+    			<Person>
+    					 <lastname>Paquette</lastname> 
+    					 <firstname>Suzanne</firstname>
+    					 <phonenumber>514 396-8802</phonenumber>
+    					 <fax>514 396-8539</fax>
+    					 <email>suzanne.paquette@etsmtl.ca</email>
+    					<title>Secrétaire de direction (DG)</title>
+    					<work_department>Direction générale</work_department>
+    					<room>A-3816</room>
+    			</Person>
+  
+    			
+    			<Person>
+    					 <lastname>Stampfler</lastname> 
+    					 <firstname>Robert</firstname>
+    					 <phonenumber>514 396-8630</phonenumber>
+    					 <fax>514 396-8539</fax>
+    					 <email>robert.stampfler@etsmtl.ca</email>
+    					<title>Adjoint exécutif au directeur général</title>
+    					<work_department>Direction générale</work_department>
+    					<room>A-3826</room>
+    			</Person>
+    		</team>
+    		
+    		<team name="Conseillers">
+    			
+    			<Person>
+    					 <lastname>Nelson</lastname> 
+    					 <firstname>Robert</firstname>
+    					 <phonenumber>514 396-8635</phonenumber>
+    					 <fax>514 396-8539</fax>
+    					 <email>robert.nelson@etsmtl.ca</email>
+    					<title>Conseiller à la direction générale</title>
+    					<work_department>Direction générale</work_department>
+    					<room>A-3822</room>
+    			</Person>
+    		
+    		</team>
+    		
+    		<team name="Personnel de bureau">
+    			
+    			<Person>
+    					 <lastname>Pham</lastname> 
+    					 <firstname>Dung</firstname>
+    					 <phonenumber>514 396-8800, poste 7393</phonenumber>
+    					 <fax>514 396-8539</fax>
+    					 <email>dung.pham@etsmtl.ca</email>
+    					<title>Secrétaire</title>
+    					<work_department>Direction générale</work_department>
+    					<room>A-3800</room>
+    			</Person>
+    		</team>
+  </department>
