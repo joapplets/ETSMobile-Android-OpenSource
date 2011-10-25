@@ -6,4 +6,5 @@ gen/
 .actionScriptProperties
 .flexProperties
 .settings/
-.project
+*.cfg
+project.properties
