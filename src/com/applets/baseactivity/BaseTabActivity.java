@@ -24,5 +24,6 @@ public class BaseTabActivity extends TabActivity {
 	    actionBar.addAction(new IntentAction(this, new Intent(this,
 		    AboutTabActivity.class), R.drawable.ic_menu_help));
 	}
+
     }
 }

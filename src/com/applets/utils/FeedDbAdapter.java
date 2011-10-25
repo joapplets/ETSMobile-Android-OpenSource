@@ -20,6 +20,7 @@ public class FeedDbAdapter {
     public static final String KEY_NAME = "name";
     public static final String KEY_URL = "url";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_LANG = "lang";
 
     private SQLiteDatabase db;
     private AppEtsOpenHelper dbHelper;

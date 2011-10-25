@@ -3,9 +3,9 @@ package com.applets.baseactivity;
 import android.app.ListActivity;
 import android.content.Intent;
 
+import com.applets.R;
 import com.applets.AboutTabActivity;
 import com.applets.ETSMobileActivity;
-import com.applets.R;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
 

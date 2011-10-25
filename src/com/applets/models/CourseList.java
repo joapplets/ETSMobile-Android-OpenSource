@@ -12,7 +12,7 @@ import android.util.Log;
 import android.util.Xml;
 
 public class CourseList extends ArrayList<Course> {
-    private static final long serialVersionUID = -1414117376761801185L;
+    
     private String url;
     private URL feed_list;
 

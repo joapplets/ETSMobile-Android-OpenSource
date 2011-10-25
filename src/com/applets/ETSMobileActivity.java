@@ -52,7 +52,7 @@ public class ETSMobileActivity extends BaseActivity {
 
 	    @Override
 	    public void onClick(View v) {
-		// launchMap();
+		launchMap();
 	    }
 	});
     }
@@ -63,7 +63,6 @@ public class ETSMobileActivity extends BaseActivity {
      * @param mainActivity
      * @return Intent MainIntent
      */
-
     public static Intent createHomeAction(Activity mainActivity) {
 	Intent i = new Intent(mainActivity, ETSMobileActivity.class);
 	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -118,5 +117,12 @@ public class ETSMobileActivity extends BaseActivity {
 	} catch (Exception e) {
 	    Log.e("Applets::", e.getMessage());
 	}
+    }
+
+    /**
+     * Launch the Interactive Tour
+     */
+    protected void launchMap() {
+	startActivity(new Intent(this, InterActiveTourActivity.class));
     }
 }

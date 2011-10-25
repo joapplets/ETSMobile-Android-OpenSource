@@ -3,6 +3,7 @@ package com.applets.models;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.os.Parcel;
 
 public class Program extends Model {
     private String name;
@@ -100,4 +101,18 @@ public class Program extends Model {
 	return this._values;
     }
 
+    @Override
+    public int describeContents() {
+	return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+	dest.writeString(name);
+	dest.writeString(shortName);
+	dest.writeString(description);
+	dest.writeString(url);
+	dest.writeString(urlPdf);
+
+    }
 }
