@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
-import android.view.View;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.applets.baseactivity.BaseActivity;
@@ -18,6 +18,7 @@ public class TourStopActivity extends BaseActivity {
     private TourStop stopInfo;
     private TextView title;
     private TextView text;
+
     private ArrayList<Intent> intents;
     private int pos = 0;
     private static final int SWIPE_MIN_DISTANCE = 120;
