@@ -17,18 +17,19 @@ import com.applets.utils.XmlFeedParser;
 
 public class NewsListActivity extends BaseListActivity {
 
+    public static final String COM_APPLETS_MODELS_FEED = "com.applets.models.Feed";
     private ArrayList<Model> news;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.base_list);
-	Bundle b = getIntent().getExtras();
-	Feed feed = b.getParcelable("com.applets.Models.Feed");
-
-	// initActionBar("Available news", R.id.news_list_actionbar);
-	initSearchActionBar(feed.getName(), R.id.base_list_actionbar);
+	
 	// Parcel data sent from the FeedListActivity
+	Bundle b = getIntent().getExtras();
+	Feed feed = b.getParcelable(COM_APPLETS_MODELS_FEED);
+	//Init action bar with feed name
+	initSearchActionBar(feed.getName(), R.id.base_list_actionbar);
 
 	// Get News from feed
 	XmlFeedParser rssParser = new XmlFeedParser(feed.getUrl());

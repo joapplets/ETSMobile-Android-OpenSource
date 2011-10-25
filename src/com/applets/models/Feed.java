@@ -2,7 +2,6 @@ package com.applets.models;
 
 import android.content.ContentValues;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Represent a Feed from witch we can retreive news
@@ -10,7 +9,7 @@ import android.os.Parcelable;
  * @author Philippe David
  * 
  */
-public class Feed extends Model implements Parcelable {
+public class Feed extends Model {
 
     private long id;
     private String name;
@@ -19,15 +18,16 @@ public class Feed extends Model implements Parcelable {
     private String lang;
     private String image = "";
 
-    public Feed() {
-	// TODO Auto-generated constructor stub
-    }
-
-    public Feed(long id, String name, String url, String image) {
-	this.id = id;
+    public Feed(String name, String url, String image, String lang) {
 	this.name = name;
 	this.url = url;
 	this.image = image;
+	this.lang = lang;
+    }
+
+    public Feed(long id, String name, String url, String image, String lang) {
+	this(name, url, image, lang);
+	setId(id);
     }
 
     public void setId(long id) {
@@ -88,26 +88,7 @@ public class Feed extends Model implements Parcelable {
 	dest.writeString(name);
 	dest.writeString(type);
 	dest.writeString(url);
-
-    }
-
-    public static final Parcelable.Creator<Feed> CREATOR = new Creator<Feed>() {
-
-	@Override
-	public Feed[] newArray(int size) {
-	    return new Feed[size];
-	}
-
-	@Override
-	public Feed createFromParcel(Parcel source) {
-	    return new Feed(source);
-	}
-    };
-
-    private Feed(Parcel in) {
-	name = in.readString();
-	type = in.readString();
-	url = in.readString();
+	dest.writeString(lang);
     }
 
     @Override
@@ -125,4 +106,25 @@ public class Feed extends Model implements Parcelable {
 	this._values.put("lang", getLang());
 	return this._values;
     }
+/**
+ * save this code 
+ */
+//    @Override
+//    public Feed createFromParcel(Parcel source) {
+//	return initFromParcel(source);
+//    }
+//
+//    @Override
+//    public Feed[] newArray(int size) {
+//	return new Feed[size];
+//    }
+//
+//    @Override
+//    public Feed initFromParcel(Parcel source) {
+//	name = source.readString();
+//	type = source.readString();
+//	url = source.readString();
+//	lang = source.readString();
+//	return new Feed(name, url, image, lang);
+//    }
 }

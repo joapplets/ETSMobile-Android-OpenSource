@@ -1,27 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent" android:background="@color/white">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
     <LinearLayout
+        android:id="@+id/urgence_row1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:orientation="vertical" android:paddingBottom="10sp" android:id="@+id/urgence_row1">
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/urgence_secu_title" android:id="@+id/urgence_secu_title" android:textColor="@color/black"></TextView>
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:autoLink="all" android:text="@string/urgence_secu_phone" android:id="@+id/urgence_secu_phone"></TextView>
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView6" android:text="poste 55" android:textColor="@color/black"></TextView>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10sp" >
+
+        <TextView
+            android:id="@+id/urgence_secu_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/urgence_secu_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/urgence_secu_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:text="@string/urgence_secu_phone"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="poste 55"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" >
+        </TextView>
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/urgence_row2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/urgence_row2" android:paddingBottom="10sp">
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/urgence_rez_title" android:id="@+id/urgence_rez_title" android:textColor="@color/black"></TextView>
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:autoLink="all" android:text="@string/urgence_rez_phone" android:id="@+id/urgence_rez_phone"></TextView>
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:autoLink="all" android:text="@string/urgence_rez_email" android:id="@+id/urgence_rez_email"></TextView>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10sp" >
+
+        <TextView
+            android:id="@+id/urgence_rez_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/urgence_rez_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/urgence_rez_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:text="@string/urgence_rez_phone"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/urgence_rez_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:text="@string/urgence_rez_email"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/urgence_row3" android:paddingBottom="10sp">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/urgence_secr_title" android:text="@string/urgence_secr_title" android:textColor="@color/black"></TextView>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/urgence_secr_phone" android:text="@string/urgence_serc_phone" android:autoLink="all"></TextView>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/urgence_secr_local" android:id="@+id/urgence_secr_local" android:textColor="@color/black"></TextView>
+
+    <LinearLayout
+        android:id="@+id/urgence_row3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10sp" >
+
+        <TextView
+            android:id="@+id/urgence_secr_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/urgence_secr_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/urgence_secr_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:text="@string/urgence_serc_phone"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/urgence_secr_local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/urgence_secr_local"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" >
+        </TextView>
     </LinearLayout>
-    
+
 </LinearLayout>

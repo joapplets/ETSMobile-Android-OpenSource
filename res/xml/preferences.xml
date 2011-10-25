@@ -1,48 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="First Category"
-		android:key="updates">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-		<CheckBoxPreference android:key="perform_updates"
-			android:summary="Enable or disable data updates"
-			android:defaultValue="true" android:title="AppETS" />
-	</PreferenceCategory>
-	<PreferenceCategory android:title="Second Category"
-		android:key="welcom_message">
+    <PreferenceCategory
+        android:key="updates"
+        android:title="First Category" >
 
-		<EditTextPreference android:key="welcome_message"
-			android:title="Welcome Message" android:summary="Define the Welcome message to be shown"
-			android:dialogTitle="Welcome Message" android:dialogMessage="Provide a message"
-			android:defaultValue="Default welcome message" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="perform_updates"
+            android:summary="Enable or disable data updates"
+            android:title="AppETS" />
+    </PreferenceCategory>
 
-	</PreferenceCategory>
-	<PreferenceCategory android:key="updates"
-		android:title="Database Version : 3">
+    <PreferenceCategory
+        android:key="welcom_message"
+        android:title="Second Category" >
 
-		<CheckBoxPreference android:key="perform_updates"
-			android:summary="Enable or disable data updates"
-			android:defaultValue="true" android:title="AppETS" />
+        <EditTextPreference
+            android:defaultValue="Default welcome message"
+            android:dialogMessage="Provide a message"
+            android:dialogTitle="Welcome Message"
+            android:key="welcome_message"
+            android:summary="Define the Welcome message to be shown"
+            android:title="Welcome Message" />
+    </PreferenceCategory>
 
-		<ListPreference android:key="updates_interval"
-			android:title="Updates interval" android:summary="Define how often updates will be performed"
-			android:defaultValue="1000" android:dependency="perform_updates" />
+    <PreferenceCategory
+        android:key="updates"
+        android:title="Database Version : 3" >
 
-	</PreferenceCategory>
-	<PreferenceCategory android:title="Feed List"
-		android:key="feed_list">
-		<CheckBoxPreference android:title="News ETS"
-			android:key="feed_ets" android:defaultValue="true"></CheckBoxPreference>
-		<CheckBoxPreference android:title="Interface"
-			android:key="feed_interface" android:defaultValue="true"></CheckBoxPreference>
-		<CheckBoxPreference android:key="feed_applets"
-			android:title="Club Applets" android:defaultValue="true"></CheckBoxPreference>
-		<CheckBoxPreference android:key="feed_aeets"
-			android:title="AÉÉTS" android:defaultValue="true"></CheckBoxPreference>
-		<CheckBoxPreference android:title="Club Chinook"
-			android:key="feed_chinook" android:defaultValue="true"></CheckBoxPreference>
-		<CheckBoxPreference android:key="feed_eclipse"
-			android:title="Club Éclipse" android:defaultValue="true"></CheckBoxPreference>
-		<CheckBoxPreference android:title="Conjure"
-			android:key="feed_conjure" android:defaultValue="true"></CheckBoxPreference>
-	</PreferenceCategory>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="perform_updates"
+            android:summary="Enable or disable data updates"
+            android:title="AppETS" />
+
+        <ListPreference
+            android:defaultValue="1000"
+            android:dependency="perform_updates"
+            android:key="updates_interval"
+            android:summary="Define how often updates will be performed"
+            android:title="Updates interval" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="feed_list"
+        android:title="Feed List" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="feed_ets"
+            android:title="News ETS" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="feed_interface"
+            android:title="Interface" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="feed_applets"
+            android:title="Club Applets" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="feed_aeets"
+            android:title="AÉÉTS" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="feed_chinook"
+            android:title="Club Chinook" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="feed_eclipse"
+            android:title="Club Éclipse" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="feed_conjure"
+            android:title="Conjure" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
 </PreferenceScreen>

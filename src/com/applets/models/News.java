@@ -1,6 +1,7 @@
 package com.applets.models;
 
 import android.content.ContentValues;
+import android.os.Parcel;
 
 public class News extends Model {
 
@@ -70,6 +71,16 @@ public class News extends Model {
 	this._values.put("url", getUrl());
 
 	return this._values;
+    }
+
+    @Override
+    public int describeContents() {
+	return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+	// TODO Auto-generated method stub
     }
 
 }

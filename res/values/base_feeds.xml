@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="ets_home_feed">http://etsmtl.ca/fils-rss?rss=NouvellesRSS</string>
-	<string name="rss_list">http://www.antoinelamy.com/applets/api/newssources.php
+
+    <string name="ets_home_feed">http://etsmtl.ca/fils-rss?rss=NouvellesRSS</string>
+    <string name="rss_list">http://www.antoinelamy.com/applets/api/newssources.php
 	</string>
-	<string name="programs_list_feed">http://applets.info-sonic.com/programmes/api.xml
+    <string name="programs_list_feed">http://applets.info-sonic.com/programmes/api.xml
 	</string>
-	<string name="courses_list_feed">http://applets.info-sonic.com/cours/api.xml</string>
+    <string name="courses_list_feed">http://applets.info-sonic.com/cours/api.xml</string>
+
 </resources>
