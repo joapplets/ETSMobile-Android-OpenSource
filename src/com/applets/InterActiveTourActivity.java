@@ -13,6 +13,12 @@ import com.applets.adapters.InteractiveAdapter;
 import com.applets.baseactivity.BaseActivity;
 import com.applets.models.TourStop;
 
+/**
+ * Interactive Tour, shows a grid view to pick a "stop"
+ * 
+ * @author Philippe David
+ * 
+ */
 public class InterActiveTourActivity extends BaseActivity implements
 	OnItemClickListener {
 
@@ -25,7 +31,8 @@ public class InterActiveTourActivity extends BaseActivity implements
 	// set the view
 	setContentView(R.layout.interactive_tour_layout);
 	// create action bar
-	createActionBar("InterActive Tour", R.id.interactive_tour_actionbar);
+	createActionBar(getString(R.string.interactive_tour_title),
+		R.id.interactive_tour_actionbar);
 	stopList = new ArrayList<TourStop>();
 
 	// create test stop
@@ -37,7 +44,7 @@ public class InterActiveTourActivity extends BaseActivity implements
     }
 
     /**
-     * Fake data for testing
+     * Fake data for testing, should be replaced by a SQLite query
      */
     private void initTourTest() {
 	stopList.add(new TourStop("Titre 1", getString(R.string.loremipsum),

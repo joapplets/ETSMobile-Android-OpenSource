@@ -112,6 +112,9 @@ public class FeedDbAdapter {
 	return values;
     }
 
+    /**
+     * Close current db and dbHelper
+     */
     public void close() {
 	db.close();
 	dbHelper.close();
