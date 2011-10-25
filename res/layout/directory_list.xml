@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/LinearDirectoryLayout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_height="fill_parent"
+	android:layout_width="fill_parent">
+	<com.markupartist.android.widget.ActionBar
+		android:layout_width="wrap_content" style="@style/ActionBar"
+		android:layout_height="wrap_content" android:id="@+id/directoy_actionbar"></com.markupartist.android.widget.ActionBar>
+	<ExpandableListView android:layout_width="match_parent"
+		android:layout_height="fill_parent" android:id="@android:id/list"></ExpandableListView>
+
+</LinearLayout>
