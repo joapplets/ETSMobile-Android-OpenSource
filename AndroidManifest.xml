@@ -74,11 +74,11 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".InterActiveTourActivity"
+            android:name=".InterrestGridActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".TourStopActivity"
+            android:name=".InterrestActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>

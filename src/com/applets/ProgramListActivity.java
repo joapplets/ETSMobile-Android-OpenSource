@@ -58,7 +58,7 @@ public class ProgramListActivity extends BaseListActivity {
     }
 
     private void initProgramList() {
-	programs = new ProgramList(getString(R.string.programs_list_feed), this);
+	programs = new ProgramList(getString(R.string.host)+getString(R.string.api_programmes), this);
 
     }
 

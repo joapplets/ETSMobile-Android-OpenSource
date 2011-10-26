@@ -1,31 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:divider="#FF0000"
-	android:dividerHeight="2px" android:id="@android:id/list" android:background="@color/white">
-	<com.markupartist.android.widget.ActionBar
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/main_actionbar" style="@style/ActionBar"></com.markupartist.android.widget.ActionBar>
-	<TableLayout android:layout_width="match_parent"
-		android:id="@+id/tableLayout1" android:layout_height="match_parent">
-		<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<ImageButton android:src="@drawable/ic_menu_start_conversation"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:id="@+id/feed_list_btn"></ImageButton>
-			<ImageButton android:id="@+id/cours_list_btn" android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/ic_menu_sort_alphabetically"></ImageButton>
-			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/ic_menu_friendslist" android:id="@+id/profile_btn"></ImageButton>
-		</TableRow>
-		<TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-		</TableRow>
-		<TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<ImageButton android:layout_height="wrap_content"
-				android:layout_width="wrap_content" android:id="@+id/program_list_btn" android:src="@drawable/ic_menu_allfriends"></ImageButton>
-			<ImageButton android:id="@+id/mapBtn" android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/ic_menu_mylocation"></ImageButton>
-			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/ic_menu_slideshow" android:id="@+id/shcool_tour_btn"></ImageButton>
-		</TableRow>
-	</TableLayout>
+    android:id="@android:id/list"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:divider="#FF0000"
+    android:dividerHeight="2px"
+    android:orientation="vertical" >
+
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/main_actionbar"
+        style="@style/ActionBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </com.markupartist.android.widget.ActionBar>
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageButton
+                android:id="@+id/feed_list_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_start_conversation" >
+            </ImageButton>
+
+            <ImageButton
+                android:id="@+id/cours_list_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_sort_alphabetically" >
+            </ImageButton>
+
+            <ImageButton
+                android:id="@+id/profile_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_friendslist" >
+            </ImageButton>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageButton
+                android:id="@+id/program_list_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_allfriends" >
+            </ImageButton>
+
+            <ImageButton
+                android:id="@+id/mapBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_mylocation" >
+            </ImageButton>
+
+            <ImageButton
+                android:id="@+id/discoverBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_slideshow" >
+
+            </ImageButton>
+        </TableRow>
+    </TableLayout>
+
 </LinearLayout>

@@ -13,14 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.applets.R;
-import com.applets.models.Model;
 import com.applets.models.News;
 
-public class NewsAdapter extends ArrayAdapter<Model> {
+public class NewsAdapter extends ArrayAdapter<News> {
     private Activity context;
 
-    public NewsAdapter(Activity context, ArrayList<Model> articles) {
-	super(context, R.layout.news_row, articles);
+    public NewsAdapter(Activity context, ArrayList<News> news) {
+	super(context, R.layout.news_row, news);
 	this.context = context;
     }
 

@@ -5,10 +5,14 @@ import android.os.Parcel;
 
 public class News extends Model {
 
-    private String title;
-    private String url;
-    private String description;
-    private String image;
+    private String _id;
+    private String title = "";
+    private String url = "";
+    private String description = "";
+    private String image = "";
+    private String creator = "";
+    private int feed_id;
+    private String pubDate = "";
 
     public News() {
 	title = "";
@@ -59,8 +63,24 @@ public class News extends Model {
 	return title;
     }
 
+    /**
+     * Returns the description of the news
+     */
     public String getDescription() {
-	return (description == null) ? "" : description;
+	return (creator.equals("")) ? "" : "" + "Date de publication: "
+		+ pubDate;
+    }
+
+    public String getCreator() {
+	return creator;
+    }
+
+    public String getPubDate() {
+	return pubDate;
+    }
+
+    public int getFeedId() {
+	return feed_id;
     }
 
     @Override
@@ -81,6 +101,28 @@ public class News extends Model {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 	// TODO Auto-generated method stub
+    }
+
+    public String get_id() {
+	return _id;
+    }
+
+    public void set_id(String _id) {
+	this._id = _id;
+    }
+
+    public void setCreator(String creator) {
+	this.creator = creator;
+    }
+
+    public void setFeedId(String feed_id) {
+	this.feed_id = Integer.parseInt(feed_id);
+
+    }
+
+    public void setPubDate(String pubDate) {
+	this.pubDate = pubDate;
+
     }
 
 }

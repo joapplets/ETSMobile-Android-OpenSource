@@ -27,6 +27,6 @@ public class CourseListActivity extends BaseListActivity {
     }
 
     private void initCourseList() {
-	courseList = new CourseList(getString(R.string.courses_list_feed), this);
+	courseList = new CourseList(getString(R.string.host)+getString(R.string.api_cours), this);
     }
 }

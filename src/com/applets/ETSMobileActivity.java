@@ -19,6 +19,7 @@ public class ETSMobileActivity extends BaseActivity {
     private ImageButton feedListBtn;
     private ImageButton programlistBtn;
     private ImageButton mapButton;
+    private ImageButton discoverBtn;
     private Menu prefMenu = null;
 
     /** Called when the activity is first created. */
@@ -43,7 +44,7 @@ public class ETSMobileActivity extends BaseActivity {
 
 	    @Override
 	    public void onClick(View v) {
-		launchFeedList();
+		launchNewsActivity();
 	    }
 	});
 
@@ -55,6 +56,19 @@ public class ETSMobileActivity extends BaseActivity {
 		launchMap();
 	    }
 	});
+
+	discoverBtn = (ImageButton) findViewById(R.id.discoverBtn);
+	discoverBtn.setOnClickListener(new OnClickListener() {
+
+	    @Override
+	    public void onClick(View v) {
+		launchInteractiveTour();
+	    }
+	});
+    }
+
+    protected void launchInteractiveTour() {
+	startActivity(new Intent(this, InterrestGridActivity.class));
     }
 
     /**
@@ -100,9 +114,9 @@ public class ETSMobileActivity extends BaseActivity {
     /**
      * Launch the Feed Selection ListActivity
      */
-    public void launchFeedList() {
+    public void launchNewsActivity() {
 	try {
-	    startActivity(new Intent(this, FeedListActivity.class));
+	    startActivity(new Intent(this, NewsListActivity.class));
 	} catch (Exception e) {
 	    Log.e("Applets::", e.getMessage());
 	}
@@ -123,6 +137,6 @@ public class ETSMobileActivity extends BaseActivity {
      * Launch the Interactive Tour
      */
     protected void launchMap() {
-	startActivity(new Intent(this, InterActiveTourActivity.class));
+	// startActivity(new Intent(this, InterActiveTourActivity.class));
     }
 }
