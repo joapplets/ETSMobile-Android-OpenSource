@@ -20,6 +20,7 @@ public class ETSMobileActivity extends BaseActivity {
     private ImageButton programlistBtn;
     private ImageButton mapButton;
     private ImageButton discoverBtn;
+    private ImageButton profileBtn;
     private Menu prefMenu = null;
 
     /** Called when the activity is first created. */
@@ -65,6 +66,20 @@ public class ETSMobileActivity extends BaseActivity {
 		launchInteractiveTour();
 	    }
 	});
+	
+	profileBtn = (ImageButton)findViewById(R.id.profile_btn);
+	profileBtn.setOnClickListener(new OnClickListener() {
+	    
+	    @Override
+	    public void onClick(View v) {
+		launchProfile();
+	    }
+	});
+    }
+
+    protected void launchProfile() {
+	startActivity(new Intent(this, ProfileActivity.class));
+	
     }
 
     protected void launchInteractiveTour() {

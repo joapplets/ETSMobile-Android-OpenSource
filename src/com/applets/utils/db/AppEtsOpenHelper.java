@@ -12,9 +12,13 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class AppEtsOpenHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "appETS";
-    private static final int DB_VERSION = 2;
-    private static final String DB_CREATE_FEED_TABLE = "CREATE TABLE feed( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, url TEXT, type TEXT, image TEXT, lang TEXT)";
-    private static final String DB_CREATE_NEWS_TABLE = "CREATE TABLE news( id INTEGER PRIMARY KEY AUTOINCREMENT, feed_id INTEGER, title TEXT, url TEXT, description TEXT, image TEXT)";
+    private static final int DB_VERSION = 3;
+    private static final String DB_CREATE_FEED_TABLE = "CREATE TABLE feed( name TEXT, url TEXT, type TEXT, image TEXT, lang TEXT)";
+    private static final String DB_CREATE_NEWS_TABLE = "CREATE TABLE news( news_id INTEGER, feed_id INTEGER, name TEXT, url TEXT, description TEXT, image TEXT, creator TEXT, pubDate TEXT )";
+    private static final String DB_CREATE_COURS_TABLE = "CREATE TABLE cours( cours_id INTEGER, name TEXT, shortname TEXT, description TEXT, professor TEXT, coursplan TEXT, website TEXT, credits INTEGER, prerequisites TEXT, level TEXT, workoad INTEGER)";
+    private static final String DB_CREATE_PROGRAMMES_TABLE = "CREATE TABLE programmes( programme_id INTEGER, name TEXT, shortname TEXT, description TEXT, url TEXT, url_pdf TEXT)";
+    private static final String DB_CREATE_DIRECTORY_ENTRY_TABLE = "CREATE TABLE directory( directory_id INTEGER, fax TEXT, phone TEXT, room TEXT )";
+    private static final String DB_CREATE_PROFILE_TABLE = "CREATE TABLE profile( profile_id INTEGER, title TEXT, url TEXT, description TEXT, image TEXT, creator TEXT, pubDate TEXT )";
 
     public AppEtsOpenHelper(Context context, CursorFactory factory) {
 	super(context, DB_NAME, factory, DB_VERSION);
@@ -24,12 +28,14 @@ public class AppEtsOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 	db.execSQL(DB_CREATE_FEED_TABLE);
 	db.execSQL(DB_CREATE_NEWS_TABLE);
+	db.execSQL(DB_CREATE_PROGRAMMES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	db.execSQL("DROP TABLE IF EXISTS feed");
 	db.execSQL("DROP TABLE IF EXISTS news");
+	db.execSQL("DROP TABLE IF EXISTS programmes");
 	onCreate(db);
     }
 

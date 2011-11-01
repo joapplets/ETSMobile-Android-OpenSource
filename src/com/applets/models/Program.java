@@ -6,13 +6,15 @@ import android.content.ContentValues;
 import android.os.Parcel;
 
 public class Program extends Model {
+    
     private String name;
     private String shortName;
     private String description;
-    private List<Course> courses;
     private String url;
     private String urlPdf;
-    private int id;
+    private int programme_id;
+    
+    private List<Course> courses;
 
     public int getNumberOfCourses() {
 	return courses.size();
@@ -22,11 +24,15 @@ public class Program extends Model {
 
     }
 
-    public Program(String name, String shortName, String description) {
+    public Program(String name, String shortName, String description,
+	    String url, String url_pdf, int programme_id) {
 	super();
 	this.name = name;
 	this.shortName = shortName;
 	this.description = description;
+	this.url = url;
+	this.urlPdf = url_pdf;
+	this.programme_id = programme_id;
     }
 
     public void addCourse(Course course) {
@@ -84,11 +90,11 @@ public class Program extends Model {
     }
 
     public int getId() {
-	return id;
+	return programme_id;
     }
 
     public void setId(int id) {
-	this.id = id;
+	this.programme_id = id;
     }
 
     @Override

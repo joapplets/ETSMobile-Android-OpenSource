@@ -79,6 +79,15 @@
         </activity>
         <activity
             android:name=".InterrestActivity"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ProfileEditionActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>

@@ -1,8 +1,7 @@
 package com.applets;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -15,10 +14,14 @@ import com.applets.adapters.ProgramListAdapter;
 import com.applets.baseactivity.BaseListActivity;
 import com.applets.models.Program;
 import com.applets.models.ProgramList;
+import com.applets.utils.db.ProgrammesDbAdapter;
+import com.applets.utils.xml.IAsyncTaskListener;
 
-public class ProgramListActivity extends BaseListActivity {
+public class ProgramListActivity extends BaseListActivity implements
+	IAsyncTaskListener {
 
-    private ArrayList<Program> programs = new ArrayList<Program>();
+    private ProgramList programs;
+    private ProgrammesDbAdapter db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,6 @@ public class ProgramListActivity extends BaseListActivity {
 		R.id.base_list_actionbar);
 	initProgramList();
 
-	setListAdapter(new ProgramListAdapter(this, programs));
 	registerForContextMenu(getListView());
     }
 
@@ -51,15 +53,47 @@ public class ProgramListActivity extends BaseListActivity {
     }
 
     private void openCourseList(int position) {
-	Program program = programs.get(position);
+	// Program program = programs.get(position);
 
 	Intent intent = new Intent(this, CourseListActivity.class);
 	startActivity(intent);
     }
 
     private void initProgramList() {
-	programs = new ProgramList(getString(R.string.host)+getString(R.string.api_programmes), this);
+	db = (ProgrammesDbAdapter) new ProgrammesDbAdapter(this).open();
+	final Cursor cursor = db.getAll();
 
+	programs = new ProgramList();
+	if (cursor.getCount() < 1) {
+	    programs.getFeedsFromServer(buildUrl(), this);
+	} else {
+	    programs.clear();
+	    while (cursor.moveToNext()) {
+		programs.add(new Program(
+			cursor.getString(cursor
+				.getColumnIndex(ProgrammesDbAdapter.KEY_NAME)),
+			cursor.getString(cursor
+				.getColumnIndex(ProgrammesDbAdapter.KEY_SHORT_NAME)),
+			cursor.getString(cursor
+				.getColumnIndex(ProgrammesDbAdapter.KEY_DESCRIPTION)),
+			cursor.getString(cursor
+				.getColumnIndex(ProgrammesDbAdapter.KEY_URL)),
+			cursor.getString(cursor
+				.getColumnIndex(ProgrammesDbAdapter.KEY_URL_PDF)),
+			cursor.getInt(cursor
+				.getColumnIndex(ProgrammesDbAdapter.KEY_PROGRAMME_ID))
+
+		));
+	    }
+	    setListAdapter(new ProgramListAdapter(this, programs));
+	}
+	cursor.close();
+	db.close();
+    }
+
+    private String buildUrl() {
+	return new StringBuilder().append(getString(R.string.host))
+		.append(getString(R.string.api_programmes)).toString();
     }
 
     @Override
@@ -86,6 +120,22 @@ public class ProgramListActivity extends BaseListActivity {
 	}
 
 	return super.onMenuItemSelected(featureId, item);
+    }
+
+    @Override
+    public void onPostExecute() {
+	setListAdapter(new ProgramListAdapter(this, programs));
+
+	// save result to database
+	db.open();
+	for (Program p : programs) {
+	    db.create(p);
+	}
+	db.close();
+    }
+
+    @Override
+    public void onProgressUpdate(Integer[] values) {
     }
 
 }

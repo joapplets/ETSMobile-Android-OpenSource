@@ -15,7 +15,19 @@ public class News extends Model {
     private String pubDate = "";
 
     public News() {
-	title = "";
+    }
+
+    public News(String _id, String title, String url, String description,
+	    String image, String creator, int feed_id, String pubDate) {
+	super();
+	this._id = _id;
+	this.title = title;
+	this.url = url;
+	this.description = description;
+	this.image = image;
+	this.creator = creator;
+	this.feed_id = feed_id;
+	this.pubDate = pubDate;
     }
 
     @Override
@@ -67,8 +79,7 @@ public class News extends Model {
      * Returns the description of the news
      */
     public String getDescription() {
-	return (creator.equals("")) ? "" : "" + "Date de publication: "
-		+ pubDate;
+	return description;
     }
 
     public String getCreator() {
