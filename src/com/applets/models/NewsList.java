@@ -98,7 +98,7 @@ public class NewsList extends ArrayList<News> implements ContentHandler {
 	    currentNews.setTitle(title);
 	    currentNews.setUrl(url);
 	    currentNews.setImage(image);
-	    currentNews.set_id(id);
+	    currentNews.setNewsId(id);
 	    currentNews.setCreator(creator);
 	    currentNews.setFeedId(feed_id);
 	    currentNews.setPubDate(pubDate);

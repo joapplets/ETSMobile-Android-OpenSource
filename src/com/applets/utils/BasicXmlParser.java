@@ -9,8 +9,9 @@ import android.util.Log;
 
 /**
  * Abstract class for Xml parsing
+ * 
  * @author Philippe David
- *
+ * 
  */
 public abstract class BasicXmlParser implements IParser {
 

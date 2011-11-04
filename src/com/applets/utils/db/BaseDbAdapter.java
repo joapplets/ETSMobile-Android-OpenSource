@@ -7,6 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.applets.models.Model;
 
+/**
+ * Base Adapter for querying the SQLite database. CRUD is definied here
+ * 
+ * @author Philippe David
+ * 
+ */
 public abstract class BaseDbAdapter {
 
     protected SQLiteDatabase db;

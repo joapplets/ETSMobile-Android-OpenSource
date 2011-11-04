@@ -1,18 +1,14 @@
 package com.applets;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.applets.adapters.NewsAdapter;
 import com.applets.adapters.NewsCursorAdapter;
 import com.applets.baseactivity.BaseListActivity;
 import com.applets.models.Model;
@@ -38,8 +34,7 @@ public class NewsListActivity extends BaseListActivity implements
 	// Init action bar with feed name
 	initSearchActionBar(getString(R.string.news_activity_title),
 		R.id.news_list_actionbar);
-	db = (NewsDbAdapter) new NewsDbAdapter(this).open();
-
+	
 	getNewsList();
     }
 
@@ -47,15 +42,21 @@ public class NewsListActivity extends BaseListActivity implements
      * Creates the url based on the user prefs.
      */
     private void getNewsList() {
+	db = (NewsDbAdapter) new NewsDbAdapter(this).open();
 	final Cursor cursor = db.getAll();
 
-	news = new NewsList();
 	if (cursor.getCount() < 1) {
+	    showDialog(0);
+	    progressDialog.show();
 	    final String url = buildQuery();
+	    news = new NewsList();
+	    //background task
 	    new XMLParserTask(url, news, this).execute();
-	} else {
+	}else{
 	    setListAdapter(new NewsCursorAdapter(this, cursor));
 	}
+	cursor.close();
+	db.close();
     }
 
     /**
@@ -95,8 +96,10 @@ public class NewsListActivity extends BaseListActivity implements
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
 	super.onListItemClick(l, v, position, id);
-	String url = ((News) news.get(position)).getUrl();
-	Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+
+	Intent myIntent = new Intent(this,NewsReaderActivity.class);
+	myIntent.putExtra(News.class.getName(), news.get(position));
+	
 	startActivity(myIntent);
     }
 
@@ -105,9 +108,14 @@ public class NewsListActivity extends BaseListActivity implements
      */
     @Override
     public void onPostExecute() {
-	ArrayList<Model> models = new ArrayList<Model>(news);
-	setListAdapter(new NewsAdapter(this, models));
-	findViewById(R.id.news_list_loading).setVisibility(TextView.INVISIBLE);
+	
+	db.open();
+	for (Model model : news) {
+	    db.create(model);
+	}
+	progressDialog.hide();
+	setListAdapter(new NewsCursorAdapter(this, db.getAll()));
+	db.close();
     }
 
     @Override

@@ -97,10 +97,10 @@ public class FeedList extends ArrayList<Feed> {
 		    name = parser.getName();
 		    if (name.equalsIgnoreCase(FEED_TAG)) {
 
-			currentFeed = new Feed(parser.getAttributeValue(null,"name"),
-				parser.getAttributeValue(null, "url"),
-				parser.getAttributeValue(null,"image"),
-				parser.getAttributeValue(null,"lang"));
+			currentFeed = new Feed(parser.getAttributeValue(null,
+				"name"), parser.getAttributeValue(null, "url"),
+				parser.getAttributeValue(null, "image"),
+				parser.getAttributeValue(null, "lang"));
 			currentFeed.setName(parser.getAttributeValue(null,
 				"name"));
 			currentFeed.setUrl(parser

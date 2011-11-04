@@ -36,13 +36,17 @@ public class NewsCursorAdapter extends CursorAdapter {
     public View newView(Context ctx, Cursor cursor, ViewGroup parent) {
 
 	final View v = inflater.inflate(R.layout.news_row, parent);
-
 	v.setTag(getWarpper(cursor, v));
+	
 	return v;
     }
-
+    /**
+     * Creates a new RowWrapper and inits the values
+     * @param cursor The row information
+     * @param v The inflated view
+     * @return A wrapper methods to manipulate the layout
+     */
     private NewsRowWrapper getWarpper(Cursor cursor, View v) {
-	// TODO Auto-generated method stub
 	NewsRowWrapper wrapper = new NewsRowWrapper(v);
 	wrapper.setTitle(getName(cursor));
 	wrapper.setDescription(getDescription(cursor));

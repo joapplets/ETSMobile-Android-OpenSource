@@ -1,38 +1,42 @@
 package com.applets.models;
 
+import com.applets.utils.db.NewsDbAdapter;
+
 import android.content.ContentValues;
 import android.os.Parcel;
 
 public class News extends Model {
 
     private String _id;
-    private String title = "";
+    private String name = "";
     private String url = "";
     private String description = "";
     private String image = "";
     private String creator = "";
     private int feed_id;
     private String pubDate = "";
+    private int news_id;
 
     public News() {
     }
 
-    public News(String _id, String title, String url, String description,
-	    String image, String creator, int feed_id, String pubDate) {
+    public News(String _id, String name, String url, String description,
+	    String image, String creator, int news_id, int feed_id, String pubDate) {
 	super();
 	this._id = _id;
-	this.title = title;
+	this.name = name;
 	this.url = url;
 	this.description = description;
 	this.image = image;
 	this.creator = creator;
+	this.news_id = news_id;
 	this.feed_id = feed_id;
 	this.pubDate = pubDate;
     }
 
     @Override
     public String toString() {
-	return getTitle();
+	return getName();
     }
 
     @Override
@@ -48,7 +52,7 @@ public class News extends Model {
     }
 
     public void setTitle(String title) {
-	this.title = title;
+	this.name = title;
     }
 
     public void setUrl(String link) {
@@ -71,8 +75,8 @@ public class News extends Model {
 	return url;
     }
 
-    public String getTitle() {
-	return title;
+    public String getName() {
+	return name;
     }
 
     /**
@@ -96,12 +100,20 @@ public class News extends Model {
 
     @Override
     public ContentValues setValues() {
-	this._values.put("title", getTitle());
-	this._values.put("url", getUrl());
-	this._values.put("description", getDescription());
-	this._values.put("url", getUrl());
+	this._values.put(NewsDbAdapter.KEY_NAME, getName());
+	this._values.put(NewsDbAdapter.KEY_URL, getUrl());
+	this._values.put(NewsDbAdapter.KEY_DESCRIPTION, getDescription());
+	this._values.put(NewsDbAdapter.KEY_IMAGE, getImage());
+	this._values.put(NewsDbAdapter.KEY_CREATOR, getCreator());
+	this._values.put(NewsDbAdapter.KEY_PUB_DATE, getPubDate());
+	this._values.put(NewsDbAdapter.KEY_NEWS_ID, getNewsId());
+	this._values.put(NewsDbAdapter.KEY_FEED_ID, getFeedId());
 
 	return this._values;
+    }
+
+    private int getNewsId() {
+	return news_id;
     }
 
     @Override
@@ -112,14 +124,6 @@ public class News extends Model {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 	// TODO Auto-generated method stub
-    }
-
-    public String get_id() {
-	return _id;
-    }
-
-    public void set_id(String _id) {
-	this._id = _id;
     }
 
     public void setCreator(String creator) {
@@ -134,6 +138,11 @@ public class News extends Model {
     public void setPubDate(String pubDate) {
 	this.pubDate = pubDate;
 
+    }
+
+    public void setNewsId(String id) {
+	this.news_id = Integer.parseInt(id);
+	
     }
 
 }

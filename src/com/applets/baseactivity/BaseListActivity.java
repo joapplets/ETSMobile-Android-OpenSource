@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.applets.AboutTabActivity;
 import com.applets.ETSMobileActivity;
@@ -13,18 +14,25 @@ import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public abstract class BaseListActivity extends ListActivity {
     private ActionBar actionBar;
-    private ProgressDialog progressDialog;
+    protected ProgressDialog progressDialog;
 
-    public BaseListActivity() {
-	progressDialog = new ProgressDialog(getApplicationContext());
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
-	progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-	progressDialog.setCancelable(false);
-	progressDialog.setMax(100);
-	return progressDialog;
+	switch (id) {
+	case 0:
+	    progressDialog = new ProgressDialog(BaseListActivity.this);
+	    progressDialog.setMessage(getString(R.string.loading));
+	    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	    progressDialog.setCancelable(false);   
+	    return progressDialog;
+	default:
+	    return null;
+	}
     }
 
     /**

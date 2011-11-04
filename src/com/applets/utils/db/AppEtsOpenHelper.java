@@ -36,12 +36,12 @@ public class AppEtsOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-	db.execSQL("DROP TABLE feed");
-	db.execSQL("DROP TABLE news");
-	db.execSQL("DROP TABLE programmes");
-	db.execSQL("DROP TABLE cours");
-	db.execSQL("DROP TABLE directory");
-	db.execSQL("DROP TABLE profile");
+	db.execSQL("DROP TABLE IF EXISTS feed");
+	db.execSQL("DROP TABLE IF EXISTS news");
+	db.execSQL("DROP TABLE IF EXISTS programmes");
+	db.execSQL("DROP TABLE IF EXISTS cours");
+	db.execSQL("DROP TABLE IF EXISTS directory");
+	db.execSQL("DROP TABLE IF EXISTS profile");
 
 	onCreate(db);
     }
