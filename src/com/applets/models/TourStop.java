@@ -68,21 +68,20 @@ public class TourStop extends Model {
 	dest.writeString(QR_CODE_REF);
 	dest.writeInt(this.ressource_id);
     }
-    
+
     /**
      * Parcel Creator
      */
     public static final Parcelable.Creator<TourStop> CREATOR = new Parcelable.Creator<TourStop>() {
-        @Override
+	@Override
 	public TourStop createFromParcel(Parcel in) {
-            return new TourStop(in);
-        }
- 
-        @Override
+	    return new TourStop(in);
+	}
+
+	@Override
 	public TourStop[] newArray(int size) {
-            return new TourStop[size];
-        }
+	    return new TourStop[size];
+	}
     };
-    
 
 }

@@ -66,10 +66,10 @@ public class ETSMobileActivity extends BaseActivity {
 		launchInteractiveTour();
 	    }
 	});
-	
-	profileBtn = (ImageButton)findViewById(R.id.profile_btn);
+
+	profileBtn = (ImageButton) findViewById(R.id.profile_btn);
 	profileBtn.setOnClickListener(new OnClickListener() {
-	    
+
 	    @Override
 	    public void onClick(View v) {
 		launchProfile();
@@ -79,7 +79,7 @@ public class ETSMobileActivity extends BaseActivity {
 
     protected void launchProfile() {
 	startActivity(new Intent(this, ProfileActivity.class));
-	
+
     }
 
     protected void launchInteractiveTour() {

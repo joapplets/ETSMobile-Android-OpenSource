@@ -1,7 +1,7 @@
 package com.applets.models;
 
 public class Course {
-    
+
     private String name;
     private String shortName;
     private String description;
@@ -94,4 +94,3 @@ public class Course {
     }
 
 }
-

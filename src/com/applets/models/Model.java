@@ -12,6 +12,9 @@ import android.os.Parcelable;
  */
 public abstract class Model implements Comparable<Model>, Parcelable {
 
+    /**
+     * Android sqlite id, every entry has one
+     */
     private long _id;
     /**
      * Object Values for SQLite
@@ -42,7 +45,8 @@ public abstract class Model implements Comparable<Model>, Parcelable {
     abstract ContentValues setValues();
 
     /**
-     * Returns the SQLite _rowID
+     * Returns the SQLite row _id
+     * 
      * @return long
      */
     public long getID() {

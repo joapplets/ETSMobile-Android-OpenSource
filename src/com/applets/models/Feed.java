@@ -106,25 +106,25 @@ public class Feed extends Model {
 	this._values.put("lang", getLang());
 	return this._values;
     }
-/**
- * save this code 
- */
-//    @Override
-//    public Feed createFromParcel(Parcel source) {
-//	return initFromParcel(source);
-//    }
-//
-//    @Override
-//    public Feed[] newArray(int size) {
-//	return new Feed[size];
-//    }
-//
-//    @Override
-//    public Feed initFromParcel(Parcel source) {
-//	name = source.readString();
-//	type = source.readString();
-//	url = source.readString();
-//	lang = source.readString();
-//	return new Feed(name, url, image, lang);
-//    }
+    /**
+     * save this code
+     */
+    // @Override
+    // public Feed createFromParcel(Parcel source) {
+    // return initFromParcel(source);
+    // }
+    //
+    // @Override
+    // public Feed[] newArray(int size) {
+    // return new Feed[size];
+    // }
+    //
+    // @Override
+    // public Feed initFromParcel(Parcel source) {
+    // name = source.readString();
+    // type = source.readString();
+    // url = source.readString();
+    // lang = source.readString();
+    // return new Feed(name, url, image, lang);
+    // }
 }

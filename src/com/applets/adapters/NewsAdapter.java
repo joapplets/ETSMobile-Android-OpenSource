@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.applets.R;
-import com.applets.adapters.wrappers.NewsWrapper;
+import com.applets.adapters.wrappers.NewsRowWrapper;
 import com.applets.models.Model;
 import com.applets.models.News;
 
@@ -24,15 +24,15 @@ public class NewsAdapter extends ArrayAdapter<Model> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 	View row = convertView;
-	NewsWrapper wrapper;
+	NewsRowWrapper wrapper;
 
 	if (row == null) {
 	    LayoutInflater inflater = context.getLayoutInflater();
 	    row = inflater.inflate(R.layout.news_row, null);
-	    wrapper = new NewsWrapper(row);
+	    wrapper = new NewsRowWrapper(row);
 	    row.setTag(wrapper);
 	} else {
-	    wrapper = (NewsWrapper) row.getTag();
+	    wrapper = (NewsRowWrapper) row.getTag();
 	}
 	News news = (News) getItem(position);
 	wrapper.setTitle(news.toString());

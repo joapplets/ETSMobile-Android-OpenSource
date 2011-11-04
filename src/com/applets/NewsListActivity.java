@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.applets.adapters.NewsAdapter;
+import com.applets.adapters.NewsCursorAdapter;
 import com.applets.baseactivity.BaseListActivity;
 import com.applets.models.Model;
 import com.applets.models.News;
@@ -33,13 +34,13 @@ public class NewsListActivity extends BaseListActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.news_list);
+
 	// Init action bar with feed name
 	initSearchActionBar(getString(R.string.news_activity_title),
 		R.id.news_list_actionbar);
 	db = (NewsDbAdapter) new NewsDbAdapter(this).open();
-	// Retreive news
+
 	getNewsList();
-	// getListView().setVisibility(ListView.INVISIBLE);
     }
 
     /**
@@ -53,32 +54,8 @@ public class NewsListActivity extends BaseListActivity implements
 	    final String url = buildQuery();
 	    new XMLParserTask(url, news, this).execute();
 	} else {
-	    // create news objects from DB
-	    while (cursor.moveToNext()) {
-		news.add(new News(
-			cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_NEWS_ID)),
-			cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.TABLE_TITLE)),
-			cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_URL)),
-			cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_DESCRIPTION)),
-			cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_IMAGE)),
-			cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_CREATOR)),
-			cursor.getInt(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_FEED_ID)),
-			cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_PUB_DATE))
-
-		));
-	    }
-	    setListAdapter(new NewsAdapter(this, new ArrayList<Model>(news)));
+	    setListAdapter(new NewsCursorAdapter(this, cursor));
 	}
-	cursor.close();
-	db.close();
     }
 
     /**

@@ -23,7 +23,6 @@ public class InterrestGridActivity extends BaseActivity implements
 
     private GridView grid;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
@@ -33,13 +32,10 @@ public class InterrestGridActivity extends BaseActivity implements
 	createActionBar(getString(R.string.interactive_tour_title),
 		R.id.interactive_tour_actionbar);
 
-
 	grid = (GridView) findViewById(R.id.gridview);
 	grid.setOnItemClickListener(this);
 	grid.setAdapter(new InteractiveAdapter(this));
     }
-
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

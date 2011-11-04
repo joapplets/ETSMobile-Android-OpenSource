@@ -24,7 +24,6 @@ public class CourseListActivity extends BaseListActivity implements
 		R.id.base_list_actionbar);
 	initCourseList();
 
-	
 	registerForContextMenu(getListView());
     }
 
@@ -41,6 +40,6 @@ public class CourseListActivity extends BaseListActivity implements
     @Override
     public void onProgressUpdate(Integer[] values) {
 	// TODO Auto-generated method stub
-	
+
     }
 }

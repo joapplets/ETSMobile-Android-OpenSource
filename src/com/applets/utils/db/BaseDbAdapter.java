@@ -13,6 +13,12 @@ public abstract class BaseDbAdapter {
     protected AppEtsOpenHelper dbHelper;
     protected Context context;
 
+    public BaseDbAdapter(Context context) {
+	this.context = context;
+    }
+
+    protected static final String KEY_ROW_ID = "_id";
+
     public BaseDbAdapter open() throws SQLException {
 	dbHelper = new AppEtsOpenHelper(context, null);
 	db = dbHelper.getWritableDatabase();
@@ -22,13 +28,13 @@ public abstract class BaseDbAdapter {
     public abstract long create(Model model);
 
     public abstract int update(Model model);
-    
+
     public abstract int delete(Model model);
 
     public abstract Cursor get(long rowId) throws SQLException;
 
     public abstract Cursor getAll();
-    
+
     /**
      * Close current db and dbHelper
      */

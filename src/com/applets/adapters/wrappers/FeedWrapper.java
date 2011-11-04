@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.applets.R;
 
 public class FeedWrapper {
-  
+
     private View base;
 
     private TextView title;

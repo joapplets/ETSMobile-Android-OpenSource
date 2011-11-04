@@ -37,7 +37,7 @@ public class Profile extends Model {
 	_values.put("name", name);
 	_values.put("bac", bac);
 	_values.put("session", name);
-	
+
 	return _values;
     }
 

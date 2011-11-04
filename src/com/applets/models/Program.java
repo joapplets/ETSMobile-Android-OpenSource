@@ -6,14 +6,14 @@ import android.content.ContentValues;
 import android.os.Parcel;
 
 public class Program extends Model {
-    
+
     private String name;
     private String shortName;
     private String description;
     private String url;
     private String urlPdf;
     private int programme_id;
-    
+
     private List<Course> courses;
 
     public int getNumberOfCourses() {

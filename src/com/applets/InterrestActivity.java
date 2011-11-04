@@ -91,7 +91,7 @@ public class InterrestActivity extends BaseActivity {
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 		float velocityY) {
-//	    final Intent intent = getNextIntext(pos);
+	    // final Intent intent = getNextIntext(pos);
 
 	    if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
 		return false;

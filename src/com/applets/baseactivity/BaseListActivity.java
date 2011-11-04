@@ -1,6 +1,8 @@
 package com.applets.baseactivity;
 
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 
 import com.applets.AboutTabActivity;
@@ -11,6 +13,19 @@ import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public abstract class BaseListActivity extends ListActivity {
     private ActionBar actionBar;
+    private ProgressDialog progressDialog;
+
+    public BaseListActivity() {
+	progressDialog = new ProgressDialog(getApplicationContext());
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+	progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+	progressDialog.setCancelable(false);
+	progressDialog.setMax(100);
+	return progressDialog;
+    }
 
     /**
      * Creates the ActionBar and sets the actions

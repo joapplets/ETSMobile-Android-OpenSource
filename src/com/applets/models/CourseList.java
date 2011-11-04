@@ -19,10 +19,9 @@ public class CourseList extends ArrayList<Course> implements ContentHandler {
     private URL feed_list;
     private Course currentCours;
     private IAsyncTaskListener listener;
-    
+
     // XML elements
     private static String FEED_TAG = "cour";
-    
 
     public CourseList(String url, Context context, IAsyncTaskListener listener) {
 	this.url = url;
@@ -39,47 +38,47 @@ public class CourseList extends ArrayList<Course> implements ContentHandler {
 
     private void getFeedsFromServer() {
 	new XMLParserTask(url, this, listener).execute();
-//	XmlPullParser parser = Xml.newPullParser();
-//	try {
-//	    feed_list = new URL(url);
-//
-//	    // auto-detect the encoding from the stream
-//	    parser.setInput(feed_list.openStream(), null);
-//
-//	    int eventType = parser.getEventType();
-//	    Course currentFeed = null;
-//	    boolean done = false;
-//
-//	    while (eventType != XmlPullParser.END_DOCUMENT && !done) {
-//
-//		String name = null;
-//		switch (eventType) {
-//		case XmlPullParser.START_DOCUMENT:
-//		    break;
-//		case XmlPullParser.START_TAG:
-//		    name = parser.getName();
-//		    if (name.equalsIgnoreCase(FEED_TAG)) {
-//			currentFeed = new Course();
-//			currentFeed.setName(parser.getAttributeValue(null,
-//				"name"));
-//		    }
-//		    break;
-//		case XmlPullParser.END_TAG:
-//		    name = parser.getName();
-//		    if (name.equalsIgnoreCase(FEED_TAG) && currentFeed != null) {
-//			this.add(currentFeed);
-//		    } else if (name.equalsIgnoreCase(ROOT_TAG)) {
-//			done = true;
-//		    }
-//		    break;
-//		}
-//		eventType = parser.next();
-//	    }
-//	} catch (IOException ioe) {
-//	    Log.d("com.applets.modes.ProgramList", ioe.getMessage());
-//	} catch (XmlPullParserException e) {
-//	    Log.d("com.applets.models.ProgramList", e.getMessage());
-//	}
+	// XmlPullParser parser = Xml.newPullParser();
+	// try {
+	// feed_list = new URL(url);
+	//
+	// // auto-detect the encoding from the stream
+	// parser.setInput(feed_list.openStream(), null);
+	//
+	// int eventType = parser.getEventType();
+	// Course currentFeed = null;
+	// boolean done = false;
+	//
+	// while (eventType != XmlPullParser.END_DOCUMENT && !done) {
+	//
+	// String name = null;
+	// switch (eventType) {
+	// case XmlPullParser.START_DOCUMENT:
+	// break;
+	// case XmlPullParser.START_TAG:
+	// name = parser.getName();
+	// if (name.equalsIgnoreCase(FEED_TAG)) {
+	// currentFeed = new Course();
+	// currentFeed.setName(parser.getAttributeValue(null,
+	// "name"));
+	// }
+	// break;
+	// case XmlPullParser.END_TAG:
+	// name = parser.getName();
+	// if (name.equalsIgnoreCase(FEED_TAG) && currentFeed != null) {
+	// this.add(currentFeed);
+	// } else if (name.equalsIgnoreCase(ROOT_TAG)) {
+	// done = true;
+	// }
+	// break;
+	// }
+	// eventType = parser.next();
+	// }
+	// } catch (IOException ioe) {
+	// Log.d("com.applets.modes.ProgramList", ioe.getMessage());
+	// } catch (XmlPullParserException e) {
+	// Log.d("com.applets.models.ProgramList", e.getMessage());
+	// }
     }
 
     @Override

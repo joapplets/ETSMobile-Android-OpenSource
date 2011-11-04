@@ -11,7 +11,7 @@ import com.applets.models.Model;
  * 
  * @author Philippe David
  */
-public class FeedDbAdapter extends BaseDbAdapter{
+public class FeedDbAdapter extends BaseDbAdapter {
     // TABLE COLUMNS INFO
     public static final String TABLE_NAME = "feed";
     public static final String KEY_ROWID = "id";
@@ -20,9 +20,8 @@ public class FeedDbAdapter extends BaseDbAdapter{
     public static final String KEY_IMAGE = "image";
     public static final String KEY_LANG = "lang";
 
-
     public FeedDbAdapter(Context context) {
-	this.context = context;
+	super(context);
     }
 
     /**
@@ -33,7 +32,7 @@ public class FeedDbAdapter extends BaseDbAdapter{
     public long create(Model feed) {
 	return db.insert(TABLE_NAME, null, feed.getValues());
     }
-    
+
     @Override
     public int update(Model model) {
 	return db.update(TABLE_NAME, model.getValues(),

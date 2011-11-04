@@ -24,7 +24,7 @@ public class NewsDbAdapter extends BaseDbAdapter {
     public static final String KEY_DESCRIPTION = "description";
 
     public NewsDbAdapter(Context context) {
-	this.context = context;
+	super(context);
     }
 
     /**
@@ -42,8 +42,8 @@ public class NewsDbAdapter extends BaseDbAdapter {
      */
     @Override
     public int update(Model news) {
-	return db.update(TABLE_TITLE, news.getValues(), KEY_NEWS_ID + "="
-		+ news.getID(), null);
+	return db.update(TABLE_TITLE, news.getValues(),
+		KEY_ROW_ID + "=" + news.getID(), null);
     }
 
     /**
@@ -51,7 +51,7 @@ public class NewsDbAdapter extends BaseDbAdapter {
      */
     @Override
     public int delete(Model news) {
-	return db.delete(TABLE_TITLE, KEY_NEWS_ID + "=" + news.getID(), null);
+	return db.delete(TABLE_TITLE, KEY_ROW_ID + "=" + news.getID(), null);
     }
 
     /**
@@ -59,7 +59,7 @@ public class NewsDbAdapter extends BaseDbAdapter {
      */
     @Override
     public Cursor get(long rowId) throws SQLException {
-	Cursor mCursor = db.query(true, TABLE_TITLE, new String[] {
+	Cursor mCursor = db.query(true, TABLE_TITLE, new String[] { KEY_ROW_ID,
 		KEY_NEWS_ID, KEY_NAME, KEY_URL, KEY_IMAGE }, KEY_NEWS_ID + "="
 		+ rowId, null, null, null, null, null);
 	if (mCursor != null) {
@@ -75,8 +75,8 @@ public class NewsDbAdapter extends BaseDbAdapter {
      */
     @Override
     public Cursor getAll() {
-	return db.query(TABLE_TITLE, new String[] { KEY_NEWS_ID, KEY_NAME,
-		KEY_URL, KEY_IMAGE, KEY_FEED_ID, KEY_PUB_DATE, KEY_CREATOR },
-		null, null, null, null, null);
+	return db.query(TABLE_TITLE, new String[] { KEY_ROW_ID, KEY_NEWS_ID,
+		KEY_NAME, KEY_URL, KEY_IMAGE, KEY_FEED_ID, KEY_PUB_DATE,
+		KEY_CREATOR }, null, null, null, null, null);
     }
 }

@@ -134,7 +134,7 @@ public class DirectoryGroup extends DirectoryEntry implements
     @Override
     public void writeToParcel(Parcel arg0, int arg1) {
 	// TODO Auto-generated method stub
-	
+
     }
 
 }

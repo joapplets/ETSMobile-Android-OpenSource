@@ -25,22 +25,23 @@ public class NewsActivity extends BaseActivity {
 	Feed feed = b.getParcelable("com.applets.Models.Feed");
 
 	// Get News from feed
-//	final RSSParser rssParser = new RSSParser(feed.getUrl());
-//	news = rssParser.parse();
+	// final RSSParser rssParser = new RSSParser(feed.getUrl());
+	// news = rssParser.parse();
 
 	// Fill ListView
-//	setListAdapter(new NewsAdapter(this, news));
+	// setListAdapter(new NewsAdapter(this, news));
     }
 
-//    @Override
-//    protected void onListItemClick(ListView l, View v, int position, long id) {
-//	super.onListItemClick(l, v, position, id);
-//	String link = ((News) news.get(position)).getUrl();
-//	startWebBrowser(link);
-//    }
-//
-//    private void startWebBrowser(String url) {
-//	Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//	startActivity(myIntent);
-//    }
+    // @Override
+    // protected void onListItemClick(ListView l, View v, int position, long id)
+    // {
+    // super.onListItemClick(l, v, position, id);
+    // String link = ((News) news.get(position)).getUrl();
+    // startWebBrowser(link);
+    // }
+    //
+    // private void startWebBrowser(String url) {
+    // Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    // startActivity(myIntent);
+    // }
 }

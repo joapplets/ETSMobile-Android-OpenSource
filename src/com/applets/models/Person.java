@@ -88,7 +88,7 @@ public class Person extends DirectoryEntry {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 	// TODO Auto-generated method stub
-	
+
     }
 
 }

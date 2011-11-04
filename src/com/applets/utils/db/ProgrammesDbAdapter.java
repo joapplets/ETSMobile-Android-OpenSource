@@ -17,7 +17,7 @@ public class ProgrammesDbAdapter extends BaseDbAdapter {
     public static final String KEY_URL_PDF = "url_pdf";
 
     public ProgrammesDbAdapter(Context context) {
-	this.context = context;
+	super(context);
     }
 
     @Override
