@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- <?xml version="1.0" encoding="utf-8"?> -->
 <resources>
     <string name="host">http://applets.info-sonic.com/</string>
     <string name="api_feed">feeds/api.xml</string>
+        <string name="api_programmes">programmes/api.xml</string>
+    <string name="api_news">news/api.xml</string>
+    <string name="api_cours">cours/api.xml</string>
 </resources>

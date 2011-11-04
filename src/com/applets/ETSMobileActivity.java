@@ -19,6 +19,8 @@ public class ETSMobileActivity extends BaseActivity {
     private ImageButton feedListBtn;
     private ImageButton programlistBtn;
     private ImageButton mapButton;
+    private ImageButton discoverBtn;
+    private ImageButton profileBtn;
     private Menu prefMenu = null;
 
     /** Called when the activity is first created. */
@@ -43,7 +45,7 @@ public class ETSMobileActivity extends BaseActivity {
 
 	    @Override
 	    public void onClick(View v) {
-		launchFeedList();
+		launchNewsActivity();
 	    }
 	});
 
@@ -52,9 +54,36 @@ public class ETSMobileActivity extends BaseActivity {
 
 	    @Override
 	    public void onClick(View v) {
-		// launchMap();
+		launchMap();
 	    }
 	});
+
+	discoverBtn = (ImageButton) findViewById(R.id.discoverBtn);
+	discoverBtn.setOnClickListener(new OnClickListener() {
+
+	    @Override
+	    public void onClick(View v) {
+		launchInteractiveTour();
+	    }
+	});
+
+	profileBtn = (ImageButton) findViewById(R.id.profile_btn);
+	profileBtn.setOnClickListener(new OnClickListener() {
+
+	    @Override
+	    public void onClick(View v) {
+		launchProfile();
+	    }
+	});
+    }
+
+    protected void launchProfile() {
+	startActivity(new Intent(this, ProfileActivity.class));
+
+    }
+
+    protected void launchInteractiveTour() {
+	startActivity(new Intent(this, InterrestGridActivity.class));
     }
 
     /**
@@ -63,7 +92,6 @@ public class ETSMobileActivity extends BaseActivity {
      * @param mainActivity
      * @return Intent MainIntent
      */
-
     public static Intent createHomeAction(Activity mainActivity) {
 	Intent i = new Intent(mainActivity, ETSMobileActivity.class);
 	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -101,9 +129,9 @@ public class ETSMobileActivity extends BaseActivity {
     /**
      * Launch the Feed Selection ListActivity
      */
-    public void launchFeedList() {
+    public void launchNewsActivity() {
 	try {
-	    startActivity(new Intent(this, FeedListActivity.class));
+	    startActivity(new Intent(this, NewsListActivity.class));
 	} catch (Exception e) {
 	    Log.e("Applets::", e.getMessage());
 	}
@@ -118,5 +146,12 @@ public class ETSMobileActivity extends BaseActivity {
 	} catch (Exception e) {
 	    Log.e("Applets::", e.getMessage());
 	}
+    }
+
+    /**
+     * Launch the Interactive Tour
+     */
+    protected void launchMap() {
+	// startActivity(new Intent(this, InterActiveTourActivity.class));
     }
 }

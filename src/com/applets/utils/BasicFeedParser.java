@@ -7,6 +7,11 @@ import java.net.URL;
 
 import android.util.Log;
 
+/**
+ * Abstract class for Xml parsing
+ * @author Philippe David
+ *
+ */
 public abstract class BasicFeedParser implements IFeedParser {
 
     /**

@@ -59,8 +59,10 @@ public class FeedList extends ArrayList<Feed> {
 			    .getColumnIndex(FeedDbAdapter.KEY_URL));
 		    String image = mCursor.getString(mCursor
 			    .getColumnIndex(FeedDbAdapter.KEY_IMAGE));
+		    String lang = mCursor.getString(mCursor
+			    .getColumnIndex(FeedDbAdapter.KEY_LANG));
 
-		    add(new Feed(id, name, url, image));
+		    add(new Feed(id, name, url, image, lang));
 		}
 	    }
 	    mCursor.close();
@@ -95,7 +97,10 @@ public class FeedList extends ArrayList<Feed> {
 		    name = parser.getName();
 		    if (name.equalsIgnoreCase(FEED_TAG)) {
 
-			currentFeed = new Feed();
+			currentFeed = new Feed(parser.getAttributeValue(null,"name"),
+				parser.getAttributeValue(null, "url"),
+				parser.getAttributeValue(null,"image"),
+				parser.getAttributeValue(null,"lang"));
 			currentFeed.setName(parser.getAttributeValue(null,
 				"name"));
 			currentFeed.setUrl(parser

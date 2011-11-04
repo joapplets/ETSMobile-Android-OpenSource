@@ -62,7 +62,7 @@ public class FeedListActivity extends BaseListActivity {
 
     private void loadNewsActivity(Feed feed) {
 	Intent i = new Intent(this, NewsListActivity.class);
-	i.putExtra("com.applets.Models.Feed", feed);
+	i.putExtra(Feed.class.getName(), feed);
 	startActivity(i);
     }
 }

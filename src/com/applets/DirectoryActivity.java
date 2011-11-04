@@ -22,8 +22,8 @@ public class DirectoryActivity extends BaseExpendableListActivity {
 
 	// We'll define a custom screen layout here (the one shown above), but
 	// typically, you could just use the standard ListActivity layout.
-	setContentView(R.layout.directory_list);
-	createActionBar("Bottin", R.id.directoy_actionbar);
+	setContentView(R.layout.bottin_list);
+	createActionBar("Bottin", R.id.bottin_actionbar);
 
 	DirectoryGroup directory = null;
 	try {

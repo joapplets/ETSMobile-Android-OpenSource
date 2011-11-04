@@ -8,10 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Utility Class to ease the access to the SQLite Database
  * 
- * <<<<<<< HEAD
- * 
- * @author Phil =======
- * @author Philippe David >>>>>>> e234fd63b8783f7a331310de5153bddfae7a444e
+ * @author Philippe David
  */
 public class AppEtsOpenHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "appETS";

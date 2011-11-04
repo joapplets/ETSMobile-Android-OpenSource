@@ -24,4 +24,5 @@ public abstract class BaseActivity extends Activity {
 		AboutTabActivity.class), R.drawable.ic_menu_help));
 
     }
+
 }

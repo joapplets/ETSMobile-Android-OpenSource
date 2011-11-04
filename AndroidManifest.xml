@@ -1,38 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.applets"
-      android:versionCode="1"
-      android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="8" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    package="com.applets"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".ETSMobileActivity"
-                  android:label="@string/app_name" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter>
+    <uses-sdk android:minSdkVersion="8" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <activity
+            android:label="@string/app_name"
+            android:name=".ETSMobileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:theme="@android:style/Theme.NoTitleBar" android:name=".NewsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
+        <activity
+            android:name=".NewsActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" >
+                </action>
             </intent-filter>
         </activity>
-        <activity android:name=".AboutTabActivity" android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
+        <activity
+            android:name=".AboutTabActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" >
+                </action>
             </intent-filter>
         </activity>
-        <activity android:name=".AboutActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name=".AppPreferenceActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name=".CourseListActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name=".FeedListActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name=".InfoActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name=".NewsListActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name=".ProgramListActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name=".UrgenceActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-
+        <activity
+            android:name=".AboutActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".AppPreferenceActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".CourseListActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".FeedListActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".InfoActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".NewsListActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ProgramListActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".UrgenceActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".InterrestGridActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".InterrestActivity"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ProfileEditionActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
     </application>
+
 </manifest>

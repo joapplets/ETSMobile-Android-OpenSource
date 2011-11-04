@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import android.content.ContentValues;
+import android.os.Parcel;
 
 public class DirectoryGroup extends DirectoryEntry implements
 	Collection<DirectoryEntry> {
@@ -122,6 +123,18 @@ public class DirectoryGroup extends DirectoryEntry implements
     ContentValues setValues() {
 	// TODO Auto-generated method stub
 	return null;
+    }
+
+    @Override
+    public int describeContents() {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel arg0, int arg1) {
+	// TODO Auto-generated method stub
+
     }
 
 }
