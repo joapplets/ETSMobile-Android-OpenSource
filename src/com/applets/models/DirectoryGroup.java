@@ -29,76 +29,91 @@ public class DirectoryGroup extends DirectoryEntry implements
 	this.name = name;
     }
 
+    @Override
     public String getName() {
 	// TODO Auto-generated method stub
 	return this.name;
     }
 
+    @Override
     public boolean add(DirectoryEntry object) {
 	// TODO Auto-generated method stub
 	return this.entries.add(object);
     }
 
+    @Override
     public boolean addAll(Collection<? extends DirectoryEntry> arg0) {
 	// TODO Auto-generated method stub
 	return this.entries.addAll(arg0);
     }
 
+    @Override
     public void clear() {
 	// TODO Auto-generated method stub
 	this.entries.clear();
     }
 
+    @Override
     public boolean contains(Object object) {
 	// TODO Auto-generated method stub
 	return this.entries.contains(object);
     }
 
+    @Override
     public boolean containsAll(Collection<?> arg0) {
 	// TODO Auto-generated method stub
 	return this.entries.containsAll(arg0);
     }
 
+    @Override
     public boolean isEmpty() {
 	// TODO Auto-generated method stub
 	return this.entries.isEmpty();
     }
 
+    @Override
     public Iterator<DirectoryEntry> iterator() {
 	// TODO Auto-generated method stub
 	return this.entries.iterator();
     }
 
+    @Override
     public boolean remove(Object object) {
 	// TODO Auto-generated method stub
 	return this.entries.remove(object);
     }
 
+    @Override
     public boolean removeAll(Collection<?> arg0) {
 	// TODO Auto-generated method stub
 	return this.entries.removeAll(arg0);
     }
 
+    @Override
     public boolean retainAll(Collection<?> arg0) {
 	// TODO Auto-generated method stub
 	return this.entries.retainAll(arg0);
     }
 
+    @Override
     public int size() {
 	// TODO Auto-generated method stub
 	return this.entries.size();
     }
 
+    @Override
     public Object[] toArray() {
 	// TODO Auto-generated method stub
 	return this.entries.toArray();
     }
 
+    @Override
     public <T> T[] toArray(T[] array) {
 	// TODO Auto-generated method stub
 	return this.entries.toArray(array);
     }
 
+    @Override
     public String toString() {
 	String s;
 	DirectoryEntry entry;

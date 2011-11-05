@@ -25,6 +25,7 @@ public class Person extends DirectoryEntry {
 	this.department = department;
     }
 
+    @Override
     public String getName() {
 	// TODO Auto-generated method stub
 	return this.firstName + " " + this.lastName;
@@ -62,6 +63,7 @@ public class Person extends DirectoryEntry {
 	return department;
     }
 
+    @Override
     public String toString() {
 	return "Person:" + this.lastName + ", " + this.firstName
 		+ this.getPhoneNumber() + "\nfax:" + this.getFax() + "\nemail:"

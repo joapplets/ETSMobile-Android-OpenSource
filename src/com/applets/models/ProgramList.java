@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 import com.applets.utils.xml.IAsyncTaskListener;
 import com.applets.utils.xml.XMLParserTask;
 
+@SuppressWarnings("serial")
 public class ProgramList extends ArrayList<Program> implements ContentHandler {
 
     private Program currentProgramme;
@@ -19,54 +20,8 @@ public class ProgramList extends ArrayList<Program> implements ContentHandler {
     public ProgramList() {
     }
 
-    public void getFeedsFromServer(String url, IAsyncTaskListener listener) {
+    public void execute(String url, IAsyncTaskListener listener) {
 	new XMLParserTask(url, this, listener).execute();
-	// XmlPullParser parser = Xml.newPullParser();
-	// try {
-	// feed_list = new URL(url);
-	//
-	// // auto-detect the encoding from the stream
-	// parser.setInput(feed_list.openStream(), null);
-	//
-	// int eventType = parser.getEventType();
-	// Program currentFeed = null;
-	// boolean done = false;
-	//
-	// while (eventType != XmlPullParser.END_DOCUMENT && !done) {
-	//
-	// String name = null;
-	// switch (eventType) {
-	// case XmlPullParser.START_DOCUMENT:
-	// break;
-	// case XmlPullParser.START_TAG:
-	// name = parser.getName();
-	// if (name.equalsIgnoreCase(FEED_TAG)) {
-	//
-	// currentFeed = new Program();
-	// currentFeed.setName(parser.getAttributeValue(null,
-	// "name"));
-	// currentFeed.setUrl(parser
-	// .getAttributeValue(null, "url"));
-	// currentFeed.setUrlPdf(parser.getAttributeValue(null,
-	// "url_pdf"));
-	// }
-	// break;
-	// case XmlPullParser.END_TAG:
-	// name = parser.getName();
-	// if (name.equalsIgnoreCase(FEED_TAG) && currentFeed != null) {
-	// this.add(currentFeed);
-	// } else if (name.equalsIgnoreCase(ROOT_TAG)) {
-	// done = true;
-	// }
-	// break;
-	// }
-	// eventType = parser.next();
-	// }
-	// } catch (IOException ioe) {
-	// Log.d("com.applets.modes.ProgramList", ioe.getMessage());
-	// } catch (XmlPullParserException e) {
-	// Log.d("com.applets.models.ProgramList", e.getMessage());
-	// }
     }
 
     @Override

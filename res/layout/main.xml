@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_menu_friendslist" >
             </ImageButton>
+
         </TableRow>
 
         <TableRow
@@ -80,6 +81,13 @@
 
             </ImageButton>
         </TableRow>
+
+        <ImageButton
+            android:id="@+id/main_radio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_btn_speak_now" />
+
     </TableLayout>
 
 </LinearLayout>

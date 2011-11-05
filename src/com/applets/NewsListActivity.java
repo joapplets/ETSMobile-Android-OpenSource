@@ -5,26 +5,28 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.applets.adapters.NewsCursorAdapter;
+import com.applets.adapters.BaseCursorAdapter;
 import com.applets.baseactivity.BaseListActivity;
 import com.applets.models.Model;
 import com.applets.models.News;
 import com.applets.models.NewsList;
 import com.applets.utils.db.NewsDbAdapter;
 import com.applets.utils.xml.IAsyncTaskListener;
-import com.applets.utils.xml.XMLParserTask;
 
 public class NewsListActivity extends BaseListActivity implements
 	IAsyncTaskListener {
 
-    public static final String COM_APPLETS_MODELS_FEED = "com.applets.models.Feed";
     private NewsList news;
     private boolean[] userPref;
     private NewsDbAdapter db;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,29 +36,47 @@ public class NewsListActivity extends BaseListActivity implements
 	// Init action bar with feed name
 	initSearchActionBar(getString(R.string.news_activity_title),
 		R.id.news_list_actionbar);
-	
-	getNewsList();
+
+	db = (NewsDbAdapter) new NewsDbAdapter(this).open();
+	getList();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+	this.menu = menu;
+	new MenuInflater(this).inflate(R.menu.main_menu, this.menu);
+	return super.onCreateOptionsMenu(this.menu);
     }
 
     /**
-     * Creates the url based on the user prefs.
+     * When an option from the optionMenu is selected
      */
-    private void getNewsList() {
-	db = (NewsDbAdapter) new NewsDbAdapter(this).open();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+	switch (item.getItemId()) {
+	case R.id.main_menu_preferences:
+	    startActivity(new Intent(this, AppPreferenceActivity.class));
+	    break;
+	case R.id.main_menu_refresh:
+	    getLatestNews();
+	    break;
+	}
+
+	return (super.onOptionsItemSelected(item));
+    }
+
+    /**
+     * Init the list view with data currently sotred on phone
+     */
+    private void getList() {
 	final Cursor cursor = db.getAll();
 
+	news = new NewsList();
 	if (cursor.getCount() < 1) {
-	    showDialog(0);
-	    progressDialog.show();
-	    final String url = buildQuery();
-	    news = new NewsList();
-	    //background task
-	    new XMLParserTask(url, news, this).execute();
-	}else{
-	    setListAdapter(new NewsCursorAdapter(this, cursor));
+	    getLatestNews();
+	} else {
+	    setListAdapter(new BaseCursorAdapter(this, cursor));
 	}
-	cursor.close();
-	db.close();
     }
 
     /**
@@ -78,8 +98,8 @@ public class NewsListActivity extends BaseListActivity implements
 
 	// Retreive the list of feed from server
 	StringBuilder sBuilder = new StringBuilder();
-	sBuilder.append(getString(R.string.host));
-	sBuilder.append(getString(R.string.api_feed));
+	sBuilder.append(getString(R.string.host)).append(
+		getString(R.string.api_feed));
 
 	// sBuilder.append("?q=");
 	// for (int i = 0; i < userPref.length; i++) {
@@ -91,15 +111,24 @@ public class NewsListActivity extends BaseListActivity implements
     }
 
     /**
-     * On click, launch browser. This should be replaced by our own webView
+     * "Refresh",Retreive latest news from the server
+     */
+    private void getLatestNews() {
+	showDialog(0);
+	news.execute(buildQuery(), this);
+    }
+
+    /**
+     * On click, launch the NewsReaderActivity. This should be replaced by our
+     * own webView
      */
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
 	super.onListItemClick(l, v, position, id);
 
-	Intent myIntent = new Intent(this,NewsReaderActivity.class);
-	myIntent.putExtra(News.class.getName(), news.get(position));
-	
+	Intent myIntent = new Intent(this, NewsReaderActivity.class);
+	myIntent.putExtra(News.class.getName(), db.get((int) id));
+
 	startActivity(myIntent);
     }
 
@@ -108,19 +137,17 @@ public class NewsListActivity extends BaseListActivity implements
      */
     @Override
     public void onPostExecute() {
-	
-	db.open();
-	for (Model model : news) {
-	    db.create(model);
+
+	dismissDialog(0);
+	if (news.size() == 0) {
+	    Toast.makeText(this, getString(R.string.empty_update), Toast.LENGTH_SHORT).show();
+	} else {
+	    // insert data
+	    for (Model model : news) {
+		db.create(model);
+	    }
 	}
-	progressDialog.hide();
-	setListAdapter(new NewsCursorAdapter(this, db.getAll()));
-	db.close();
+	setListAdapter(new BaseCursorAdapter(this, db.getAll()));
     }
 
-    @Override
-    public void onProgressUpdate(Integer[] values) {
-	((TextView) findViewById(R.id.news_list_loading)).setText("Loading :"
-		+ values.toString());
-    }
 }

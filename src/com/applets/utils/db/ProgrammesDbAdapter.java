@@ -39,10 +39,9 @@ public class ProgrammesDbAdapter extends BaseDbAdapter {
 
     @Override
     public Cursor getAll() {
-	return db
-		.query(TABLE_NAME, new String[] { KEY_PROGRAMME_ID, KEY_NAME,
-			KEY_SHORT_NAME, KEY_DESCRIPTION }, null, null, null,
-			null, null);
+	return db.query(TABLE_NAME, new String[] { KEY_ROW_ID,
+		KEY_PROGRAMME_ID, KEY_NAME, KEY_SHORT_NAME, KEY_DESCRIPTION },
+		null, null, null, null, null);
     }
 
     @Override

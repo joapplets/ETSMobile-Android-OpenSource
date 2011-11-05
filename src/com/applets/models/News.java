@@ -1,13 +1,13 @@
 package com.applets.models;
 
-import com.applets.utils.db.NewsDbAdapter;
-
 import android.content.ContentValues;
 import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.applets.utils.db.NewsDbAdapter;
 
 public class News extends Model {
 
-    private String _id;
     private String name = "";
     private String url = "";
     private String description = "";
@@ -20,8 +20,9 @@ public class News extends Model {
     public News() {
     }
 
-    public News(String _id, String name, String url, String description,
-	    String image, String creator, int news_id, int feed_id, String pubDate) {
+    public News(long _id, String name, String url, String description,
+	    String image, String creator, int news_id, int feed_id,
+	    String pubDate) {
 	super();
 	this._id = _id;
 	this.name = name;
@@ -32,6 +33,24 @@ public class News extends Model {
 	this.news_id = news_id;
 	this.feed_id = feed_id;
 	this.pubDate = pubDate;
+    }
+
+    /**
+     * Order matters
+     * 
+     * @param in
+     */
+    public News(Parcel in) {
+	this._id = in.readLong();
+	this.news_id = in.readInt();
+	this.feed_id = in.readInt();
+	this.name = in.readString();
+	this.description = in.readString();
+	this.url = in.readString();
+	this.image = in.readString();
+	this.creator = in.readString();
+	this.pubDate = in.readString();
+
     }
 
     @Override
@@ -121,9 +140,21 @@ public class News extends Model {
 	return 0;
     }
 
+    /**
+     * Order matters
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-	// TODO Auto-generated method stub
+	dest.writeLong(_id);
+	dest.writeInt(news_id);
+	dest.writeInt(feed_id);
+	dest.writeString(name);
+	dest.writeString(description);
+	dest.writeString(url);
+	dest.writeString(image);
+	dest.writeString(creator);
+	dest.writeString(pubDate);
+
     }
 
     public void setCreator(String creator) {
@@ -142,7 +173,22 @@ public class News extends Model {
 
     public void setNewsId(String id) {
 	this.news_id = Integer.parseInt(id);
-	
+
     }
+
+    /**
+     * Parcel Creator
+     */
+    public static final Parcelable.Creator<News> CREATOR = new Parcelable.Creator<News>() {
+	@Override
+	public News createFromParcel(Parcel in) {
+	    return new News(in);
+	}
+
+	@Override
+	public News[] newArray(int size) {
+	    return new News[size];
+	}
+    };
 
 }

@@ -15,12 +15,6 @@ import com.applets.baseactivity.BaseActivity;
 
 public class ETSMobileActivity extends BaseActivity {
 
-    // private static final String PREF_NAME = "appETSPrefs";
-    private ImageButton feedListBtn;
-    private ImageButton programlistBtn;
-    private ImageButton mapButton;
-    private ImageButton discoverBtn;
-    private ImageButton profileBtn;
     private Menu prefMenu = null;
 
     /** Called when the activity is first created. */
@@ -31,26 +25,25 @@ public class ETSMobileActivity extends BaseActivity {
 
 	createActionBar(getString(R.string.main_title), R.id.main_actionbar);
 
-	programlistBtn = (ImageButton) findViewById(R.id.program_list_btn);
-	programlistBtn.setOnClickListener(new OnClickListener() {
+	findViewById(R.id.program_list_btn).setOnClickListener(
+		new OnClickListener() {
 
-	    @Override
-	    public void onClick(View v) {
-		launchProgramList();
-	    }
-	});
+		    @Override
+		    public void onClick(View v) {
+			launchProgramList();
+		    }
+		});
 
-	feedListBtn = (ImageButton) findViewById(R.id.feed_list_btn);
-	feedListBtn.setOnClickListener(new OnClickListener() {
+	findViewById(R.id.feed_list_btn).setOnClickListener(
+		new OnClickListener() {
 
-	    @Override
-	    public void onClick(View v) {
-		launchNewsActivity();
-	    }
-	});
+		    @Override
+		    public void onClick(View v) {
+			launchNewsActivity();
+		    }
+		});
 
-	mapButton = (ImageButton) findViewById(R.id.mapBtn);
-	mapButton.setOnClickListener(new OnClickListener() {
+	findViewById(R.id.mapBtn).setOnClickListener(new OnClickListener() {
 
 	    @Override
 	    public void onClick(View v) {
@@ -58,23 +51,42 @@ public class ETSMobileActivity extends BaseActivity {
 	    }
 	});
 
-	discoverBtn = (ImageButton) findViewById(R.id.discoverBtn);
-	discoverBtn.setOnClickListener(new OnClickListener() {
+	findViewById(R.id.discoverBtn).setOnClickListener(
+		new OnClickListener() {
 
-	    @Override
-	    public void onClick(View v) {
-		launchInteractiveTour();
-	    }
-	});
+		    @Override
+		    public void onClick(View v) {
+			launchInteractiveTour();
+		    }
+		});
 
-	profileBtn = (ImageButton) findViewById(R.id.profile_btn);
-	profileBtn.setOnClickListener(new OnClickListener() {
+	findViewById(R.id.profile_btn).setOnClickListener(
+		new OnClickListener() {
 
-	    @Override
-	    public void onClick(View v) {
-		launchProfile();
-	    }
-	});
+		    @Override
+		    public void onClick(View v) {
+			launchProfile();
+		    }
+		});
+
+	findViewById(R.id.cours_list_btn).setOnClickListener(
+		new OnClickListener() {
+
+		    @Override
+		    public void onClick(View v) {
+			startActivity(new Intent(v.getContext(),
+				CourseListActivity.class));
+		    }
+		});
+	findViewById(R.id.main_radio_btn).setOnClickListener(
+		new OnClickListener() {
+
+		    @Override
+		    public void onClick(View v) {
+			startActivity(new Intent(v.getContext(),
+				RadioActivity.class));
+		    }
+		});
     }
 
     protected void launchProfile() {

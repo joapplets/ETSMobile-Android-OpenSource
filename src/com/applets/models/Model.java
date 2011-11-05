@@ -15,7 +15,7 @@ public abstract class Model implements Comparable<Model>, Parcelable {
     /**
      * Android sqlite id, every entry has one
      */
-    private long _id;
+    protected long _id;
     /**
      * Object Values for SQLite
      */

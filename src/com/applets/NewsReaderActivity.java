@@ -19,11 +19,11 @@ public class NewsReaderActivity extends BaseActivity {
 	// Parcel data sent from NewsListActivity
 	Bundle b = getIntent().getExtras();
 	currentNews = b.getParcelable(News.class.getName());
-	
-	createActionBar(currentNews.getName(),	R.id.web_reader_actionbar);
-	
-	view = (WebView)findViewById(R.id.webView1);
-	
+
+	createActionBar(currentNews.getName(), R.id.web_reader_actionbar);
+
+	view = (WebView) findViewById(R.id.webView1);
+
 	view.getSettings().setJavaScriptEnabled(true);
 	view.loadUrl(currentNews.getUrl());
     }

@@ -17,7 +17,7 @@ public class NewsAdapter extends ArrayAdapter<Model> {
     private Activity context;
 
     public NewsAdapter(Activity context, ArrayList<Model> news) {
-	super(context, R.layout.news_row, news);
+	super(context, R.layout.basic_row, news);
 	this.context = context;
     }
 
@@ -28,7 +28,7 @@ public class NewsAdapter extends ArrayAdapter<Model> {
 
 	if (row == null) {
 	    LayoutInflater inflater = context.getLayoutInflater();
-	    row = inflater.inflate(R.layout.news_row, null);
+	    row = inflater.inflate(R.layout.basic_row, null);
 	    wrapper = new NewsRowWrapper(row);
 	    row.setTag(wrapper);
 	} else {

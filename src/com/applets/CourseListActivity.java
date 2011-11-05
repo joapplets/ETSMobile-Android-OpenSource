@@ -37,9 +37,4 @@ public class CourseListActivity extends BaseListActivity implements
 	setListAdapter(new CourseListAdapter(this, courseList));
     }
 
-    @Override
-    public void onProgressUpdate(Integer[] values) {
-	// TODO Auto-generated method stub
-
-    }
 }

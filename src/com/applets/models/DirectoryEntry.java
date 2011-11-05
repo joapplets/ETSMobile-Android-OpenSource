@@ -54,5 +54,6 @@ public abstract class DirectoryEntry extends Model {
 
     public abstract String getName();
 
+    @Override
     public abstract String toString();
 }

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 
 import com.applets.models.Model;
+import com.applets.models.News;
 
 /**
  * Adapter for SQLite database
@@ -17,7 +18,7 @@ public class NewsDbAdapter extends BaseDbAdapter {
     public static final String KEY_NEWS_ID = "news_id";
     public static final String KEY_NAME = "name";
     public static final String KEY_FEED_ID = "feed_id";
-    public static final String KEY_PUB_DATE = "pubDate";
+    public static final String KEY_PUB_DATE = "pubdate";
     public static final String KEY_CREATOR = "creator";
     public static final String KEY_URL = "url";
     public static final String KEY_IMAGE = "image";
@@ -60,12 +61,29 @@ public class NewsDbAdapter extends BaseDbAdapter {
     @Override
     public Cursor get(long rowId) throws SQLException {
 	Cursor mCursor = db.query(true, TABLE_TITLE, new String[] { KEY_ROW_ID,
-		KEY_NEWS_ID, KEY_NAME, KEY_URL, KEY_IMAGE }, KEY_NEWS_ID + "="
+		KEY_NEWS_ID, KEY_FEED_ID, KEY_NAME, KEY_URL, KEY_IMAGE,
+		KEY_DESCRIPTION, KEY_CREATOR, KEY_PUB_DATE }, KEY_NEWS_ID + "="
 		+ rowId, null, null, null, null, null);
 	if (mCursor != null) {
 	    mCursor.moveToFirst();
 	}
 	return mCursor;
+    }
+
+    public News get(int rowId) throws SQLException {
+	Cursor mCursor = db.query(true, TABLE_TITLE, new String[] { KEY_ROW_ID,
+		KEY_NAME, KEY_URL, KEY_IMAGE, KEY_DESCRIPTION, KEY_CREATOR,
+		KEY_NEWS_ID, KEY_FEED_ID, KEY_PUB_DATE }, KEY_NEWS_ID + "="
+		+ rowId, null, null, null, null, null);
+	if (mCursor != null) {
+	    mCursor.moveToFirst();
+	}else {
+	    return null;
+	}
+	return new News(mCursor.getLong(0), mCursor.getString(1),
+		mCursor.getString(2), mCursor.getString(3),
+		mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6),
+		mCursor.getInt(7), mCursor.getString(8));
     }
 
     /**
@@ -77,6 +95,6 @@ public class NewsDbAdapter extends BaseDbAdapter {
     public Cursor getAll() {
 	return db.query(TABLE_TITLE, new String[] { KEY_ROW_ID, KEY_NEWS_ID,
 		KEY_NAME, KEY_URL, KEY_IMAGE, KEY_FEED_ID, KEY_PUB_DATE,
-		KEY_CREATOR }, null, null, null, null, null);
+		KEY_DESCRIPTION, KEY_CREATOR }, null, null, null, null, null);
     }
 }

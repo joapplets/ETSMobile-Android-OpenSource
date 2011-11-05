@@ -2,6 +2,8 @@ package com.applets.models;
 
 import java.util.List;
 
+import com.applets.utils.db.ProgrammesDbAdapter;
+
 import android.content.ContentValues;
 import android.os.Parcel;
 
@@ -99,11 +101,11 @@ public class Program extends Model {
 
     @Override
     ContentValues setValues() {
-	this._values.put("name", getName());
-	this._values.put("shortName", getShortName());
-	this._values.put("description", getDescription());
-	this._values.put("url", getUrl());
-	this._values.put("urlPdf", getUrlPdf());
+	this._values.put(ProgrammesDbAdapter.KEY_NAME, getName());
+	this._values.put(ProgrammesDbAdapter.KEY_SHORT_NAME, getShortName());
+	this._values.put(ProgrammesDbAdapter.KEY_DESCRIPTION, getDescription());
+	this._values.put(ProgrammesDbAdapter.KEY_URL, getUrl());
+	this._values.put(ProgrammesDbAdapter.KEY_URL_PDF, getUrlPdf());
 	return this._values;
     }
 

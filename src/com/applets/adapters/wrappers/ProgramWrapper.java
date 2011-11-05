@@ -18,14 +18,14 @@ public class ProgramWrapper {
 
     private ImageView getImage() {
 	if (image == null) {
-	    image = (ImageView) view.findViewById(R.id.program_list_row_image);
+	    image = (ImageView) view.findViewById(R.id.base_row_image);
 	}
 	return image;
     }
 
     private TextView getTitle() {
 	if (title == null) {
-	    title = (TextView) view.findViewById(R.id.program_list_row_title);
+	    title = (TextView) view.findViewById(R.id.base_row_title);
 	}
 	return title;
     }
@@ -33,7 +33,7 @@ public class ProgramWrapper {
     private TextView getDescription() {
 	if (description == null) {
 	    description = (TextView) view
-		    .findViewById(R.id.program_list_row_desc);
+		    .findViewById(R.id.base_row_desc);
 	}
 	return description;
     }

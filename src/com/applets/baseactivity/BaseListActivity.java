@@ -28,7 +28,7 @@ public abstract class BaseListActivity extends ListActivity {
 	    progressDialog = new ProgressDialog(BaseListActivity.this);
 	    progressDialog.setMessage(getString(R.string.loading));
 	    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	    progressDialog.setCancelable(false);   
+	    progressDialog.setCancelable(false);
 	    return progressDialog;
 	default:
 	    return null;

@@ -41,13 +41,6 @@ public class XMLParserTask extends AsyncTask<String, Integer, Void> {
     }
 
     @Override
-    protected void onProgressUpdate(Integer... values) {
-	// TODO Auto-generated method stub
-	super.onProgressUpdate(values);
-	listener.onProgressUpdate(values);
-    }
-
-    @Override
     protected void onPostExecute(Void result) {
 	listener.onPostExecute();
     }

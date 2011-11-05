@@ -17,7 +17,7 @@ public class CourseListAdapter extends ArrayAdapter<Course> {
     private ArrayList<Course> list;
 
     public CourseListAdapter(Activity context, ArrayList<Course> courses) {
-	super(context, R.layout.program_list_row, courses);
+	super(context, R.layout.basic_row, courses);
 	this.context = context;
 	list = courses;
     }
@@ -29,7 +29,7 @@ public class CourseListAdapter extends ArrayAdapter<Course> {
 
 	if (row == null) {
 	    LayoutInflater inflater = context.getLayoutInflater();
-	    row = inflater.inflate(R.layout.program_list_row, null);
+	    row = inflater.inflate(R.layout.basic_row, null);
 	    wrapper = new CourseWrapper(row);
 	    row.setTag(wrapper);
 	} else {

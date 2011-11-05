@@ -58,6 +58,7 @@ public class FeedDbAdapter extends BaseDbAdapter {
      * 
      * @return Cursor over all feeds
      */
+    @Override
     public Cursor getAll() {
 	return db.query(TABLE_NAME, new String[] { KEY_ROWID, KEY_NAME,
 		KEY_URL, KEY_IMAGE }, null, null, null, null, null);
@@ -66,6 +67,7 @@ public class FeedDbAdapter extends BaseDbAdapter {
     /**
      * Close current db and dbHelper
      */
+    @Override
     public void close() {
 	db.close();
 	dbHelper.close();

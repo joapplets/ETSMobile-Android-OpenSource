@@ -2,11 +2,14 @@
 <resources>
 
     <string name="app_name">appETS</string>
+    <string name="refresh">Refresh</string>
+    <string name="empty_update">Pas de nouveau contenu</string>
     <string name="main_title">Accueil</string>
     <string name="feed_list_title">Flux RSS disponible</string>
+    <string name="radio_title">Radio Ets Live !</string>
     <string name="news_activity_title">Nouvelles</string>
     <string name="program_list_title">Programmes</string>
-        <string name="profile_title">Profile</string>
+    <string name="profile_title">Profile</string>
     <string name="info_ets_title">L’ÉTS, le génie avec un +</string>
     <string name="info_ets_text">L’École de technologie supérieure est une
 		constituante du réseau de l’Université du Québec. Spécialisée dans

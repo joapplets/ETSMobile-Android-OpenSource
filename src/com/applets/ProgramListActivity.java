@@ -9,9 +9,11 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.applets.adapters.ProgramListAdapter;
+import com.applets.adapters.BaseCursorAdapter;
 import com.applets.baseactivity.BaseListActivity;
+import com.applets.models.Model;
 import com.applets.models.Program;
 import com.applets.models.ProgramList;
 import com.applets.utils.db.ProgrammesDbAdapter;
@@ -30,7 +32,8 @@ public class ProgramListActivity extends BaseListActivity implements
 
 	initActionBar(getString(R.string.program_list_title),
 		R.id.base_list_actionbar);
-	initProgramList();
+	db = (ProgrammesDbAdapter) new ProgrammesDbAdapter(this).open();
+	initList();
 
 	registerForContextMenu(getListView());
     }
@@ -40,7 +43,10 @@ public class ProgramListActivity extends BaseListActivity implements
 	    long id) {
 	super.onListItemClick(listView, view, position, id);
 
-	openCourseList(position);
+	Intent intent = new Intent(this, CourseListActivity.class);
+	intent.putExtra(Program.class.getName(), id);
+
+	startActivity(intent);
     }
 
     @Override
@@ -52,43 +58,17 @@ public class ProgramListActivity extends BaseListActivity implements
 	menu.add("Open website");
     }
 
-    private void openCourseList(int position) {
-	// Program program = programs.get(position);
+    private void initList() {
 
-	Intent intent = new Intent(this, CourseListActivity.class);
-	startActivity(intent);
-    }
-
-    private void initProgramList() {
-	db = (ProgrammesDbAdapter) new ProgrammesDbAdapter(this).open();
 	final Cursor cursor = db.getAll();
 
 	programs = new ProgramList();
 	if (cursor.getCount() < 1) {
-	    programs.getFeedsFromServer(buildUrl(), this);
+	    showDialog(0);
+	    programs.execute(buildUrl(), this);
 	} else {
-	    programs.clear();
-	    while (cursor.moveToNext()) {
-		programs.add(new Program(
-			cursor.getString(cursor
-				.getColumnIndex(ProgrammesDbAdapter.KEY_NAME)),
-			cursor.getString(cursor
-				.getColumnIndex(ProgrammesDbAdapter.KEY_SHORT_NAME)),
-			cursor.getString(cursor
-				.getColumnIndex(ProgrammesDbAdapter.KEY_DESCRIPTION)),
-			cursor.getString(cursor
-				.getColumnIndex(ProgrammesDbAdapter.KEY_URL)),
-			cursor.getString(cursor
-				.getColumnIndex(ProgrammesDbAdapter.KEY_URL_PDF)),
-			cursor.getInt(cursor
-				.getColumnIndex(ProgrammesDbAdapter.KEY_PROGRAMME_ID))
-
-		));
-	    }
-	    setListAdapter(new ProgramListAdapter(this, programs));
+	    setListAdapter(new BaseCursorAdapter(this, cursor));
 	}
-	cursor.close();
-	db.close();
     }
 
     private String buildUrl() {
@@ -124,18 +104,16 @@ public class ProgramListActivity extends BaseListActivity implements
 
     @Override
     public void onPostExecute() {
-	setListAdapter(new ProgramListAdapter(this, programs));
-
-	// save result to database
-	db.open();
-	for (Program p : programs) {
-	    db.create(p);
+	if (programs.size() == 0) {
+	    Toast.makeText(this, getString(R.string.empty_update), Toast.LENGTH_SHORT).show();
+	} else {
+	    // insert new data in db
+	    for (Model model : programs) {
+		db.create(model);
+	    }
 	}
-	db.close();
-    }
-
-    @Override
-    public void onProgressUpdate(Integer[] values) {
+	dismissDialog(0);
+	setListAdapter(new BaseCursorAdapter(this, db.getAll()));
     }
 
 }

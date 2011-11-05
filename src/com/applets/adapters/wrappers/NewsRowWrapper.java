@@ -21,21 +21,21 @@ public class NewsRowWrapper {
 
     private ImageView getImage() {
 	if (image == null) {
-	    image = (ImageView) view.findViewById(R.id.news_row_image);
+	    image = (ImageView) view.findViewById(R.id.base_row_image);
 	}
 	return image;
     }
 
     private TextView getName() {
 	if (name == null) {
-	    name = (TextView) view.findViewById(R.id.news_row_title);
+	    name = (TextView) view.findViewById(R.id.base_row_title);
 	}
 	return name;
     }
 
     private TextView getDescription() {
 	if (description == null) {
-	    description = (TextView) view.findViewById(R.id.news_row_desc);
+	    description = (TextView) view.findViewById(R.id.base_row_desc);
 	}
 	return description;
     }

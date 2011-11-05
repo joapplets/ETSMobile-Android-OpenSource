@@ -1,46 +1,50 @@
 package com.applets.adapters;
 
-import java.util.ArrayList;
-
-import android.app.Activity;
-import android.view.LayoutInflater;
+import android.content.Context;
+import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 
-import com.applets.R;
-import com.applets.adapters.wrappers.ProgramWrapper;
-import com.applets.models.Program;
+public class ProgramListAdapter extends CursorAdapter {
 
-public class ProgramListAdapter extends ArrayAdapter<Program> {
+    private Context context;
 
-    private Activity context;
-    private ArrayList<Program> list;
-
-    public ProgramListAdapter(Activity context, ArrayList<Program> programs) {
-	super(context, R.layout.program_list_row, programs);
+    public ProgramListAdapter(Context context, Cursor c) {
+	super(context, c, true);
 	this.context = context;
-	list = programs;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-	View row = convertView;
-	ProgramWrapper wrapper;
+    public void bindView(View view, Context context, Cursor cursor) {
+	// TODO Auto-generated method stub
 
-	if (row == null) {
-	    LayoutInflater inflater = context.getLayoutInflater();
-	    row = inflater.inflate(R.layout.program_list_row, null);
-	    wrapper = new ProgramWrapper(row);
-	    row.setTag(wrapper);
-	} else {
-	    wrapper = (ProgramWrapper) row.getTag();
-	}
-	Program program = list.get(position);
-	wrapper.setTitle(program.getName());
-	wrapper.setDescription(program.getDescription());
-
-	return row;
     }
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    // @Override
+    // public View getView(int position, View convertView, ViewGroup parent) {
+    // View row = convertView;
+    // ProgramWrapper wrapper;
+    //
+    // if (row == null) {
+    // LayoutInflater inflater = context.getLayoutInflater();
+    // row = inflater.inflate(R.layout.program_list_row, null);
+    // wrapper = new ProgramWrapper(row);
+    // row.setTag(wrapper);
+    // } else {
+    // wrapper = (ProgramWrapper) row.getTag();
+    // }
+    // Program program = list.get(position);
+    // wrapper.setTitle(program.getName());
+    // wrapper.setDescription(program.getDescription());
+    //
+    // return row;
+    // }
 
 }
