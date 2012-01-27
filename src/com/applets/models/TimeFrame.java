@@ -1,33 +1,33 @@
 package com.applets.models;
 
-import android.text.format.Time;
+import java.sql.Time;
 
 public abstract class TimeFrame {
-    private String room;
-    private Time startTime;
-    private Time endTime;
+	private Time endTime;
+	private String room;
+	private Time startTime;
 
-    public String getRoom() {
-	return room;
-    }
+	public Time getEndTime() {
+		return endTime;
+	}
 
-    public void setRoom(String room) {
-	this.room = room;
-    }
+	public String getRoom() {
+		return room;
+	}
 
-    public Time getStartTime() {
-	return startTime;
-    }
+	public Time getStartTime() {
+		return startTime;
+	}
 
-    public void setStartTime(Time startTime) {
-	this.startTime = startTime;
-    }
+	public void setEndTime(final Time endTime) {
+		this.endTime = endTime;
+	}
 
-    public Time getEndTime() {
-	return endTime;
-    }
+	public void setRoom(final String room) {
+		this.room = room;
+	}
 
-    public void setEndTime(Time endTime) {
-	this.endTime = endTime;
-    }
+	public void setStartTime(final Time startTime) {
+		this.startTime = startTime;
+	}
 }

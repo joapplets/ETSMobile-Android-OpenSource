@@ -2,125 +2,126 @@ package com.applets.models;
 
 import java.util.List;
 
-import com.applets.utils.db.ProgrammesDbAdapter;
-
 import android.content.ContentValues;
 import android.os.Parcel;
 
+import com.applets.utils.db.ProgrammesDbAdapter;
+
 public class Program extends Model {
 
-    private String name;
-    private String shortName;
-    private String description;
-    private String url;
-    private String urlPdf;
-    private int programme_id;
+	private List<Course> courses;
+	private String description;
+	private String name;
+	private int programme_id;
+	private String shortName;
+	private String url;
 
-    private List<Course> courses;
+	private String urlPdf;
 
-    public int getNumberOfCourses() {
-	return courses.size();
-    }
+	public Program() {
 
-    public Program() {
+	}
 
-    }
+	public Program(final String name, final String shortName,
+			final String description, final String url, final String url_pdf,
+			final int programme_id) {
+		super();
+		this.name = name;
+		this.shortName = shortName;
+		this.description = description;
+		this.url = url;
+		urlPdf = url_pdf;
+		this.programme_id = programme_id;
+	}
 
-    public Program(String name, String shortName, String description,
-	    String url, String url_pdf, int programme_id) {
-	super();
-	this.name = name;
-	this.shortName = shortName;
-	this.description = description;
-	this.url = url;
-	this.urlPdf = url_pdf;
-	this.programme_id = programme_id;
-    }
+	public void addCourse(final Course course) {
+		courses.add(course);
+	}
 
-    public void addCourse(Course course) {
-	courses.add(course);
-    }
+	@Override
+	public int compareTo(final Model arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-    public boolean removeCourse(Course course) {
-	return courses.remove(course);
-    }
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
-    public String getName() {
-	return name;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setName(String name) {
-	this.name = name;
-    }
+	public int getId() {
+		return programme_id;
+	}
 
-    public String getShortName() {
-	return shortName;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setShortName(String shortName) {
-	this.shortName = shortName;
-    }
+	public int getNumberOfCourses() {
+		return courses.size();
+	}
 
-    public String getDescription() {
-	return description;
-    }
+	public String getShortName() {
+		return shortName;
+	}
 
-    public void setDescription(String description) {
-	this.description = description;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    @Override
-    public int compareTo(Model arg0) {
-	// TODO Auto-generated method stub
-	return 0;
-    }
+	public String getUrlPdf() {
+		return urlPdf;
+	}
 
-    public String getUrl() {
-	return url;
-    }
+	public boolean removeCourse(final Course course) {
+		return courses.remove(course);
+	}
 
-    public void setUrl(String url) {
-	this.url = url;
-    }
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public String getUrlPdf() {
-	return urlPdf;
-    }
+	public void setId(final int id) {
+		programme_id = id;
+	}
 
-    public void setUrlPdf(String urlPdf) {
-	this.urlPdf = urlPdf;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public int getId() {
-	return programme_id;
-    }
+	public void setShortName(final String shortName) {
+		this.shortName = shortName;
+	}
 
-    public void setId(int id) {
-	this.programme_id = id;
-    }
+	public void setUrl(final String url) {
+		this.url = url;
+	}
 
-    @Override
-    ContentValues setValues() {
-	this._values.put(ProgrammesDbAdapter.KEY_NAME, getName());
-	this._values.put(ProgrammesDbAdapter.KEY_SHORT_NAME, getShortName());
-	this._values.put(ProgrammesDbAdapter.KEY_DESCRIPTION, getDescription());
-	this._values.put(ProgrammesDbAdapter.KEY_URL, getUrl());
-	this._values.put(ProgrammesDbAdapter.KEY_URL_PDF, getUrlPdf());
-	return this._values;
-    }
+	public void setUrlPdf(final String urlPdf) {
+		this.urlPdf = urlPdf;
+	}
 
-    @Override
-    public int describeContents() {
-	return 0;
-    }
+	@Override
+	ContentValues setValues() {
+		_values.put(ProgrammesDbAdapter.KEY_NAME, getName());
+		_values.put(ProgrammesDbAdapter.KEY_SHORT_NAME, getShortName());
+		_values.put(ProgrammesDbAdapter.KEY_DESCRIPTION, getDescription());
+		_values.put(ProgrammesDbAdapter.KEY_URL, getUrl());
+		_values.put(ProgrammesDbAdapter.KEY_URL_PDF, getUrlPdf());
+		return _values;
+	}
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-	dest.writeString(name);
-	dest.writeString(shortName);
-	dest.writeString(description);
-	dest.writeString(url);
-	dest.writeString(urlPdf);
+	@Override
+	public void writeToParcel(final Parcel dest, final int flags) {
+		dest.writeString(name);
+		dest.writeString(shortName);
+		dest.writeString(description);
+		dest.writeString(url);
+		dest.writeString(urlPdf);
 
-    }
+	}
 }

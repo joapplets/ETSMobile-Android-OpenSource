@@ -5,92 +5,93 @@ import android.os.Parcel;
 
 public class Person extends DirectoryEntry {
 
-    private String firstName;
-    private String lastName;
-    private String title;
-    private String department;
+	private String department;
+	private String firstName;
+	private String lastName;
+	private String title;
 
-    public Person() {
+	public Person() {
 
-    }
+	}
 
-    public Person(String lastName, String firstName, String phoneNumber,
-	    String fax, String email, String title, String department,
-	    String room) {
-	super(fax, email, phoneNumber, room);
+	public Person(final String lastName, final String firstName,
+			final String phoneNumber, final String fax, final String email,
+			final String title, final String department, final String room) {
+		super(fax, email, phoneNumber, room);
 
-	this.firstName = firstName;
-	this.lastName = lastName;
-	this.title = title;
-	this.department = department;
-    }
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.title = title;
+		this.department = department;
+	}
 
-    @Override
-    public String getName() {
-	// TODO Auto-generated method stub
-	return this.firstName + " " + this.lastName;
-    }
+	@Override
+	public int compareTo(final Model another) {
+		return 0;
+	}
 
-    public void setFirstName(String firstName) {
-	this.firstName = firstName;
-    }
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-    public String getFirstName() {
-	return firstName;
-    }
+	public String getDepartment() {
+		return department;
+	}
 
-    public void setLastName(String lastName) {
-	this.lastName = lastName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getLastName() {
-	return lastName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public void setTitle(String title) {
-	this.title = title;
-    }
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return firstName + " " + lastName;
+	}
 
-    public String getTitle() {
-	return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setDepartment(String department) {
-	this.department = department;
-    }
+	public void setDepartment(final String department) {
+		this.department = department;
+	}
 
-    public String getDepartment() {
-	return department;
-    }
+	public void setFirstName(final String firstName) {
+		this.firstName = firstName;
+	}
 
-    @Override
-    public String toString() {
-	return "Person:" + this.lastName + ", " + this.firstName
-		+ this.getPhoneNumber() + "\nfax:" + this.getFax() + "\nemail:"
-		+ this.getEmail() + "\n" + this.title + "\n" + this.department
-		+ "\nroom" + this.getRoom();
-    }
+	public void setLastName(final String lastName) {
+		this.lastName = lastName;
+	}
 
-    @Override
-    public int compareTo(Model another) {
-	return 0;
-    }
+	public void setTitle(final String title) {
+		this.title = title;
+	}
 
-    @Override
-    ContentValues setValues() {
-	return null;
-    }
 
-    @Override
-    public int describeContents() {
-	// TODO Auto-generated method stub
-	return 0;
-    }
+	@Override
+	ContentValues setValues() {
+		return null;
+	}
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-	// TODO Auto-generated method stub
 
-    }
+	@Override
+	public String toString() {
+		return "Person:" + lastName + ", " + firstName + getPhoneNumber()
+				+ "\nfax:" + getFax() + "\nemail:" + getEmail() + "\n" + title
+				+ "\n" + department + "\nroom" + getRoom();
+	}
+
+	@Override
+	public void writeToParcel(final Parcel dest, final int flags) {
+		// TODO Auto-generated method stub
+
+	}
 
 }

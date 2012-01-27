@@ -15,37 +15,37 @@ import com.applets.models.Model;
  */
 public abstract class BaseDbAdapter {
 
-    protected SQLiteDatabase db;
-    protected AppEtsOpenHelper dbHelper;
-    protected Context context;
+	protected static final String KEY_ROW_ID = "_id";
+	protected Context context;
+	protected SQLiteDatabase db;
 
-    public BaseDbAdapter(Context context) {
-	this.context = context;
-    }
+	protected AppEtsOpenHelper dbHelper;
 
-    protected static final String KEY_ROW_ID = "_id";
+	public BaseDbAdapter(final Context context) {
+		this.context = context;
+	}
 
-    public BaseDbAdapter open() throws SQLException {
-	dbHelper = new AppEtsOpenHelper(context, null);
-	db = dbHelper.getWritableDatabase();
-	return this;
-    }
+	/**
+	 * Close current db and dbHelper
+	 */
+	public void close() {
+		db.close();
+		dbHelper.close();
+	}
 
-    public abstract long create(Model model);
+	public abstract long create(Model model);
 
-    public abstract int update(Model model);
+	public abstract int delete(Model model);
 
-    public abstract int delete(Model model);
+	public abstract Cursor get(long rowId) throws SQLException;
 
-    public abstract Cursor get(long rowId) throws SQLException;
+	public abstract Cursor getAll();
 
-    public abstract Cursor getAll();
+	public BaseDbAdapter open() throws SQLException {
+		dbHelper = new AppEtsOpenHelper(context, null);
+		db = dbHelper.getWritableDatabase();
+		return this;
+	}
 
-    /**
-     * Close current db and dbHelper
-     */
-    public void close() {
-	db.close();
-	dbHelper.close();
-    }
+	public abstract int update(Model model);
 }

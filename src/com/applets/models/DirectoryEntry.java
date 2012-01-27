@@ -2,58 +2,58 @@ package com.applets.models;
 
 public abstract class DirectoryEntry extends Model {
 
-    private String fax;
-    private String email;
-    private String phoneNumber;
-    private String room;
+	private String email;
+	private String fax;
+	private String phoneNumber;
+	private String room;
 
-    public DirectoryEntry() {
+	public DirectoryEntry() {
 
-    }
+	}
 
-    public DirectoryEntry(String fax, String email, String phoneNumber,
-	    String room) {
-	this.fax = fax;
-	this.email = email;
-	this.phoneNumber = phoneNumber;
-	this.room = room;
+	public DirectoryEntry(final String fax, final String email,
+			final String phoneNumber, final String room) {
+		this.fax = fax;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.room = room;
 
-    }
+	}
 
-    public void setFax(String fax) {
-	this.fax = fax;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getFax() {
-	return fax;
-    }
+	public String getFax() {
+		return fax;
+	}
 
-    public void setEmail(String email) {
-	this.email = email;
-    }
+	public abstract String getName();
 
-    public String getEmail() {
-	return email;
-    }
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-    public void setPhoneNumber(String phoneNumber) {
-	this.phoneNumber = phoneNumber;
-    }
+	public String getRoom() {
+		return room;
+	}
 
-    public String getPhoneNumber() {
-	return phoneNumber;
-    }
+	public void setEmail(final String email) {
+		this.email = email;
+	}
 
-    public void setRoom(String room) {
-	this.room = room;
-    }
+	public void setFax(final String fax) {
+		this.fax = fax;
+	}
 
-    public String getRoom() {
-	return room;
-    }
+	public void setPhoneNumber(final String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 
-    public abstract String getName();
+	public void setRoom(final String room) {
+		this.room = room;
+	}
 
-    @Override
-    public abstract String toString();
+	@Override
+	public abstract String toString();
 }

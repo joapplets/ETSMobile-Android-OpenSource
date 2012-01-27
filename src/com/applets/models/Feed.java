@@ -11,120 +11,123 @@ import android.os.Parcel;
  */
 public class Feed extends Model {
 
-    private long id;
-    private String name;
-    private String url;
-    private String type;
-    private String lang;
-    private String image = "";
+	private long id;
+	private String image = "";
+	private String lang;
+	private String name;
+	private String type;
+	private String url;
 
-    public Feed(String name, String url, String image, String lang) {
-	this.name = name;
-	this.url = url;
-	this.image = image;
-	this.lang = lang;
-    }
+	public Feed(final long id, final String name, final String url,
+			final String image, final String lang) {
+		this(name, url, image, lang);
+		setId(id);
+	}
 
-    public Feed(long id, String name, String url, String image, String lang) {
-	this(name, url, image, lang);
-	setId(id);
-    }
+	public Feed(final String name, final String url, final String image,
+			final String lang) {
+		this.name = name;
+		this.url = url;
+		this.image = image;
+		this.lang = lang;
+	}
 
-    public void setId(long id) {
-	this.id = id;
-    }
+	@Override
+	public int compareTo(final Model another) {
+		return 0;
+	}
 
-    public void setName(String name) {
-	this.name = name;
-    }
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
-    public void setUrl(String url) {
-	this.url = "http://" + url;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setType(String type) {
-	this.type = type;
-    }
+	public String getImage() {
+		return image;
+	}
 
-    public void setLang(String lang) {
-	this.lang = lang;
-    }
+	public String getLang() {
+		return lang;
+	}
 
-    public void setImage(String image) {
-	this.image = image;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public long getId() {
-	return id;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public String getName() {
-	return name;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public String getUrl() {
-	return url;
-    }
+	public void setId(final long id) {
+		this.id = id;
+	}
 
-    public String getType() {
-	return type;
-    }
+	public void setImage(final String image) {
+		this.image = image;
+	}
 
-    public String getImage() {
-	return image;
-    }
+	public void setLang(final String lang) {
+		this.lang = lang;
+	}
 
-    public String getLang() {
-	return lang;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    @Override
-    public int describeContents() {
-	return 0;
-    }
+	public void setType(final String type) {
+		this.type = type;
+	}
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-	dest.writeString(name);
-	dest.writeString(type);
-	dest.writeString(url);
-	dest.writeString(lang);
-    }
+	public void setUrl(final String url) {
+		this.url = "http://" + url;
+	}
 
-    @Override
-    public int compareTo(Model another) {
-	return 0;
-    }
+	@Override
+	ContentValues setValues() {
 
-    @Override
-    ContentValues setValues() {
+		_values.put("name", getName());
+		_values.put("url", getUrl());
+		_values.put("type", getType());
+		_values.put("image", getImage());
+		_values.put("lang", getLang());
+		return _values;
+	}
 
-	this._values.put("name", getName());
-	this._values.put("url", getUrl());
-	this._values.put("type", getType());
-	this._values.put("image", getImage());
-	this._values.put("lang", getLang());
-	return this._values;
-    }
-    /**
-     * save this code
-     */
-    // @Override
-    // public Feed createFromParcel(Parcel source) {
-    // return initFromParcel(source);
-    // }
-    //
-    // @Override
-    // public Feed[] newArray(int size) {
-    // return new Feed[size];
-    // }
-    //
-    // @Override
-    // public Feed initFromParcel(Parcel source) {
-    // name = source.readString();
-    // type = source.readString();
-    // url = source.readString();
-    // lang = source.readString();
-    // return new Feed(name, url, image, lang);
-    // }
+	/**
+	 * save this code
+	 */
+	// @Override
+	// public Feed createFromParcel(Parcel source) {
+	// return initFromParcel(source);
+	// }
+	//
+	// @Override
+	// public Feed[] newArray(int size) {
+	// return new Feed[size];
+	// }
+	//
+	// @Override
+	// public Feed initFromParcel(Parcel source) {
+	// name = source.readString();
+	// type = source.readString();
+	// url = source.readString();
+	// lang = source.readString();
+	// return new Feed(name, url, image, lang);
+	// }
+
+	@Override
+	public void writeToParcel(final Parcel dest, final int flags) {
+		dest.writeString(name);
+		dest.writeString(type);
+		dest.writeString(url);
+		dest.writeString(lang);
+	}
 }

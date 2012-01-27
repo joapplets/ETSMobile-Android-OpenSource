@@ -2,95 +2,95 @@ package com.applets.models;
 
 public class Course {
 
-    private String name;
-    private String shortName;
-    private String description;
-    private String professor;
-    private String coursePlan;
-    private String website;
-    private int credits;
-    private String prerequisites;
-    private String level;
-    private int workLoad;
+	private String coursePlan;
+	private int credits;
+	private String description;
+	private String level;
+	private String name;
+	private String prerequisites;
+	private String professor;
+	private String shortName;
+	private String website;
+	private int workLoad;
 
-    public String getName() {
-	return name;
-    }
+	public String getCoursePlan() {
+		return coursePlan;
+	}
 
-    public void setName(String name) {
-	this.name = name;
-    }
+	public int getCredits() {
+		return credits;
+	}
 
-    public String getShortName() {
-	return shortName;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setShortName(String shortName) {
-	this.shortName = shortName;
-    }
+	public String getLevel() {
+		return level;
+	}
 
-    public String getDescription() {
-	return description;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setDescription(String description) {
-	this.description = description;
-    }
+	public String getPrerequisites() {
+		return prerequisites;
+	}
 
-    public String getProfessor() {
-	return professor;
-    }
+	public String getProfessor() {
+		return professor;
+	}
 
-    public void setProfessor(String professor) {
-	this.professor = professor;
-    }
+	public String getShortName() {
+		return shortName;
+	}
 
-    public String getCoursePlan() {
-	return coursePlan;
-    }
+	public String getWebsite() {
+		return website;
+	}
 
-    public void setCoursePlan(String coursePlan) {
-	this.coursePlan = coursePlan;
-    }
+	public int getWorkLoad() {
+		return workLoad;
+	}
 
-    public String getWebsite() {
-	return website;
-    }
+	public void setCoursePlan(final String coursePlan) {
+		this.coursePlan = coursePlan;
+	}
 
-    public void setWebsite(String website) {
-	this.website = website;
-    }
+	public void setCredits(final int credits) {
+		this.credits = credits;
+	}
 
-    public int getCredits() {
-	return credits;
-    }
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public void setCredits(int credits) {
-	this.credits = credits;
-    }
+	public void setLevel(final String level) {
+		this.level = level;
+	}
 
-    public String getPrerequisites() {
-	return prerequisites;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setPrerequisites(String prerequisites) {
-	this.prerequisites = prerequisites;
-    }
+	public void setPrerequisites(final String prerequisites) {
+		this.prerequisites = prerequisites;
+	}
 
-    public String getLevel() {
-	return level;
-    }
+	public void setProfessor(final String professor) {
+		this.professor = professor;
+	}
 
-    public void setLevel(String level) {
-	this.level = level;
-    }
+	public void setShortName(final String shortName) {
+		this.shortName = shortName;
+	}
 
-    public int getWorkLoad() {
-	return workLoad;
-    }
+	public void setWebsite(final String website) {
+		this.website = website;
+	}
 
-    public void setWorkLoad(int workLoad) {
-	this.workLoad = workLoad;
-    }
+	public void setWorkLoad(final int workLoad) {
+		this.workLoad = workLoad;
+	}
 
 }

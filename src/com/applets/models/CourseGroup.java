@@ -3,31 +3,31 @@ package com.applets.models;
 import java.util.List;
 
 public class CourseGroup {
-    private int groupNumber;
-    private String lecturer;
-    private List<TimeFrame> listTimeFrame;
+	private int groupNumber;
+	private String lecturer;
+	private List<TimeFrame> listTimeFrame;
 
-    public boolean removeTimeFrame(TimeFrame timeFrame) {
-	return listTimeFrame.remove(timeFrame);
-    }
+	public void addTimeFrame(final TimeFrame timeFrame) {
+		listTimeFrame.add(timeFrame);
+	}
 
-    public void addTimeFrame(TimeFrame timeFrame) {
-	listTimeFrame.add(timeFrame);
-    }
+	public int getGroupNumber() {
+		return groupNumber;
+	}
 
-    public int getGroupNumber() {
-	return groupNumber;
-    }
+	public String getLecturer() {
+		return lecturer;
+	}
 
-    public void setGroupNumber(int groupNumber) {
-	this.groupNumber = groupNumber;
-    }
+	public boolean removeTimeFrame(final TimeFrame timeFrame) {
+		return listTimeFrame.remove(timeFrame);
+	}
 
-    public String getLecturer() {
-	return lecturer;
-    }
+	public void setGroupNumber(final int groupNumber) {
+		this.groupNumber = groupNumber;
+	}
 
-    public void setLecturer(String lecturer) {
-	this.lecturer = lecturer;
-    }
+	public void setLecturer(final String lecturer) {
+		this.lecturer = lecturer;
+	}
 }

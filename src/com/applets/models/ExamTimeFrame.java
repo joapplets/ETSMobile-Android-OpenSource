@@ -3,40 +3,40 @@ package com.applets.models;
 import java.util.Date;
 
 public class ExamTimeFrame extends TimeFrame {
-    private Date date;
-    private String nameStart;
-    private String nameEnd;
-    private String comment;
+	private String comment;
+	private Date date;
+	private String nameEnd;
+	private String nameStart;
 
-    public Date getDate() {
-	return date;
-    }
+	public String getComment() {
+		return comment;
+	}
 
-    public void setDate(Date date) {
-	this.date = date;
-    }
+	public Date getDate() {
+		return date;
+	}
 
-    public String getNameStart() {
-	return nameStart;
-    }
+	public String getNameEnd() {
+		return nameEnd;
+	}
 
-    public void setNameStart(String nameStart) {
-	this.nameStart = nameStart;
-    }
+	public String getNameStart() {
+		return nameStart;
+	}
 
-    public String getNameEnd() {
-	return nameEnd;
-    }
+	public void setComment(final String comment) {
+		this.comment = comment;
+	}
 
-    public void setNameEnd(String nameEnd) {
-	this.nameEnd = nameEnd;
-    }
+	public void setDate(final Date date) {
+		this.date = date;
+	}
 
-    public String getComment() {
-	return comment;
-    }
+	public void setNameEnd(final String nameEnd) {
+		this.nameEnd = nameEnd;
+	}
 
-    public void setComment(String comment) {
-	this.comment = comment;
-    }
+	public void setNameStart(final String nameStart) {
+		this.nameStart = nameStart;
+	}
 }

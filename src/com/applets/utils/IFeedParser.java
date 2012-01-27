@@ -6,5 +6,5 @@ import com.applets.models.Model;
 
 public interface IFeedParser {
 
-    public List<Model> parse();
+	public List<Model> parse();
 }

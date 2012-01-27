@@ -5,26 +5,27 @@ import android.webkit.WebView;
 
 import com.applets.baseactivity.BaseActivity;
 import com.applets.models.News;
+import com.markupartist.android.widget.actionbar.R;
 
 public class NewsReaderActivity extends BaseActivity {
 
-    private News currentNews;
-    private WebView view;
+	private News currentNews;
+	private WebView view;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.web_reader);
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.web_reader);
 
-	// Parcel data sent from NewsListActivity
-	Bundle b = getIntent().getExtras();
-	currentNews = b.getParcelable(News.class.getName());
+		// Parcel data sent from NewsListActivity
+		final Bundle b = getIntent().getExtras();
+		currentNews = b.getParcelable(News.class.getName());
 
-	createActionBar(currentNews.getName(), R.id.web_reader_actionbar);
+		createActionBar(currentNews.getName(), R.id.web_reader_actionbar);
 
-	view = (WebView) findViewById(R.id.webView1);
+		view = (WebView) findViewById(R.id.webView1);
 
-	view.getSettings().setJavaScriptEnabled(true);
-	view.loadUrl(currentNews.getUrl());
-    }
+		view.getSettings().setJavaScriptEnabled(true);
+		view.loadUrl(currentNews.getUrl());
+	}
 }

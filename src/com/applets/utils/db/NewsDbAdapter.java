@@ -13,88 +13,111 @@ import com.applets.models.News;
  * @author Philippe David
  */
 public class NewsDbAdapter extends BaseDbAdapter {
-    // TABLE COLUMNS INFO
-    public static final String TABLE_TITLE = "news";
-    public static final String KEY_NEWS_ID = "news_id";
-    public static final String KEY_NAME = "name";
-    public static final String KEY_FEED_ID = "feed_id";
-    public static final String KEY_PUB_DATE = "pubdate";
-    public static final String KEY_CREATOR = "creator";
-    public static final String KEY_URL = "url";
-    public static final String KEY_IMAGE = "image";
-    public static final String KEY_DESCRIPTION = "description";
+	public static final String KEY_CREATOR = "creator";
+	public static final String KEY_DESCRIPTION = "description";
+	public static final String KEY_FEED_ID = "feed_id";
+	public static final String KEY_IMAGE = "image";
+	public static final String KEY_NAME = "name";
+	public static final String KEY_NEWS_ID = "news_id";
+	public static final String KEY_PUB_DATE = "pubdate";
+	public static final String KEY_URL = "url";
+	// TABLE COLUMNS INFO
+	public static final String TABLE_TITLE = "news";
 
-    public NewsDbAdapter(Context context) {
-	super(context);
-    }
-
-    /**
-     * Create a new news If the news is successfully created return the new
-     * rowId for that note, otherwise return a -1 to indicate failure.
-     */
-    @Override
-    public long create(Model news) {
-	return db.insert(TABLE_TITLE, null, news.getValues());
-    }
-
-    /**
-     * Updates a news. If the news is successfully updated return true otherwise
-     * return false to indicate failure.
-     */
-    @Override
-    public int update(Model news) {
-	return db.update(TABLE_TITLE, news.getValues(),
-		KEY_ROW_ID + "=" + news.getID(), null);
-    }
-
-    /**
-     * Delete a news
-     */
-    @Override
-    public int delete(Model news) {
-	return db.delete(TABLE_TITLE, KEY_ROW_ID + "=" + news.getID(), null);
-    }
-
-    /**
-     * Return a Cursor positioned at the defined news
-     */
-    @Override
-    public Cursor get(long rowId) throws SQLException {
-	Cursor mCursor = db.query(true, TABLE_TITLE, new String[] { KEY_ROW_ID,
-		KEY_NEWS_ID, KEY_FEED_ID, KEY_NAME, KEY_URL, KEY_IMAGE,
-		KEY_DESCRIPTION, KEY_CREATOR, KEY_PUB_DATE }, KEY_NEWS_ID + "="
-		+ rowId, null, null, null, null, null);
-	if (mCursor != null) {
-	    mCursor.moveToFirst();
+	public NewsDbAdapter(final Context context) {
+		super(context);
 	}
-	return mCursor;
-    }
 
-    public News get(int rowId) throws SQLException {
-	Cursor mCursor = db.query(true, TABLE_TITLE, new String[] { KEY_ROW_ID,
-		KEY_NAME, KEY_URL, KEY_IMAGE, KEY_DESCRIPTION, KEY_CREATOR,
-		KEY_NEWS_ID, KEY_FEED_ID, KEY_PUB_DATE }, KEY_NEWS_ID + "="
-		+ rowId, null, null, null, null, null);
-	if (mCursor != null) {
-	    mCursor.moveToFirst();
-	}else {
-	    return null;
+	/**
+	 * Create a new news If the news is successfully created return the new
+	 * rowId for that note, otherwise return a -1 to indicate failure.
+	 */
+	@Override
+	public long create(final Model news) {
+		return db.insert(NewsDbAdapter.TABLE_TITLE, null, news.getValues());
 	}
-	return new News(mCursor.getLong(0), mCursor.getString(1),
-		mCursor.getString(2), mCursor.getString(3),
-		mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6),
-		mCursor.getInt(7), mCursor.getString(8));
-    }
 
-    /**
-     * Return a Cursor over the list of all news in the database
-     * 
-     * @return Cursor over all news
-     */
-    @Override
-    public Cursor getAll() {
-	return db.query(TABLE_TITLE, new String[] { KEY_ROW_ID, KEY_NEWS_ID,
-		KEY_NAME, KEY_URL, KEY_IMAGE, KEY_FEED_ID, KEY_PUB_DATE,
-		KEY_DESCRIPTION, KEY_CREATOR }, null, null, null, null, null);
-    }
+	/**
+	 * Delete a news
+	 */
+	
+	@Override
+	public int delete(final Model news) {
+		return db.delete(NewsDbAdapter.TABLE_TITLE, BaseDbAdapter.KEY_ROW_ID
+				+ "=" + news.getID(), null);
+	}
+
+	public News get(final int rowId) throws SQLException {
+		final Cursor mCursor = db
+				.query(true, NewsDbAdapter.TABLE_TITLE,
+						new String[] { BaseDbAdapter.KEY_ROW_ID,
+								NewsDbAdapter.KEY_NAME, NewsDbAdapter.KEY_URL,
+								NewsDbAdapter.KEY_IMAGE,
+								NewsDbAdapter.KEY_DESCRIPTION,
+								NewsDbAdapter.KEY_CREATOR,
+								NewsDbAdapter.KEY_NEWS_ID,
+								NewsDbAdapter.KEY_FEED_ID,
+								NewsDbAdapter.KEY_PUB_DATE },
+						NewsDbAdapter.KEY_NEWS_ID + "=" + rowId, null, null,
+						null, null, null);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		} else {
+			return null;
+		}
+		return new News(mCursor.getLong(0), mCursor.getString(1),
+				mCursor.getString(2), mCursor.getString(3),
+				mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6),
+				mCursor.getInt(7), mCursor.getString(8));
+	}
+
+	/**
+	 * Return a Cursor positioned at the defined news
+	 */
+	
+	@Override
+	public Cursor get(final long rowId) throws SQLException {
+		final Cursor mCursor = db
+				.query(true, NewsDbAdapter.TABLE_TITLE,
+						new String[] { BaseDbAdapter.KEY_ROW_ID,
+								NewsDbAdapter.KEY_NEWS_ID,
+								NewsDbAdapter.KEY_FEED_ID,
+								NewsDbAdapter.KEY_NAME, NewsDbAdapter.KEY_URL,
+								NewsDbAdapter.KEY_IMAGE,
+								NewsDbAdapter.KEY_DESCRIPTION,
+								NewsDbAdapter.KEY_CREATOR,
+								NewsDbAdapter.KEY_PUB_DATE },
+						NewsDbAdapter.KEY_NEWS_ID + "=" + rowId, null, null,
+						null, null, null);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
+
+	/**
+	 * Return a Cursor over the list of all news in the database
+	 * 
+	 * @return Cursor over all news
+	 */
+	
+	@Override
+	public Cursor getAll() {
+		return db.query(NewsDbAdapter.TABLE_TITLE, new String[] {
+				BaseDbAdapter.KEY_ROW_ID, NewsDbAdapter.KEY_NEWS_ID,
+				NewsDbAdapter.KEY_NAME, NewsDbAdapter.KEY_URL,
+				NewsDbAdapter.KEY_IMAGE, NewsDbAdapter.KEY_FEED_ID,
+				NewsDbAdapter.KEY_PUB_DATE, NewsDbAdapter.KEY_DESCRIPTION,
+				NewsDbAdapter.KEY_CREATOR }, null, null, null, null, null);
+	}
+
+	/**
+	 * Updates a news. If the news is successfully updated return true otherwise
+	 * return false to indicate failure.
+	 */
+	@Override
+	public int update(final Model news) {
+		return db.update(NewsDbAdapter.TABLE_TITLE, news.getValues(),
+				BaseDbAdapter.KEY_ROW_ID + "=" + news.getID(), null);
+	}
 }

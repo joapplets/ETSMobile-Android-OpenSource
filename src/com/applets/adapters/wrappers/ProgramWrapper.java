@@ -4,49 +4,48 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.applets.R;
+import com.markupartist.android.widget.actionbar.R;
 
 public class ProgramWrapper {
-    private View view;
-    private TextView title = null;
-    private TextView description = null;
-    private ImageView image;
+	private TextView description = null;
+	private ImageView image;
+	private TextView title = null;
+	private final View view;
 
-    public ProgramWrapper(View base) {
-	view = base;
-    }
-
-    private ImageView getImage() {
-	if (image == null) {
-	    image = (ImageView) view.findViewById(R.id.base_row_image);
+	public ProgramWrapper(final View base) {
+		view = base;
 	}
-	return image;
-    }
 
-    private TextView getTitle() {
-	if (title == null) {
-	    title = (TextView) view.findViewById(R.id.base_row_title);
+	private TextView getDescription() {
+		if (description == null) {
+			description = (TextView) view.findViewById(R.id.base_row_desc);
+		}
+		return description;
 	}
-	return title;
-    }
 
-    private TextView getDescription() {
-	if (description == null) {
-	    description = (TextView) view
-		    .findViewById(R.id.base_row_desc);
+	private ImageView getImage() {
+		if (image == null) {
+			image = (ImageView) view.findViewById(R.id.base_row_image);
+		}
+		return image;
 	}
-	return description;
-    }
 
-    public void setImage(String image) {
-	getImage().setImageResource(R.drawable.spacer_middle);
-    }
+	private TextView getTitle() {
+		if (title == null) {
+			title = (TextView) view.findViewById(R.id.base_row_title);
+		}
+		return title;
+	}
 
-    public void setDescription(String description) {
-	getDescription().setText(description);
-    }
+	public void setDescription(final String description) {
+		getDescription().setText(description);
+	}
 
-    public void setTitle(String title) {
-	getTitle().setText(title);
-    }
+	public void setImage(final String image) {
+		getImage().setImageResource(R.drawable.spacer_middle);
+	}
+
+	public void setTitle(final String title) {
+		getTitle().setText(title);
+	}
 }

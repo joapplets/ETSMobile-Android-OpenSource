@@ -3,44 +3,44 @@ package com.applets.models;
 import java.util.List;
 
 public class Semester {
-    private String season;
-    private int year;
-    private List<Course> courses;
-    private List<CourseGroup> listCourseGroup;
+	private List<Course> courses;
+	private List<CourseGroup> listCourseGroup;
+	private String season;
+	private int year;
 
-    public void addCourseGroup(CourseGroup courseGroup) {
-	listCourseGroup.add(courseGroup);
-    }
+	public void addCourse(final Course course) {
+		courses.add(course);
+	}
 
-    public boolean removeCourseGroup(CourseGroup courseGroup) {
-	return listCourseGroup.remove(courseGroup);
-    }
+	public void addCourseGroup(final CourseGroup courseGroup) {
+		listCourseGroup.add(courseGroup);
+	}
 
-    public int getNumberOfCourses() {
-	return courses.size();
-    }
+	public int getNumberOfCourses() {
+		return courses.size();
+	}
 
-    public void addCourse(Course course) {
-	courses.add(course);
-    }
+	public String getSeason() {
+		return season;
+	}
 
-    public boolean removeCourse(Course course) {
-	return courses.remove(course);
-    }
+	public int getYear() {
+		return year;
+	}
 
-    public String getSeason() {
-	return season;
-    }
+	public boolean removeCourse(final Course course) {
+		return courses.remove(course);
+	}
 
-    public void setSeason(String season) {
-	this.season = season;
-    }
+	public boolean removeCourseGroup(final CourseGroup courseGroup) {
+		return listCourseGroup.remove(courseGroup);
+	}
 
-    public int getYear() {
-	return year;
-    }
+	public void setSeason(final String season) {
+		this.season = season;
+	}
 
-    public void setYear(int year) {
-	this.year = year;
-    }
+	public void setYear(final int year) {
+		this.year = year;
+	}
 }

@@ -15,34 +15,34 @@ import android.util.Log;
  */
 public abstract class BasicFeedParser implements IFeedParser {
 
-    /**
-     * Names of the xml tags
-     */
-    static final String CHANNEL = "channel";
-    static final String ITEM = "item";
-    static final String TITLE = "title";
-    static final String COMMENTS = "comments";
-    static final String DESCRIPTION = "description";
-    static final String LINK = "link";
+	/**
+	 * Names of the xml tags
+	 */
+	static final String CHANNEL = "channel";
+	static final String COMMENTS = "comments";
+	static final String DESCRIPTION = "description";
+	static final String ITEM = "item";
+	static final String LINK = "link";
+	static final String TITLE = "title";
 
-    private final URL feedUrl;
+	private final URL feedUrl;
 
-    protected BasicFeedParser(String feedUrl) {
-	try {
-	    this.feedUrl = new URL(feedUrl);
-	} catch (MalformedURLException e) {
-	    Log.e("APPETS.BASICFEEDPARSER::", e.getMessage());
-	    throw new RuntimeException();
+	protected BasicFeedParser(final String feedUrl) {
+		try {
+			this.feedUrl = new URL(feedUrl);
+		} catch (final MalformedURLException e) {
+			Log.e("APPETS.BASICFEEDPARSER::", e.getMessage());
+			throw new RuntimeException();
+		}
 	}
-    }
 
-    protected InputStream getInputStream() {
-	try {
-	    return feedUrl.openConnection().getInputStream();
-	} catch (IOException e) {
-	    Log.e("APPETS.BASICFEEDPARSER::", e.getMessage());
-	    throw new RuntimeException();
+	protected InputStream getInputStream() {
+		try {
+			return feedUrl.openConnection().getInputStream();
+		} catch (final IOException e) {
+			Log.e("APPETS.BASICFEEDPARSER::", e.getMessage());
+			throw new RuntimeException();
+		}
 	}
-    }
 
 }
