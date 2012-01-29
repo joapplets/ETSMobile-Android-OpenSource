@@ -15,60 +15,60 @@ import com.markupartist.android.widget.actionbar.R;
 
 public class FeedListActivity extends BaseListActivity {
 
-	private FeedList feedList;
+    private FeedList feedList;
 
-	private void loadNewsActivity(final Feed feed) {
-		final Intent i = new Intent(this, NewsListActivity.class);
-		i.putExtra(Feed.class.getName(), feed);
-		startActivity(i);
+    private void loadNewsActivity(final Feed feed) {
+	final Intent i = new Intent(this, NewsListActivity.class);
+	i.putExtra(Feed.class.getName(), feed);
+	startActivity(i);
+    }
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.base_list);
+
+	// Set the default Actions of the ActionBar
+	initActionBar(getString(R.string.feed_list_title),
+		R.id.base_list_actionbar);
+
+	// get the preferences
+	final SharedPreferences sharedPrefs = PreferenceManager
+		.getDefaultSharedPreferences(this);
+	final boolean bFeedEts = sharedPrefs.getBoolean("feed_ets", true);
+	final boolean bFeedAaets = sharedPrefs.getBoolean("feed_aaets", true);
+	final boolean bFeedApplets = sharedPrefs.getBoolean("feed_applets",
+		true);
+	final boolean bFeedConjure = sharedPrefs.getBoolean("feed_conjure",
+		true);
+	final boolean bFeedChinook = sharedPrefs.getBoolean("feed_chinook",
+		true);
+	final boolean bFeedInterface = sharedPrefs.getBoolean("feed_interface",
+		true);
+
+	// Retreive the list of feed from server
+	final StringBuilder sBuilder = new StringBuilder();
+	sBuilder.append(getString(R.string.host));
+	sBuilder.append(getString(R.string.api_feed));
+
+	if (!(bFeedEts && bFeedApplets && bFeedAaets && bFeedConjure
+		&& bFeedChinook && bFeedInterface)) {
+	    sBuilder.append("?q=id:");
+	    sBuilder.append(bFeedEts ? "1," : "");
+	    sBuilder.append(bFeedApplets ? "2" : "");
 	}
 
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.base_list);
+	feedList = new FeedList(sBuilder.toString(), this);
 
-		// Set the default Actions of the ActionBar
-		initActionBar(getString(R.string.feed_list_title),
-				R.id.base_list_actionbar);
+	// Fill the interface
+	setListAdapter(new FeedListAdapter(this, feedList));
+    }
 
-		// get the preferences
-		final SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		final boolean bFeedEts = sharedPrefs.getBoolean("feed_ets", true);
-		final boolean bFeedAaets = sharedPrefs.getBoolean("feed_aaets", true);
-		final boolean bFeedApplets = sharedPrefs.getBoolean("feed_applets",
-				true);
-		final boolean bFeedConjure = sharedPrefs.getBoolean("feed_conjure",
-				true);
-		final boolean bFeedChinook = sharedPrefs.getBoolean("feed_chinook",
-				true);
-		final boolean bFeedInterface = sharedPrefs.getBoolean("feed_interface",
-				true);
-
-		// Retreive the list of feed from server
-		final StringBuilder sBuilder = new StringBuilder();
-		sBuilder.append(getString(R.string.host));
-		sBuilder.append(getString(R.string.api_feed));
-
-		if (!(bFeedEts && bFeedApplets && bFeedAaets && bFeedConjure
-				&& bFeedChinook && bFeedInterface)) {
-			sBuilder.append("?q=id:");
-			sBuilder.append(bFeedEts ? "1," : "");
-			sBuilder.append(bFeedApplets ? "2" : "");
-		}
-
-		feedList = new FeedList(sBuilder.toString(), this);
-
-		// Fill the interface
-		setListAdapter(new FeedListAdapter(this, feedList));
-	}
-
-	@Override
-	protected void onListItemClick(final ListView l, final View v,
-			final int position, final long id) {
-		super.onListItemClick(l, v, position, id);
-		// Load the NewsListActivity with the selected site
-		loadNewsActivity(feedList.get(position));
-	}
+    @Override
+    protected void onListItemClick(final ListView l, final View v,
+	    final int position, final long id) {
+	super.onListItemClick(l, v, position, id);
+	// Load the NewsListActivity with the selected site
+	loadNewsActivity(feedList.get(position));
+    }
 }

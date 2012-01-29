@@ -10,46 +10,46 @@ import com.markupartist.android.widget.actionbar.R;
 
 public class NewsWrapper {
 
-	private TextView description = null;
-	private ImageView image;
-	private TextView title = null;
-	private final View view;
+    private TextView description = null;
+    private ImageView image;
+    private TextView title = null;
+    private final View view;
 
-	public NewsWrapper(final View base) {
-		view = base;
-	}
+    public NewsWrapper(final View base) {
+	view = base;
+    }
 
-	private TextView getDescription() {
-		if (description == null) {
-			description = (TextView) view.findViewById(R.id.news_row_desc);
-		}
-		return description;
+    private TextView getDescription() {
+	if (description == null) {
+	    description = (TextView) view.findViewById(R.id.news_row_desc);
 	}
+	return description;
+    }
 
-	private ImageView getImage() {
-		if (image == null) {
-			image = (ImageView) view.findViewById(R.id.news_row_image);
-		}
-		return image;
+    private ImageView getImage() {
+	if (image == null) {
+	    image = (ImageView) view.findViewById(R.id.news_row_image);
 	}
+	return image;
+    }
 
-	private TextView getTitle() {
-		if (title == null) {
-			title = (TextView) view.findViewById(R.id.news_row_title);
-		}
-		return title;
+    private TextView getTitle() {
+	if (title == null) {
+	    title = (TextView) view.findViewById(R.id.news_row_title);
 	}
+	return title;
+    }
 
-	public void setDescription(final String description) {
-		getDescription().setText(Html.fromHtml(description));
-		getDescription().setAutoLinkMask(Linkify.WEB_URLS);
-	}
+    public void setDescription(final String description) {
+	getDescription().setText(Html.fromHtml(description));
+	getDescription().setAutoLinkMask(Linkify.WEB_URLS);
+    }
 
-	public void setImage(final String image) {
-		getImage().setImageResource(R.drawable.spacer_middle);
-	}
+    public void setImage(final String image) {
+	getImage().setImageResource(R.drawable.spacer_middle);
+    }
 
-	public void setTitle(final String title) {
-		getTitle().setText(title);
-	}
+    public void setTitle(final String title) {
+	getTitle().setText(title);
+    }
 }

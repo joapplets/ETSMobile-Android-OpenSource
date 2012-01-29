@@ -17,183 +17,183 @@ import com.markupartist.android.widget.actionbar.R;
 
 public class DirectoryActivity extends BaseExpendableListActivity {
 
-	public DirectoryGroup fetchDataFromXML(final Activity activity)
-			throws XmlPullParserException, IOException {
+    public DirectoryGroup fetchDataFromXML(final Activity activity)
+	    throws XmlPullParserException, IOException {
 
-		DirectoryGroup root = null, department = null, team = null;
+	DirectoryGroup root = null, department = null, team = null;
 
-		Person p = null;
-		final Resources res = activity.getResources();
-		final XmlResourceParser xpp = res.getXml(R.xml.directoryentries);
-		xpp.next();
-		int eventType = xpp.getEventType();
+	Person p = null;
+	final Resources res = activity.getResources();
+	final XmlResourceParser xpp = res.getXml(R.xml.directoryentries);
+	xpp.next();
+	int eventType = xpp.getEventType();
 
-		while (eventType != XmlPullParser.END_DOCUMENT) {
-			String name = null;
-			switch (eventType) {
-			case XmlPullParser.START_DOCUMENT:
+	while (eventType != XmlPullParser.END_DOCUMENT) {
+	    String name = null;
+	    switch (eventType) {
+	    case XmlPullParser.START_DOCUMENT:
 
-				root = new DirectoryGroup("root", null, null, null, null);
-				break;
-			case XmlPullParser.START_TAG:
-				name = xpp.getName();
-				if (name.equalsIgnoreCase("DEPARTMENT")) {
-					department = new DirectoryGroup(xpp.getAttributeValue(null,
-							"name"), null, null, null, null);
-				} else if (name.equalsIgnoreCase("TEAM")) {
-					team = new DirectoryGroup(xpp.getAttributeValue(null,
-							"name"), null, null, null, null);
-				} else if (name.equalsIgnoreCase("PERSON")) {
-					p = new Person();
-				} else {
-					if (name.equalsIgnoreCase("LASTNAME")) {
-						p.setLastName(xpp.nextText());
+		root = new DirectoryGroup("root", null, null, null, null);
+		break;
+	    case XmlPullParser.START_TAG:
+		name = xpp.getName();
+		if (name.equalsIgnoreCase("DEPARTMENT")) {
+		    department = new DirectoryGroup(xpp.getAttributeValue(null,
+			    "name"), null, null, null, null);
+		} else if (name.equalsIgnoreCase("TEAM")) {
+		    team = new DirectoryGroup(xpp.getAttributeValue(null,
+			    "name"), null, null, null, null);
+		} else if (name.equalsIgnoreCase("PERSON")) {
+		    p = new Person();
+		} else {
+		    if (name.equalsIgnoreCase("LASTNAME")) {
+			p.setLastName(xpp.nextText());
 
-					} else if (name.equalsIgnoreCase("FIRSTNAME")) {
-						p.setFirstName(xpp.nextText());
-					} else if (name.equalsIgnoreCase("PHONENUMBER")) {
-						p.setPhoneNumber(xpp.nextText());
-					} else if (name.equalsIgnoreCase("FAX")) {
-						p.setFax(xpp.nextText());
-					} else if (name.equalsIgnoreCase("EMAIL")) {
-						p.setEmail(xpp.nextText());
-					} else if (name.equalsIgnoreCase("TITLE")) {
-						p.setTitle(xpp.nextText());
-					} else if (name.equalsIgnoreCase("WORK_DEPARTMENT")) {
-						p.setDepartment(xpp.nextText());
-					} else if (name.equalsIgnoreCase("ROOM")) {
-						p.setRoom(xpp.nextText());
-					}
+		    } else if (name.equalsIgnoreCase("FIRSTNAME")) {
+			p.setFirstName(xpp.nextText());
+		    } else if (name.equalsIgnoreCase("PHONENUMBER")) {
+			p.setPhoneNumber(xpp.nextText());
+		    } else if (name.equalsIgnoreCase("FAX")) {
+			p.setFax(xpp.nextText());
+		    } else if (name.equalsIgnoreCase("EMAIL")) {
+			p.setEmail(xpp.nextText());
+		    } else if (name.equalsIgnoreCase("TITLE")) {
+			p.setTitle(xpp.nextText());
+		    } else if (name.equalsIgnoreCase("WORK_DEPARTMENT")) {
+			p.setDepartment(xpp.nextText());
+		    } else if (name.equalsIgnoreCase("ROOM")) {
+			p.setRoom(xpp.nextText());
+		    }
 
-				}
-				break;
-			case XmlPullParser.END_TAG:
-				name = xpp.getName();
-				if (name.equalsIgnoreCase("PERSON")) {
-					team.add(p);
-				} else if (name.equalsIgnoreCase("TEAM")) {
-					department.add(team);
-				} else if (name.equalsIgnoreCase("DEPARTMENT")) {
-					root.add(department);
-				}
-
-				break;
-			}
-			eventType = xpp.next();
+		}
+		break;
+	    case XmlPullParser.END_TAG:
+		name = xpp.getName();
+		if (name.equalsIgnoreCase("PERSON")) {
+		    team.add(p);
+		} else if (name.equalsIgnoreCase("TEAM")) {
+		    department.add(team);
+		} else if (name.equalsIgnoreCase("DEPARTMENT")) {
+		    root.add(department);
 		}
 
-		System.out.println(root.toString());
-
-		return root;
+		break;
+	    }
+	    eventType = xpp.next();
 	}
 
-	private String getEventsFromAnXML(final Activity activity)
-			throws XmlPullParserException, IOException {
+	System.out.println(root.toString());
 
-		final StringBuffer stringBuffer = new StringBuffer();
-		final Resources res = activity.getResources();
-		final XmlResourceParser xpp = res.getXml(R.xml.directoryentries);
-		xpp.next();
-		int eventType = xpp.getEventType();
+	return root;
+    }
 
-		new DirectoryGroup("root", null, null, null, null);
-		while (eventType != XmlPullParser.END_DOCUMENT) {
+    private String getEventsFromAnXML(final Activity activity)
+	    throws XmlPullParserException, IOException {
 
-			if (eventType == XmlPullParser.START_DOCUMENT) {
-				stringBuffer.append("--- Start XML ---");
-			} else if (eventType == XmlPullParser.START_TAG) {
-				// System.out.println(xpp.getProperty("name"));
-				stringBuffer.append("\nSTART_TAG: " + xpp.getName());
-			} else if (eventType == XmlPullParser.END_TAG) {
-				stringBuffer.append("\nEND_TAG: " + xpp.getName());
-			} else if (eventType == XmlPullParser.TEXT) {
-				stringBuffer.append("\nTEXT: " + xpp.getText());
-			}
+	final StringBuffer stringBuffer = new StringBuffer();
+	final Resources res = activity.getResources();
+	final XmlResourceParser xpp = res.getXml(R.xml.directoryentries);
+	xpp.next();
+	int eventType = xpp.getEventType();
 
-			if (eventType == XmlPullParser.START_TAG
-					&& xpp.getName().equals("department")) {
+	new DirectoryGroup("root", null, null, null, null);
+	while (eventType != XmlPullParser.END_DOCUMENT) {
 
-				// eventType = xpp.next();
-				// System.out.println(xpp.nextText());
-				// eventType = xpp.next();
+	    if (eventType == XmlPullParser.START_DOCUMENT) {
+		stringBuffer.append("--- Start XML ---");
+	    } else if (eventType == XmlPullParser.START_TAG) {
+		// System.out.println(xpp.getProperty("name"));
+		stringBuffer.append("\nSTART_TAG: " + xpp.getName());
+	    } else if (eventType == XmlPullParser.END_TAG) {
+		stringBuffer.append("\nEND_TAG: " + xpp.getName());
+	    } else if (eventType == XmlPullParser.TEXT) {
+		stringBuffer.append("\nTEXT: " + xpp.getText());
+	    }
 
-				// department = new
-				// DirectoryGroup(xpp.nextText(),null,null,null,null);
-				/*
-				 * while(!(eventType == XmlPullParser.END_TAG &&
-				 * xpp.getName().equals("department"))) {
-				 * 
-				 * team= new DirectoryGroup(xpp.nextText(),null,null,null,null);
-				 * 
-				 * while(!(eventType == XmlPullParser.END_TAG &&
-				 * xpp.getName().equals("team"))) {
-				 * 
-				 * 
-				 * 
-				 * // team.add(new
-				 * Person(xpp.nextText(),xpp.nextText(),xpp.nextText
-				 * (),xpp.nextText
-				 * (),xpp.nextText(),xpp.nextText(),xpp.nextText()
-				 * ,xpp.nextText()));
-				 * 
-				 * eventType = xpp.next(); } department.add(team);
-				 * 
-				 * eventType = xpp.next(); }
-				 */
-				// root.add(department);
-			}
+	    if (eventType == XmlPullParser.START_TAG
+		    && xpp.getName().equals("department")) {
 
-			eventType = xpp.next();
-		}
-		stringBuffer.append("\n--- End XML ---");
+		// eventType = xpp.next();
+		// System.out.println(xpp.nextText());
+		// eventType = xpp.next();
 
-		System.out.println(stringBuffer.toString());
-
-		return stringBuffer.toString();
-	}
-
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		// We'll define a custom screen layout here (the one shown above), but
-		// typically, you could just use the standard ListActivity layout.
-		setContentView(R.layout.bottin_list);
-		createActionBar("Bottin", R.id.bottin_actionbar);
-
-		try {
-
-			System.out.println(getEventsFromAnXML(this));
-
-			fetchDataFromXML(this);
-
-		} catch (final XmlPullParserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// department = new
+		// DirectoryGroup(xpp.nextText(),null,null,null,null);
 		/*
-		 * // Query for all people contacts using the Contacts.People
-		 * convenience class. // Put a managed wrapper around the retrieved
-		 * cursor so we don't have to worry about // requerying or closing it as
-		 * the activity changes state. mCursor =
-		 * this.getContentResolver().query(People.CONTENT_URI, null, null, null,
-		 * null); startManagingCursor(mCursor);
+		 * while(!(eventType == XmlPullParser.END_TAG &&
+		 * xpp.getName().equals("department"))) {
 		 * 
-		 * // Now create a new list adapter bound to the cursor. //
-		 * SimpleListAdapter is designed for binding to a Cursor. ListAdapter
-		 * adapter = new SimpleCursorAdapter( this, // Context.
-		 * android.R.layout.two_line_list_item, // Specify the row template to
-		 * use (here, two columns bound to the two retrieved cursor rows).
-		 * mCursor, // Pass in the cursor to bind to. new String[] {People.NAME,
-		 * People.COMPANY}, // Array of cursor columns to bind to. new int[]
-		 * {android.R.id.text1, android.R.id.text2}); // Parallel array of which
-		 * template objects to bind to those columns.
+		 * team= new DirectoryGroup(xpp.nextText(),null,null,null,null);
 		 * 
-		 * // Bind to our new adapter. setListAdapter(adapter);
+		 * while(!(eventType == XmlPullParser.END_TAG &&
+		 * xpp.getName().equals("team"))) {
+		 * 
+		 * 
+		 * 
+		 * // team.add(new
+		 * Person(xpp.nextText(),xpp.nextText(),xpp.nextText
+		 * (),xpp.nextText
+		 * (),xpp.nextText(),xpp.nextText(),xpp.nextText()
+		 * ,xpp.nextText()));
+		 * 
+		 * eventType = xpp.next(); } department.add(team);
+		 * 
+		 * eventType = xpp.next(); }
 		 */
+		// root.add(department);
+	    }
 
+	    eventType = xpp.next();
 	}
+	stringBuffer.append("\n--- End XML ---");
+
+	System.out.println(stringBuffer.toString());
+
+	return stringBuffer.toString();
+    }
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+
+	// We'll define a custom screen layout here (the one shown above), but
+	// typically, you could just use the standard ListActivity layout.
+	setContentView(R.layout.bottin_list);
+	createActionBar("Bottin", R.id.bottin_actionbar);
+
+	try {
+
+	    System.out.println(getEventsFromAnXML(this));
+
+	    fetchDataFromXML(this);
+
+	} catch (final XmlPullParserException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	/*
+	 * // Query for all people contacts using the Contacts.People
+	 * convenience class. // Put a managed wrapper around the retrieved
+	 * cursor so we don't have to worry about // requerying or closing it as
+	 * the activity changes state. mCursor =
+	 * this.getContentResolver().query(People.CONTENT_URI, null, null, null,
+	 * null); startManagingCursor(mCursor);
+	 * 
+	 * // Now create a new list adapter bound to the cursor. //
+	 * SimpleListAdapter is designed for binding to a Cursor. ListAdapter
+	 * adapter = new SimpleCursorAdapter( this, // Context.
+	 * android.R.layout.two_line_list_item, // Specify the row template to
+	 * use (here, two columns bound to the two retrieved cursor rows).
+	 * mCursor, // Pass in the cursor to bind to. new String[] {People.NAME,
+	 * People.COMPANY}, // Array of cursor columns to bind to. new int[]
+	 * {android.R.id.text1, android.R.id.text2}); // Parallel array of which
+	 * template objects to bind to those columns.
+	 * 
+	 * // Bind to our new adapter. setListAdapter(adapter);
+	 */
+
+    }
 }

@@ -12,30 +12,30 @@ import com.applets.utils.xml.IAsyncTaskListener;
 import com.markupartist.android.widget.actionbar.R;
 
 public class CourseListActivity extends BaseListActivity implements
-		IAsyncTaskListener {
+	IAsyncTaskListener {
 
-	private ArrayList<Course> courseList = new ArrayList<Course>();
+    private ArrayList<Course> courseList = new ArrayList<Course>();
 
-	private void initCourseList() {
-		courseList = new CourseList(getString(R.string.host)
-				+ getString(R.string.api_cours), this, this);
-	}
+    private void initCourseList() {
+	courseList = new CourseList(getString(R.string.host)
+		+ getString(R.string.api_cours), this, this);
+    }
 
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.base_list);
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.base_list);
 
-		initActionBar(getString(R.string.courses_list_title),
-				R.id.base_list_actionbar);
-		initCourseList();
+	initActionBar(getString(R.string.courses_list_title),
+		R.id.base_list_actionbar);
+	initCourseList();
 
-		registerForContextMenu(getListView());
-	}
+	registerForContextMenu(getListView());
+    }
 
-	@Override
-	public void onPostExecute() {
-		setListAdapter(new CourseListAdapter(this, courseList));
-	}
+    @Override
+    public void onPostExecute() {
+	setListAdapter(new CourseListAdapter(this, courseList));
+    }
 
 }

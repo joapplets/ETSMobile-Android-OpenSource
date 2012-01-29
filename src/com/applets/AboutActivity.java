@@ -5,10 +5,10 @@ import android.os.Bundle;
 import com.applets.baseactivity.BaseActivity;
 
 public class AboutActivity extends BaseActivity {
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
 
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-	}
+	// TODO Auto-generated method stub
+	super.onCreate(savedInstanceState);
+    }
 }

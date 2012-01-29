@@ -13,63 +13,63 @@ import com.markupartist.android.widget.actionbar.R;
 
 public class NewsCursorAdapter extends CursorAdapter {
 
-	private final LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
-	public NewsCursorAdapter(final Context context, final Cursor c) {
-		super(context, c, true);
-		inflater = LayoutInflater.from(context);
+    public NewsCursorAdapter(final Context context, final Cursor c) {
+	super(context, c, true);
+	inflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public void bindView(final View view, final Context ctx, final Cursor cursor) {
+	NewsRowWrapper wrapper = (NewsRowWrapper) view.getTag();
+
+	if (wrapper == null) {
+	    wrapper = getWarpper(cursor, view);
 	}
+	wrapper.setTitle(getName(cursor));
+	wrapper.setDescription(getDescription(cursor));
+	wrapper.setImage(getImage(cursor));
+    }
 
-	@Override
-	public void bindView(final View view, final Context ctx, final Cursor cursor) {
-		NewsRowWrapper wrapper = (NewsRowWrapper) view.getTag();
+    private String getDescription(final Cursor cursor) {
+	return cursor.getString(cursor
+		.getColumnIndex(NewsDbAdapter.KEY_DESCRIPTION));
+    }
 
-		if (wrapper == null) {
-			wrapper = getWarpper(cursor, view);
-		}
-		wrapper.setTitle(getName(cursor));
-		wrapper.setDescription(getDescription(cursor));
-		wrapper.setImage(getImage(cursor));
-	}
+    private String getImage(final Cursor cursor) {
+	return cursor.getString(cursor.getColumnIndex(NewsDbAdapter.KEY_IMAGE));
+    }
 
-	private String getDescription(final Cursor cursor) {
-		return cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_DESCRIPTION));
-	}
+    private String getName(final Cursor cursor) {
+	return cursor.getString(cursor.getColumnIndex(NewsDbAdapter.KEY_NAME));
+    }
 
-	private String getImage(final Cursor cursor) {
-		return cursor.getString(cursor.getColumnIndex(NewsDbAdapter.KEY_IMAGE));
-	}
+    /**
+     * Creates a new RowWrapper and inits the values
+     * 
+     * @param cursor
+     *            The row information
+     * @param v
+     *            The inflated view
+     * @return A wrapper methods to manipulate the layout
+     */
+    private NewsRowWrapper getWarpper(final Cursor cursor, final View v) {
+	final NewsRowWrapper wrapper = new NewsRowWrapper(v);
+	wrapper.setTitle(getName(cursor));
+	wrapper.setDescription(getDescription(cursor));
+	wrapper.setImage(getImage(cursor));
+	return wrapper;
+    }
 
-	private String getName(final Cursor cursor) {
-		return cursor.getString(cursor.getColumnIndex(NewsDbAdapter.KEY_NAME));
-	}
+    @Override
+    public View newView(final Context ctx, final Cursor cursor,
+	    final ViewGroup parent) {
 
-	/**
-	 * Creates a new RowWrapper and inits the values
-	 * 
-	 * @param cursor
-	 *            The row information
-	 * @param v
-	 *            The inflated view
-	 * @return A wrapper methods to manipulate the layout
-	 */
-	private NewsRowWrapper getWarpper(final Cursor cursor, final View v) {
-		final NewsRowWrapper wrapper = new NewsRowWrapper(v);
-		wrapper.setTitle(getName(cursor));
-		wrapper.setDescription(getDescription(cursor));
-		wrapper.setImage(getImage(cursor));
-		return wrapper;
-	}
+	final View v = inflater.inflate(R.layout.news_row, parent);
+	v.setTag(getWarpper(cursor, v));
 
-	@Override
-	public View newView(final Context ctx, final Cursor cursor,
-			final ViewGroup parent) {
-
-		final View v = inflater.inflate(R.layout.news_row, parent);
-		v.setTag(getWarpper(cursor, v));
-
-		return v;
-	}
+	return v;
+    }
 
 }

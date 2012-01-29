@@ -15,24 +15,24 @@ import android.util.Log;
  */
 public abstract class BasicXmlParser implements IParser {
 
-	private final URL url;
+    private final URL url;
 
-	protected BasicXmlParser(final String url) {
-		try {
-			this.url = new URL(url);
-		} catch (final MalformedURLException e) {
-			Log.e("APPETS.BASICPARSER::", e.getMessage());
-			throw new RuntimeException();
-		}
+    protected BasicXmlParser(final String url) {
+	try {
+	    this.url = new URL(url);
+	} catch (final MalformedURLException e) {
+	    Log.e("APPETS.BASICPARSER::", e.getMessage());
+	    throw new RuntimeException();
 	}
+    }
 
-	protected InputStream getInputStream() {
-		try {
-			return url.openConnection().getInputStream();
-		} catch (final IOException e) {
-			Log.e("APPETS.BASICPARSER::", e.getMessage());
-			throw new RuntimeException();
-		}
+    protected InputStream getInputStream() {
+	try {
+	    return url.openConnection().getInputStream();
+	} catch (final IOException e) {
+	    Log.e("APPETS.BASICPARSER::", e.getMessage());
+	    throw new RuntimeException();
 	}
+    }
 
 }

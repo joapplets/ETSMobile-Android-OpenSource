@@ -14,39 +14,39 @@ import com.markupartist.android.widget.actionbar.R;
 
 public class ProfileActivity extends BaseActivity {
 
-	private LinearLayout mySessions;
-	private Menu prefMenu;
+    private LinearLayout mySessions;
+    private Menu prefMenu;
 
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.profile);
+	setContentView(R.layout.profile);
 
-		createActionBar(getString(R.string.profile_title),
-				R.id.profile_actionbar);
-		mySessions = (LinearLayout) findViewById(R.id.linearLayout1);
-		mySessions.setOnClickListener(new OnClickListener() {
+	createActionBar(getString(R.string.profile_title),
+		R.id.profile_actionbar);
+	mySessions = (LinearLayout) findViewById(R.id.linearLayout1);
+	mySessions.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(final View v) {
-				startActivity(new Intent(v.getContext(),
-						ProfileEditionActivity.class));
-			}
-		});
-	}
+	    @Override
+	    public void onClick(final View v) {
+		startActivity(new Intent(v.getContext(),
+			ProfileEditionActivity.class));
+	    }
+	});
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) {
-		prefMenu = menu;
-		new MenuInflater(getApplication()).inflate(R.menu.profile_menu,
-				prefMenu);
-		return super.onCreateOptionsMenu(menu);
-	}
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+	prefMenu = menu;
+	new MenuInflater(getApplication()).inflate(R.menu.profile_menu,
+		prefMenu);
+	return super.onCreateOptionsMenu(menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		// TODO Auto-generated method stub
-		return super.onOptionsItemSelected(item);
-	}
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+	// TODO Auto-generated method stub
+	return super.onOptionsItemSelected(item);
+    }
 }

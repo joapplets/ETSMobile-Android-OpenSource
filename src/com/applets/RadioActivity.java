@@ -7,12 +7,12 @@ import com.markupartist.android.widget.actionbar.R;
 
 public class RadioActivity extends BaseActivity {
 
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.radio);
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+	// TODO Auto-generated method stub
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.radio);
 
-		createActionBar(getString(R.string.radio_title), R.id.radio_actionbar);
-	}
+	createActionBar(getString(R.string.radio_title), R.id.radio_actionbar);
+    }
 }

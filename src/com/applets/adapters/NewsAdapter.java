@@ -14,32 +14,32 @@ import com.applets.models.News;
 import com.markupartist.android.widget.actionbar.R;
 
 public class NewsAdapter extends ArrayAdapter<Model> {
-	private final Activity context;
+    private final Activity context;
 
-	public NewsAdapter(final Activity context, final ArrayList<Model> news) {
-		super(context, R.layout.basic_row, news);
-		this.context = context;
+    public NewsAdapter(final Activity context, final ArrayList<Model> news) {
+	super(context, R.layout.basic_row, news);
+	this.context = context;
+    }
+
+    @Override
+    public View getView(final int position, final View convertView,
+	    final ViewGroup parent) {
+	View row = convertView;
+	NewsRowWrapper wrapper;
+
+	if (row == null) {
+	    final LayoutInflater inflater = context.getLayoutInflater();
+	    row = inflater.inflate(R.layout.basic_row, null);
+	    wrapper = new NewsRowWrapper(row);
+	    row.setTag(wrapper);
+	} else {
+	    wrapper = (NewsRowWrapper) row.getTag();
 	}
+	final News news = (News) getItem(position);
+	wrapper.setTitle(news.toString());
+	wrapper.setDescription(news.getDescription());
+	wrapper.setImage(news.getImage());
 
-	@Override
-	public View getView(final int position, final View convertView,
-			final ViewGroup parent) {
-		View row = convertView;
-		NewsRowWrapper wrapper;
-
-		if (row == null) {
-			final LayoutInflater inflater = context.getLayoutInflater();
-			row = inflater.inflate(R.layout.basic_row, null);
-			wrapper = new NewsRowWrapper(row);
-			row.setTag(wrapper);
-		} else {
-			wrapper = (NewsRowWrapper) row.getTag();
-		}
-		final News news = (News) getItem(position);
-		wrapper.setTitle(news.toString());
-		wrapper.setDescription(news.getDescription());
-		wrapper.setImage(news.getImage());
-
-		return row;
-	}
+	return row;
+    }
 }
