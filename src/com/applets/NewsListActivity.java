@@ -1,5 +1,6 @@
 package com.applets;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -13,15 +14,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.applets.adapters.BaseCursorAdapter;
-import com.applets.baseactivity.BaseListActivity;
 import com.applets.models.Model;
 import com.applets.models.News;
 import com.applets.models.NewsList;
 import com.applets.utils.db.NewsDbAdapter;
 import com.applets.utils.xml.IAsyncTaskListener;
-import com.markupartist.android.widget.actionbar.R;
 
-public class NewsListActivity extends BaseListActivity implements
+public class NewsListActivity extends ListActivity implements
 	IAsyncTaskListener {
 
     private NewsDbAdapter db;
@@ -86,11 +85,6 @@ public class NewsListActivity extends BaseListActivity implements
     protected void onCreate(final Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.news_list);
-
-	// Init action bar with feed name
-	initSearchActionBar(getString(R.string.news_activity_title),
-		R.id.news_list_actionbar);
-
 	db = (NewsDbAdapter) new NewsDbAdapter(this).open();
 	getList();
     }

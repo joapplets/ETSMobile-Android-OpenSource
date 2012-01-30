@@ -87,7 +87,7 @@ public class FeedList extends ArrayList<Feed> {
 	    Feed currentFeed = null;
 	    boolean done = false;
 
-	    while (eventType != XmlPullParser.END_DOCUMENT && !done) {
+	    while ((eventType != XmlPullParser.END_DOCUMENT) && !done) {
 
 		String name = null;
 		switch (eventType) {
@@ -114,7 +114,7 @@ public class FeedList extends ArrayList<Feed> {
 		case XmlPullParser.END_TAG:
 		    name = parser.getName();
 		    if (name.equalsIgnoreCase(FeedList.FEED_TAG)
-			    && currentFeed != null) {
+			    && (currentFeed != null)) {
 
 			final long id = feedAdapter.createFeed(currentFeed);
 			currentFeed.setId(id);

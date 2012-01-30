@@ -24,7 +24,7 @@ public class XmlFeedParser extends BasicFeedParser {
 	    int eventType = parser.getEventType();
 	    News currentArticle = null;
 	    boolean done = false;
-	    while (eventType != XmlPullParser.END_DOCUMENT && !done) {
+	    while ((eventType != XmlPullParser.END_DOCUMENT) && !done) {
 		String name = null;
 		switch (eventType) {
 		case XmlPullParser.START_DOCUMENT:
@@ -50,7 +50,7 @@ public class XmlFeedParser extends BasicFeedParser {
 		case XmlPullParser.END_TAG:
 		    name = parser.getName();
 		    if (name.equalsIgnoreCase(BasicFeedParser.ITEM)
-			    && currentArticle != null) {
+			    && (currentArticle != null)) {
 			articles.add(currentArticle);
 		    } else if (name.equalsIgnoreCase(BasicFeedParser.CHANNEL)) {
 			done = true;

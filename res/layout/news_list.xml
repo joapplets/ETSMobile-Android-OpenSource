@@ -6,13 +6,6 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <com.markupartist.android.widget.ActionBar
-        android:id="@+id/news_list_actionbar"
-        style="@style/ActionBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-    </com.markupartist.android.widget.ActionBar>
-
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

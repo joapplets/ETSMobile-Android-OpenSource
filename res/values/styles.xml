@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="LayoutTheme" parent="android:style/Theme.NoTitleBar">
+    
+    <style name="layout_style" parent="android:style/Theme.NoTitleBar">
         <item name="android:background">@color/white</item>
     </style>
 

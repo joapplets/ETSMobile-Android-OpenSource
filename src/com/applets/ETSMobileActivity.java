@@ -8,42 +8,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
+import android.widget.Toast;
 
-import com.applets.baseactivity.BaseActivity;
-import com.markupartist.android.widget.actionbar.R;
+import com.applets.adapters.HomeIconAdapter;
 
-public class ETSMobileActivity extends BaseActivity {
-
-    /**
-     * Creates an intent that will bring the user back to the HomeScreen
-     * 
-     * @param mainActivity
-     * @return Intent MainIntent
-     */
-    public static Intent createHomeAction(final Activity mainActivity) {
-	final Intent i = new Intent(mainActivity, ETSMobileActivity.class);
-	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	return i;
-    }
+public class ETSMobileActivity extends Activity {
 
     private Menu prefMenu = null;
-
-    protected void launchInteractiveTour() {
-	startActivity(new Intent(this, InterrestGridActivity.class));
-    }
-
-    /**
-     * Launch the Interactive Tour
-     */
-    protected void launchMap() {
-	// startActivity(new Intent(this, InterActiveTourActivity.class));
-    }
 
     /**
      * Launch the Feed Selection ListActivity
      */
-    public void launchNewsActivity() {
+    private void launchNewsActivity() {
 	try {
 	    startActivity(new Intent(this, NewsListActivity.class));
 	} catch (final Exception e) {
@@ -56,11 +35,6 @@ public class ETSMobileActivity extends BaseActivity {
      */
     private void launchPreferences() {
 	startActivity(new Intent(this, AppPreferenceActivity.class));
-    }
-
-    protected void launchProfile() {
-	startActivity(new Intent(this, ProfileActivity.class));
-
     }
 
     /**
@@ -80,70 +54,68 @@ public class ETSMobileActivity extends BaseActivity {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.main);
 
-	createActionBar(getString(R.string.main_title), R.id.main_actionbar);
+	GridView gridview = (GridView) findViewById(R.id.gridview);
+	gridview.setAdapter(new HomeIconAdapter(this));
 
-	findViewById(R.id.program_list_btn).setOnClickListener(
-		new OnClickListener() {
+	gridview.setOnItemClickListener(new OnItemClickListener() {
+	    public void onItemClick(AdapterView<?> parent, View v,
+		    int position, long id) {
 
-		    @Override
-		    public void onClick(final View v) {
-			launchProgramList();
-		    }
-		});
-
-	findViewById(R.id.feed_list_btn).setOnClickListener(
-		new OnClickListener() {
-
-		    @Override
-		    public void onClick(final View v) {
-			launchNewsActivity();
-		    }
-		});
-
-	findViewById(R.id.mapBtn).setOnClickListener(new OnClickListener() {
-
-	    @Override
-	    public void onClick(final View v) {
-		launchMap();
+		switch (position) {
+		case 1:
+		    launchNewsActivity();
+		    break;
+		default:
+		    Toast.makeText(v.getContext(), "Applets !", Toast.LENGTH_SHORT).show();
+		    break;
+		}
 	    }
 	});
 
-	findViewById(R.id.discoverBtn).setOnClickListener(
-		new OnClickListener() {
-
-		    @Override
-		    public void onClick(final View v) {
-			launchInteractiveTour();
-		    }
-		});
-
-	findViewById(R.id.profile_btn).setOnClickListener(
-		new OnClickListener() {
-
-		    @Override
-		    public void onClick(final View v) {
-			launchProfile();
-		    }
-		});
-
-	findViewById(R.id.cours_list_btn).setOnClickListener(
-		new OnClickListener() {
-
-		    @Override
-		    public void onClick(final View v) {
-			startActivity(new Intent(v.getContext(),
-				CourseListActivity.class));
-		    }
-		});
-	findViewById(R.id.main_radio_btn).setOnClickListener(
-		new OnClickListener() {
-
-		    @Override
-		    public void onClick(final View v) {
-			startActivity(new Intent(v.getContext(),
-				RadioActivity.class));
-		    }
-		});
+	// findViewById(R.id.program_list_btn).setOnClickListener(
+	// new OnClickListener() {
+	//
+	// @Override
+	// public void onClick(final View v) {
+	// launchProgramList();
+	// }
+	// });
+	//
+	// findViewById(R.id.feed_list_btn).setOnClickListener(
+	// new OnClickListener() {
+	//
+	// @Override
+	// public void onClick(final View v) {
+	// launchNewsActivity();
+	// }
+	// });
+	//
+	// findViewById(R.id.mapBtn).setOnClickListener(new OnClickListener() {
+	//
+	// @Override
+	// public void onClick(final View v) {
+	// launchMap();
+	// }
+	// });
+	//
+	// findViewById(R.id.profile_btn).setOnClickListener(
+	// new OnClickListener() {
+	//
+	// @Override
+	// public void onClick(final View v) {
+	// launchProfile();
+	// }
+	// });
+	//
+	// findViewById(R.id.cours_list_btn).setOnClickListener(
+	// new OnClickListener() {
+	//
+	// @Override
+	// public void onClick(final View v) {
+	// startActivity(new Intent(v.getContext(),
+	// CourseListActivity.class));
+	// }
+	// });
     }
 
     @Override

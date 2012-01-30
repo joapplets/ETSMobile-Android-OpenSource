@@ -1,13 +1,12 @@
 package com.applets;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-import com.applets.baseactivity.BaseActivity;
 import com.applets.models.News;
-import com.markupartist.android.widget.actionbar.R;
 
-public class NewsReaderActivity extends BaseActivity {
+public class NewsReaderActivity extends Activity {
 
     private News currentNews;
     private WebView view;
@@ -20,8 +19,6 @@ public class NewsReaderActivity extends BaseActivity {
 	// Parcel data sent from NewsListActivity
 	final Bundle b = getIntent().getExtras();
 	currentNews = b.getParcelable(News.class.getName());
-
-	createActionBar(currentNews.getName(), R.id.web_reader_actionbar);
 
 	view = (WebView) findViewById(R.id.webView1);
 

@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.applets.R;
 import com.applets.adapters.wrappers.CourseWrapper;
 import com.applets.models.Course;
-import com.markupartist.android.widget.actionbar.R;
 
 public class CourseListAdapter extends ArrayAdapter<Course> {
     private final Activity context;

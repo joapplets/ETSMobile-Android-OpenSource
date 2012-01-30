@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.markupartist.android.widget.actionbar.R;
+import com.applets.R;
 
 public class CourseWrapper {
     private TextView description = null;
@@ -42,7 +42,7 @@ public class CourseWrapper {
     }
 
     public void setImage(final String image) {
-	getImage().setImageResource(R.drawable.spacer_middle);
+//	getImage().setImageResource(R.drawable.spacer_middle);
     }
 
     public void setTitle(final String title) {

@@ -2,14 +2,14 @@ package com.applets.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 
+import com.applets.R;
 import com.applets.adapters.wrappers.NewsRowWrapper;
 import com.applets.utils.db.NewsDbAdapter;
-import com.markupartist.android.widget.actionbar.R;
 
 public class BaseCursorAdapter extends CursorAdapter {
 

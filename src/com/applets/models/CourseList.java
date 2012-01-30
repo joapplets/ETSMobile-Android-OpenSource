@@ -14,12 +14,12 @@ import com.applets.utils.xml.XMLParserTask;
 
 public class CourseList extends ArrayList<Course> implements ContentHandler {
 
+    // XML elements
+    private static String FEED_TAG = "cour";
     /**
 	 * 
 	 */
     private static final long serialVersionUID = 440993685670978442L;
-    // XML elements
-    private static String FEED_TAG = "cour";
     private Course currentCours;
     private final IAsyncTaskListener listener;
 

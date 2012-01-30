@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.markupartist.android.widget.actionbar.R;
+import com.applets.R;
 
 public class FeedWrapper {
 

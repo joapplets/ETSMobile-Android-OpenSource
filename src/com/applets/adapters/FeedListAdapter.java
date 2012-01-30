@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.applets.R;
 import com.applets.adapters.wrappers.FeedWrapper;
 import com.applets.models.Feed;
-import com.markupartist.android.widget.actionbar.R;
 
 public class FeedListAdapter extends ArrayAdapter<Feed> {
 

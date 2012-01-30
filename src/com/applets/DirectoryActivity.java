@@ -6,16 +6,15 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
+import android.app.ExpandableListActivity;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 
-import com.applets.baseactivity.BaseExpendableListActivity;
 import com.applets.models.DirectoryGroup;
 import com.applets.models.Person;
-import com.markupartist.android.widget.actionbar.R;
 
-public class DirectoryActivity extends BaseExpendableListActivity {
+public class DirectoryActivity extends ExpandableListActivity {
 
     public DirectoryGroup fetchDataFromXML(final Activity activity)
 	    throws XmlPullParserException, IOException {
@@ -110,7 +109,7 @@ public class DirectoryActivity extends BaseExpendableListActivity {
 		stringBuffer.append("\nTEXT: " + xpp.getText());
 	    }
 
-	    if (eventType == XmlPullParser.START_TAG
+	    if ((eventType == XmlPullParser.START_TAG)
 		    && xpp.getName().equals("department")) {
 
 		// eventType = xpp.next();
@@ -159,7 +158,6 @@ public class DirectoryActivity extends BaseExpendableListActivity {
 	// We'll define a custom screen layout here (the one shown above), but
 	// typically, you could just use the standard ListActivity layout.
 	setContentView(R.layout.bottin_list);
-	createActionBar("Bottin", R.id.bottin_actionbar);
 
 	try {
 

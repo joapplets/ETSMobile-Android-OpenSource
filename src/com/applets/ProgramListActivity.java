@@ -1,5 +1,6 @@
 package com.applets;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -12,15 +13,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.applets.adapters.BaseCursorAdapter;
-import com.applets.baseactivity.BaseListActivity;
 import com.applets.models.Model;
 import com.applets.models.Program;
 import com.applets.models.ProgramList;
 import com.applets.utils.db.ProgrammesDbAdapter;
 import com.applets.utils.xml.IAsyncTaskListener;
-import com.markupartist.android.widget.actionbar.R;
 
-public class ProgramListActivity extends BaseListActivity implements
+public class ProgramListActivity extends ListActivity implements
 	IAsyncTaskListener {
 
     private ProgrammesDbAdapter db;
@@ -49,8 +48,6 @@ public class ProgramListActivity extends BaseListActivity implements
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.base_list);
 
-	initActionBar(getString(R.string.program_list_title),
-		R.id.base_list_actionbar);
 	db = (ProgrammesDbAdapter) new ProgrammesDbAdapter(this).open();
 	initList();
 

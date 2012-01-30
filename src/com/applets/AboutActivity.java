@@ -1,10 +1,9 @@
 package com.applets;
 
+import android.app.Activity;
 import android.os.Bundle;
 
-import com.applets.baseactivity.BaseActivity;
-
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 
