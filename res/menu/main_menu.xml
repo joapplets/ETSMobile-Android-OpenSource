@@ -6,9 +6,4 @@
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="Preferences"></item>
 
-    <item
-        android:id="@+id/main_menu_refresh"
-        android:icon="@android:drawable/ic_menu_rotate"
-        android:title="@string/refresh"></item>
-
 </menu>
