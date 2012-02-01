@@ -14,7 +14,12 @@ import com.applets.utils.xml.XMLParserTask;
 public class NewsList extends ArrayList<News> implements ContentHandler {
 
 	// XML elements
-	private static String NEWS_TAG = "news";
+	static final String CHANNEL = "channel";
+	static final String PUB_DATE = "pubDate";
+	static final String DESCRIPTION = "description";
+	static final String ITEM = "item";
+	static final String LINK = "link";
+	static final String TITLE = "title";
 	private News currentNews;
 
 	public NewsList() {
@@ -24,7 +29,7 @@ public class NewsList extends ArrayList<News> implements ContentHandler {
 	public void characters(final char[] ch, final int start, final int length)
 			throws SAXException {
 		// TODO Auto-generated method stub
-
+		String s= "";
 	}
 
 	@Override
@@ -36,7 +41,9 @@ public class NewsList extends ArrayList<News> implements ContentHandler {
 	@Override
 	public void endElement(final String uri, final String localName,
 			final String qName) throws SAXException {
-		this.add(currentNews);
+		if (currentNews != null) {
+			this.add(currentNews);
+		}
 	}
 
 	@Override
@@ -46,6 +53,7 @@ public class NewsList extends ArrayList<News> implements ContentHandler {
 	}
 
 	public void execute(final String url, final IAsyncTaskListener listener) {
+
 		new XMLParserTask(url, this, listener).execute();
 	}
 
@@ -83,25 +91,25 @@ public class NewsList extends ArrayList<News> implements ContentHandler {
 	public void startElement(final String uri, final String localName,
 			final String qName, final Attributes atts) throws SAXException {
 
-		if (localName.equals(NewsList.NEWS_TAG)) {
+		if (localName.equals(NewsList.ITEM)) {
 			currentNews = new News();
-			String title, url, id, feed_id, image, pubDate, creator;
+//			String title, url, id, feed_id, image, pubDate, creator;
 
-			title = atts.getValue("name");
-			url = atts.getValue("url");
-			id = atts.getValue("id");
-			feed_id = atts.getValue("feed_id");
-			image = atts.getValue("image");
-			pubDate = atts.getValue("pubDate");
-			creator = atts.getValue("creator");
+//			title = atts.getValue(TITLE);
+//			url = atts.getValue(LINK);
+//			id = atts.getValue("id");
+//			feed_id = atts.getValue("feed_id");
+//			image = atts.getValue("image");
+//			pubDate = atts.getValue(PUB_DATE);
+//			creator = atts.getValue("creator");
 
-			currentNews.setTitle(title);
-			currentNews.setUrl(url);
-			currentNews.setImage(image);
-			currentNews.setNewsId(id);
-			currentNews.setCreator(creator);
-			currentNews.setFeedId(feed_id);
-			currentNews.setPubDate(pubDate);
+//			currentNews.setTitle(title);
+//			currentNews.setUrl(url);
+//			currentNews.setImage(image);
+//			currentNews.setNewsId(id);
+//			currentNews.setCreator(creator);
+//			currentNews.setFeedId(feed_id);
+//			currentNews.setPubDate(pubDate);
 		}
 	}
 

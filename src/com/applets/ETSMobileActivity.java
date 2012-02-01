@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,17 +60,6 @@ public class ETSMobileActivity extends Activity {
 		startActivity(new Intent(this, AppPreferenceActivity.class));
 	}
 
-	/**
-	 * Launch the program list selection
-	 */
-	private void launchProgramList() {
-		try {
-			startActivity(new Intent(this, ProgramListActivity.class));
-		} catch (final Exception e) {
-			Log.e("Applets::", e.getMessage());
-		}
-	}
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -83,50 +71,6 @@ public class ETSMobileActivity extends Activity {
 
 		gridview.setOnItemClickListener(new HomeGridListener());
 
-		// findViewById(R.id.program_list_btn).setOnClickListener(
-		// new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(final View v) {
-		// launchProgramList();
-		// }
-		// });
-		//
-		// findViewById(R.id.feed_list_btn).setOnClickListener(
-		// new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(final View v) {
-		// launchNewsActivity();
-		// }
-		// });
-		//
-		// findViewById(R.id.mapBtn).setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(final View v) {
-		// launchMap();
-		// }
-		// });
-		//
-		// findViewById(R.id.profile_btn).setOnClickListener(
-		// new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(final View v) {
-		// launchProfile();
-		// }
-		// });
-		//
-		// findViewById(R.id.cours_list_btn).setOnClickListener(
-		// new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(final View v) {
-		// startActivity(new Intent(v.getContext(),
-		// CourseListActivity.class));
-		// }
-		// });
 	}
 
 	@Override

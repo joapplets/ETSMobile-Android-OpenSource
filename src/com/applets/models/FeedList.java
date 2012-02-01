@@ -12,7 +12,7 @@ import android.database.Cursor;
 import android.util.Log;
 import android.util.Xml;
 
-import com.applets.utils.FeedDbAdapter;
+import com.applets.utils.db.FeedDbAdapter;
 
 public class FeedList extends ArrayList<Feed> {
 
@@ -45,7 +45,7 @@ public class FeedList extends ArrayList<Feed> {
 	private void getFeeds() {
 		if (size() == 0) {
 
-			final Cursor mCursor = feedAdapter.getAllFeeds();
+			final Cursor mCursor = feedAdapter.getAll();
 			if (mCursor.getCount() == 0) {
 
 				getFeedsFromServer();
@@ -116,7 +116,7 @@ public class FeedList extends ArrayList<Feed> {
 					if (name.equalsIgnoreCase(FeedList.FEED_TAG)
 							&& (currentFeed != null)) {
 
-						final long id = feedAdapter.createFeed(currentFeed);
+						final long id = feedAdapter.create(currentFeed);
 						currentFeed.setId(id);
 						this.add(currentFeed);
 					} else if (name.equalsIgnoreCase(FeedList.ROOT_TAG)) {

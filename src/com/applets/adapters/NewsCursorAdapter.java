@@ -14,6 +14,7 @@ import com.applets.utils.db.NewsDbAdapter;
 public class NewsCursorAdapter extends CursorAdapter {
 
 	private final LayoutInflater inflater;
+	private int i;
 
 	public NewsCursorAdapter(final Context context, final Cursor c) {
 		super(context, c, true);
@@ -66,9 +67,14 @@ public class NewsCursorAdapter extends CursorAdapter {
 	public View newView(final Context ctx, final Cursor cursor,
 			final ViewGroup parent) {
 
-		final View v = inflater.inflate(R.layout.basic_row, parent);
-		v.setTag(getWarpper(cursor, v));
+		final View v = inflater.inflate(R.layout.basic_row, null);
 
+		int c = R.color.white;
+		if ((i++ % 2) == 0) {
+			c = android.R.color.primary_text_light;
+		}
+		v.setBackgroundColor(c);
+		v.setTag(getWarpper(cursor, v));
 		return v;
 	}
 

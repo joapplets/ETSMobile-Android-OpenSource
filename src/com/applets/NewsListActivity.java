@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.applets.adapters.BaseCursorAdapter;
 import com.applets.adapters.NewsCursorAdapter;
 import com.applets.models.Model;
 import com.applets.models.News;
@@ -32,57 +31,46 @@ public class NewsListActivity extends ListActivity implements
 	private ProgressDialog dialog;
 
 	/**
-	 * Build the query to retreive news
-	 * 
-	 * @return String the full qualified url
-	 */
-	private String buildQuery() {
-		// get the prefered feeds
-		final SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		userPref = new boolean[6];
-		userPref[0] = sharedPrefs.getBoolean("feed_ets", true);
-		userPref[1] = sharedPrefs.getBoolean("feed_aaets", true);
-		userPref[2] = sharedPrefs.getBoolean("feed_applets", true);
-		userPref[3] = sharedPrefs.getBoolean("feed_conjure", true);
-		userPref[4] = sharedPrefs.getBoolean("feed_chinook", true);
-		userPref[5] = sharedPrefs.getBoolean("feed_interface", true);
-
-		// Retreive the list of feed from server
-		final StringBuilder sBuilder = new StringBuilder();
-		sBuilder.append(getString(R.string.host)).append(
-				getString(R.string.api_feed));
-
-		// sBuilder.append("?q=");
-		// for (int i = 0; i < userPref.length; i++) {
-		// sBuilder.append(userPref[i] ? i : "");
-		// sBuilder.append(i + 1 < userPref.length ? "," : "");
-		// }
-
-		return sBuilder.toString();
-	}
-
-	/**
 	 * "Refresh",Retreive latest news from the server
 	 */
 	private void getLatestNews() {
-		dialog = ProgressDialog.show(NewsListActivity.this, "", 
-	            "Loading. Please wait...", true);
-		dialog.setCancelable(true);
-		news.execute(buildQuery(), this);
+		String[] urls = new String[4];
+		// get the prefered feeds
+		final SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		userPref = new boolean[2];
+		userPref[0] = sharedPrefs.getBoolean("feed_ets", true);
+		userPref[1] = sharedPrefs.getBoolean("feed_ets_fb", true);
+
+		if (userPref[0] == true) {
+			urls[0] = getString(R.string.ets_rss);
+		}
+
+		if (userPref[1] == false) {
+			urls[1] = getString(R.string.ets_fb);
+		}
+		// dialog = ProgressDialog.show(NewsListActivity.this, "",
+		// "Loading. Please wait...", true);
+		// dialog.setCancelable(true);
+
+		// for (String url : urls) {
+		news.execute(urls[0], this);
+		// }
+
 	}
 
 	/**
 	 * Init the list view with data currently sotred on phone
 	 */
 	private void getList() {
+
 		final Cursor cursor = db.getAll();
 
 		news = new NewsList();
 		if (cursor.getCount() < 1) {
 			getLatestNews();
 		} else {
-			setListAdapter(new BaseCursorAdapter(this, cursor));
+			setListAdapter(new NewsCursorAdapter(this, cursor));
 		}
 	}
 
@@ -90,7 +78,7 @@ public class NewsListActivity extends ListActivity implements
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base_list);
-		
+
 		db = (NewsDbAdapter) new NewsDbAdapter(this).open();
 		getList();
 	}
@@ -140,14 +128,16 @@ public class NewsListActivity extends ListActivity implements
 	@Override
 	public void onPostExecute() {
 
-		dialog.dismiss();
+		// dialog.dismiss();
 		if (news.size() == 0) {
 			Toast.makeText(this, getString(R.string.empty_update),
 					Toast.LENGTH_SHORT).show();
 		} else {
 			// insert data
 			for (final Model model : news) {
-				db.create(model);
+				if (model != null) {
+					db.create(model);
+				}
 			}
 		}
 		setListAdapter(new NewsCursorAdapter(this, db.getAll()));

@@ -50,43 +50,19 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="feed_ets"
-            android:title="News ETS" >
+            android:title="Rss ETS" >
         </CheckBoxPreference>
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="feed_interface"
-            android:title="Interface" >
+            android:key="feed_ets_fb"
+            android:title="Facebook ÉTS" >
         </CheckBoxPreference>
 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="feed_applets"
             android:title="Club Applets" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="feed_aeets"
-            android:title="AÉÉTS" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="feed_chinook"
-            android:title="Club Chinook" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="feed_eclipse"
-            android:title="Club Éclipse" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="feed_conjure"
-            android:title="Conjure" >
         </CheckBoxPreference>
     </PreferenceCategory>
 
