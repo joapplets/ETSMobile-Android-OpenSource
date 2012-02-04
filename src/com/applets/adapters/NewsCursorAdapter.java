@@ -35,7 +35,7 @@ public class NewsCursorAdapter extends CursorAdapter {
 
 	private String getDescription(final Cursor cursor) {
 		return cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_DESCRIPTION));
+				.getColumnIndex(NewsDbAdapter.KEY_DESCRIPTION)).substring(0,250);
 	}
 
 	private String getImage(final Cursor cursor) {

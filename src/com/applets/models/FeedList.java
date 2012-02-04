@@ -12,7 +12,7 @@ import android.database.Cursor;
 import android.util.Log;
 import android.util.Xml;
 
-import com.applets.utils.db.FeedDbAdapter;
+import com.applets.utils.db.ChannelsDbAdapter;
 
 public class FeedList extends ArrayList<Feed> {
 
@@ -23,7 +23,7 @@ public class FeedList extends ArrayList<Feed> {
 
 	private URL feed_list;
 	// Database
-	private final FeedDbAdapter feedAdapter;
+	private final ChannelsDbAdapter feedAdapter;
 
 	private final String url;
 
@@ -31,7 +31,7 @@ public class FeedList extends ArrayList<Feed> {
 		this.url = url;
 
 		// open the database
-		feedAdapter = new FeedDbAdapter(context);
+		feedAdapter = new ChannelsDbAdapter(context);
 		feedAdapter.open();
 		// init the list
 		getFeeds();
@@ -52,15 +52,15 @@ public class FeedList extends ArrayList<Feed> {
 			} else {
 				while (mCursor.moveToNext()) {
 					final int id = mCursor.getInt(mCursor
-							.getColumnIndex(FeedDbAdapter.KEY_ROWID));
+							.getColumnIndex(ChannelsDbAdapter.KEY_ROWID));
 					final String name = mCursor.getString(mCursor
-							.getColumnIndex(FeedDbAdapter.KEY_NAME));
+							.getColumnIndex(ChannelsDbAdapter.KEY_NAME));
 					final String url = mCursor.getString(mCursor
-							.getColumnIndex(FeedDbAdapter.KEY_URL));
+							.getColumnIndex(ChannelsDbAdapter.KEY_URL));
 					final String image = mCursor.getString(mCursor
-							.getColumnIndex(FeedDbAdapter.KEY_IMAGE));
+							.getColumnIndex(ChannelsDbAdapter.KEY_IMAGE));
 					final String lang = mCursor.getString(mCursor
-							.getColumnIndex(FeedDbAdapter.KEY_LANG));
+							.getColumnIndex(ChannelsDbAdapter.KEY_LANG));
 
 					add(new Feed(id, name, url, image, lang));
 				}

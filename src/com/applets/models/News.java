@@ -22,31 +22,27 @@ public class News extends Model {
 			return new News[size];
 		}
 	};
+
 	private String creator = "";
 	private String description = "";
-	private int feed_id;
+	private String url = "";
 	private String image = "";
 	private String name = "";
-	private int news_id;
 	private String pubDate = "";
-
-	private String url = "";
 
 	public News() {
 	}
 
-	public News(final long _id, final String name, final String url,
-			final String description, final String image, final String creator,
-			final int news_id, final int feed_id, final String pubDate) {
+	public News(final long _id, final String name, final String description,
+			final String url, final String image, final String creator,
+			final String pubDate) {
 		super();
 		this._id = _id;
 		this.name = name;
-		this.url = url;
 		this.description = description;
+		this.url = url;
 		this.image = image;
 		this.creator = creator;
-		this.news_id = news_id;
-		this.feed_id = feed_id;
 		this.pubDate = pubDate;
 	}
 
@@ -57,8 +53,6 @@ public class News extends Model {
 	 */
 	public News(final Parcel in) {
 		_id = in.readLong();
-		news_id = in.readInt();
-		feed_id = in.readInt();
 		name = in.readString();
 		description = in.readString();
 		url = in.readString();
@@ -96,20 +90,12 @@ public class News extends Model {
 		return description;
 	}
 
-	public int getFeedId() {
-		return feed_id;
-	}
-
 	public String getImage() {
 		return image;
 	}
 
 	public String getName() {
 		return name;
-	}
-
-	private int getNewsId() {
-		return news_id;
 	}
 
 	public String getPubDate() {
@@ -128,18 +114,8 @@ public class News extends Model {
 		this.description = description;
 	}
 
-	public void setFeedId(final String feed_id) {
-		this.feed_id = Integer.parseInt(feed_id);
-
-	}
-
 	public void setImage(final String image) {
 		this.image = image;
-	}
-
-	public void setNewsId(final String id) {
-		news_id = Integer.parseInt(id);
-
 	}
 
 	public void setPubDate(final String pubDate) {
@@ -147,7 +123,7 @@ public class News extends Model {
 
 	}
 
-	public void setTitle(final String title) {
+	public void setName(final String title) {
 		name = title;
 	}
 
@@ -158,13 +134,11 @@ public class News extends Model {
 	@Override
 	public ContentValues setValues() {
 		_values.put(NewsDbAdapter.KEY_NAME, getName());
-		_values.put(NewsDbAdapter.KEY_URL, getUrl());
 		_values.put(NewsDbAdapter.KEY_DESCRIPTION, getDescription());
+		_values.put(NewsDbAdapter.KEY_URL, getUrl());
 		_values.put(NewsDbAdapter.KEY_IMAGE, getImage());
 		_values.put(NewsDbAdapter.KEY_CREATOR, getCreator());
 		_values.put(NewsDbAdapter.KEY_PUB_DATE, getPubDate());
-		_values.put(NewsDbAdapter.KEY_NEWS_ID, getNewsId());
-		_values.put(NewsDbAdapter.KEY_FEED_ID, getFeedId());
 
 		return _values;
 	}
@@ -180,8 +154,6 @@ public class News extends Model {
 	@Override
 	public void writeToParcel(final Parcel dest, final int flags) {
 		dest.writeLong(_id);
-		dest.writeInt(news_id);
-		dest.writeInt(feed_id);
 		dest.writeString(name);
 		dest.writeString(description);
 		dest.writeString(url);

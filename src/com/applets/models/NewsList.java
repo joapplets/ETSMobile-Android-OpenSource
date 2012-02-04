@@ -20,30 +20,45 @@ public class NewsList extends ArrayList<News> implements ContentHandler {
 	static final String ITEM = "item";
 	static final String LINK = "link";
 	static final String TITLE = "title";
+	static final String LANG = "language";
+	private StringBuilder builder = new StringBuilder();
 	private News currentNews;
+	private Channel currentChannel;
 
 	public NewsList() {
+
 	}
 
 	@Override
 	public void characters(final char[] ch, final int start, final int length)
 			throws SAXException {
-		// TODO Auto-generated method stub
-		String s= "";
+		builder.append(ch, start, length);
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void endElement(final String uri, final String localName,
 			final String qName) throws SAXException {
+
 		if (currentNews != null) {
-			this.add(currentNews);
+			final String elementValue = builder.toString().trim();
+			if (localName.equalsIgnoreCase(TITLE)) {
+				currentNews.setName(elementValue);
+			} else if (localName.equalsIgnoreCase(LINK)) {
+				currentNews.setUrl(elementValue);
+			} else if (localName.equalsIgnoreCase(DESCRIPTION)) {
+				currentNews.setDescription(elementValue);
+			} else if (localName.equalsIgnoreCase(PUB_DATE)) {
+				currentNews.setPubDate(elementValue);
+			} else if (localName.equalsIgnoreCase(ITEM)) {
+				this.add(currentNews);
+			}
 		}
+		builder.setLength(0);
 	}
 
 	@Override
@@ -93,29 +108,19 @@ public class NewsList extends ArrayList<News> implements ContentHandler {
 
 		if (localName.equals(NewsList.ITEM)) {
 			currentNews = new News();
-//			String title, url, id, feed_id, image, pubDate, creator;
-
-//			title = atts.getValue(TITLE);
-//			url = atts.getValue(LINK);
-//			id = atts.getValue("id");
-//			feed_id = atts.getValue("feed_id");
-//			image = atts.getValue("image");
-//			pubDate = atts.getValue(PUB_DATE);
-//			creator = atts.getValue("creator");
-
-//			currentNews.setTitle(title);
-//			currentNews.setUrl(url);
-//			currentNews.setImage(image);
-//			currentNews.setNewsId(id);
-//			currentNews.setCreator(creator);
-//			currentNews.setFeedId(feed_id);
-//			currentNews.setPubDate(pubDate);
+		} else if (localName.equalsIgnoreCase(CHANNEL)) {
+			currentChannel = new Channel();
 		}
 	}
 
 	@Override
 	public void startPrefixMapping(final String prefix, final String uri)
 			throws SAXException {
+	}
+
+	public Channel getChannel() {
+		return currentChannel;
+
 	}
 
 }

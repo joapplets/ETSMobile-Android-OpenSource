@@ -15,14 +15,18 @@ import com.applets.models.News;
 public class NewsDbAdapter extends BaseDbAdapter {
 	public static final String KEY_CREATOR = "creator";
 	public static final String KEY_DESCRIPTION = "description";
-	public static final String KEY_FEED_ID = "feed_id";
+	public static final String KEY_FEED_ID = "channel_id";
 	public static final String KEY_IMAGE = "image";
 	public static final String KEY_NAME = "name";
-	public static final String KEY_NEWS_ID = "news_id";
+	// public static final String KEY_NEWS_ID = "news_id";
 	public static final String KEY_PUB_DATE = "pubdate";
 	public static final String KEY_URL = "url";
 	// TABLE COLUMNS INFO
 	public static final String TABLE_TITLE = "news";
+	final String[] columns = new String[] { BaseDbAdapter.KEY_ROW_ID,
+			NewsDbAdapter.KEY_NAME, NewsDbAdapter.KEY_DESCRIPTION,
+			NewsDbAdapter.KEY_URL, NewsDbAdapter.KEY_IMAGE,
+			NewsDbAdapter.KEY_CREATOR, NewsDbAdapter.KEY_PUB_DATE };
 
 	public NewsDbAdapter(final Context context) {
 		super(context);
@@ -48,18 +52,10 @@ public class NewsDbAdapter extends BaseDbAdapter {
 	}
 
 	public News get(final int rowId) throws SQLException {
-		final Cursor mCursor = db
-				.query(true, NewsDbAdapter.TABLE_TITLE,
-						new String[] { BaseDbAdapter.KEY_ROW_ID,
-								NewsDbAdapter.KEY_NAME, NewsDbAdapter.KEY_URL,
-								NewsDbAdapter.KEY_IMAGE,
-								NewsDbAdapter.KEY_DESCRIPTION,
-								NewsDbAdapter.KEY_CREATOR,
-								NewsDbAdapter.KEY_NEWS_ID,
-								NewsDbAdapter.KEY_FEED_ID,
-								NewsDbAdapter.KEY_PUB_DATE },
-						NewsDbAdapter.KEY_NEWS_ID + "=" + rowId, null, null,
-						null, null, null);
+
+		final Cursor mCursor = db.query(true, NewsDbAdapter.TABLE_TITLE,
+				columns, BaseDbAdapter.KEY_ROW_ID + "=" + rowId, null, null,
+				null, null, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
 		} else {
@@ -67,8 +63,8 @@ public class NewsDbAdapter extends BaseDbAdapter {
 		}
 		return new News(mCursor.getLong(0), mCursor.getString(1),
 				mCursor.getString(2), mCursor.getString(3),
-				mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6),
-				mCursor.getInt(7), mCursor.getString(8));
+				mCursor.getString(4), mCursor.getString(5),
+				mCursor.getString(6));
 	}
 
 	/**
@@ -77,18 +73,9 @@ public class NewsDbAdapter extends BaseDbAdapter {
 
 	@Override
 	public Cursor get(final long rowId) throws SQLException {
-		final Cursor mCursor = db
-				.query(true, NewsDbAdapter.TABLE_TITLE,
-						new String[] { BaseDbAdapter.KEY_ROW_ID,
-								NewsDbAdapter.KEY_NEWS_ID,
-								NewsDbAdapter.KEY_FEED_ID,
-								NewsDbAdapter.KEY_NAME, NewsDbAdapter.KEY_URL,
-								NewsDbAdapter.KEY_IMAGE,
-								NewsDbAdapter.KEY_DESCRIPTION,
-								NewsDbAdapter.KEY_CREATOR,
-								NewsDbAdapter.KEY_PUB_DATE },
-						NewsDbAdapter.KEY_NEWS_ID + "=" + rowId, null, null,
-						null, null, null);
+		final Cursor mCursor = db.query(true, NewsDbAdapter.TABLE_TITLE,
+				columns, BaseDbAdapter.KEY_ROW_ID + "=" + rowId, null, null,
+				null, null, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
 		}
@@ -103,12 +90,8 @@ public class NewsDbAdapter extends BaseDbAdapter {
 
 	@Override
 	public Cursor getAll() {
-		return db.query(NewsDbAdapter.TABLE_TITLE, new String[] {
-				BaseDbAdapter.KEY_ROW_ID, NewsDbAdapter.KEY_NEWS_ID,
-				NewsDbAdapter.KEY_NAME, NewsDbAdapter.KEY_URL,
-				NewsDbAdapter.KEY_IMAGE, NewsDbAdapter.KEY_FEED_ID,
-				NewsDbAdapter.KEY_PUB_DATE, NewsDbAdapter.KEY_DESCRIPTION,
-				NewsDbAdapter.KEY_CREATOR }, null, null, null, null, null);
+		return db.query(NewsDbAdapter.TABLE_TITLE, columns, null, null, null,
+				null, null);
 	}
 
 	/**

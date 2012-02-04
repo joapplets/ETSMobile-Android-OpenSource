@@ -91,7 +91,7 @@ public class Feed extends Model {
 	}
 
 	@Override
-	ContentValues setValues() {
+	public ContentValues setValues() {
 
 		_values.put("name", getName());
 		_values.put("url", getUrl());
@@ -100,28 +100,6 @@ public class Feed extends Model {
 		_values.put("lang", getLang());
 		return _values;
 	}
-
-	/**
-	 * save this code
-	 */
-	// @Override
-	// public Feed createFromParcel(Parcel source) {
-	// return initFromParcel(source);
-	// }
-	//
-	// @Override
-	// public Feed[] newArray(int size) {
-	// return new Feed[size];
-	// }
-	//
-	// @Override
-	// public Feed initFromParcel(Parcel source) {
-	// name = source.readString();
-	// type = source.readString();
-	// url = source.readString();
-	// lang = source.readString();
-	// return new Feed(name, url, image, lang);
-	// }
 
 	@Override
 	public void writeToParcel(final Parcel dest, final int flags) {

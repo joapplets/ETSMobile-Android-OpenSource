@@ -15,16 +15,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.applets.adapters.NewsCursorAdapter;
-import com.applets.models.Model;
+import com.applets.models.Channel;
 import com.applets.models.News;
 import com.applets.models.NewsList;
+import com.applets.utils.db.ChannelsDbAdapter;
 import com.applets.utils.db.NewsDbAdapter;
 import com.applets.utils.xml.IAsyncTaskListener;
 
 public class NewsListActivity extends ListActivity implements
 		IAsyncTaskListener {
 
-	private NewsDbAdapter db;
+	private NewsDbAdapter newsDb;
+	private ChannelsDbAdapter channelsDb;
 	private Menu menu;
 	private NewsList news;
 	private boolean[] userPref;
@@ -49,9 +51,9 @@ public class NewsListActivity extends ListActivity implements
 		if (userPref[1] == false) {
 			urls[1] = getString(R.string.ets_fb);
 		}
-		// dialog = ProgressDialog.show(NewsListActivity.this, "",
-		// "Loading. Please wait...", true);
-		// dialog.setCancelable(true);
+		dialog = ProgressDialog.show(NewsListActivity.this, "",
+				"Loading. Please wait...", true);
+		dialog.setCancelable(true);
 
 		// for (String url : urls) {
 		news.execute(urls[0], this);
@@ -64,7 +66,7 @@ public class NewsListActivity extends ListActivity implements
 	 */
 	private void getList() {
 
-		final Cursor cursor = db.getAll();
+		final Cursor cursor = newsDb.getAll();
 
 		news = new NewsList();
 		if (cursor.getCount() < 1) {
@@ -79,7 +81,8 @@ public class NewsListActivity extends ListActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base_list);
 
-		db = (NewsDbAdapter) new NewsDbAdapter(this).open();
+		newsDb = (NewsDbAdapter) new NewsDbAdapter(this).open();
+//		channelsDb = (ChannelsDbAdapter) new ChannelsDbAdapter(this).open();
 		getList();
 	}
 
@@ -100,7 +103,7 @@ public class NewsListActivity extends ListActivity implements
 		super.onListItemClick(l, v, position, id);
 
 		final Intent myIntent = new Intent(this, NewsReaderActivity.class);
-		myIntent.putExtra(News.class.getName(), db.get((int) id));
+		myIntent.putExtra(News.class.getName(), newsDb.get((int) id));
 
 		startActivity(myIntent);
 	}
@@ -128,19 +131,23 @@ public class NewsListActivity extends ListActivity implements
 	@Override
 	public void onPostExecute() {
 
-		// dialog.dismiss();
+		dialog.dismiss();
 		if (news.size() == 0) {
 			Toast.makeText(this, getString(R.string.empty_update),
 					Toast.LENGTH_SHORT).show();
 		} else {
+			final Channel c = news.getChannel();
+//			long chID = channelsDb.create(c);
 			// insert data
-			for (final Model model : news) {
-				if (model != null) {
-					db.create(model);
+			for (final News n : news) {
+				if (n != null) {
+//					n.setChannelId(c.);
+					newsDb.create(n);
 				}
 			}
+			
 		}
-		setListAdapter(new NewsCursorAdapter(this, db.getAll()));
+		setListAdapter(new NewsCursorAdapter(this, newsDb.getAll()));
 	}
 
 }
