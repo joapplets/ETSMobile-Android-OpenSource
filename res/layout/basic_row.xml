@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dip"
             android:paddingRight="10dip"
-            android:paddingTop="10dip" >
+            android:paddingTop="10dip" android:background="@drawable/news_background_twitterets">
 
             <TextView
                 android:id="@+id/base_row_date"
