@@ -7,6 +7,8 @@
 	<color name="trans">#80000000</color>
 	<color name="main_backgroud">#807F83</color>
 	<color name="actionbar_separator">#666666</color>
-	<color name="actionbar_background_start">#E70033</color>
-	<color name="actionbar_background_end">#E70033</color>
+	<color name="alt_row">#EEEEEE</color>
+	<color name="news_date_colors">#6a6a6a</color>
+	<color name="news_title_color">#474747</color>
+	<color name="list_separator_color">#d2d2d2</color>
 </resources>

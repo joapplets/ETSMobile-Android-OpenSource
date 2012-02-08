@@ -46,7 +46,7 @@ public class NewsRowWrapper {
 	}
 
 	public void setImage(final String image) {
-		// getImage().setImageResource(R.drawable.spacer_middle);
+		 getImage().setImageResource(R.drawable.news_image_placeholder);
 	}
 
 	public void setTitle(final String title) {

@@ -5,10 +5,45 @@
     android:layout_height="fill_parent"
     android:background="@drawable/home_background"
     android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/news_nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navbar_bg"
+        android:orientation="horizontal"
+        android:padding="5dip" >
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:src="@drawable/icon_home" android:background="@drawable/button_gradient"/>
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="25dip"
+            android:paddingRight="13dip"
+            android:paddingTop="5dip"
+            android:src="@drawable/navbar_news_title" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sources"
+            android:textColor="@color/white"
+            android:textStyle="bold" android:background="@drawable/button_gradient"/>
+    </LinearLayout>
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent" android:background="@color/white" android:divider="@color/list_separator_color">
     </ListView>
 
 </LinearLayout>

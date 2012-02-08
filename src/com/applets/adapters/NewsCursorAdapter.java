@@ -34,8 +34,9 @@ public class NewsCursorAdapter extends CursorAdapter {
 	}
 
 	private String getDescription(final Cursor cursor) {
-		return cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_DESCRIPTION)).substring(0,250);
+		return cursor.getString(
+				cursor.getColumnIndex(NewsDbAdapter.KEY_DESCRIPTION))
+				.substring(0, 250);
 	}
 
 	private String getImage(final Cursor cursor) {
@@ -71,9 +72,9 @@ public class NewsCursorAdapter extends CursorAdapter {
 
 		int c = R.color.white;
 		if ((i++ % 2) == 0) {
-			c = android.R.color.primary_text_light;
+			c = R.color.alt_row;
 		}
-		v.setBackgroundColor(c);
+		v.setBackgroundResource(c);
 		v.setTag(getWarpper(cursor, v));
 		return v;
 	}
