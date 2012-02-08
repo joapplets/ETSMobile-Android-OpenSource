@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -81,8 +82,24 @@ public class NewsListActivity extends ListActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base_list);
 
+		findViewById(R.id.base_list_home_btn).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				});
+		findViewById(R.id.base_list_source_btn).setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						startActivity(new Intent(v.getContext(),
+								AppPreferenceActivity.class));
+
+					}
+				});
 		newsDb = (NewsDbAdapter) new NewsDbAdapter(this).open();
-//		channelsDb = (ChannelsDbAdapter) new ChannelsDbAdapter(this).open();
 		getList();
 	}
 
@@ -137,15 +154,15 @@ public class NewsListActivity extends ListActivity implements
 					Toast.LENGTH_SHORT).show();
 		} else {
 			final Channel c = news.getChannel();
-//			long chID = channelsDb.create(c);
+			// long chID = channelsDb.create(c);
 			// insert data
 			for (final News n : news) {
 				if (n != null) {
-//					n.setChannelId(c.);
+					// n.setChannelId(c.);
 					newsDb.create(n);
 				}
 			}
-			
+
 		}
 		setListAdapter(new NewsCursorAdapter(this, newsDb.getAll()));
 	}

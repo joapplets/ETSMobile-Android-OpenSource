@@ -46,6 +46,10 @@ public class NewsCursorAdapter extends CursorAdapter {
 	private String getName(final Cursor cursor) {
 		return cursor.getString(cursor.getColumnIndex(NewsDbAdapter.KEY_NAME));
 	}
+	
+	private String getDate(final Cursor cursor) {
+		return cursor.getString(cursor.getColumnIndex(NewsDbAdapter.KEY_PUB_DATE));
+	}
 
 	/**
 	 * Creates a new RowWrapper and inits the values
@@ -61,6 +65,7 @@ public class NewsCursorAdapter extends CursorAdapter {
 		wrapper.setTitle(getName(cursor));
 		wrapper.setDescription(getDescription(cursor));
 		wrapper.setImage(getImage(cursor));
+		wrapper.setDate(getDate(cursor));
 		return wrapper;
 	}
 

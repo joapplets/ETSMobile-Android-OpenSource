@@ -13,14 +13,15 @@
         android:background="@drawable/navbar_bg"
         android:orientation="horizontal"
         android:padding="5dip" >
-
+
         <ImageButton
-            android:id="@+id/imageButton1"
+            android:id="@+id/base_list_home_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_gradient"
             android:paddingLeft="20dip"
             android:paddingRight="20dip"
-            android:src="@drawable/icon_home" android:background="@drawable/button_gradient"/>
+            android:src="@drawable/icon_home" />
 
         <ImageView
             android:id="@+id/imageView1"
@@ -30,14 +31,16 @@
             android:paddingRight="13dip"
             android:paddingTop="5dip"
             android:src="@drawable/navbar_news_title" />
-
+
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/base_list_source_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_gradient"
             android:text="Sources"
             android:textColor="@color/white"
-            android:textStyle="bold" android:background="@drawable/button_gradient"/>
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <ListView

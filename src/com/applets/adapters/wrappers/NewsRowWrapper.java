@@ -14,6 +14,7 @@ public class NewsRowWrapper {
 	private ImageView image;
 	private TextView name = null;
 	private final View view;
+	private TextView date;
 
 	public NewsRowWrapper(final View base) {
 		view = base;
@@ -40,16 +41,28 @@ public class NewsRowWrapper {
 		return name;
 	}
 
+	private TextView getDate() {
+		if (date == null) {
+			date = (TextView) view.findViewById(R.id.base_row_date);
+		}
+		return date;
+	}
+
 	public void setDescription(final String description) {
 		getDescription().setText(Html.fromHtml(description));
 		getDescription().setAutoLinkMask(Linkify.WEB_URLS);
 	}
 
 	public void setImage(final String image) {
-		 getImage().setImageResource(R.drawable.news_image_placeholder);
+		getImage().setImageResource(R.drawable.news_image_placeholder);
 	}
 
 	public void setTitle(final String title) {
 		getName().setText(title);
 	}
+
+	public void setDate(String date) {
+		getDate().setText(date);
+	}
+
 }
