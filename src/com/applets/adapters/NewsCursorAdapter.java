@@ -16,8 +16,8 @@ import com.applets.utils.db.NewsDbAdapter;
 
 public class NewsCursorAdapter extends CursorAdapter {
 
-	private final LayoutInflater inflater;
 	private int i;
+	private final LayoutInflater inflater;
 
 	public NewsCursorAdapter(final Context context, final Cursor c) {
 		super(context, c, true);
@@ -33,8 +33,13 @@ public class NewsCursorAdapter extends CursorAdapter {
 		}
 	}
 
+	private String getDate(final Cursor cursor) {
+		return cursor.getString(cursor
+				.getColumnIndex(NewsDbAdapter.KEY_PUB_DATE));
+	}
+
 	private String getDescription(final Cursor cursor) {
-		String s = cursor.getString(cursor
+		final String s = cursor.getString(cursor
 				.getColumnIndex(NewsDbAdapter.KEY_DESCRIPTION));
 		return s;
 	}
@@ -45,11 +50,6 @@ public class NewsCursorAdapter extends CursorAdapter {
 
 	private String getTitle(final Cursor cursor) {
 		return cursor.getString(cursor.getColumnIndex(NewsDbAdapter.KEY_TITLE));
-	}
-
-	private String getDate(final Cursor cursor) {
-		return cursor.getString(cursor
-				.getColumnIndex(NewsDbAdapter.KEY_PUB_DATE));
 	}
 
 	/**
@@ -68,9 +68,9 @@ public class NewsCursorAdapter extends CursorAdapter {
 			wrapper.setDescription(getTitle(cursor));
 			wrapper.setDate(getDate(cursor));
 			wrapper.setImage(getImage(cursor));
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 
@@ -84,7 +84,7 @@ public class NewsCursorAdapter extends CursorAdapter {
 		final View v = inflater.inflate(R.layout.basic_row, null);
 
 		int c = R.color.white;
-		if ((i++ % 2) == 0) {
+		if (i++ % 2 == 0) {
 			c = R.color.alt_row;
 		}
 		v.setBackgroundResource(c);

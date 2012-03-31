@@ -1,14 +1,13 @@
 package com.applets;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 
-public class StudentProfileActivity extends Activity {
+public class NewsListPreferences extends PreferenceActivity {
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.student_profile);
+		addPreferencesFromResource(R.xml.preferences);
 	}
 }

@@ -2,68 +2,21 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory
-        android:key="updates"
-        android:title="First Category" >
+        android:key="sources"
+        android:title="Source des nouvelles" >
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="perform_updates"
-            android:summary="Enable or disable data updates"
-            android:title="AppETS" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="welcom_message"
-        android:title="Second Category" >
-
-        <EditTextPreference
-            android:defaultValue="Default welcome message"
-            android:dialogMessage="Provide a message"
-            android:dialogTitle="Welcome Message"
-            android:key="welcome_message"
-            android:summary="Define the Welcome message to be shown"
-            android:title="Welcome Message" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="updates"
-        android:title="Database Version : 3" >
-
+            android:key="rssETS"
+            android:summary="Afficher les nouvelles provenant du feed RSS de l'ÉTS"
+            android:title="Feed RSS ÉTS" />
+        
         <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="perform_updates"
-            android:summary="Enable or disable data updates"
-            android:title="AppETS" />
-
-        <ListPreference
-            android:defaultValue="1000"
-            android:dependency="perform_updates"
-            android:key="updates_interval"
-            android:summary="Define how often updates will be performed"
-            android:title="Updates interval" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="feed_list"
-        android:title="Feed List" >
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="feed_ets"
-            android:title="Rss ETS" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="feed_ets_fb"
-            android:title="Facebook ÉTS" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="feed_applets"
-            android:title="Club Applets" >
-        </CheckBoxPreference>
+        	android:defaultValue="true"
+        	android:key="FB"
+        	android:summary="Afficher les nouvelles provenant de la page Facebook de l'ÉTS"
+        	android:title="Page Facebook ÉTS" />
+            
     </PreferenceCategory>
 
 </PreferenceScreen>

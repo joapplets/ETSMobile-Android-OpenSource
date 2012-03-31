@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,27 +13,42 @@ import android.widget.TextView;
 import com.applets.R;
 
 public class HomeIconAdapter extends BaseAdapter {
-	private Context mContext;
+	private final Context mContext;
 
-	public HomeIconAdapter(Context c) {
+	// references to icons
+	private final Integer[] mIcons = { R.drawable.icon_profile,
+			R.drawable.icon_news, R.drawable.icon_tour,
+			R.drawable.icon_emergency, R.drawable.icon_schedule,
+			R.drawable.icon_addressbook, R.drawable.icon_courses };
+
+	// references to icons labels
+	private final String[] mIconsLabels = { "Profil", "Nouvelles",
+			"Tour guidé", "Sécurité", "Horaire", "Bottin", "Mes cours" };
+
+	public HomeIconAdapter(final Context c) {
 		mContext = c;
 	}
 
+	@Override
 	public int getCount() {
 		return mIcons.length;
 	}
 
-	public Object getItem(int position) {
+	@Override
+	public Object getItem(final int position) {
 		return null;
 	}
 
-	public long getItemId(int position) {
+	@Override
+	public long getItemId(final int position) {
 		return 0;
 	}
 
 	// TO-DO, switch to Wrapper /w Inflater
 	// create a new ImageView for each item referenced by the Adapter
-	public View getView(int position, View convertView, ViewGroup parent) {
+	@Override
+	public View getView(final int position, final View convertView,
+			final ViewGroup parent) {
 		LinearLayout iconLayout;
 		ImageView imageView;
 		TextView iconLabel;
@@ -45,16 +61,14 @@ public class HomeIconAdapter extends BaseAdapter {
 			imageView = new ImageView(mContext);
 			imageView.setImageResource(mIcons[position]);
 			LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
+					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			layout.gravity = Gravity.CENTER;
 			imageView.setLayoutParams(layout);
 			imageView.setScaleType(ImageView.ScaleType.CENTER);
 
 			iconLabel = new TextView(mContext);
-			layout = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
+			layout = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT);
 			layout.gravity = Gravity.CENTER;
 			iconLabel.setLayoutParams(layout);
 			iconLabel.setText(mIconsLabels[position]);
@@ -67,14 +81,4 @@ public class HomeIconAdapter extends BaseAdapter {
 
 		return iconLayout;
 	}
-
-	// references to icons
-	private final Integer[] mIcons = { R.drawable.icon_profile,
-			R.drawable.icon_news, R.drawable.icon_tour,
-			R.drawable.icon_emergency, R.drawable.icon_schedule,
-			R.drawable.icon_addressbook, R.drawable.icon_courses };
-
-	// references to icons labels
-	private final String[] mIconsLabels = { "Profil", "Nouvelles",
-			"Tour guidé", "Sécurité", "Horaire", "Bottin", "Mes cours" };
 }

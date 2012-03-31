@@ -5,15 +5,15 @@ import android.os.Parcel;
 
 public class Channel extends Model {
 
-	private String title;
-	private String link;
 	private String description;
 	private String lang;
+	private String link;
+	private String title;
 
 	@Override
-	public int compareTo(Model m) {
-		boolean c = title.equalsIgnoreCase(((Channel) m).getTitle());
-		return (c) ? 0 : -1;
+	public int compareTo(final Model m) {
+		final boolean c = title.equalsIgnoreCase(((Channel) m).getTitle());
+		return c ? 0 : -1;
 	}
 
 	@Override
@@ -22,10 +22,36 @@ public class Channel extends Model {
 		return 0;
 	}
 
-	@Override
-	public void writeToParcel(Parcel arg0, int arg1) {
-		// TODO Auto-generated method stub
+	public String getDescription() {
+		return description;
+	}
 
+	public String getLang() {
+		return lang;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
+	}
+
+	public void setLang(final String lang) {
+		this.lang = lang;
+	}
+
+	public void setLink(final String link) {
+		this.link = link;
+	}
+
+	public void setTitle(final String title) {
+		this.title = title;
 	}
 
 	@Override
@@ -37,36 +63,10 @@ public class Channel extends Model {
 		return _values;
 	}
 
-	public String getLang() {
-		return lang;
-	}
+	@Override
+	public void writeToParcel(final Parcel arg0, final int arg1) {
+		// TODO Auto-generated method stub
 
-	public void setLang(String lang) {
-		this.lang = lang;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 }

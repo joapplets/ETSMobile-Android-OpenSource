@@ -23,13 +23,6 @@ public class ProgramWrapper {
 		return description;
 	}
 
-	private ImageView getImage() {
-		if (image == null) {
-			image = (ImageView) view.findViewById(R.id.base_row_image);
-		}
-		return image;
-	}
-
 	private TextView getTitle() {
 		if (title == null) {
 			title = (TextView) view.findViewById(R.id.base_row_title);

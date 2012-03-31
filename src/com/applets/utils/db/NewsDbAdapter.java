@@ -13,13 +13,13 @@ import com.applets.models.News;
  * @author Philippe David
  */
 public class NewsDbAdapter extends BaseDbAdapter {
+	public static final String KEY_CHANNEL_ID = "channel_id";
 	public static final String KEY_CREATOR = "creator";
 	public static final String KEY_DESCRIPTION = "description";
-	public static final String KEY_CHANNEL_ID = "channel_id";
 	public static final String KEY_IMAGE = "image";
-	public static final String KEY_TITLE = "name";
 	// public static final String KEY_NEWS_ID = "news_id";
 	public static final String KEY_PUB_DATE = "pubdate";
+	public static final String KEY_TITLE = "name";
 	public static final String KEY_URL = "url";
 	// TABLE COLUMNS INFO
 	public static final String TABLE_TITLE = "news";
@@ -61,10 +61,10 @@ public class NewsDbAdapter extends BaseDbAdapter {
 		} else {
 			return null;
 		}
-		return new News(mCursor.getLong(0), mCursor.getString(1),
-				mCursor.getString(2), mCursor.getString(3),
-				mCursor.getString(4), mCursor.getString(5),
-				mCursor.getString(6));
+		return new News();
+		// return new News(mCursor.getLong(0), mCursor.getString(1),
+		// mCursor.getString(2), mCursor.getString(3),
+		// mCursor.getString(4));
 	}
 
 	/**

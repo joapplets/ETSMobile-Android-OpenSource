@@ -16,14 +16,21 @@ import com.applets.R;
 
 public class NewsRowWrapper {
 
+	private TextView date;
 	private TextView description = null;
 	private ImageView image;
 	private TextView name = null;
 	private final View view;
-	private TextView date;
 
 	public NewsRowWrapper(final View base) {
 		view = base;
+	}
+
+	private TextView getDate() {
+		if (date == null) {
+			date = (TextView) view.findViewById(R.id.base_row_date);
+		}
+		return date;
 	}
 
 	private TextView getDescription() {
@@ -47,11 +54,8 @@ public class NewsRowWrapper {
 		return name;
 	}
 
-	private TextView getDate() {
-		if (date == null) {
-			date = (TextView) view.findViewById(R.id.base_row_date);
-		}
-		return date;
+	public void setDate(final String date) {
+		getDate().setText(date);
 	}
 
 	public void setDescription(final String description) {
@@ -68,10 +72,6 @@ public class NewsRowWrapper {
 
 	public void setTitle(final String title) {
 		getName().setText(Html.fromHtml(title));
-	}
-
-	public void setDate(String date) {
-		getDate().setText(date);
 	}
 
 }

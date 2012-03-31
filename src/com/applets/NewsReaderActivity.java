@@ -21,10 +21,10 @@ public class NewsReaderActivity extends Activity {
 		final Bundle b = getIntent().getExtras();
 		currentNews = b.getParcelable(News.class.getName());
 
-		String s = currentNews.getDescription();
-		view = ((WebView) findViewById(R.id.web_view_text));
+		currentNews.getDescription();
+		view = (WebView) findViewById(R.id.web_view_text);
 
 		view.getSettings().setJavaScriptEnabled(true);
-		view.loadUrl(currentNews.getUrl());
+		view.loadUrl(currentNews.getSource());
 	}
 }
