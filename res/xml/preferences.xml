@@ -1,22 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <PreferenceCategory
-        android:key="sources"
-        android:title="Source des nouvelles" >
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="rssETS"
-            android:summary="Afficher les nouvelles provenant du feed RSS de l'ÉTS"
-            android:title="Feed RSS ÉTS" />
-        
-        <CheckBoxPreference
-        	android:defaultValue="true"
-        	android:key="FB"
-        	android:summary="Afficher les nouvelles provenant de la page Facebook de l'ÉTS"
-        	android:title="Page Facebook ÉTS" />
-            
+    <PreferenceCategory android:title="@string/pref_signets_label">
+        <EditTextPreference android:title="@string/pref_code_universel" android:key="codeAccesUniversel"/>
+        <EditTextPreference android:key="motPasse" android:title="@string/pref_mot_passe_lbl"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

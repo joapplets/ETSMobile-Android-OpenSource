@@ -3,7 +3,6 @@ package com.applets.adapters.wrappers;
 import android.text.Html;
 import android.text.util.Linkify;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.applets.R;
@@ -11,7 +10,6 @@ import com.applets.R;
 public class NewsWrapper {
 
 	private TextView description = null;
-	private ImageView image;
 	private TextView title = null;
 	private final View view;
 

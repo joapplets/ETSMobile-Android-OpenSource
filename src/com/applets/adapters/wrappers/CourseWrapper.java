@@ -1,14 +1,12 @@
 package com.applets.adapters.wrappers;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.applets.R;
 
 public class CourseWrapper {
 	private TextView description = null;
-	private ImageView image;
 	private TextView title = null;
 	private final View view;
 
