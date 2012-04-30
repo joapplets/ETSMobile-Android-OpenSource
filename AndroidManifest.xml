@@ -25,6 +25,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name="ca.etsmtl.applets.etsmobile.NewsListActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        
+        <activity 
+            android:name=".preferences.NewsListPreferences"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        
+        <activity
+            android:name="ca.etsmtl.applets.etsmobile.SingleNewsActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
     </application>
 
 </manifest>
