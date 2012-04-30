@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">ETSMobile</string>
-    <string name="feed_list_title">Available RSS feeds</string>
-    <string name="program_list_title">Programs</string>
-    <string name="about_title">About</string>
-    <string name="main_title">Home</string>
-	<string name="interactive_tour_title">Points of interrest</string>
+    <string name="app_name">ÉTS Mobile</string>
+    <string name="gridview_item_image">Gridview Image View</string>
+    <string name="main_home_header">Main header</string>
 </resources>
