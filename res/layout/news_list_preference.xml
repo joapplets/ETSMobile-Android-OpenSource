@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+	    android:title="Test">
+	    
+	    	<CheckBoxPreference
+	    	    android:title="Nouvelles ETS"
+	    	    android:defaultValue="true"
+	    	    android:summary="Afficher les nouvelles provenant du site web de l'ÉTS"
+	    	    android:key="nouvellesETS"/>
+	    	
+	    	<CheckBoxPreference
+	    	    android:title="Facebook ETS"
+	    	    android:defaultValue="true"
+	    	    android:summary="Afficher les nouvelles provenant de la page Facebook de l'ÉTS"
+	    	    android:key="facebook"/>
+	    
+	        <CheckBoxPreference
+	    	    android:title="Twitter ETS"
+	    	    android:defaultValue="true"
+	    	    android:summary="Afficher les nouvelles provenant de Twitter ÉTS"
+	    	    android:key="twitter"/>
+	    
+	</PreferenceCategory>
+</PreferenceScreen>
