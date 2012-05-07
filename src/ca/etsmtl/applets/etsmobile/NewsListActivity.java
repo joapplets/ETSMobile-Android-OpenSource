@@ -71,8 +71,6 @@ public class NewsListActivity extends Activity{
 		if(newsToTransferToDB == null){
 			new QueryNewsFromBackground().execute(null);
 		}
-			
-		refreshListView();
 		
 		ImageButton btnHome = (ImageButton)findViewById(R.id.base_list_home_btn);
 		btnHome.setOnClickListener(new OnClickListener() {
@@ -92,6 +90,12 @@ public class NewsListActivity extends Activity{
 				startActivity(intent);
 			}
 		});
+	}
+	
+	@Override
+	protected void onResume() {
+		refreshListView();
+		super.onResume();
 	}
 	
 	@Override
