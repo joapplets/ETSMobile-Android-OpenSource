@@ -17,7 +17,7 @@ import android.content.Context;
  * @author Rodrigo Manyari.
  * @version 1.0
  */
-public class XMLRssFbTwitterHandler extends XMLAppletsHandler{
+public class XMLRssFbTwitterHandler extends XMLNewsHandler{
 
 	private String source;
 	

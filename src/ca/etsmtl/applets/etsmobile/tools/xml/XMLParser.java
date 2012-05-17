@@ -22,7 +22,7 @@ import android.util.Log;
 public class XMLParser {
 
 	// Les messages d'erreur qui pourraient apparaître dans logcat.
-	private final String TAG = "com.manyari.xml.XMLPARSER";
+	private final String TAG = "ca.etsmtl.applets.tools.xml.XMLParser";
 	private final String OPEN_STREAM_ERROR_MESSAGE = "Something wrong happened when trying to get the stream from the server";
 	private final String SAX_PARSER_FACTORY_INSTANCE_ERROR_MESSAGE = "Couldn't get a new sax parser instance from factory.";
 	private final String SAX_PARSER = "Couldn't get a new sax parser.";
@@ -31,13 +31,13 @@ public class XMLParser {
 	// L'objet qui permet de parser le xml (RSS feed).
 	private SAXParser saxParser = null;
 	
-	// L'inputStream est utilisé pour garder en mémoire le texte qu'on est allés
+	// L'inputStream est utilisé pour garder en mémoire le texte qu'on est allé
 	// chercher à l'aide de la méthode openStream.
 	private InputStream inputStream = null; 
 	
-	private XMLAppletsHandler handler;
+	private XMLNewsHandler handler;
 	
-	public XMLParser(URL url, XMLAppletsHandler handler, Context c){
+	public XMLParser(URL url, XMLNewsHandler handler, Context c){
 		
 		this.handler = handler;
 		

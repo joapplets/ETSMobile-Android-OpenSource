@@ -7,12 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLDBHelper extends SQLiteOpenHelper{
 
-	public static final String DB_NAME = "app_ets_db.db";
+	public static final String DB_NAME = "ETSMobile_db.db";
 	
 	/**
 	 * News table.
 	 */
-	public final static String NEWS_TABLE = "newsTable";
+	public final static String NEWS_TABLE = "NewsTable";
 	
 	/**
 	 * Columns name for the news table.

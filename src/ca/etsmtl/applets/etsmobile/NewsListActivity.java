@@ -10,7 +10,7 @@ import ca.etsmtl.applets.etsmobile.adapters.NewsListAdapter.Holder;
 import ca.etsmtl.applets.etsmobile.models.News;
 import ca.etsmtl.applets.etsmobile.preferences.NewsListPreferences;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsDB;
-import ca.etsmtl.applets.etsmobile.tools.xml.XMLAppletsHandler;
+import ca.etsmtl.applets.etsmobile.tools.xml.XMLNewsHandler;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLParser;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLRssFbTwitterHandler;
 
@@ -136,7 +136,7 @@ public class NewsListActivity extends Activity{
 			
 			int result = -1;
 			
-			XMLAppletsHandler handler = new XMLRssFbTwitterHandler(NewsListActivity.this, RSS_ETS);
+			XMLNewsHandler handler = new XMLRssFbTwitterHandler(NewsListActivity.this, RSS_ETS);
 			
 			try {
 				XMLParser xml = new XMLParser(new URL(RSS_ETS_FEED), handler, NewsListActivity.this);
