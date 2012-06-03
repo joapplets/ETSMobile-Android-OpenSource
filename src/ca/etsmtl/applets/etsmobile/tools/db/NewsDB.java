@@ -46,10 +46,10 @@ public class NewsDB {
 			
 			// create the db, if it's already in the filesystem it will not recreate it
 			db = new SQLDBHelper(c , DB_NAME, null, DB_VERSION);
+			db.close();
 		}
 		
 		// return the instance.
-		db.close();
 		return instance;
 	}
 	

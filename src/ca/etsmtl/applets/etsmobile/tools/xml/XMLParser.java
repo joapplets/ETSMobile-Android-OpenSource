@@ -10,6 +10,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
+import ca.etsmtl.applets.etsmobile.models.News;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -80,7 +82,7 @@ public class XMLParser {
 			
 	}
 	
-	public ArrayList<Object> getParsedNews(){
+	public ArrayList<News> getParsedNews(){
 		return handler.getData();
 	}
 }

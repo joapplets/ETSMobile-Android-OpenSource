@@ -13,7 +13,7 @@ import android.content.Context;
 public abstract class XMLAppletsHandler extends DefaultHandler{
 	
 	protected StringBuffer buffer;
-	protected ArrayList<Object> newNews;
+	protected ArrayList<News> newNews;
 	protected Context context;
 	protected NewsDB newsDB;
 	protected ArrayList<News> news;
@@ -28,7 +28,7 @@ public abstract class XMLAppletsHandler extends DefaultHandler{
 		super.startDocument();
 		newsDB = NewsDB.getInstance(context);
 		news = newsDB.getAllNews();
-		newNews = new ArrayList<Object>();
+		newNews = new ArrayList<News>();
 	}
 	
 	 public void characters(char[] ch,int start, int length) throws SAXException{
@@ -36,7 +36,7 @@ public abstract class XMLAppletsHandler extends DefaultHandler{
 		 if(buffer != null) buffer.append(lecture);
 	 }
 	 
-	 public ArrayList<Object> getData() {
+	 public ArrayList<News> getData() {
 		return newNews;
 	}
 }
