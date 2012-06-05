@@ -53,14 +53,14 @@ public class NewsDB {
 		return instance;
 	}
 	
-	public void insertNews(String title, long l, String description, String guid, String source){
+	public void insertNews(String title, long date, String description, String guid, String source){
 		ContentValues cv = new ContentValues();
 		
 		// put into the date column the String date
 		cv.put(NEWS_TITLE, title);
 			
 		// same here...
-		cv.put(NEWS_DATE, l);
+		cv.put(NEWS_DATE, date);
 		
 		//same...
 		cv.put(NEWS_DESCRIPTION, description);

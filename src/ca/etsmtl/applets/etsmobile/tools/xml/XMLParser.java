@@ -67,8 +67,10 @@ public class XMLParser {
 			if(inputStream != null){			
 				// Si tout est Ok, on parse toutes les données
 				saxParser.parse(inputStream, handler);
-				
 			}
+			
+			inputStream.close();
+			
 		} catch (IOException e) {
 			
 			// Encore une fois, pour des raisons X, il se peut qu'on ne soit pas capables d'aller chercher
