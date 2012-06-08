@@ -2,6 +2,7 @@ package ca.etsmtl.applets.etsmobile.tools.xml;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.xml.sax.Attributes;
@@ -116,6 +117,11 @@ public class XMLRssFbTwitterHandler extends XMLAppletsHandler{
 			inItem = false;
 		}
 			
+	}
+	
+	@Override
+	public ArrayList<News> getData() {
+		return newNews;
 	}
 
 }

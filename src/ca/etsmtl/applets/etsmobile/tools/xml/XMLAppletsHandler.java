@@ -6,7 +6,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import ca.etsmtl.applets.etsmobile.models.News;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsDB;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsAdapter;
 
 import android.content.Context;
 
@@ -15,7 +15,7 @@ public abstract class XMLAppletsHandler extends DefaultHandler{
 	protected StringBuffer buffer;
 	protected ArrayList<News> newNews;
 	protected Context context;
-	protected NewsDB newsDB;
+	protected NewsAdapter newsDB;
 	protected ArrayList<News> news;
 	
 	public XMLAppletsHandler(Context context){
@@ -26,7 +26,7 @@ public abstract class XMLAppletsHandler extends DefaultHandler{
 	@Override
 	public void startDocument() throws SAXException {
 		super.startDocument();
-		newsDB = NewsDB.getInstance(context);
+		newsDB = NewsAdapter.getInstance(context);
 		news = newsDB.getAllNews();
 		newNews = new ArrayList<News>();
 	}
@@ -36,7 +36,5 @@ public abstract class XMLAppletsHandler extends DefaultHandler{
 		 if(buffer != null) buffer.append(lecture);
 	 }
 	 
-	 public ArrayList<News> getData() {
-		return newNews;
-	}
+	 public abstract Object getData();
 }

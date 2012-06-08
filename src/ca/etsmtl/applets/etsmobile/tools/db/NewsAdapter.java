@@ -9,7 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class NewsDB {
+public class NewsAdapter {
 	
 	/**
 	 * Everything related to a news.
@@ -29,20 +29,20 @@ public class NewsDB {
 	private static SQLDBHelper db = null;
 	
 	//the unique instance of the db
-	private static NewsDB instance = null;
+	private static NewsAdapter instance = null;
 	
 	// private constructor so we can only have one intance of the db
-	private NewsDB(){}
+	private NewsAdapter(){}
 	
 	// Here I applied the singleton pattern because I only want
 	// one instance of the db (which contains all the data of the app)
-	public static NewsDB getInstance(Context c){
+	public static NewsAdapter getInstance(Context c){
 		
 		// if instance is null, which means the we are opening the app
 		if(instance == null){
 			
 			// create one instance
-			instance = new NewsDB();
+			instance = new NewsAdapter();
 			
 			// create the db, if it's already in the filesystem it will not recreate it
 			db = new SQLDBHelper(c , DB_NAME, null, DB_VERSION);

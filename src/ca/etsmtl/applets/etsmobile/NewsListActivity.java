@@ -1,5 +1,6 @@
 package ca.etsmtl.applets.etsmobile;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 import java.net.URL;
@@ -10,7 +11,7 @@ import ca.etsmtl.applets.etsmobile.adapters.NewsListAdapter;
 import ca.etsmtl.applets.etsmobile.adapters.NewsListAdapter.Holder;
 import ca.etsmtl.applets.etsmobile.models.News;
 import ca.etsmtl.applets.etsmobile.preferences.NewsListPreferences;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsDB;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsAdapter;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLAppletsHandler;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLParser;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLRssFbTwitterHandler;
@@ -50,7 +51,7 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 	private ArrayList<News> newsList = new ArrayList<News>();
 	
 	private NewsListAdapter newsAdapter;
-	private static NewsDB newsDB = null;
+	private static NewsAdapter newsDB = null;
 	private ListView listView = null;
 	private SharedPreferences newsPreferences = null;
 	private SharedPreferences timerPreferences = null;
@@ -61,7 +62,7 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.news_list_view);
-		newsDB = NewsDB.getInstance(this);
+		newsDB = NewsAdapter.getInstance(this);
 		
 		initializeListView();
 		
@@ -158,6 +159,8 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 				addNewsToDB(xml.getParsedNews());
 				
 			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			

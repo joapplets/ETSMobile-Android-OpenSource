@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ca.etsmtl.applets.etsmobile.models.News;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsDB;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsAdapter;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ public class SingleNewsActivity extends Activity{
 		// les valeurs aux champs respectifs.
 		Bundle bundle = getIntent().getExtras();
 		
-		NewsDB newsDB = NewsDB.getInstance(this);
+		NewsAdapter newsDB = NewsAdapter.getInstance(this);
 		News n = newsDB.getNewsByGUID((String) bundle.getCharSequence("guid"));
 		
 		if(n != null){

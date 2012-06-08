@@ -11,6 +11,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import ca.etsmtl.applets.etsmobile.models.News;
+import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 
 import android.content.Context;
 import android.util.Log;
@@ -39,7 +40,11 @@ public class XMLParser {
 	
 	private XMLAppletsHandler handler;
 	
-	public XMLParser(URL url, XMLAppletsHandler handler, Context c){
+	public XMLParser(URL url, XMLAppletsHandler handler, Context c) throws IOException{
+		new XMLParser(url.openStream(), handler, c);
+	}
+	
+	public XMLParser(InputStream stream, XMLAppletsHandler handler, Context c){
 		
 		this.handler = handler;
 		
@@ -61,7 +66,7 @@ public class XMLParser {
 		try {
 			
 			// On essaie d'aller chercher les données à partir du URL.
-			inputStream = url.openStream();
+			inputStream = stream;
 			
 			// Si ça ne plante pas, on vérifie qu'il a de quoi à lire.
 			if(inputStream != null){			
@@ -84,7 +89,20 @@ public class XMLParser {
 			
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<News> getParsedNews(){
-		return handler.getData();
+		if(handler instanceof XMLRssFbTwitterHandler){
+			return (ArrayList<News>)handler.getData();	
+		}else{
+			return null;
+		}
+	}
+	
+	public StudentProfile getParsedStudentProfile(){
+		if(handler instanceof XMLUserProfileParser){
+			return (StudentProfile)handler.getData();	
+		}else{
+			return null;
+		}
 	}
 }
