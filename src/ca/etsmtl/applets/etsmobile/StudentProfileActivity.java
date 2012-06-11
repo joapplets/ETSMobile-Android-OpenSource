@@ -23,43 +23,6 @@ public class StudentProfileActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.student_profile);
 		new UserProfileLoader().execute();
-		
-		/**
-		 * No way qu'on save les credentials dans le cell...
-		 */
-		
-//		// retreive user credentials
-//		final String code = preferences.getString("codeAccesUniversel", "NONE");
-//		final String mot = preferences.getString("motPasse", "NONE");
-//
-//		// retreive users info
-//		// TODO correct post in JSONRetreiver
-//		if (!code.equals("NONE") && !mot.equals("NONE")) {
-//			new JSONRetreiver(this).execute(getString(R.string.ets_signets),
-//					JSONRetreiver.requestTypes[0],
-//					"codeAccesUniversel=" + code, "motPasse=" + mot);
-//		} else {
-//
-//			// alert to notify user that his profile is not saved on the phone
-//			Builder builder = new AlertDialog.Builder(this);
-//			builder.setMessage(getString(R.string.profile_no_credentials_alert))
-//					.setPositiveButton("Oui", new OnClickListener() {
-//
-//						@Override
-//						public void onClick(DialogInterface dialog, int which) {
-//							dialog.cancel();
-//							startActivity(new Intent(
-//									StudentProfileActivity.this,
-//									AppPreferenceActivity.class));
-//						}
-//					}).setNegativeButton("Non", new OnClickListener() {
-//
-//						@Override
-//						public void onClick(DialogInterface dialog, int which) {
-//							dialog.cancel();
-//						}
-//					}).create().show();
-//		}
 	}
 	
 	private class UserProfileLoader extends AsyncTask<Void, Void, InputStream>{
