@@ -41,7 +41,7 @@ public class XMLParser {
 	private XMLAppletsHandler handler;
 	
 	public XMLParser(URL url, XMLAppletsHandler handler, Context c) throws IOException{
-		new XMLParser(url.openStream(), handler, c);
+		this(url.openStream(), handler, c);
 	}
 	
 	public XMLParser(InputStream stream, XMLAppletsHandler handler, Context c){
