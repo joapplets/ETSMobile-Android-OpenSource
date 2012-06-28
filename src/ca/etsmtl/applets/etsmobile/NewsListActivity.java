@@ -200,7 +200,7 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 		// Ce qui arrive quand on click sur les éléments...
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
+			
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				
 				// On crée un nouveau intent qui va nous permettre de lancer
@@ -268,7 +268,7 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 		return animation;
     }
 
-	@Override
+	
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.base_list_home_btn:
@@ -283,13 +283,13 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 		}
 	}
 	
-	@Override
+	
 	public void onAnimationRepeat(Animation arg0) {}
 
-	@Override
+	
 	public void onAnimationStart(Animation arg0) {}
 
-	@Override
+	
 	public void onAnimationEnd(Animation arg0) {
 		if(!footerVisible){
 	    	LinearLayout footer = (LinearLayout)findViewById(R.id.listView_footer);

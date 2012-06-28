@@ -31,7 +31,8 @@ public abstract class XMLNewsHandler extends DefaultHandler{
 		newNews = new ArrayList<Object>();
 	}
 	
-	 public void characters(char[] ch,int start, int length) throws SAXException{
+	 @Override
+	public void characters(char[] ch,int start, int length) throws SAXException{
 		 String lecture = new String(ch,start,length);
 		 if(buffer != null) buffer.append(lecture);
 	 }

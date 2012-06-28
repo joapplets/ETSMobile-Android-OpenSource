@@ -20,39 +20,29 @@ public class ETSMobileAdapter extends BaseAdapter {
 	private final Context context;
 
 	private final Integer[] icons = { R.drawable.icon_profile,
-									  R.drawable.icon_news, 
-									  R.drawable.icon_emergency, 
-									  R.drawable.icon_schedule,
-									  R.drawable.icon_addressbook, 
-									  R.drawable.icon_courses };
+			R.drawable.icon_news, R.drawable.icon_emergency,
+			R.drawable.icon_schedule, R.drawable.icon_addressbook,
+			R.drawable.icon_courses };
 
-	private final String[] iconsLabels = { "Profil", 
-										   "Nouvelles", 
-										   "Sécurité", 
-										   "Horaire", 
-										   "Bottin", 
-										   "Mes cours" };
+	private final String[] iconsLabels = { "Profil", "Nouvelles", "Sécurité",
+			"Horaire", "Bottin", "Mes cours" };
 
 	public ETSMobileAdapter(final Context context) {
 		this.context = context;
 	}
 
-	@Override
 	public int getCount() {
 		return icons.length;
 	}
 
-	@Override
 	public Object getItem(final int arg0) {
 		return null;
 	}
 
-	@Override
 	public long getItemId(final int arg0) {
 		return 0;
 	}
 
-	@Override
 	public View getView(final int position, View convertedView,
 			final ViewGroup arg2) {
 

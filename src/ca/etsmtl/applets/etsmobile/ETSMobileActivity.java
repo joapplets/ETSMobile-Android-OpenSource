@@ -28,7 +28,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		gridview.setOnTouchListener(this);
 	}
 
-	@Override
 	public void onItemClick(final AdapterView<?> arg0, final View arg1,
 			final int position, final long id) {
 		Intent intent = null;
@@ -46,7 +45,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			//intent = new Intent(this, ScheduleActivity.class);
 			break;
 		case 4:
-			//intent = new Intent(this, DirectoryActivity.class);
+			intent = new Intent(this, BottinActivity.class);
 			break;
 		case 5:
 			//intent = new Intent(this, MyCoursesActivity.class);
@@ -61,7 +60,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	}
 
 	// Disable scrolling of the main view
-	@Override
+	
 	public boolean onTouch(final View v, final MotionEvent event) {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_MOVE:

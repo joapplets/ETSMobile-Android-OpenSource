@@ -1,7 +1,5 @@
 package ca.etsmtl.applets.etsmobile.models;
 
-import ca.etsmtl.applets.etsmobile.tools.db.SQLDBHelper;
-
 public class Programme {
 
 	/**
