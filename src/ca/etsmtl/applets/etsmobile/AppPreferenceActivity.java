@@ -1,4 +1,4 @@
-package ca.etsmtl.applets.etsmobile; 
+package ca.etsmtl.applets.etsmobile;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

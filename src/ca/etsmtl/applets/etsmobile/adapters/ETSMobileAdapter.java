@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import ca.etsmtl.applets.etsmobile.R;
 
 public class ETSMobileAdapter extends BaseAdapter {
@@ -31,18 +30,22 @@ public class ETSMobileAdapter extends BaseAdapter {
 		this.context = context;
 	}
 
+	@Override
 	public int getCount() {
 		return icons.length;
 	}
 
+	@Override
 	public Object getItem(final int arg0) {
 		return null;
 	}
 
+	@Override
 	public long getItemId(final int arg0) {
 		return 0;
 	}
 
+	@Override
 	public View getView(final int position, View convertedView,
 			final ViewGroup arg2) {
 

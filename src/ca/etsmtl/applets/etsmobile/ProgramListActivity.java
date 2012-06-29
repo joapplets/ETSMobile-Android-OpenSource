@@ -8,7 +8,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-
 import ca.etsmtl.applets.etsmobile.models.Programme;
 
 public class ProgramListActivity extends ListActivity {
@@ -30,7 +29,8 @@ public class ProgramListActivity extends ListActivity {
 	}
 
 	@Override
-	protected void onListItemClick(final ListView listView, final View view, final int position, final long id) {
+	protected void onListItemClick(final ListView listView, final View view,
+			final int position, final long id) {
 		super.onListItemClick(listView, view, position, id);
 
 		final Intent intent = new Intent(this, CourseListActivity.class);

@@ -40,9 +40,10 @@
             android:name=".StudentProfileActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".BottinActivity"
+            android:name=".BottinListActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>

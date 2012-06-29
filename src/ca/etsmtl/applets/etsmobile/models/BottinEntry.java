@@ -2,19 +2,20 @@ package ca.etsmtl.applets.etsmobile.models;
 
 public class BottinEntry {
 
-	private int id;
+	private String date_modif;
+	private String email;
+	private String emplacement;
+	private long id;
 	private String nom;
 	private String prenom;
-	private String telBureau;
-	private String emplacement;
-	private String email;
 	private String service;
+	private String telBureau;
 	private String titre;
-	private String date_modif;
 
-	public BottinEntry(int id, String nom, String prenom, String telBureau,
-			String emplacement, String email, String service, String titre,
-			String date_modif) {
+	public BottinEntry(final long id, final String nom, final String prenom,
+			final String telBureau, final String emplacement,
+			final String email, final String service, final String titre,
+			final String date_modif) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -27,76 +28,76 @@ public class BottinEntry {
 		this.date_modif = date_modif;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public String getTelBureau() {
-		return telBureau;
-	}
-
-	public void setTelBureau(String telBureau) {
-		this.telBureau = telBureau;
-	}
-
-	public String getEmplacement() {
-		return emplacement;
-	}
-
-	public void setEmplacement(String emplacement) {
-		this.emplacement = emplacement;
+	public String getDate_modif() {
+		return date_modif;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public String getEmplacement() {
+		return emplacement;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
 	}
 
 	public String getService() {
 		return service;
 	}
 
-	public void setService(String service) {
-		this.service = service;
+	public String getTelBureau() {
+		return telBureau;
 	}
 
 	public String getTitre() {
 		return titre;
 	}
 
-	public void setTitre(String titre) {
-		this.titre = titre;
-	}
-
-	public String getDate_modif() {
-		return date_modif;
-	}
-
-	public void setDate_modif(String date_modif) {
+	public void setDate_modif(final String date_modif) {
 		this.date_modif = date_modif;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
+	}
+
+	public void setEmplacement(final String emplacement) {
+		this.emplacement = emplacement;
+	}
+
+	public void setId(final int id) {
+		this.id = id;
+	}
+
+	public void setNom(final String nom) {
+		this.nom = nom;
+	}
+
+	public void setPrenom(final String prenom) {
+		this.prenom = prenom;
+	}
+
+	public void setService(final String service) {
+		this.service = service;
+	}
+
+	public void setTelBureau(final String telBureau) {
+		this.telBureau = telBureau;
+	}
+
+	public void setTitre(final String titre) {
+		this.titre = titre;
 	}
 
 }

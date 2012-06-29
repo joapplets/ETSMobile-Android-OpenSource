@@ -27,28 +27,24 @@ import ca.etsmtl.applets.etsmobile.models.StudentProfile;
  */
 public class XMLParser {
 
-	// Les messages d'erreur qui pourraient apparaître dans logcat.
-	private final String TAG = "com.manyari.xml.XMLPARSER";
+	private XMLAppletsHandler handler;
+	// L'inputStream est utilisé pour garder en mémoire le texte qu'on est allés
+	// chercher à l'aide de la méthode openStream.
+	private InputStream inputStream = null;
 	private final String OPEN_STREAM_ERROR_MESSAGE = "Something wrong happened when trying to get the stream from the server";
-	private final String SAX_PARSER_FACTORY_INSTANCE_ERROR_MESSAGE = "Couldn't get a new sax parser instance from factory.";
-	private final String SAX_PARSER = "Couldn't get a new sax parser.";
 	private final String PARSING_DONE_MESSAGE = "Parsing done.";
+	private final String SAX_PARSER = "Couldn't get a new sax parser.";
+
+	private final String SAX_PARSER_FACTORY_INSTANCE_ERROR_MESSAGE = "Couldn't get a new sax parser instance from factory.";
 
 	// L'objet qui permet de parser le xml (RSS feed).
 	private SAXParser saxParser = null;
 
-	// L'inputStream est utilisé pour garder en mémoire le texte qu'on est allés
-	// chercher à l'aide de la méthode openStream.
-	private InputStream inputStream = null;
+	// Les messages d'erreur qui pourraient apparaître dans logcat.
+	private final String TAG = "com.manyari.xml.XMLPARSER";
 
-	private XMLAppletsHandler handler;
-
-	public XMLParser(URL url, XMLAppletsHandler handler, Context c)
-			throws IOException {
-		new XMLParser(url.openStream(), handler, c);
-	}
-
-	public XMLParser(InputStream stream, XMLAppletsHandler handler, Context c) {
+	public XMLParser(final InputStream stream, final XMLAppletsHandler handler,
+			final Context c) {
 
 		this.handler = handler;
 
@@ -57,13 +53,13 @@ public class XMLParser {
 			// D'abord on instancie une factory de sax pour aller chercher un
 			// parser.
 			saxParser = SAXParserFactory.newInstance().newSAXParser();
-		} catch (ParserConfigurationException e) {
+		} catch (final ParserConfigurationException e) {
 
 			// Il se peut que pour des raisons X ça plante (aller chercher la
 			// factory),
 			// dans ce cas là on affiche un message dans le logcat.
 			Log.e(TAG, SAX_PARSER_FACTORY_INSTANCE_ERROR_MESSAGE);
-		} catch (SAXException e) {
+		} catch (final SAXException e) {
 
 			// Même chose au moment d'aller chercher l'instance de sax parser.
 			Log.e(TAG, SAX_PARSER);
@@ -82,18 +78,33 @@ public class XMLParser {
 
 			inputStream.close();
 
-		} catch (IOException e) {
+		} catch (final IOException e) {
 
 			// Encore une fois, pour des raisons X, il se peut qu'on ne soit pas
 			// capables d'aller chercher
 			// les données.
 			Log.e(TAG, OPEN_STREAM_ERROR_MESSAGE);
-		} catch (SAXException e) {
+		} catch (final SAXException e) {
 
 			// Ou que notre parsing fail!
 			Log.e(TAG, PARSING_DONE_MESSAGE);
 		}
 
+	}
+
+	public XMLParser(final URL url, final XMLAppletsHandler handler,
+			final Context c) throws IOException {
+		new XMLParser(url.openStream(), handler, c);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<BottinEntry> getBottinEntries() {
+
+		if (handler instanceof XMLBottinParser) {
+			return (List<BottinEntry>) handler.getData();
+		} else {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -108,16 +119,6 @@ public class XMLParser {
 	public StudentProfile getParsedStudentProfile() {
 		if (handler instanceof XMLUserProfileParser) {
 			return (StudentProfile) handler.getData();
-		} else {
-			return null;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<BottinEntry> getBottinEntries() {
-
-		if (handler instanceof XMLBottinParser) {
-			return (List<BottinEntry>) handler.getData();
 		} else {
 			return null;
 		}

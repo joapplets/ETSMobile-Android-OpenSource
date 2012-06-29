@@ -9,10 +9,7 @@ import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-
 import ca.etsmtl.applets.etsmobile.adapters.ETSMobileAdapter;
-
-import ca.etsmtl.applets.etsmobile.R;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		OnTouchListener {
@@ -28,6 +25,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		gridview.setOnTouchListener(this);
 	}
 
+	@Override
 	public void onItemClick(final AdapterView<?> arg0, final View arg1,
 			final int position, final long id) {
 		Intent intent = null;
@@ -39,16 +37,16 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			intent = new Intent(this, NewsListActivity.class);
 			break;
 		case 2:
-			//intent = new Intent(this, SecurityActivity.class);
+			// intent = new Intent(this, SecurityActivity.class);
 			break;
 		case 3:
-			//intent = new Intent(this, ScheduleActivity.class);
+			// intent = new Intent(this, ScheduleActivity.class);
 			break;
 		case 4:
-			intent = new Intent(this, BottinActivity.class);
+			intent = new Intent(this, BottinListActivity.class);
 			break;
 		case 5:
-			//intent = new Intent(this, MyCoursesActivity.class);
+			// intent = new Intent(this, MyCoursesActivity.class);
 			break;
 		default:
 			break;
@@ -60,7 +58,8 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	}
 
 	// Disable scrolling of the main view
-	
+
+	@Override
 	public boolean onTouch(final View v, final MotionEvent event) {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_MOVE:

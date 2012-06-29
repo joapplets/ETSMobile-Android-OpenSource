@@ -1,51 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/base_list_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" android:background="@color/white">
-
-    <LinearLayout
-        android:id="@+id/news_nav_bar"
-        android:layout_width="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/navbar_bg"
-        android:orientation="horizontal"
-        android:padding="5dip" >
-
-        <ImageButton
-            android:id="@+id/base_list_home_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_gradient"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:src="@drawable/icon_home" />
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="25dip"
-            android:paddingRight="13dip"
-            android:paddingTop="5dip"
-            android:src="@drawable/navbar_news_title" />
-
-        <Button
-            android:id="@+id/base_list_source_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_gradient"
-            android:text="Sources"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        layout="@layout/search_nav_bar" />
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" android:divider="@color/list_separator_color" android:choiceMode="singleChoice">
+        android:layout_height="fill_parent"
+        android:choiceMode="singleChoice"
+        android:divider="@color/list_separator_color"
+        tools:listitem="@layout/news_list_item" >
     </ListView>
 
 </LinearLayout>

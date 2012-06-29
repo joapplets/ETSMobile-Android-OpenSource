@@ -33,4 +33,6 @@
     <string name="student_profile_name">Nom</string>
     <string name="student_profile_lastname">Prénom</string>
     <string name="student_profile_solde">Solde</string>
+    <string name="loading">Loading...</string>
+    <string name="search">Search</string>
 </resources>

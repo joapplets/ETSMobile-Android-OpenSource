@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ÉTS Mobile</string>
-    <string name="gridview_item_image">Gridview Image View</string>
-    <string name="main_home_header">Main header</string>
+    <string name="app_name">ETS Mobile</string>
+    <string name="gridview_item_image">Image d\'un item de gridview</string>
+    <string name="main_home_header">Header de l\'écran d\'accueil</string>
+    <string name="news_list_view_btnSources">Sources</string>
+    <string name="news_list_view_image">Image qui représente la nouvelle</string>
+    <string name="news_list_view_btnHome">Home</string>
+	<string name="pref_signets_label">Signets</string>
+    <string name="pref_code_universel">Universal Code</string>
+    <string name="pref_mot_passe_lbl">Password</string>
+    <string name="info_ets_title">L’ÉTS, le génie avec un +</string>
+    <string name="info_ets_text">L’École de technologie supérieure est une
+		constituante du réseau de l’Université du Québec. Spécialisée dans
+		l’enseignement et la recherche appliqués en génie et le transfert
+		technologique, elle forme des ingénieurs et des chercheurs reconnus
+		pour leur approche pratique et innovatrice. Depuis sa création, elle
+		entretient un partenariat unique avec le milieu des affaires et
+		l’industrie, tant avec les grandes entreprises que les PME.</string>
+    <string name="info_ets_address">Address :
+		Pavillon principal (A) : HEAD
+		1100, rue
+		Notre-Dame Ouest (corner Peel Sud)
+		Montreal (Qc) H3C 1K3
+		Phone:
+		514 396-8800</string>
+    <string name="info_applets_title">Applets, Mobile Engineering</string>
+    <string name="info_applets_text">Good news! After more than a year of work and
+		planning, the club Applets is now officially recognized by the ÉTS as
+		of january 2011! We have a lot of great projects to come and we
+		encourage you to stay aware and to come back often on our website to
+		be aware of them.</string>
+    <string name="student_profile_name">Name</string>
+    <string name="student_profile_lastname">Lastname</string>
+    <string name="student_profile_solde">Credit</string>
 </resources>

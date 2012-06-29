@@ -7,7 +7,6 @@ public class AboutActivity extends Activity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
 	}

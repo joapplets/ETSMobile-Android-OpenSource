@@ -8,14 +8,14 @@ import ca.etsmtl.applets.etsmobile.models.BottinEntry;
 
 public class XMLBottinParser extends XMLAppletsHandler {
 
-	public XMLBottinParser(Context context) {
+	public XMLBottinParser(final Context context) {
 		super(context);
 	}
 
 	@Override
 	public Object getData() {
 		final List<BottinEntry> list = new ArrayList<BottinEntry>();
-		
+
 		return list;
 	}
 

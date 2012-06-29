@@ -2,54 +2,30 @@ package ca.etsmtl.applets.etsmobile.models;
 
 public class Programme {
 
-	/**
-	 * 	private final String PROGRAMMES_TABLE = SQLDBHelper.PROGRAMMES_TABLE;
-	private final String PROGRAMMES_ID = SQLDBHelper.PROGRAMMES_ID;
-	private final String PROGRAMMES_DESCRIPTION = SQLDBHelper.PROGRAMMES_DESCRIPTION;
-	private final String PROGRAMMES_NAME = SQLDBHelper.PROGRAMMES_NAME;
-	private final String PROGRAMMES_PROGRAMME_ID = SQLDBHelper.PROGRAMMES_PROGRAMME_ID;
-	private final String PROGRAMMES_SHORT_NAME = SQLDBHelper.PROGRAMMES_SHORT_NAME;
-	private final String PROGRAMMES_URL = SQLDBHelper.PROGRAMMES_URL;
-	private final String PROGRAMMES_URL_PDF = SQLDBHelper.PROGRAMMES_URL_PDF;
-	 * 
-	 */
-	
-	private String id, description, nom, nomCourt, url, urlToPDF;
-	
-	public Programme(){
-		
+	public Programme() {
+
 	}
-	
-	public Programme(String id, String description, String nom, String nomCourt, String url, String urlToPdf){
-		this.id = id;
-		this.description = description;
-		this.nom = nom;
-		this.nomCourt = nomCourt;
-		this.url = url;
-		this.urlToPDF = urlToPdf;
+
+	public Programme(final String id, final String description,
+			final String nom, final String nomCourt, final String url,
+			final String urlToPdf) {
 	}
-	
-	public void setID(String id){
-		this.id = id;
+
+	public void setDescription(final String description) {
 	}
-	
-	public void setDescription(String description){
-		this.description = description;
+
+	public void setID(final String id) {
 	}
-	
-	public void setNom(String nom){
-		this.nom = nom;
+
+	public void setNom(final String nom) {
 	}
-	
-	public void setNomCourt(String nomCourt){
-		this.nomCourt = nomCourt;
+
+	public void setNomCourt(final String nomCourt) {
 	}
-	
-	public void setURL(String url){
-		this.url = url;
+
+	public void setURL(final String url) {
 	}
-	
-	public void setURLtoPDF(String urlToPDF){
-		this.urlToPDF = urlToPDF;
+
+	public void setURLtoPDF(final String urlToPDF) {
 	}
 }
