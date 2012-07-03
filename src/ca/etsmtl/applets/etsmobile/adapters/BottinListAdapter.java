@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.BottinEntry;
 
 public class BottinListAdapter extends ArrayAdapter<BottinEntry> {
 
 	private class Holder {
+
+		public TextView name;
 	}
 
 	private final List<BottinEntry> list;
@@ -46,12 +49,12 @@ public class BottinListAdapter extends ArrayAdapter<BottinEntry> {
 		if (convertView == null) {
 
 			convertView = LayoutInflater.from(getContext()).inflate(
-					R.layout.news_list_item, null);
+					android.R.layout.simple_list_item_1, null);
 
 			holder = new Holder();
-			// holder.title =
-			// (TextView)convertView.findViewById(R.id.newsListItemTitle);
-			// holder.title.setSingleLine(true);
+			holder.name = (TextView) convertView
+					.findViewById(android.R.id.text1);
+			holder.name.setSingleLine(true);
 			// holder.image =
 			// (TextView)convertView.findViewById(R.id.newsListItemLogo);
 			// holder.date =
@@ -60,7 +63,11 @@ public class BottinListAdapter extends ArrayAdapter<BottinEntry> {
 			// (TextView)convertView.findViewById(R.id.newsListItemDescription);
 			convertView.setTag(holder);
 
+		} else {
+			holder = (Holder) convertView.getTag();
 		}
-		return super.getView(position, convertView, parent);
+		holder.name.setText(list.get(position).toString());
+
+		return convertView;
 	}
 }

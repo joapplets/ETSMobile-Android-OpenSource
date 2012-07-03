@@ -5,19 +5,20 @@ public class BottinEntry {
 	private String date_modif;
 	private String email;
 	private String emplacement;
-	private long id;
+	private long uuid;
 	private String nom;
 	private String prenom;
 	private String service;
 	private String telBureau;
 	private String titre;
+	private String id;
 
 	public BottinEntry(final long id, final String nom, final String prenom,
 			final String telBureau, final String emplacement,
 			final String email, final String service, final String titre,
 			final String date_modif) {
 		super();
-		this.id = id;
+		this.uuid = id;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.telBureau = telBureau;
@@ -26,6 +27,15 @@ public class BottinEntry {
 		this.service = service;
 		this.titre = titre;
 		this.date_modif = date_modif;
+	}
+
+	public BottinEntry(String id2, String nom2, String prenom2,
+			String tel_bureau, String emplacement2, String courriel,
+			String service2, String titre2, String date_modif2) {
+
+		this(-1, nom2, prenom2, tel_bureau, emplacement2, courriel, service2,
+				titre2, date_modif2);
+		id = id2;
 	}
 
 	public String getDate_modif() {
@@ -41,7 +51,7 @@ public class BottinEntry {
 	}
 
 	public long getId() {
-		return id;
+		return uuid;
 	}
 
 	public String getNom() {
@@ -77,7 +87,7 @@ public class BottinEntry {
 	}
 
 	public void setId(final int id) {
-		this.id = id;
+		this.uuid = id;
 	}
 
 	public void setNom(final String nom) {
@@ -100,4 +110,8 @@ public class BottinEntry {
 		this.titre = titre;
 	}
 
+	@Override
+	public String toString() {
+		return prenom + " " + nom;
+	}
 }

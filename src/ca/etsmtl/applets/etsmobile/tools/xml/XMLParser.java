@@ -100,7 +100,7 @@ public class XMLParser {
 	@SuppressWarnings("unchecked")
 	public List<BottinEntry> getBottinEntries() {
 
-		if (handler instanceof XMLBottinParser) {
+		if (handler instanceof XMLBottinHandler) {
 			return (List<BottinEntry>) handler.getData();
 		} else {
 			return null;

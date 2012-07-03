@@ -11,14 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         layout="@layout/search_nav_bar" />
-
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:choiceMode="singleChoice"
         android:divider="@color/list_separator_color"
-        tools:listitem="@layout/news_list_item" >
+        tools:listitem="@android:layout/simple_list_item_1" >
+
     </ListView>
 
 </LinearLayout>
