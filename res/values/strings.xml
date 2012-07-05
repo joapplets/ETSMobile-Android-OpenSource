@@ -30,7 +30,8 @@
 		of january 2011! We have a lot of great projects to come and we
 		encourage you to stay aware and to come back often on our website to
 		be aware of them.</string>
-    <string name="student_profile_name">Nom</string>
-    <string name="student_profile_lastname">Prénom</string>
+    <string name="student_profile_name">Prénom</string>
+    <string name="student_profile_lastname">Nom</string>
     <string name="student_profile_solde">Solde</string>
+    <string name="student_profile_codePermanent">Code permanent</string>
 </resources>

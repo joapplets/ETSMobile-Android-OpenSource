@@ -9,19 +9,27 @@ import java.net.URL;
 
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLAppletsHandler;
-import ca.etsmtl.applets.etsmobile.tools.xml.XMLParser;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLUserProfileParser;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class StudentProfileActivity extends Activity{
 
+	private TextView nom, prenom, solde, codePermanent;
+	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.student_profile);
+		
+		nom = (TextView)findViewById(R.id.student_profile_lastname);
+		prenom = (TextView)findViewById(R.id.student_profile_name);
+		solde = (TextView)findViewById(R.id.student_profile_solde);
+		codePermanent = (TextView)findViewById(R.id.student_profile_codePermanent);
+		
 		new UserProfileLoader().execute();
 	}
 	
@@ -72,10 +80,15 @@ public class StudentProfileActivity extends Activity{
 		@Override
 		protected void onPostExecute(InputStream stream) {
 			if(stream != null){
-				XMLAppletsHandler handler = new XMLUserProfileParser(StudentProfileActivity.this);
-				XMLParser xml = new XMLParser(stream, handler, StudentProfileActivity.this);
-				StudentProfile profile = xml.getParsedStudentProfile();
-				System.out.println(profile.getNomComplet());
+//				XMLAppletsHandler handler = new XMLUserProfileParser(StudentProfileActivity.this);
+//				XMLParser xml = new XMLParser(stream, handler, StudentProfileActivity.this);
+//				StudentProfile profile = xml.getParsedStudentProfile();
+//				
+//				nom.setText(profile.getNom());
+//				prenom.setText(profile.getPrenom());
+//				codePermanent.setText(profile.getCodePerm());
+//				solde.setText(profile.getSolde());
+				
 			}
 		}
 		

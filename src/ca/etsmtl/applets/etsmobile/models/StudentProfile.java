@@ -10,15 +10,19 @@ public class StudentProfile {
 		this.solde = solde;
 	}
 	
-	public String getNomComplet(){
-		return prenom + " " + nom;
-	}
-	
 	public String getCodePerm(){
 		return codePerm;
 	}
 	
 	public String getSolde(){
 		return solde;
+	}
+	
+	public String getNom(){
+		return nom;
+	}
+	
+	public String getPrenom(){
+		return prenom;
 	}
 }

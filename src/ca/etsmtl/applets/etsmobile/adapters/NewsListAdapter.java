@@ -2,7 +2,6 @@ package ca.etsmtl.applets.etsmobile.adapters;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -25,7 +24,6 @@ public class NewsListAdapter extends ArrayAdapter<News>{
 	private final String RSS_ETS = NewsListActivity.RSS_ETS;
 	private final String TWITTER = NewsListActivity.TWITTER;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMMMMMMMM yyyy");
-	private Date date = new Date();
 	
 	public NewsListAdapter(Context context, int resource, ArrayList<News> newsList) {
 		super(context, resource, newsList);
@@ -33,8 +31,7 @@ public class NewsListAdapter extends ArrayAdapter<News>{
 		c = context;
 		webLogo = context.getResources().getDrawable(R.drawable.news_web_logo);
 		facebookLogo = context.getResources().getDrawable(R.drawable.news_facebook_logo);
-		twitterLogo = context.getResources().getDrawable(R.drawable.news_twitter_logo);
-		
+		twitterLogo = context.getResources().getDrawable(R.drawable.news_twitter_logo);	
 	}
 	
     @Override
@@ -93,11 +90,9 @@ public class NewsListAdapter extends ArrayAdapter<News>{
 		if(source.equals(TWITTER)){
 			holder.image.setBackgroundDrawable(twitterLogo);
 		}
-		
-		date.setTime(newsList.get(position).getPubDate());
 
 		holder.title.setText(Html.fromHtml(newsList.get(position).getTitle()));
-		holder.date.setText(dateFormat.format(date));
+		holder.date.setText(dateFormat.format(newsList.get(position).getPubDate()));
 		
 		holder.description.setText(Html.fromHtml(newsList.get(position).getDescription()));
 		

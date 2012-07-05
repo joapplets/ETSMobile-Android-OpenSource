@@ -1,6 +1,7 @@
 package ca.etsmtl.applets.etsmobile.tools.db;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 import ca.etsmtl.applets.etsmobile.models.News;
 
@@ -9,7 +10,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class NewsAdapter {
+//TODO SYNCRONIZE ALL THE ACCESS...
+public class NewsAdapter extends Observable{
 	
 	/**
 	 * Everything related to a news.
@@ -54,114 +56,164 @@ public class NewsAdapter {
 	}
 	
 	public void insertNews(String title, long date, String description, String guid, String source){
-		ContentValues cv = new ContentValues();
-		
-		// put into the date column the String date
-		cv.put(NEWS_TITLE, title);
-			
-		// same here...
-		cv.put(NEWS_DATE, date);
-		
-		//same...
-		cv.put(NEWS_DESCRIPTION, description);
-			
-		//same...
-		cv.put(NEWS_GUID, guid);
-		
-		//same...
-		cv.put(NEWS_SOURCE, source);
-		
 		// set the db into writable mode, then insert the values into the table
-		db.getWritableDatabase().insert(NEWS_TABLE, null, cv);
-			
-		// close the db
-		db.close();
+		SQLiteDatabase writable = db.getWritableDatabase();
+		if(writable.isOpen()){
+			writable.beginTransaction();
+			try{
+				ContentValues cv = new ContentValues();
+				
+				// put into the date column the String date
+				cv.put(NEWS_TITLE, title);
+					
+				// same here...
+				cv.put(NEWS_DATE, date);
+				
+				//same...
+				cv.put(NEWS_DESCRIPTION, description);
+					
+				//same...
+				cv.put(NEWS_GUID, guid);
+				
+				//same...
+				cv.put(NEWS_SOURCE, source);
+				
+				writable.insert(NEWS_TABLE, null, cv);
+				writable.setTransactionSuccessful();
+				cv = null;
+			}catch (IllegalStateException e) {}
+			finally{
+				writable.endTransaction();
+				writable.close();
+				setChanged();
+				notifyObservers("News db updated");
+			}	
+		}
 	}
 	
 	public ArrayList<News> getAllNews(){
 		
-		// the vector that will contain the selected notes
 		ArrayList<News> v = new ArrayList<News>();
-		
-		// set the database to be readable
-		SQLiteDatabase readDB  = db.getReadableDatabase();
-		
-		// Equivalent to : SELECT * FROM NOTES ORDER BY NEWS_DATE DESC
-		Cursor c = readDB.query(NEWS_TABLE, new String[] {"*"}, null, null, null, null, NEWS_DATE + " DESC");
-		
-		News news;
-		while(c.moveToNext()){
-			
-			news = new News();
-			
-			news.setTitle(c.getString(c.getColumnIndex(NEWS_TITLE)));
-			news.setPubDate(c.getLong(c.getColumnIndex(NEWS_DATE)));
-			news.setDescription(c.getString(c.getColumnIndex(NEWS_DESCRIPTION)));
-			news.setGuid(c.getString(c.getColumnIndex(NEWS_GUID)));
-			news.setSource(c.getString(c.getColumnIndex(NEWS_SOURCE)));
-			
-			v.add(news);
+		SQLiteDatabase readable = db.getReadableDatabase();
+		if(readable.isOpen()){
+			readable.beginTransaction();
+			// the vector that will contain the selected notes
+			try{
+				
+				// Equivalent to : SELECT * FROM NOTES ORDER BY NEWS_DATE DESC
+				Cursor c = readable.query(NEWS_TABLE, new String[] {"*"}, null, null, null, null, NEWS_DATE + " DESC");
+				
+				News news;
+				while(c.moveToNext()){
+					news = new News();		
+					news.setTitle(c.getString(c.getColumnIndex(NEWS_TITLE)));
+					news.setPubDate(c.getLong(c.getColumnIndex(NEWS_DATE)));
+					news.setDescription(c.getString(c.getColumnIndex(NEWS_DESCRIPTION)));
+					news.setGuid(c.getString(c.getColumnIndex(NEWS_GUID)));
+					news.setSource(c.getString(c.getColumnIndex(NEWS_SOURCE)));
+					v.add(news);
+				}
+				c.close();
+				readable.setTransactionSuccessful();
+			}catch (IllegalStateException e) {}
+			finally{
+				readable.endTransaction();
+				readable.close();
+			}	
 		}
-		
-		c.close();
-		readDB.close();
-		
 		return v;
 	}
 	
 	public ArrayList<News> getNewsBySource(ArrayList<String> source){
 		
+		SQLiteDatabase readable = db.getReadableDatabase();
 		ArrayList<News> list = new ArrayList<News>();
-		
-		// set the database to be readable
-		SQLiteDatabase readDB  = db.getReadableDatabase();
-		
-		String sources = "";
-		for(int i = 0; i < source.size(); i++){
-			sources += NEWS_SOURCE + " LIKE \"" + source.get(i).toString() + "\"";
-			if(i < source.size() - 1){
-				sources += " OR ";
-			}
-		}
-		
-		Cursor c = readDB.query(NEWS_TABLE, new String[] {"*"}, sources, null, null, null, NEWS_DATE + " DESC");
-		
-		while(c.moveToNext()){
-			News n = new News();
-			n.setTitle(c.getString(c.getColumnIndex(NEWS_TITLE)));
-			n.setPubDate(c.getLong(c.getColumnIndex(NEWS_DATE)));
-			n.setDescription(c.getString(c.getColumnIndex(NEWS_DESCRIPTION)));
-			n.setGuid(c.getString(c.getColumnIndex(NEWS_GUID)));
-			n.setSource(c.getString(c.getColumnIndex(NEWS_SOURCE)));
-			
-			list.add(n);
-		}
-		
-		c.close();
-		readDB.close();
-		
+		if(readable.isOpen()){
+			readable.beginTransaction();
+			try{
+				
+				String sources = "";
+				for(int i = 0; i < source.size(); i++){
+					sources += NEWS_SOURCE + " LIKE \"" + source.get(i).toString() + "\"";
+					if(i < source.size() - 1){
+						sources += " OR ";
+					}
+				}
+				
+				Cursor c = readable.query(NEWS_TABLE, new String[] {"*"}, sources, null, null, null, NEWS_DATE + " DESC");
+				
+				while(c.moveToNext()){
+					News n = new News();
+					n.setTitle(c.getString(c.getColumnIndex(NEWS_TITLE)));
+					n.setPubDate(c.getLong(c.getColumnIndex(NEWS_DATE)));
+					n.setDescription(c.getString(c.getColumnIndex(NEWS_DESCRIPTION)));
+					n.setGuid(c.getString(c.getColumnIndex(NEWS_GUID)));
+					n.setSource(c.getString(c.getColumnIndex(NEWS_SOURCE)));
+					
+					list.add(n);
+				}
+				
+				c.close();
+				readable.setTransactionSuccessful();
+			}catch (IllegalStateException e) {}
+			finally{
+				readable.endTransaction();
+				readable.close();
+			}	
+		}		
 		return list;
 	}
 	
+	//TODO
 	public News getNewsByGUID(String guid){
 		
 		News n = null;
 		
 		// set the database to be readable
 		SQLiteDatabase readDB  = db.getReadableDatabase();
-		
-		Cursor c = readDB.query(NEWS_TABLE, new String[] {"*"}, NEWS_GUID + " LIKE \"" + guid + "\"", null, null, null, null);
-		if(c.moveToNext()){
-			n = new News();
-			n.setTitle(c.getString(c.getColumnIndex(NEWS_TITLE)));
-			n.setPubDate(c.getLong(c.getColumnIndex(NEWS_DATE)));
-			n.setDescription(c.getString(c.getColumnIndex(NEWS_DESCRIPTION)));
-			n.setGuid(c.getString(c.getColumnIndex(NEWS_GUID)));
+		if(readDB.isOpen()){
+			try{
+				readDB.beginTransaction();
+				Cursor c = readDB.query(NEWS_TABLE, new String[] {"*"}, NEWS_GUID + " LIKE \"" + guid + "\"", null, null, null, null);
+				if(c.moveToNext()){
+					n = new News();
+					n.setTitle(c.getString(c.getColumnIndex(NEWS_TITLE)));
+					n.setPubDate(c.getLong(c.getColumnIndex(NEWS_DATE)));
+					n.setDescription(c.getString(c.getColumnIndex(NEWS_DESCRIPTION)));
+					n.setGuid(c.getString(c.getColumnIndex(NEWS_GUID)));
+					readDB.setTransactionSuccessful();
+				}	
+				c.close();
+			}catch (IllegalStateException e) {}
+			finally{
+				readDB.endTransaction();
+				readDB.close();	
+			}	
 		}
-		
-		c.close();
-		readDB.close();
-		
 		return n;
+	}
+	
+	// Usefull to verify that we are not putting duplicate news in the db.
+	public ArrayList<String> getAllGUIDFromSource(String source){
+
+		SQLiteDatabase readable = db.getReadableDatabase();
+		ArrayList<String> list = new ArrayList<String>();
+		if(readable.isOpen()){
+			readable.beginTransaction();
+			
+			try{		
+				Cursor c = readable.query(NEWS_TABLE, new String[] {NEWS_GUID},  NEWS_SOURCE + " LIKE \"" + source + "\"", null, null, null, null);
+				while(c.moveToNext()){
+					list.add(c.getString(c.getColumnIndex(NEWS_GUID)));
+				}
+				c.close();
+				readable.setTransactionSuccessful();
+			}catch (IllegalStateException e) {}
+			finally{
+				readable.endTransaction();
+				readable.close();
+			}	
+		}
+		return list;
 	}
 }

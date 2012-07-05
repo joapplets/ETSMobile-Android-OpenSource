@@ -1,27 +1,33 @@
 package ca.etsmtl.applets.etsmobile;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.TimeZone;
 
 import ca.etsmtl.applets.etsmobile.adapters.NewsListAdapter;
 import ca.etsmtl.applets.etsmobile.adapters.NewsListAdapter.Holder;
 import ca.etsmtl.applets.etsmobile.models.News;
 import ca.etsmtl.applets.etsmobile.preferences.NewsListPreferences;
+import ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver;
+import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
+import ca.etsmtl.applets.etsmobile.services.NewsFetcher.NewsFetcherBinder;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsAdapter;
-import ca.etsmtl.applets.etsmobile.tools.xml.XMLAppletsHandler;
-import ca.etsmtl.applets.etsmobile.tools.xml.XMLParser;
-import ca.etsmtl.applets.etsmobile.tools.xml.XMLRssFbTwitterHandler;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.ActivityManager.RunningServiceInfo;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,56 +43,39 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class NewsListActivity extends Activity implements AnimationListener, OnClickListener{
+public class NewsListActivity extends Activity implements AnimationListener, OnClickListener, Observer{
 	
-	private final static String RSS_ETS_FEED = "http://www.etsmtl.ca/fils-rss?rss=NouvellesRSS";
-	private final static String FACEBOOK_FEED = "http://www.facebook.com/feeds/page.php?id=8632204375&format=rss20";
-	private final static String TWITTER_FEED = "http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=etsmtl";
-	private final static long REFRESHINTERVAL = 180000; // 30 minutes
 	public final static String RSS_ETS = "rssETS";
 	public final static String FACEBOOK = "facebook";
 	public final static String TWITTER = "twitter";
 	
-	// Contient la liste de nouvelles.
-	private ArrayList<News> newsList = new ArrayList<News>();
+	private final static String SERVERSERVICE = "ca.etsmtl.applets.etsmobile.services.NewsFetcher";
 	
 	private NewsListAdapter newsAdapter;
-	private static NewsAdapter newsDB = null;
+	private NewsAdapter newsDB = null;
+	private ArrayList<News> newsArray;
 	private ListView listView = null;
-	private SharedPreferences newsPreferences = null;
-	private SharedPreferences timerPreferences = null;
 	private boolean footerVisible = false;
+	private Handler handler;
+	private boolean binded = false;
+	private LinearLayout footer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		setContentView(R.layout.news_list_view);
 		newsDB = NewsAdapter.getInstance(this);
-		
+		newsDB.addObserver(this);
+		handler = new Handler();
+		newsArray = newsDB.getAllNews();
 		initializeListView();
-		
-		// La pref qui indique la dernière fois que les nouvelles ont été mises à jour
-		timerPreferences = getSharedPreferences("timerPreferences", MODE_PRIVATE);
-		
-		// on va chercher le timestamp de la dernière màj (en mili sec)
-		long lastUpdate = Long.valueOf(timerPreferences.getString("lastUpdate", "0"));
-		Calendar calendar = Calendar.getInstance();
-		
-		// l'heure actuelle 
-		long currentTime = calendar.getTime().getTime();
-		
-		// Si c'est la première fois qu'on utilise l'app on load et on mets à jour
-		// le timestamp. Sinon on check le timestamp, si ça fait plus que "REFRESHINTEVAL"
-		// qu'on a pas fetché des nouvelles on fetch.
-		if(lastUpdate == 0){
-			timerPreferences.edit().putString("lastUpdate", String.valueOf(currentTime)).commit();
-			new QueryNewsFromBackground().execute();
-		}else{
-			if ((lastUpdate + REFRESHINTERVAL) <= currentTime){
-				new QueryNewsFromBackground().execute();
-				timerPreferences.edit().putString("lastUpdate", String.valueOf(currentTime)).commit();
-			}
+		setAlarm();
+
+		if(newsArray.size() == 0){
+			Intent i = new Intent(this, NewsFetcher.class);
+			startService(i);
+			binded = bindService(i, connection, BIND_AUTO_CREATE);
 		}
 		
 		ImageButton btnHome = (ImageButton)findViewById(R.id.base_list_home_btn);
@@ -95,12 +84,43 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 		Button btnSources = (Button)findViewById(R.id.base_list_source_btn);
 		btnSources.setOnClickListener(this);
 		
+		footer = (LinearLayout)findViewById(R.id.listView_footer);
 	}
 	
+	private void setAlarm() {
+		Intent toAlarm = new Intent(this, NewsAlarmReceiver.class);
+		PendingIntent toDownload = PendingIntent.getBroadcast(this, 0, toAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
+		AlarmManager alarms = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		
+		Calendar updateTime = Calendar.getInstance();
+	    updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+	    
+	    updateTime.set(Calendar.HOUR_OF_DAY, 6);
+	    updateTime.set(Calendar.MINUTE, 00);
+	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, toDownload);
+	    
+	    updateTime.set(Calendar.HOUR_OF_DAY, 12);
+	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, toDownload);
+	    
+	    updateTime.set(Calendar.HOUR_OF_DAY, 18);
+	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, toDownload);
+	}
+
 	@Override
 	protected void onResume() {
 		refreshListView();
 		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		if(binded){
+			unbindService(connection);
+		}
+		if(footerVisible){
+			footer.startAnimation(hideFooter());
+		}
+		super.onPause();
 	}
 	
 	@Override
@@ -116,7 +136,11 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 		
 		switch (item.getItemId()) {
 		case R.id.newsListMenuUpdate:
-			new QueryNewsFromBackground().execute();
+			Intent i = new Intent(this, NewsFetcher.class);
+			if(!serviceIsRunning()){
+				startService(i);
+			}
+			binded = bindService(i, connection, BIND_AUTO_CREATE);
 			break;
 		case R.id.newsListMenuPreferences:
 			intent = new Intent(getApplicationContext(), NewsListPreferences.class);
@@ -132,67 +156,13 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 		return true;
 	}
 	
-	private class QueryNewsFromBackground extends AsyncTask<Void, Integer, Integer>{
-			
-		LinearLayout footer = (LinearLayout)findViewById(R.id.listView_footer);
-		
-		@Override
-		protected void onPreExecute() {
-			footer.startAnimation(showFooter());
-			super.onPreExecute();
-		}
-		
-		@Override
-		protected Integer doInBackground(Void... params) {
-
-			try {
-				XMLAppletsHandler handler = new XMLRssFbTwitterHandler(NewsListActivity.this, RSS_ETS);
-				XMLParser xml = new XMLParser(new URL(RSS_ETS_FEED), handler, NewsListActivity.this);
-				addNewsToDB(xml.getParsedNews());
-				
-				handler = new XMLRssFbTwitterHandler(NewsListActivity.this, FACEBOOK);
-				xml = new XMLParser(new URL(FACEBOOK_FEED), handler, NewsListActivity.this);
-				addNewsToDB(xml.getParsedNews());
-
-				handler = new XMLRssFbTwitterHandler(NewsListActivity.this, TWITTER);
-				xml = new XMLParser(new URL(TWITTER_FEED), handler, NewsListActivity.this);
-				addNewsToDB(xml.getParsedNews());
-				
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Integer result) {
-			super.onPostExecute(result);	
-				footer.startAnimation(hideFooter());
-				refreshListView();			
-		}
-		
-	}
-	
-	private void addNewsToDB(ArrayList<News> newNewsList){
-		if(newNewsList != null){
-			if(newNewsList.size() > 0){
-				for (News n : newNewsList) {
-					newsDB.insertNews(n.getTitle(), n.getPubDate(), n.getDescription(), n.getGuid(), n.getSource());
-				}
-			}
-		}
-	}
-	
     private void initializeListView(){
     		
 		// On va chercher la listView dans le layout
 		listView = (ListView)findViewById(R.id.listView);
 		
 		// On crée l'adapter qui permets de remplir la listview de nouvelles
-		newsAdapter = new NewsListAdapter(getApplicationContext(), R.layout.news_list_item, newsList);
+		newsAdapter = new NewsListAdapter(getApplicationContext(), R.layout.news_list_item, newsArray);
 		
 		// On lui associe un adapter
 		listView.setAdapter(newsAdapter);
@@ -217,32 +187,16 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 		});
     }
 
-    private void refreshListView(){
-    	newsPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		ArrayList<String> sources = new ArrayList<String>();
-		
-		if(newsPreferences.getBoolean(RSS_ETS, true)){
-			sources.add(RSS_ETS);
-		}
-		
-		if(newsPreferences.getBoolean(FACEBOOK, true)){
-			sources.add(FACEBOOK);
-		}
-		
-		if(newsPreferences.getBoolean(TWITTER, true)){
-			sources.add(TWITTER);
-		}
-		
-		newsList.clear();
-		
-		if(sources.size() > 0){
-			newsList.addAll(newsDB.getNewsBySource(sources));
-		}
-		
-		sources.clear();
-		
+    private synchronized void refreshListView(){
 		if(newsAdapter != null){
-			newsAdapter.notifyDataSetChanged();
+			handler.post(new Runnable() {	
+				@Override
+				public void run() {
+					newsArray.clear();
+					newsArray.addAll(newsDB.getAllNews());
+					newsAdapter.notifyDataSetChanged();
+				}
+			});
 		}
     }
     
@@ -296,5 +250,72 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 			footer.setVisibility(View.GONE);
 		}
 	}
+
+	@Override
+	public void update(Observable observable, Object data) {
+		if(data instanceof String){
+			String message = (String)data;
+			
+			if(message.equals("News db updated")){
+				refreshListView();
+			}
+		}
+	}
+
+	private boolean serviceIsRunning(){
+    	ActivityManager manager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+    	for(RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
+    		if(service.service.getClassName().equals(SERVERSERVICE)){
+    			return true;		
+    		}
+    	}
+    	return false;
+	}
 	
+	private ServiceConnection connection = new ServiceConnection() {
+		
+		@Override
+		public void onServiceDisconnected(ComponentName name) {}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			new ForceFetch().execute((NewsFetcherBinder)service);
+		}
+	};
+	
+	private class ForceFetch extends AsyncTask<NewsFetcherBinder, Void, Void>{
+
+		@Override
+		protected void onPreExecute() {
+			footer.startAnimation(showFooter());
+			footerVisible = true;
+			super.onPreExecute();
+		}
+		
+		@Override
+		protected Void doInBackground(NewsFetcherBinder... params) {
+			NewsFetcherBinder binder = params[0];
+			if(binder != null){
+				binder.startFetching();
+				while(binder.isWorking()){
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {}
+				}
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			try{
+				footer.startAnimation(hideFooter());
+				footerVisible = false;
+				unbindService(connection);
+				binded = false;
+			}catch(IllegalArgumentException e){}
+			super.onPostExecute(result);
+		}
+		
+	}
 }

@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteDatabase;
 public class ProgrammesAdapter{
 
 	private final String PROGRAMMES_TABLE = SQLDBHelper.PROGRAMMES_TABLE;
-	private final String PROGRAMMES_ID = SQLDBHelper.PROGRAMMES_ID;
 	private final String PROGRAMMES_DESCRIPTION = SQLDBHelper.PROGRAMMES_DESCRIPTION;
 	private final String PROGRAMMES_NAME = SQLDBHelper.PROGRAMMES_NAME;
 	private final String PROGRAMMES_PROGRAMME_ID = SQLDBHelper.PROGRAMMES_PROGRAMME_ID;

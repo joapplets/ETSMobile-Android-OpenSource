@@ -5,8 +5,6 @@ import org.xml.sax.SAXException;
 
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 
-import android.content.Context;
-
 public class XMLUserProfileParser extends XMLAppletsHandler{
 
 	private final String NOM = "nom";
@@ -19,12 +17,7 @@ public class XMLUserProfileParser extends XMLAppletsHandler{
 	private String currentPrenom;
 	private String currentCodePerm;
 	private String currentSoldeTotal;
-	
 	private StudentProfile profile;
-	
-	public XMLUserProfileParser(Context context) {
-		super(context);
-	}
 		
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -65,11 +58,6 @@ public class XMLUserProfileParser extends XMLAppletsHandler{
 			inItem = false;
 		}
 			
-	}
-	
-	@Override
-	public Object getData() {
-		return profile;
 	}
 
 }
