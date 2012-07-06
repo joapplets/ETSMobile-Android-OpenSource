@@ -20,9 +20,8 @@ public class BottinListAdapter extends ArrayAdapter<BottinEntry> {
 
 	private final List<BottinEntry> list;
 
-	public BottinListAdapter(final Context context,
-			final int textViewResourceId, final List<BottinEntry> list) {
-		super(context, textViewResourceId);
+	public BottinListAdapter(final Context context, final List<BottinEntry> list) {
+		super(context, R.layout.bottin_list_item);
 		this.list = list;
 	}
 
@@ -49,18 +48,12 @@ public class BottinListAdapter extends ArrayAdapter<BottinEntry> {
 		if (convertView == null) {
 
 			convertView = LayoutInflater.from(getContext()).inflate(
-					android.R.layout.simple_list_item_1, null);
+					R.layout.bottin_list_item, null);
 
 			holder = new Holder();
 			holder.name = (TextView) convertView
-					.findViewById(android.R.id.text1);
+					.findViewById(R.id.bottin_list_item_txt);
 			holder.name.setSingleLine(true);
-			// holder.image =
-			// (TextView)convertView.findViewById(R.id.newsListItemLogo);
-			// holder.date =
-			// (TextView)convertView.findViewById(R.id.newsListItemDate);
-			// holder.description =
-			// (TextView)convertView.findViewById(R.id.newsListItemDescription);
 			convertView.setTag(holder);
 
 		} else {
