@@ -52,7 +52,7 @@ public class BottinListAdapter extends ArrayAdapter<BottinEntry> {
 
 			holder = new Holder();
 			holder.name = (TextView) convertView
-					.findViewById(R.id.bottin_list_item_txt);
+					.findViewById(R.id.bottin_list_item_nom);
 			holder.name.setSingleLine(true);
 			convertView.setTag(holder);
 

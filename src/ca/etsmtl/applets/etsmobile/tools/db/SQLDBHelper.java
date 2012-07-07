@@ -98,7 +98,7 @@ public class SQLDBHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + SQLDBHelper.NEWS_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + SQLDBHelper.PROGRAMMES_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + SQLDBHelper.BOTTIN_TABLE);
-		
+
 		onCreate(db);
 	}
 

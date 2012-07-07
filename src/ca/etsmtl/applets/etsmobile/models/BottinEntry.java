@@ -2,6 +2,9 @@ package ca.etsmtl.applets.etsmobile.models;
 
 import java.sql.Date;
 
+import android.content.ContentValues;
+import ca.etsmtl.applets.etsmobile.tools.db.SQLDBHelper;
+
 public class BottinEntry {
 
 	private String courriel;
@@ -56,9 +59,9 @@ public class BottinEntry {
 	public long getId() {
 		return uuid;
 	}
-	
+
 	public String getEtsId() {
-		return ets_id; 
+		return ets_id;
 	}
 
 	public String getNom() {
@@ -128,5 +131,21 @@ public class BottinEntry {
 		return (b.getNom().equals(getNom())
 				&& b.getPrenom().equals(getPrenom()) && b.getCourriel().equals(
 				getCourriel()));
+	}
+
+	public ContentValues getContentValues() {
+		ContentValues cv = new ContentValues();
+		cv.put(SQLDBHelper.BOTTIN_NOM, (nom == null) ? "" : nom);
+		cv.put(SQLDBHelper.BOTTIN_PRENOM, (prenom == null) ? "" : prenom);
+		cv.put(SQLDBHelper.BOTTIN_TELBUREAU, (telBureau) == null ? ""
+				: telBureau);
+		cv.put(SQLDBHelper.BOTTIN_EMPLACEMENT, (emplacement == null) ? ""
+				: emplacement);
+		cv.put(SQLDBHelper.BOTTIN_EMAIL, (courriel == null) ? "" : courriel);
+		cv.put(SQLDBHelper.BOTTIN_SERVICE, (service == null) ? "" : service);
+		cv.put(SQLDBHelper.BOTTIN_TIRE, (titre == null) ? "" : titre);
+		cv.put(SQLDBHelper.BOTTIN_DATE_MODIF, date_modif.toGMTString());
+		cv.put(SQLDBHelper.BOTTIN_ETS_ID, (ets_id == null) ? "" : ets_id);
+		return cv;
 	}
 }
