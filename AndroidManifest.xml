@@ -44,6 +44,7 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".BottinViewActivity"></activity>
     </application>
 
 </manifest>
