@@ -52,8 +52,7 @@ public class ETSMobileAdapter extends BaseAdapter {
 		/**
 		 * Petit truc pour loader plus vite les items. Voir le site suivant pour
 		 * mieux comprendre :
-		 * http://www.google.com/intl/fr-FR/events/io/2009/sessions
-		 * /TurboChargeUiAndroidFast.html
+		 * http://www.google.com/intl/fr-FR/events/io/2009/sessions/TurboChargeUiAndroidFast.html
 		 */
 		Holder holder;
 		if (convertedView == null) {

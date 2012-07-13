@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="ParserError">
+        <ignore path="src\ca\etsmtl\applets\etsmobile\SingleNewsActivity.java" />
         <ignore path="src\ca\etsmtl\applets\etsmobile\tools\db\BottinDBAdapter.java" />
     </issue>
 </lint>
