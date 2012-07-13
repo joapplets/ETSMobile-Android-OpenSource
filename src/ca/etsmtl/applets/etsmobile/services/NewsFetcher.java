@@ -15,10 +15,14 @@ import org.xml.sax.SAXException;
 
 import ca.etsmtl.applets.etsmobile.models.News;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
+import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsAdapter;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLNewsParser;
 
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
@@ -32,9 +36,9 @@ public class NewsFetcher extends Service implements Observer{
 	private final static String RSS_ETS_FEED = "http://www.etsmtl.ca/fils-rss?rss=NouvellesRSS";
 	private final static String FACEBOOK_FEED = "http://www.facebook.com/feeds/page.php?id=8632204375&format=rss20";
 	private final static String TWITTER_FEED = "http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=etsmtl";
-	private final static String RSS_ETS = "rssETS";
-	private final static String FACEBOOK = "facebook";
-	private final static String TWITTER = "twitter";
+	public final static String RSS_ETS = "rssETS";
+	public final static String FACEBOOK = "facebook";
+	public final static String TWITTER = "twitter";
 	private NewsFetcherBinder binder = new NewsFetcherBinder();
 	private boolean working;
 	
@@ -103,7 +107,15 @@ public class NewsFetcher extends Service implements Observer{
 	}
 	
 	private void insertNewsIntoDB(News n){
-		newsAdapter.insertNews(n.getTitle(), n.getPubDate().getTime(), n.getDescription(), n.getGuid(), n.getSource());
+		//newsAdapter.insertNews(n.getTitle(), n.getPubDate().getTime(), n.getDescription(), n.getGuid(), n.getSource());
+		ContentValues values = new ContentValues();
+		values.put(NewsTable.NEWS_TITLE, n.getTitle());
+		values.put(NewsTable.NEWS_DATE, n.getPubDate().getTime());
+		values.put(NewsTable.NEWS_DESCRIPTION, n.getDescription());
+		values.put(NewsTable.NEWS_GUID, n.getGuid());
+		values.put(NewsTable.NEWS_SOURCE, n.getSource());
+		getContentResolver().insert(NewsListContentProvider.CONTENT_URI, values);
+		getSharedPreferences("dbpref", MODE_PRIVATE).edit().putBoolean("isEmpty", false).commit();
 	}
 	
 	private void downloadImage(String url){
@@ -137,7 +149,7 @@ public class NewsFetcher extends Service implements Observer{
 		if(object instanceof News){
 			News n = (News)object;
 			if(n.getSource().equals(RSS_ETS)){
-				//n.setDescription(formatDescription(n.getDescription()));
+				n.setDescription(formatDescription(n.getDescription()));
 			}
 			insertNewsIntoDB(n);
 		}

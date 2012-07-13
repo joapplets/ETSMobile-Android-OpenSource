@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 import ca.etsmtl.applets.etsmobile.models.News;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 
+import android.content.ContentValues;
 import android.util.Log;
 
 /**

@@ -16,13 +16,13 @@ public class NewsAdapter extends Observable{
 	/**
 	 * Everything related to a news.
 	 */
-	private final String NEWS_TABLE = SQLDBHelper.NEWS_TABLE;
-	private final String NEWS_TITLE = SQLDBHelper.NEWS_TITLE;
-	private final String NEWS_DATE = SQLDBHelper.NEWS_DATE;
-	private final String NEWS_DESCRIPTION = SQLDBHelper.NEWS_DESCRIPTION;
-	private final String NEWS_GUID = SQLDBHelper.NEWS_GUID;
-	private final String NEWS_SOURCE = SQLDBHelper.NEWS_SOURCE;
-
+	public static final String NEWS_TABLE = SQLDBHelper.NEWS_TABLE;
+	public static  final String NEWS_TITLE = SQLDBHelper.NEWS_TITLE;
+	public static  final String NEWS_DATE = SQLDBHelper.NEWS_DATE;
+	public static  final String NEWS_DESCRIPTION = SQLDBHelper.NEWS_DESCRIPTION;
+	public static  final String NEWS_GUID = SQLDBHelper.NEWS_GUID;
+	public static  final String NEWS_SOURCE = SQLDBHelper.NEWS_SOURCE;
+	
 	// db info.
 	private static final int DB_VERSION = 1;
 	private static final String DB_NAME = SQLDBHelper.DB_NAME;

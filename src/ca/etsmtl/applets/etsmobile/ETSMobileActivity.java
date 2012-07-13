@@ -1,10 +1,7 @@
 package ca.etsmtl.applets.etsmobile;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,7 +36,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 			intent = new Intent(this, StudentProfileActivity.class);
 			break;
 		case 1:
-			intent = new Intent(this, NewsListActivity.class);
+			intent = new Intent(this, NewsListActivityV2.class);
 			break;
 		case 2:
 			//intent = new Intent(this, SecurityActivity.class);
@@ -73,11 +70,4 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		}
 		return false;
 	}
-	
-	private boolean haveInternetConnection(){
-		ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo ni = cm.getActiveNetworkInfo();
-		return ni.isConnectedOrConnecting();
-	}
-
 }

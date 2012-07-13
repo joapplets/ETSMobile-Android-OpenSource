@@ -1,20 +1,13 @@
 package ca.etsmtl.applets.etsmobile;
 
-import org.apache.http.conn.scheme.Scheme;
+import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
 
-import ca.etsmtl.applets.etsmobile.models.News;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsAdapter;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.format.DateFormat;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.webkit.URLUtil;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 public class SingleNewsActivity extends Activity{
@@ -29,18 +22,17 @@ public class SingleNewsActivity extends Activity{
 		// les valeurs aux champs respectifs.
 		Bundle bundle = getIntent().getExtras();
 		
-		NewsAdapter newsDB = NewsAdapter.getInstance(this);
-		News n = newsDB.getNewsByGUID((String) bundle.getCharSequence("guid"));
+		int id = bundle.getInt("id");
 		
-		if(n != null){
-			title = n.getTitle();
-			content = n.getDescription();
-			date = DateFormat.getDateFormat(this).format(n.getPubDate());
+		String[] projection = {NewsTable.NEWS_DATE, NewsTable.NEWS_TITLE, NewsTable.NEWS_DESCRIPTION};
+		Cursor c = managedQuery(Uri.withAppendedPath(NewsListContentProvider.CONTENT_URI, String.valueOf(id)), projection, null, null, null);
+		if(c.moveToFirst()){
+			date = DateFormat.getDateFormat(this).format(c.getLong(c.getColumnIndex(NewsTable.NEWS_DATE)));
+			title = c.getString(c.getColumnIndex(NewsTable.NEWS_TITLE));
+			content = c.getString(c.getColumnIndex(NewsTable.NEWS_DESCRIPTION));
 		}
-		
 	
-		content = "<meta name=\"viewport\" content=\"target-densitydpi=device-dpi\" />" +
-				content;
+		content = "<meta name=\"viewport\" content=\"target-densitydpi=device-dpi\" />" + title + "<br>"  + date + "<br>" + content;
 		
 		WebView webView = new WebView(this);
 		webView.getSettings().setSupportZoom(false);

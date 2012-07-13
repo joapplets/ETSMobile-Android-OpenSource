@@ -71,6 +71,7 @@ public class NewsListActivity extends Activity implements AnimationListener, OnC
 		newsArray = newsDB.getAllNews();
 		initializeListView();
 		setAlarm();
+		//fillData();
 
 		if(newsArray.size() == 0){
 			Intent i = new Intent(this, NewsFetcher.class);
