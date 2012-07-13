@@ -4,25 +4,21 @@
     <PreferenceCategory
         android:key="sources"
         android:title="Source des nouvelles" >
-
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="rssETS"
-            android:summary="Afficher les nouvelles provenant du feed RSS de l'ÉTS"
+            android:summary="Afficher les nouvelles provenant du feed RSS de l&apos;ÉTS"
             android:title="Feed RSS ÉTS" />
-        
         <CheckBoxPreference
-        	android:defaultValue="true"
-        	android:key="facebook"
-        	android:summary="Afficher les nouvelles provenant de la page Facebook de l'ÉTS"
-        	android:title="Page Facebook ÉTS" />
-        	
+            android:defaultValue="true"
+            android:key="facebook"
+            android:summary="Afficher les nouvelles provenant de la page Facebook de l&apos;ÉTS"
+            android:title="Page Facebook ÉTS" />
         <CheckBoxPreference
-        	android:defaultValue="true"
-        	android:key="twitter"
-        	android:summary="Afficher les nouvelles provenant de Twitter ÉTS"
-        	android:title="Twitter ÉTS" />
-            
+            android:defaultValue="true"
+            android:key="twitter"
+            android:summary="Afficher les nouvelles provenant de Twitter ÉTS"
+            android:title="Twitter ÉTS" />
     </PreferenceCategory>
 
 </PreferenceScreen>

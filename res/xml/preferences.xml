@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <PreferenceCategory android:title="@string/pref_signets_label">
-        <EditTextPreference android:title="@string/pref_code_universel" android:key="codeAccesUniversel"/>
-        <EditTextPreference android:key="motPasse" android:title="@string/pref_mot_passe_lbl"/>
+
+    <PreferenceCategory android:title="@string/pref_signets_label" >
+        <EditTextPreference
+            android:key="codeAccesUniversel"
+            android:title="@string/pref_code_universel" />
+        <EditTextPreference
+            android:key="motPasse"
+            android:title="@string/pref_mot_passe_lbl" />
     </PreferenceCategory>
 
 </PreferenceScreen>

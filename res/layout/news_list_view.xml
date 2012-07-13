@@ -38,24 +38,17 @@
             android:gravity="center_horizontal"
             android:paddingLeft="5dip"
             android:text="@string/loading" />
-                
-            android:text="Loading..." />
     </LinearLayout>
-       
-
-
-
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/listView_footer"
-        android:layout_below="@id/news_nav_bar"
-        android:layout_above="@id/listView_footer"
-        android:layout_below="@id/nav_bar" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/nav_bar" >
+
+    </ListView>
+
         tools:listitem="@android:layout/simple_list_item_1" />
         
 </RelativeLayout>

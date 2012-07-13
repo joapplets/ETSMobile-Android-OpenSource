@@ -34,7 +34,6 @@ import ca.etsmtl.applets.etsmobile.tools.db.BottinDBAdapter;
 import ca.etsmtl.applets.etsmobile.tools.db.SQLDBHelper;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLAppletsHandler;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLBottinHandler;
-import ca.etsmtl.applets.etsmobile.tools.xml.XMLParser;
 
 public class BottinListActivity extends ListActivity implements
 		OnClickListener, TextWatcher, OnItemClickListener {
@@ -105,14 +104,14 @@ public class BottinListActivity extends ListActivity implements
 
 				final InputStream stream = conn.getInputStream();
 				if (stream != null) {
-					final XMLAppletsHandler xmlHandler = new XMLBottinHandler(
-							BottinListActivity.this);
-					final XMLParser xml = new XMLParser(stream, xmlHandler,
-							BottinListActivity.this);
-					final List<BottinEntry> newList = xml.getBottinEntries();
-
-					// insert all, with transaction
-					bottinDB.insertAll(newList);
+//					final XMLAppletsHandler xmlHandler = new XMLBottinHandler(
+//							BottinListActivity.this);
+//					final XMLParser xml = new XMLParser(stream, xmlHandler,
+//							BottinListActivity.this);
+//					final List<BottinEntry> newList = xml.getBottinEntries();
+//
+//					// insert all, with transaction
+//					bottinDB.insertAll(newList);
 
 				}
 

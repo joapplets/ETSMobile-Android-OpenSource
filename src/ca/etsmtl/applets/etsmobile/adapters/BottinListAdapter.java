@@ -34,7 +34,7 @@ public class BottinListAdapter extends ArrayAdapter<BottinEntry> {
 	public BottinEntry getItem(final int position) {
 		return list.get(position);
 	}
-
+	
 	@Override
 	public long getItemId(final int position) {
 		return position;

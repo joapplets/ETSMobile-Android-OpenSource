@@ -8,7 +8,6 @@ import java.util.Locale;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import android.content.Context;
 import ca.etsmtl.applets.etsmobile.models.BottinEntry;
 
 public class XMLBottinHandler extends XMLAppletsHandler {
@@ -34,10 +33,6 @@ public class XMLBottinHandler extends XMLAppletsHandler {
 	private String service;
 	private String tel_bureau;
 	private String titre;
-
-	public XMLBottinHandler(final Context context) {
-		super(context);
-	}
 
 	@Override
 	public void endElement(final String uri, final String localName,
@@ -111,12 +106,6 @@ public class XMLBottinHandler extends XMLAppletsHandler {
 		c.set(year, month, day, hourOfDay, minute, second);
 
 		return c.getTime().getTime();
-	}
-
-	@Override
-	public Object getData() {
-
-		return list;
 	}
 
 	@Override

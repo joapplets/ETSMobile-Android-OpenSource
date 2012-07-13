@@ -22,7 +22,6 @@ public class BottinCursorAdapter extends SimpleCursorAdapter {
 		public TextView service;
 	}
 
-	@SuppressLint("ParserError")
 	@SuppressWarnings("deprecation")
 	public BottinCursorAdapter(Context context, Cursor c) {
 		super(context, R.layout.bottin_list_item, c,
