@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ParserError">
+<<<<<<< HEAD
+        <ignore path="src\ca\etsmtl\applets\etsmobile\tools\db\BottinDBAdapter.java" />
+=======
+        <ignore path="src\ca\etsmtl\applets\etsmobile\SingleNewsActivity.java" />
+>>>>>>> origin/news
+    </issue>
+</lint>
