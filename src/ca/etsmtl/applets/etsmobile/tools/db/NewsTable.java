@@ -9,11 +9,12 @@ public class NewsTable {
 	
 	//fields
 	public static final String NEWS_ID = "_id";
-	public static final String NEWS_TITLE = SQLDBHelper.NEWS_TITLE;
-	public static final String NEWS_DATE = SQLDBHelper.NEWS_DATE;
-	public static final String NEWS_DESCRIPTION = SQLDBHelper.NEWS_DESCRIPTION;
-	public static final String NEWS_GUID = SQLDBHelper.NEWS_GUID;
-	public static final String NEWS_SOURCE = SQLDBHelper.NEWS_SOURCE;
+	public static final String NEWS_TITLE = "title";
+	public static final String NEWS_DATE = "date";
+	public static final String NEWS_DESCRIPTION = "description";
+	public static final String NEWS_GUID = "guid";
+	public static final String NEWS_SOURCE = "source";
+	public static final String NEWS_LINK = "link";
 	
 	// Database creation SQL statement
 	private static final String DATABASE_CREATE = 	
@@ -24,6 +25,7 @@ public class NewsTable {
 		NEWS_DATE + " LONG NOT NULL, " +
 		NEWS_DESCRIPTION + " TEXT NOT NULL, " +
 		NEWS_GUID + " TEXT NOT NULL, " +
+		NEWS_LINK + " TEXT, " + 
 		NEWS_SOURCE + " TEXT NOT NULL);";
 
 	public static void onCreate(SQLiteDatabase database) {

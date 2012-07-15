@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,19 +12,23 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.xml.sax.SAXException;
 
 import ca.etsmtl.applets.etsmobile.models.News;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsAdapter;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLNewsParser;
 
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -41,13 +46,12 @@ public class NewsFetcher extends Service implements Observer{
 	public final static String TWITTER = "twitter";
 	private NewsFetcherBinder binder = new NewsFetcherBinder();
 	private boolean working;
+	private Document doc;
 	
-	private NewsAdapter newsAdapter;
 	private ObservableBundle bundle;
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		newsAdapter = NewsAdapter.getInstance(this);
 		bundle = new ObservableBundle();
 		bundle.addObserver(this);
 		if(!working){
@@ -69,21 +73,50 @@ public class NewsFetcher extends Service implements Observer{
 				SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
 				InputStream stream;
 				
+				String[] projection = {NewsTable.NEWS_GUID};
+				String[] rss = {RSS_ETS};
+				String[] fb = {FACEBOOK};
+				String[] tw = {TWITTER};
+				Cursor cursor = getContentResolver().query(NewsListContentProvider.CONTENT_URI, projection, null, rss, null);
+				ArrayList<String> guids = new ArrayList<String>();
+				if(cursor.moveToFirst()){
+					do{
+						guids.add(cursor.getString(cursor.getColumnIndex(NewsTable.NEWS_GUID)));
+					}while(cursor.moveToNext());
+				}
+				cursor.close();
 				URL url = new URL(RSS_ETS_FEED);
 				stream = url.openStream();
-				XMLNewsParser newsParser = new XMLNewsParser(RSS_ETS, newsAdapter.getAllGUIDFromSource(RSS_ETS), bundle);
+				XMLNewsParser newsParser = new XMLNewsParser(RSS_ETS, guids, bundle);
 				saxParser.parse(stream, newsParser);
 				stream.close();
 				
+				cursor = getContentResolver().query(NewsListContentProvider.CONTENT_URI, projection, null, fb, null);
+				guids = new ArrayList<String>();
+				if(cursor.moveToFirst()){
+					do{
+						guids.add(cursor.getString(cursor.getColumnIndex(NewsTable.NEWS_GUID)));
+					}while(cursor.moveToNext());
+				}
+				cursor.close();
 				url = new URL(FACEBOOK_FEED);
 				stream = url.openStream();
-				newsParser = new XMLNewsParser(FACEBOOK, newsAdapter.getAllGUIDFromSource(FACEBOOK), bundle);
+				newsParser = new XMLNewsParser(FACEBOOK, guids, bundle);
 				saxParser.parse(stream, newsParser);
 				stream.close();
 				
+				
+				cursor = getContentResolver().query(NewsListContentProvider.CONTENT_URI, projection, null, tw, null);
+				guids = new ArrayList<String>();
+				if(cursor.moveToFirst()){
+					do{
+						guids.add(cursor.getString(cursor.getColumnIndex(NewsTable.NEWS_GUID)));
+					}while(cursor.moveToNext());
+				}
+				cursor.close();
 				url = new URL(TWITTER_FEED);
 				stream = url.openStream();
-				newsParser = new XMLNewsParser(TWITTER, newsAdapter.getAllGUIDFromSource(TWITTER), bundle);
+				newsParser = new XMLNewsParser(TWITTER, guids, bundle);
 				saxParser.parse(stream, newsParser);
 				stream.close();
 				
@@ -107,24 +140,73 @@ public class NewsFetcher extends Service implements Observer{
 	}
 	
 	private void insertNewsIntoDB(News n){
-		//newsAdapter.insertNews(n.getTitle(), n.getPubDate().getTime(), n.getDescription(), n.getGuid(), n.getSource());
 		ContentValues values = new ContentValues();
 		values.put(NewsTable.NEWS_TITLE, n.getTitle());
 		values.put(NewsTable.NEWS_DATE, n.getPubDate().getTime());
 		values.put(NewsTable.NEWS_DESCRIPTION, n.getDescription());
 		values.put(NewsTable.NEWS_GUID, n.getGuid());
 		values.put(NewsTable.NEWS_SOURCE, n.getSource());
+		values.put(NewsTable.NEWS_LINK, n.getLink());
 		getContentResolver().insert(NewsListContentProvider.CONTENT_URI, values);
 		getSharedPreferences("dbpref", MODE_PRIVATE).edit().putBoolean("isEmpty", false).commit();
 	}
 	
-	private void downloadImage(String url){
+	private String downloadImage(String url){
 		
+		return url;
 	}
 	
-	private String formatDescription(String description){
+	private News formatNews(News news){
+		String source = news.getSource();
 		
-		return null;
+		if(source.equals(RSS_ETS)){
+			doc = Jsoup.parse(news.getDescription());
+			
+			// enlève l'icône fb et twitter en haut du feed
+			doc.select("a[href*=http://www.facebook.com/share.php?]").remove();
+			doc.select("a[href*=http://api.tweetmeme.com/share?]").remove();
+			
+			Elements images = doc.select("img");
+			String imgSource;
+			for (Element element : images) {
+				element.removeAttr("width");
+				element.removeAttr("height");
+				element.removeAttr("style");
+				imgSource = element.attr("src");
+				element.attr("src", downloadImage(imgSource));
+			}
+		}
+		
+		if(source.equals(FACEBOOK)){
+			String link = news.getLink();
+			link = link.replace("http://www.facebook.com", "http://m.facebook.com");
+			news.setLink(link);
+		}
+		
+		if(source.equals(TWITTER)){
+//			String[] desc = news.getDescription().split(" ");
+//			String res = "";
+//			for (String string : desc) {
+//				if(string.startsWith("@")){
+//					string = "<a href=\"http://m.twitter.com/" + string.substring(1) + "\">" + string + "</a>";
+//				}
+//				if(string.startsWith("#")){
+//					string = "<a href=\"http://m.twitter.com/search/%23" + string.substring(1) + "\">" + string + "</a>";
+//				}
+//				if(string.startsWith("http://")){
+//					string = "<a href=\"" + string + "\">" + string + "</a>";
+//				}
+//				res += string + " ";
+//			}
+//			doc = Jsoup.parse(res);	
+			
+			String link = news.getLink();
+			link = link.replace("http://twitter.com", "http://m.twitter.com");
+			news.setLink(link);
+		}
+		
+		news.setDescription(doc.html());
+		return news;
 	}
 	
 	@Override
@@ -148,9 +230,7 @@ public class NewsFetcher extends Service implements Observer{
 	public void update(Observable observable, Object object) {
 		if(object instanceof News){
 			News n = (News)object;
-			if(n.getSource().equals(RSS_ETS)){
-				n.setDescription(formatDescription(n.getDescription()));
-			}
+			n = formatNews(n);
 			insertNewsIntoDB(n);
 		}
 	}

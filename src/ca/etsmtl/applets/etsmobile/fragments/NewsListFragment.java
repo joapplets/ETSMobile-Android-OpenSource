@@ -8,6 +8,7 @@ import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.location.Address;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -30,7 +31,7 @@ public class NewsListFragment extends ListFragment implements LoaderManager.Load
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);      
-        getLoaderManager().initLoader(ID, null, this);       
+        getLoaderManager().initLoader(ID, null, this);     
         adapter = new NewsCursorAdapter(getActivity().getApplicationContext(), null, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);       
         setListAdapter(adapter);
 	}
@@ -80,8 +81,6 @@ public class NewsListFragment extends ListFragment implements LoaderManager.Load
 	            null, 
 	            source, 
 	            NewsTable.NEWS_DATE + " DESC");
-	    
-	    Log.e(TAG, "Loader updated");
 	    
 	    return cursorLoader;
 	}

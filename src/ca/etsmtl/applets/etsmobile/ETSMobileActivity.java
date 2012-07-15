@@ -33,10 +33,10 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		Intent intent = null;
 		switch (position) {
 		case 0:
-			intent = new Intent(this, StudentProfileActivity.class);
+			//intent = new Intent(this, StudentProfileActivity.class);
 			break;
 		case 1:
-			intent = new Intent(this, NewsListActivityV2.class);
+			intent = new Intent(this, NewsListActivity.class);
 			break;
 		case 2:
 			//intent = new Intent(this, SecurityActivity.class);

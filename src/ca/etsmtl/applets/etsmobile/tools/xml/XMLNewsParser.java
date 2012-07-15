@@ -10,7 +10,6 @@ import org.xml.sax.SAXException;
 import ca.etsmtl.applets.etsmobile.models.News;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 
-import android.content.ContentValues;
 import android.util.Log;
 
 /**
@@ -28,15 +27,12 @@ public class XMLNewsParser extends XMLAppletsHandler{
 	private static final String DESCRIPTION = "description";
 	private static final String PUBDATE = "pubDate";
 	private static final String GUID = "guid";
+	private static final String LINK = "link";
 	
 	// Des variables qui nous permettent de faire le traitement.
-	private String source;
+	private String source, title, date, description, guid, link;
 	private ArrayList<String> guids;
 	private boolean inItem;
-	private String title;
-	private String date;
-	private String description;
-	private String guid;
 	private boolean isThere;
 	private ObservableBundle bundle;
 	private News news;
@@ -79,7 +75,9 @@ public class XMLNewsParser extends XMLAppletsHandler{
 		if(localName.equalsIgnoreCase(PUBDATE) && inItem){
 			date = buffer.toString();
 		}
-		
+		if(localName.equalsIgnoreCase(LINK) && inItem){
+			link = buffer.toString();
+		}
 		if(localName.equalsIgnoreCase(GUID) && inItem){
 			guid = buffer.toString();
 		}
@@ -93,7 +91,7 @@ public class XMLNewsParser extends XMLAppletsHandler{
 			}	
 			if(!isThere){
 				try {
-					news = new News(title, description, guid, source, dateFormat.parse(date));
+					news = new News(title, description, guid, source, dateFormat.parse(date), link);
 					bundle.setContent(news);
 					inItem = false;
 				}catch (ParseException e) {

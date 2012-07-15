@@ -141,7 +141,8 @@ public class NewsListContentProvider extends android.content.ContentProvider{
 				NewsTable.NEWS_DESCRIPTION,
 				NewsTable.NEWS_GUID,
 				NewsTable.NEWS_ID,
-				NewsTable.NEWS_SOURCE};
+				NewsTable.NEWS_SOURCE,
+				NewsTable.NEWS_LINK};
 		if (columns != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(columns));
 			HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
