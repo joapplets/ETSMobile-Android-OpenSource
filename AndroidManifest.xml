@@ -34,7 +34,7 @@
         </activity>
         
         <activity
-            android:name="ca.etsmtl.applets.etsmobile.NewsListActivityV2"
+            android:name=".NewsListActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         
         <activity 
