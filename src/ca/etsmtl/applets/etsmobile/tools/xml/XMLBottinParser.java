@@ -1,7 +1,6 @@
 package ca.etsmtl.applets.etsmobile.tools.xml;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -9,8 +8,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import ca.etsmtl.applets.etsmobile.models.BottinEntry;
+import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 
-public class XMLBottinHandler extends XMLAppletsHandler {
+public class XMLBottinParser extends XMLAppletsHandler {
 
 	private static final String COURRIEL = "courriel";
 	private static final String DATE_MODIF = "datemodif";
@@ -26,7 +26,6 @@ public class XMLBottinHandler extends XMLAppletsHandler {
 	private String date_modif;
 	private String emplacement;
 	private String id;
-	private ArrayList<BottinEntry> list;
 	private boolean newEntry;
 	private String nom;
 	private String prenom;
@@ -34,36 +33,40 @@ public class XMLBottinHandler extends XMLAppletsHandler {
 	private String tel_bureau;
 	private String titre;
 
+	public XMLBottinParser(ObservableBundle b) {
+		super(b);
+	}
+
 	@Override
 	public void endElement(final String uri, final String localName,
 			final String qName) throws SAXException {
 		if (newEntry) {
 
-			if (localName.equalsIgnoreCase(XMLBottinHandler.ID)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.ID)) {
 				id = buffer.toString();
 			}
-			if (localName.equalsIgnoreCase(XMLBottinHandler.NOM)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.NOM)) {
 				nom = buffer.toString();
 			}
-			if (localName.equalsIgnoreCase(XMLBottinHandler.PRENOM)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.PRENOM)) {
 				prenom = buffer.toString();
 			}
-			if (localName.equalsIgnoreCase(XMLBottinHandler.TEL_BUREAU)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.TEL_BUREAU)) {
 				tel_bureau = buffer.toString();
 			}
-			if (localName.equalsIgnoreCase(XMLBottinHandler.EMPLACEMENT)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.EMPLACEMENT)) {
 				emplacement = buffer.toString();
 			}
-			if (localName.equalsIgnoreCase(XMLBottinHandler.COURRIEL)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.COURRIEL)) {
 				courriel = buffer.toString();
 			}
-			if (localName.equalsIgnoreCase(XMLBottinHandler.SERVICE)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.SERVICE)) {
 				service = buffer.toString();
 			}
-			if (localName.equalsIgnoreCase(XMLBottinHandler.TITRE)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.TITRE)) {
 				titre = buffer.toString();
 			}
-			if (localName.equalsIgnoreCase(XMLBottinHandler.DATE_MODIF)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.DATE_MODIF)) {
 				date_modif = buffer.toString();
 			}
 
@@ -77,7 +80,7 @@ public class XMLBottinHandler extends XMLAppletsHandler {
 				}
 				final BottinEntry be = new BottinEntry(id, nom, prenom,
 						tel_bureau, emplacement, courriel, service, titre, date);
-				list.add(be);
+				bundle.setContent(be);
 				newEntry = false;
 			}
 
@@ -109,12 +112,6 @@ public class XMLBottinHandler extends XMLAppletsHandler {
 	}
 
 	@Override
-	public void startDocument() throws SAXException {
-		// super.startDocument();
-		list = new ArrayList<BottinEntry>();
-	}
-
-	@Override
 	public void startElement(final String uri, final String localName,
 			final String qName, final Attributes attributes)
 			throws SAXException {
@@ -125,7 +122,7 @@ public class XMLBottinHandler extends XMLAppletsHandler {
 
 		// Si le tag est un "item", on crée un nouveau "news" vide et on indique
 		// qu'on est dans un "item"
-		if (localName.equalsIgnoreCase(XMLBottinHandler.ENTRY_TAG)) {
+		if (localName.equalsIgnoreCase(XMLBottinParser.ENTRY_TAG)) {
 			newEntry = true;
 		}
 	}

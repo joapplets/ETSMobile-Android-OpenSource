@@ -5,10 +5,6 @@ import java.text.SimpleDateFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.database.Cursor;
@@ -18,6 +14,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
+import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
 
 public class SingleNewsActivity extends Activity{
 	

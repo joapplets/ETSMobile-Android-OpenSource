@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import ca.etsmtl.applets.etsmobile.adapters.ETSMobileAdapter;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener, OnTouchListener, OnClickListener {
@@ -73,13 +73,13 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		}
 		return false;
 	}
-<<<<<<< HEAD
 
-	private boolean haveInternetConnection(){
-		ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo ni = cm.getActiveNetworkInfo();
-		return ni.isConnectedOrConnecting();
-	}
+
+//	private boolean haveInternetConnection(){
+//		ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+//		NetworkInfo ni = cm.getActiveNetworkInfo();
+//		return ni.isConnectedOrConnecting();
+//	}
 
 	
 	@Override
@@ -89,6 +89,4 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		
 	}
 
-=======
->>>>>>> news
 }

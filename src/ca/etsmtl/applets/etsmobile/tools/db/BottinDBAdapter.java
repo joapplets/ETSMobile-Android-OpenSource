@@ -7,37 +7,40 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import ca.etsmtl.applets.etsmobile.models.BottinEntry;
-import ca.etsmtl.applets.etsmobile.models.Model;
 
-public class BottinDBAdapter extends BaseDBAdapter {
+/**
+ * DEPRECATED, still exist only for ref.
+ * @author Phil
+ *
+ */
+public class BottinDBAdapter {
 
-	private static SQLDBHelper db;
-	private static final String DB_NAME = SQLDBHelper.DB_NAME;
+	private static BottinTableHelper db;
+	private static final String DB_NAME = BottinTableHelper.DB_NAME;
 
 	// db info.
 	private static final int DB_VERSION = 1;
 	private static BottinDBAdapter instance;
 
-	public static BottinDBAdapter getInstance(final Context c) {
-		if (BottinDBAdapter.instance == null) {
-			BottinDBAdapter.instance = new BottinDBAdapter(c);
-		}
-		return BottinDBAdapter.instance;
-	}
+//	public static BottinDBAdapter getInstance(final Context c) {
+//		if (BottinDBAdapter.instance == null) {
+//			BottinDBAdapter.instance = new BottinDBAdapter(c);
+//		}
+//		return BottinDBAdapter.instance;
+//	}
 
-	private BottinDBAdapter(Context c) {
-		// create the db, if it's already in the filesystem it will not
-		// recreate it
-		BottinDBAdapter.db = new SQLDBHelper(c, BottinDBAdapter.DB_NAME, null,
-				BottinDBAdapter.DB_VERSION);
-		BottinDBAdapter.db.close();
-		// db.onUpgrade(db.getWritableDatabase(), DB_VERSION, 2);
-	}
+//	private BottinDBAdapter(Context c) {
+//		// create the db, if it's already in the filesystem it will not
+//		// recreate it
+//		BottinDBAdapter.db = new BottinTableHelper(c, BottinDBAdapter.DB_NAME, null,
+//				BottinDBAdapter.DB_VERSION);
+//		BottinDBAdapter.db.close();
+//		// db.onUpgrade(db.getWritableDatabase(), DB_VERSION, 2);
+//	}
 
 	public List<BottinEntry> getAllEntries() {
 		final List<BottinEntry> list = new ArrayList<BottinEntry>();
@@ -46,30 +49,30 @@ public class BottinDBAdapter extends BaseDBAdapter {
 		final SQLiteDatabase readDB = BottinDBAdapter.db.getReadableDatabase();
 
 		// Equivalent to : SELECT * FROM BOTTIN ORDER BY SERVICE DESC
-		final Cursor c = readDB.query(SQLDBHelper.BOTTIN_TABLE,
+		final Cursor c = readDB.query(BottinTableHelper.TABLE_NAME,
 				new String[] { "*" }, null, null, null, null,
-				SQLDBHelper.BOTTIN_SERVICE + " DESC");
+				BottinTableHelper.BOTTIN_SERVICE + " DESC");
 
 		BottinEntry entry;
 		while (c.moveToNext()) {
 
-			final long id = c.getLong(c.getColumnIndex(SQLDBHelper.BOTTIN_ID));
+			final long id = c.getLong(c.getColumnIndex(BottinTableHelper.BOTTIN_ID));
 			final String nom = c.getString(c
-					.getColumnIndex(SQLDBHelper.BOTTIN_NOM));
+					.getColumnIndex(BottinTableHelper.BOTTIN_NOM));
 			final String prenom = c.getString(c
-					.getColumnIndex(SQLDBHelper.BOTTIN_PRENOM));
+					.getColumnIndex(BottinTableHelper.BOTTIN_PRENOM));
 			final String telBureau = c.getString(c
-					.getColumnIndex(SQLDBHelper.BOTTIN_TELBUREAU));
+					.getColumnIndex(BottinTableHelper.BOTTIN_TELBUREAU));
 			final String emplacement = c.getString(c
-					.getColumnIndex(SQLDBHelper.BOTTIN_EMPLACEMENT));
+					.getColumnIndex(BottinTableHelper.BOTTIN_EMPLACEMENT));
 			final String email = c.getString(c
-					.getColumnIndex(SQLDBHelper.BOTTIN_EMAIL));
+					.getColumnIndex(BottinTableHelper.BOTTIN_EMAIL));
 			final String service = c.getString(c
-					.getColumnIndex(SQLDBHelper.BOTTIN_SERVICE));
+					.getColumnIndex(BottinTableHelper.BOTTIN_SERVICE));
 			final String titre = c.getString(c
-					.getColumnIndex(SQLDBHelper.BOTTIN_TIRE));
+					.getColumnIndex(BottinTableHelper.BOTTIN_TIRE));
 			final String date = c.getString(c
-					.getColumnIndex(SQLDBHelper.BOTTIN_DATE_MODIF));
+					.getColumnIndex(BottinTableHelper.BOTTIN_DATE_MODIF));
 
 			Date date_modif = new Date(System.currentTimeMillis());
 			try {
@@ -127,7 +130,7 @@ public class BottinDBAdapter extends BaseDBAdapter {
 			for (BottinEntry bottinEntry : list) {
 				if (mustInsertNewEntry(bottinEntry)) {
 					ContentValues cv = bottinEntry.getContentValues();
-					wDB.insert(SQLDBHelper.BOTTIN_TABLE, null, cv);
+					wDB.insert(BottinTableHelper.TABLE_NAME, null, cv);
 				}
 			}
 			wDB.setTransactionSuccessful();
@@ -163,10 +166,10 @@ public class BottinDBAdapter extends BaseDBAdapter {
 
 		// Equivalent to : SELECT * FROM BOTTIN ORDER BY TITRE ASC SERVICE ASC
 		// NOM ASC
-		final Cursor c = readDB.query(SQLDBHelper.BOTTIN_TABLE,
+		final Cursor c = readDB.query(BottinTableHelper.TABLE_NAME,
 				new String[] { "*" }, null, null, null, null,
-				SQLDBHelper.BOTTIN_TIRE + " ASC, " + SQLDBHelper.BOTTIN_SERVICE
-						+ " ASC, " + SQLDBHelper.BOTTIN_NOM + " ASC");
+				BottinTableHelper.BOTTIN_TIRE + " ASC, " + BottinTableHelper.BOTTIN_SERVICE
+						+ " ASC, " + BottinTableHelper.BOTTIN_NOM + " ASC");
 		return c;
 	}
 
@@ -174,41 +177,41 @@ public class BottinDBAdapter extends BaseDBAdapter {
 		final SQLiteDatabase readDB = BottinDBAdapter.db.getReadableDatabase();
 
 		String filter_txt = "%" + constraint + "%";
-		final Cursor c = readDB.query(SQLDBHelper.BOTTIN_TABLE,
+		final Cursor c = readDB.query(BottinTableHelper.TABLE_NAME,
 				new String[] { "*" },
 				"nom like ? OR prenom like ? OR service like ?", new String[] {
 						filter_txt, filter_txt, filter_txt }, null, null,
-				SQLDBHelper.BOTTIN_NOM + " ASC");
+				BottinTableHelper.BOTTIN_NOM + " ASC");
 		return c;
 	}
 
 	public BottinEntry getEntry(long id) {
 		SQLiteDatabase rDB = db.getReadableDatabase();
 
-		Cursor result = rDB.query(SQLDBHelper.BOTTIN_TABLE,
-				new String[] { "*" }, SQLDBHelper.BOTTIN_ID + "=?",
+		Cursor result = rDB.query(BottinTableHelper.TABLE_NAME,
+				new String[] { "*" }, BottinTableHelper.BOTTIN_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null);
 		BottinEntry b = null;
 		while (result.moveToNext()) {
 
 			// final long id =
-			// c.getLong(c.getColumnIndex(SQLDBHelper.BOTTIN_ID));
+			// c.getLong(c.getColumnIndex(BottinTableHelper.BOTTIN_ID));
 			final String nom = result.getString(result
-					.getColumnIndex(SQLDBHelper.BOTTIN_NOM));
+					.getColumnIndex(BottinTableHelper.BOTTIN_NOM));
 			final String prenom = result.getString(result
-					.getColumnIndex(SQLDBHelper.BOTTIN_PRENOM));
+					.getColumnIndex(BottinTableHelper.BOTTIN_PRENOM));
 			final String telBureau = result.getString(result
-					.getColumnIndex(SQLDBHelper.BOTTIN_TELBUREAU));
+					.getColumnIndex(BottinTableHelper.BOTTIN_TELBUREAU));
 			final String emplacement = result.getString(result
-					.getColumnIndex(SQLDBHelper.BOTTIN_EMPLACEMENT));
+					.getColumnIndex(BottinTableHelper.BOTTIN_EMPLACEMENT));
 			final String email = result.getString(result
-					.getColumnIndex(SQLDBHelper.BOTTIN_EMAIL));
+					.getColumnIndex(BottinTableHelper.BOTTIN_EMAIL));
 			final String service = result.getString(result
-					.getColumnIndex(SQLDBHelper.BOTTIN_SERVICE));
+					.getColumnIndex(BottinTableHelper.BOTTIN_SERVICE));
 			final String titre = result.getString(result
-					.getColumnIndex(SQLDBHelper.BOTTIN_TIRE));
+					.getColumnIndex(BottinTableHelper.BOTTIN_TIRE));
 			final String date = result.getString(result
-					.getColumnIndex(SQLDBHelper.BOTTIN_DATE_MODIF));
+					.getColumnIndex(BottinTableHelper.BOTTIN_DATE_MODIF));
 
 			Date date_modif = new Date(System.currentTimeMillis());
 			try {
@@ -223,29 +226,4 @@ public class BottinDBAdapter extends BaseDBAdapter {
 
 		return b;
 	}
-
-	@Override
-	long insert(Model model) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	boolean update(ContentValues cv1, ContentValues cv2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	boolean delete(long id) {
-		BottinEntry u = get(id);
-		u.getContentValues();
-		return false;
-	}
-	
-	@Override
-	<T extends Model> T get(long id) {
-		return null;
-	}
-
 }

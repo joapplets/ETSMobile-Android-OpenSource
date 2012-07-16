@@ -3,9 +3,9 @@ package ca.etsmtl.applets.etsmobile.models;
 import java.sql.Date;
 
 import android.content.ContentValues;
-import ca.etsmtl.applets.etsmobile.tools.db.SQLDBHelper;
+import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
-public class BottinEntry extends Model{
+public class BottinEntry extends Model {
 
 	private String courriel;
 	private Date date_modif;
@@ -136,17 +136,20 @@ public class BottinEntry extends Model{
 	@Override
 	public ContentValues getContentValues() {
 		ContentValues cv = new ContentValues();
-		cv.put(SQLDBHelper.BOTTIN_NOM, (nom == null) ? "" : nom);
-		cv.put(SQLDBHelper.BOTTIN_PRENOM, (prenom == null) ? "" : prenom);
-		cv.put(SQLDBHelper.BOTTIN_TELBUREAU, (telBureau) == null ? ""
+		cv.put(BottinTableHelper.BOTTIN_NOM, (nom == null) ? "" : nom);
+		cv.put(BottinTableHelper.BOTTIN_PRENOM, (prenom == null) ? "" : prenom);
+		cv.put(BottinTableHelper.BOTTIN_TELBUREAU, (telBureau) == null ? ""
 				: telBureau);
-		cv.put(SQLDBHelper.BOTTIN_EMPLACEMENT, (emplacement == null) ? ""
+		cv.put(BottinTableHelper.BOTTIN_EMPLACEMENT, (emplacement == null) ? ""
 				: emplacement);
-		cv.put(SQLDBHelper.BOTTIN_EMAIL, (courriel == null) ? "" : courriel);
-		cv.put(SQLDBHelper.BOTTIN_SERVICE, (service == null) ? "" : service);
-		cv.put(SQLDBHelper.BOTTIN_TIRE, (titre == null) ? "" : titre);
-		cv.put(SQLDBHelper.BOTTIN_DATE_MODIF, date_modif.toGMTString());
-		cv.put(SQLDBHelper.BOTTIN_ETS_ID, (ets_id == null) ? "" : ets_id);
+		cv.put(BottinTableHelper.BOTTIN_EMAIL, (courriel == null) ? ""
+				: courriel);
+		cv.put(BottinTableHelper.BOTTIN_SERVICE, (service == null) ? ""
+				: service);
+		cv.put(BottinTableHelper.BOTTIN_TIRE, (titre == null) ? "" : titre);
+		cv.put(BottinTableHelper.BOTTIN_DATE_MODIF, date_modif.toGMTString());
+		cv.put(BottinTableHelper.BOTTIN_ETS_ID, (ets_id == null) ? "" : ets_id);
 		return cv;
 	}
+
 }

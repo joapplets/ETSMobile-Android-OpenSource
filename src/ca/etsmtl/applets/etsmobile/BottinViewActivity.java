@@ -35,16 +35,16 @@ public class BottinViewActivity extends Activity {
 		courrielView = (TextView) findViewById(R.id.bottin_view_courriel);
 		phoneView = (TextView) findViewById(R.id.bottin_view_phone);
 
-		BottinEntry bottinEntry = BottinDBAdapter.getInstance(this)
-				.getEntry(id);
-
-		nomView.setText(bottinEntry.getNom());
-		prenomView.setText(bottinEntry.getPrenom());
-		serviceView.setText(bottinEntry.getService());
-		emplView.setText(bottinEntry.getEmplacement());
-		titreView.setText(bottinEntry.getTitre());
-		courrielView.setText(bottinEntry.getCourriel());
-		phoneView.setText(bottinEntry.getTelBureau());
+		// BottinEntry bottinEntry = BottinDBAdapter.getInstance(this)
+		// .getEntry(id);
+//
+//		nomView.setText(bottinEntry.getNom());
+//		prenomView.setText(bottinEntry.getPrenom());
+//		serviceView.setText(bottinEntry.getService());
+//		emplView.setText(bottinEntry.getEmplacement());
+//		titreView.setText(bottinEntry.getTitre());
+//		courrielView.setText(bottinEntry.getCourriel());
+//		phoneView.setText(bottinEntry.getTelBureau());
 
 		((ImageButton) findViewById(R.id.search_nav_bar_home_btn))
 				.setOnClickListener(new OnClickListener() {

@@ -3,8 +3,6 @@ package ca.etsmtl.applets.etsmobile.providers;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -12,6 +10,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
 public class NewsListContentProvider extends android.content.ContentProvider{
 

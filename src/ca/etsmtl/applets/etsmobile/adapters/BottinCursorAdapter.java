@@ -1,6 +1,5 @@
 package ca.etsmtl.applets.etsmobile.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -9,9 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
-import ca.etsmtl.applets.etsmobile.tools.db.SQLDBHelper;
+import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
 public class BottinCursorAdapter extends SimpleCursorAdapter {
+
 	private final Context context;
 	private final Cursor c;
 
@@ -25,7 +25,7 @@ public class BottinCursorAdapter extends SimpleCursorAdapter {
 	@SuppressWarnings("deprecation")
 	public BottinCursorAdapter(Context context, Cursor c) {
 		super(context, R.layout.bottin_list_item, c,
-				new String[] { SQLDBHelper.BOTTIN_NOM },
+				new String[] { BottinTableHelper.BOTTIN_NOM },
 				new int[] { R.layout.bottin_list_item });
 		this.context = context;
 		this.c = c;
@@ -36,16 +36,6 @@ public class BottinCursorAdapter extends SimpleCursorAdapter {
 	public void bindView(View convertView, Context ctx, Cursor c) {
 
 		Holder holder = (Holder) convertView.getTag();
-		holder.prenom.setText(c.getString(c.getColumnIndex("nom")));
-	}
-
-	@Override
-	public View newView(Context ctx, Cursor c, ViewGroup group) {
-		Holder holder;
-		View convertView = LayoutInflater.from(ctx).inflate(
-				R.layout.bottin_list_item, null);
-
-		holder = new Holder();
 		holder.prenom = (TextView) convertView
 				.findViewById(R.id.bottin_list_item_prenom);
 		holder.prenom.setSingleLine(true);
@@ -60,6 +50,13 @@ public class BottinCursorAdapter extends SimpleCursorAdapter {
 				.findViewById(R.id.bottin_list_item_service);
 		holder.service.setSingleLine(true);
 		holder.service.setText(c.getString(c.getColumnIndex("service")));
+	}
+
+	@Override
+	public View newView(Context ctx, Cursor c, ViewGroup group) {
+		Holder holder = new Holder();
+		View convertView = LayoutInflater.from(ctx).inflate(
+				R.layout.bottin_list_item, null);
 
 		convertView.setTag(holder);
 		return convertView;
@@ -76,7 +73,7 @@ public class BottinCursorAdapter extends SimpleCursorAdapter {
 		if (constraint != null) {
 			buffer = new StringBuilder();
 			buffer.append("UPPER(");
-			buffer.append(SQLDBHelper.BOTTIN_NOM);
+			buffer.append(BottinTableHelper.BOTTIN_NOM);
 			buffer.append(") GLOB ?");
 			args = new String[] { constraint.toString().toUpperCase() + "*" };
 		}

@@ -1,14 +1,8 @@
 package ca.etsmtl.applets.etsmobile.fragments;
 
-import ca.etsmtl.applets.etsmobile.adapters.NewsCursorAdapter;
-import ca.etsmtl.applets.etsmobile.listeners.NewsListSelectedItemListener;
-import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.location.Address;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -16,9 +10,13 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import ca.etsmtl.applets.etsmobile.adapters.NewsCursorAdapter;
+import ca.etsmtl.applets.etsmobile.listeners.NewsListSelectedItemListener;
+import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
+import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
 
 public class NewsListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 

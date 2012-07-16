@@ -15,15 +15,21 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
-        
-        <receiver android:name="ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver"/>
+        <receiver android:name="ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver" />
+
         <service android:name="ca.etsmtl.applets.etsmobile.services.NewsFetcher" />
+
         <provider
-	       android:authorities="ca.etsmtl.applets.etsmobile"
-	       android:name=".providers.NewsListContentProvider"
-	       android:exported="false">
-		</provider> 
-        
+            android:name=".providers.NewsListContentProvider"
+            android:authorities="ca.etsmtl.applets.etsmobile"
+            android:exported="false" >
+        </provider>
+        <provider
+            android:name=".providers.BottinContentProvider"
+            android:authorities="ca.etsmtl.applets.etsmobile"
+            android:exported="false" >
+        </provider>
+
         <activity
             android:name=".ETSMobileActivity"
             android:label="@string/app_name"
@@ -50,8 +56,10 @@
             android:name=".BottinListActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:name=".AboutActivity"></activity>
-        <activity android:name=".BottinViewActivity"></activity>
+        <activity android:name=".AboutActivity" >
+        </activity>
+        <activity android:name=".BottinViewActivity" >
+        </activity>
     </application>
 
 </manifest>

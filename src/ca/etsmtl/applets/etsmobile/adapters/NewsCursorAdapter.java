@@ -2,9 +2,6 @@ package ca.etsmtl.applets.etsmobile.adapters;
 
 import java.text.SimpleDateFormat;
 
-import ca.etsmtl.applets.etsmobile.R;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -14,8 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import ca.etsmtl.applets.etsmobile.R;
+import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
 
 public class NewsCursorAdapter extends CursorAdapter{
+
 
 	private TextView tempV;
 	private String source;

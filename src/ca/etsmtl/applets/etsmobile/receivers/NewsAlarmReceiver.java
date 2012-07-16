@@ -1,9 +1,9 @@
 package ca.etsmtl.applets.etsmobile.receivers;
 
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
 
 public class NewsAlarmReceiver extends BroadcastReceiver{
 	

@@ -18,21 +18,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.xml.sax.SAXException;
 
+import android.app.Service;
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
+import android.os.Binder;
+import android.os.IBinder;
+import android.util.Log;
 import ca.etsmtl.applets.etsmobile.models.News;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLNewsParser;
-
-import android.app.Service;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.os.Binder;
-import android.os.IBinder;
-import android.util.Log;
 
 public class NewsFetcher extends Service implements Observer{
 	
@@ -77,6 +74,7 @@ public class NewsFetcher extends Service implements Observer{
 				String[] rss = {RSS_ETS};
 				String[] fb = {FACEBOOK};
 				String[] tw = {TWITTER};
+				
 				Cursor cursor = getContentResolver().query(NewsListContentProvider.CONTENT_URI, projection, null, rss, null);
 				ArrayList<String> guids = new ArrayList<String>();
 				if(cursor.moveToFirst()){
@@ -85,6 +83,7 @@ public class NewsFetcher extends Service implements Observer{
 					}while(cursor.moveToNext());
 				}
 				cursor.close();
+				
 				URL url = new URL(RSS_ETS_FEED);
 				stream = url.openStream();
 				XMLNewsParser newsParser = new XMLNewsParser(RSS_ETS, guids, bundle);
@@ -140,14 +139,8 @@ public class NewsFetcher extends Service implements Observer{
 	}
 	
 	private void insertNewsIntoDB(News n){
-		ContentValues values = new ContentValues();
-		values.put(NewsTable.NEWS_TITLE, n.getTitle());
-		values.put(NewsTable.NEWS_DATE, n.getPubDate().getTime());
-		values.put(NewsTable.NEWS_DESCRIPTION, n.getDescription());
-		values.put(NewsTable.NEWS_GUID, n.getGuid());
-		values.put(NewsTable.NEWS_SOURCE, n.getSource());
-		values.put(NewsTable.NEWS_LINK, n.getLink());
-		getContentResolver().insert(NewsListContentProvider.CONTENT_URI, values);
+
+		getContentResolver().insert(NewsListContentProvider.CONTENT_URI, n.getContentValues());
 		getSharedPreferences("dbpref", MODE_PRIVATE).edit().putBoolean("isEmpty", false).commit();
 	}
 	

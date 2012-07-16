@@ -3,16 +3,10 @@ package ca.etsmtl.applets.etsmobile;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import ca.etsmtl.applets.etsmobile.fragments.NewsListFragment;
-import ca.etsmtl.applets.etsmobile.listeners.NewsListSelectedItemListener;
-import ca.etsmtl.applets.etsmobile.preferences.NewsListPreferences;
-import ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher.NewsFetcherBinder;
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.ActivityManager.RunningServiceInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +27,12 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import ca.etsmtl.applets.etsmobile.fragments.NewsListFragment;
+import ca.etsmtl.applets.etsmobile.listeners.NewsListSelectedItemListener;
+import ca.etsmtl.applets.etsmobile.preferences.NewsListPreferences;
+import ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver;
+import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
+import ca.etsmtl.applets.etsmobile.services.NewsFetcher.NewsFetcherBinder;
 
 public class NewsListActivity extends FragmentActivity implements NewsListSelectedItemListener, OnClickListener, AnimationListener{
 

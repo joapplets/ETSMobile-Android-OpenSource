@@ -2,14 +2,19 @@ package ca.etsmtl.applets.etsmobile.models;
 
 import java.util.Date;
 
-public class News {
-	
+import android.content.ContentValues;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
+
+public class News extends Model {
+
 	private String title, description, guid, source, link;
 	private Date date;
-	
-	public News(){}
-	
-	public News(String title, String description, String guid, String source, Date date, String link){
+
+	public News() {
+	}
+
+	public News(String title, String description, String guid, String source,
+			Date date, String link) {
 		this.title = title;
 		this.description = description;
 		this.guid = guid;
@@ -17,7 +22,7 @@ public class News {
 		this.date = date;
 		this.link = link;
 	}
-	
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -37,8 +42,8 @@ public class News {
 	public void setPubDate(Date date) {
 		this.date = date;
 	}
-	
-	public void setPubDate(long date){
+
+	public void setPubDate(long date) {
 		this.date = new Date(date);
 	}
 
@@ -68,5 +73,19 @@ public class News {
 
 	public String getLink() {
 		return link;
+	}
+
+	@Override
+	public ContentValues getContentValues() {
+		final ContentValues values = new ContentValues();
+		values.put(NewsTable.NEWS_TITLE, getTitle());
+		values.put(NewsTable.NEWS_DATE, getPubDate().getTime());
+		values.put(NewsTable.NEWS_DESCRIPTION, getDescription());
+		values.put(NewsTable.NEWS_GUID, getGuid());
+		values.put(NewsTable.NEWS_SOURCE, getSource());
+		values.put(NewsTable.NEWS_LINK, getLink());
+
+		return values;
+
 	}
 }
