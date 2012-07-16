@@ -5,7 +5,7 @@ import java.sql.Date;
 import android.content.ContentValues;
 import ca.etsmtl.applets.etsmobile.tools.db.SQLDBHelper;
 
-public class BottinEntry {
+public class BottinEntry extends Model{
 
 	private String courriel;
 	private Date date_modif;
@@ -133,6 +133,7 @@ public class BottinEntry {
 				getCourriel()));
 	}
 
+	@Override
 	public ContentValues getContentValues() {
 		ContentValues cv = new ContentValues();
 		cv.put(SQLDBHelper.BOTTIN_NOM, (nom == null) ? "" : nom);

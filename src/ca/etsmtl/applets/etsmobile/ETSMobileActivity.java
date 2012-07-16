@@ -8,13 +8,15 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import ca.etsmtl.applets.etsmobile.adapters.ETSMobileAdapter;
 
-public class ETSMobileActivity extends Activity implements OnItemClickListener, OnTouchListener {
+public class ETSMobileActivity extends Activity implements OnItemClickListener, OnTouchListener, OnClickListener {
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -25,6 +27,9 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 
 		gridview.setOnItemClickListener(this);
 		gridview.setOnTouchListener(this);
+		
+		//about bnt
+		((ImageButton)findViewById(R.id.imgBtnabout)).setOnClickListener(this);
 	}
 
 	@Override
@@ -76,6 +81,14 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo ni = cm.getActiveNetworkInfo();
 		return ni.isConnectedOrConnecting();
+	}
+
+	
+	@Override
+	public void onClick(View arg0) {
+		Intent intent = new Intent(this, AboutActivity.class);
+		startActivity(intent);
+		
 	}
 
 }

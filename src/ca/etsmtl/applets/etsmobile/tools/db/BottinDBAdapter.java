@@ -12,8 +12,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import ca.etsmtl.applets.etsmobile.models.BottinEntry;
+import ca.etsmtl.applets.etsmobile.models.Model;
 
-public class BottinDBAdapter {
+public class BottinDBAdapter extends BaseDBAdapter {
 
 	private static SQLDBHelper db;
 	private static final String DB_NAME = SQLDBHelper.DB_NAME;
@@ -152,8 +153,7 @@ public class BottinDBAdapter {
 	}
 
 	/**
-	 * Returns a cursor containing all elements 
-	 * Ordered by Service, Tite, Nom
+	 * Returns a cursor containing all elements Ordered by Service, Tite, Nom
 	 * 
 	 * @return
 	 */
@@ -161,10 +161,12 @@ public class BottinDBAdapter {
 		// set the database to be readable
 		final SQLiteDatabase readDB = BottinDBAdapter.db.getReadableDatabase();
 
-		// Equivalent to : SELECT * FROM BOTTIN ORDER BY  TITRE ASC SERVICE ASC NOM ASC
+		// Equivalent to : SELECT * FROM BOTTIN ORDER BY TITRE ASC SERVICE ASC
+		// NOM ASC
 		final Cursor c = readDB.query(SQLDBHelper.BOTTIN_TABLE,
 				new String[] { "*" }, null, null, null, null,
-				SQLDBHelper.BOTTIN_TIRE + " ASC, " + SQLDBHelper.BOTTIN_SERVICE + " ASC, " + SQLDBHelper.BOTTIN_NOM + " ASC");
+				SQLDBHelper.BOTTIN_TIRE + " ASC, " + SQLDBHelper.BOTTIN_SERVICE
+						+ " ASC, " + SQLDBHelper.BOTTIN_NOM + " ASC");
 		return c;
 	}
 
@@ -221,4 +223,29 @@ public class BottinDBAdapter {
 
 		return b;
 	}
+
+	@Override
+	long insert(Model model) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	boolean update(ContentValues cv1, ContentValues cv2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	boolean delete(long id) {
+		BottinEntry u = get(id);
+		u.getContentValues();
+		return false;
+	}
+	
+	@Override
+	<T extends Model> T get(long id) {
+		return null;
+	}
+
 }
