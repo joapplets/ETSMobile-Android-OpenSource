@@ -4,17 +4,18 @@ import java.util.Date;
 
 public class News {
 	
-	private String title, description, guid, source;
+	private String title, description, guid, source, link;
 	private Date date;
 	
 	public News(){}
 	
-	public News(String title, String description, String guid, String source, Date date){
+	public News(String title, String description, String guid, String source, Date date, String link){
 		this.title = title;
 		this.description = description;
 		this.guid = guid;
 		this.source = source;
 		this.date = date;
+		this.link = link;
 	}
 	
 	public void setTitle(String title) {
@@ -59,5 +60,13 @@ public class News {
 
 	public String getSource() {
 		return source;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public String getLink() {
+		return link;
 	}
 }

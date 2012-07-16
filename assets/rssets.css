@@ -1,0 +1,19 @@
+body {
+  padding-left: 7px;
+  padding-right: 7px;
+  font-size: 1.375em;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+}
+
+img{
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  width: 95%;
+}
+
+h2{
+  margin-top: 12px;
+  margin-bottom: -7px;
+}

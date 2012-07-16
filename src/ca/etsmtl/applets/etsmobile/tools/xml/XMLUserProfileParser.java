@@ -59,5 +59,9 @@ public class XMLUserProfileParser extends XMLAppletsHandler{
 		}
 			
 	}
+	
+	public StudentProfile getStudentProfile(){
+		return profile;
+	}
 
 }
