@@ -13,7 +13,8 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import ca.etsmtl.applets.etsmobile.adapters.ETSMobileAdapter;
 
-public class ETSMobileActivity extends Activity implements OnItemClickListener, OnTouchListener, OnClickListener {
+public class ETSMobileActivity extends Activity implements OnItemClickListener,
+		OnTouchListener, OnClickListener {
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -24,9 +25,9 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 
 		gridview.setOnItemClickListener(this);
 		gridview.setOnTouchListener(this);
-		
-		//about bnt
-		((ImageButton)findViewById(R.id.imgBtnabout)).setOnClickListener(this);
+
+		// about bnt
+		((ImageButton) findViewById(R.id.imgBtnabout)).setOnClickListener(this);
 	}
 
 	@Override
@@ -35,13 +36,13 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		Intent intent = null;
 		switch (position) {
 		case 0:
-			//intent = new Intent(this, StudentProfileActivity.class);
+			// intent = new Intent(this, StudentProfileActivity.class);
 			break;
 		case 1:
 			intent = new Intent(this, NewsListActivity.class);
 			break;
 		case 2:
-			// intent = new Intent(this, SecurityActivity.class);
+			intent = new Intent(this, SecurityActivity.class);
 			break;
 		case 3:
 			// intent = new Intent(this, ScheduleActivity.class);
@@ -61,8 +62,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		}
 	}
 
-	// Disable scrolling of the main view
-
+	/** Disable scrolling of the main view */
 	@Override
 	public boolean onTouch(final View v, final MotionEvent event) {
 		switch (event.getAction()) {
@@ -74,19 +74,11 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		return false;
 	}
 
-
-//	private boolean haveInternetConnection(){
-//		ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-//		NetworkInfo ni = cm.getActiveNetworkInfo();
-//		return ni.isConnectedOrConnecting();
-//	}
-
-	
 	@Override
 	public void onClick(View arg0) {
 		Intent intent = new Intent(this, AboutActivity.class);
 		startActivity(intent);
-		
+
 	}
 
 }

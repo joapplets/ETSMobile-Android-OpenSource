@@ -6,12 +6,26 @@
     android:background="@drawable/navbar_bg"
     android:orientation="horizontal"
     android:padding="5dip" >
+
+    <RelativeLayout
+        android:id="@+id/rel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/search_nav_bar_home_btn"
+            style="@style/btnHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_home" />
+
+        <TextView
+            android:id="@+id/empty_nav_bar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
-    <ImageButton
-        android:id="@+id/search_nav_bar_home_btn"
-        style="@style/btnHome"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/icon_home" />
+    </RelativeLayout>
 
 </LinearLayout>

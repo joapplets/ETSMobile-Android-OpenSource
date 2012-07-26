@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <include
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/empty_nav_bar" />
 
@@ -16,18 +16,10 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="5dp" >
-
-        <TextView
-            android:id="@+id/bottin_view_titre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="titre"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black" />
-
+
         <LinearLayout
             android:id="@+id/layout_1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <TextView
@@ -38,15 +30,25 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/black"
                 android:width="100dp" />
-
+
             <TextView
                 android:id="@+id/bottin_view_nom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="fill"
                 android:text="nom"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/black" />
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/bottin_view_titre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="titre"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/bottin_view_service"
@@ -55,10 +57,10 @@
             android:text="service"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black" />
-
+
         <LinearLayout
             android:id="@+id/layout_2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <TextView

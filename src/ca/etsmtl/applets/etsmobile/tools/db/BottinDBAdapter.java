@@ -7,40 +7,30 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import ca.etsmtl.applets.etsmobile.models.BottinEntry;
 
-/**
- * DEPRECATED, still exist only for ref.
- * @author Phil
- *
- */
 public class BottinDBAdapter {
 
-	private static BottinTableHelper db;
-	private static final String DB_NAME = BottinTableHelper.DB_NAME;
-
-	// db info.
-	private static final int DB_VERSION = 1;
+	private static ETSMobileOpenHelper db;
 	private static BottinDBAdapter instance;
 
-//	public static BottinDBAdapter getInstance(final Context c) {
-//		if (BottinDBAdapter.instance == null) {
-//			BottinDBAdapter.instance = new BottinDBAdapter(c);
-//		}
-//		return BottinDBAdapter.instance;
-//	}
+	public static BottinDBAdapter getInstance(final Context c) {
+		if (BottinDBAdapter.instance == null) {
+			BottinDBAdapter.instance = new BottinDBAdapter(c);
+		}
+		return BottinDBAdapter.instance;
+	}
 
-//	private BottinDBAdapter(Context c) {
-//		// create the db, if it's already in the filesystem it will not
-//		// recreate it
-//		BottinDBAdapter.db = new BottinTableHelper(c, BottinDBAdapter.DB_NAME, null,
-//				BottinDBAdapter.DB_VERSION);
-//		BottinDBAdapter.db.close();
-//		// db.onUpgrade(db.getWritableDatabase(), DB_VERSION, 2);
-//	}
+	private BottinDBAdapter(Context c) {
+		// create the db, if it's already in the filesystem it will not
+		// recreate it
+		BottinDBAdapter.db = new ETSMobileOpenHelper(c);
+		// db.onUpgrade(db.getWritableDatabase(), DB_VERSION, 2);
+	}
 
 	public List<BottinEntry> getAllEntries() {
 		final List<BottinEntry> list = new ArrayList<BottinEntry>();
@@ -56,7 +46,8 @@ public class BottinDBAdapter {
 		BottinEntry entry;
 		while (c.moveToNext()) {
 
-			final long id = c.getLong(c.getColumnIndex(BottinTableHelper.BOTTIN_ID));
+			final long id = c.getLong(c
+					.getColumnIndex(BottinTableHelper.BOTTIN__ID));
 			final String nom = c.getString(c
 					.getColumnIndex(BottinTableHelper.BOTTIN_NOM));
 			final String prenom = c.getString(c
@@ -66,7 +57,7 @@ public class BottinDBAdapter {
 			final String emplacement = c.getString(c
 					.getColumnIndex(BottinTableHelper.BOTTIN_EMPLACEMENT));
 			final String email = c.getString(c
-					.getColumnIndex(BottinTableHelper.BOTTIN_EMAIL));
+					.getColumnIndex(BottinTableHelper.BOTTIN_COURRIEL));
 			final String service = c.getString(c
 					.getColumnIndex(BottinTableHelper.BOTTIN_SERVICE));
 			final String titre = c.getString(c
@@ -164,12 +155,12 @@ public class BottinDBAdapter {
 		// set the database to be readable
 		final SQLiteDatabase readDB = BottinDBAdapter.db.getReadableDatabase();
 
-		// Equivalent to : SELECT * FROM BOTTIN ORDER BY TITRE ASC SERVICE ASC
-		// NOM ASC
+		// SELECT * FROM BOTTIN ORDER BY TITRE ASC SERVICE ASC NOM ASC
 		final Cursor c = readDB.query(BottinTableHelper.TABLE_NAME,
 				new String[] { "*" }, null, null, null, null,
-				BottinTableHelper.BOTTIN_TIRE + " ASC, " + BottinTableHelper.BOTTIN_SERVICE
-						+ " ASC, " + BottinTableHelper.BOTTIN_NOM + " ASC");
+				BottinTableHelper.BOTTIN_TIRE + " ASC, "
+						+ BottinTableHelper.BOTTIN_SERVICE + " ASC, "
+						+ BottinTableHelper.BOTTIN_NOM + " ASC");
 		return c;
 	}
 
@@ -189,7 +180,7 @@ public class BottinDBAdapter {
 		SQLiteDatabase rDB = db.getReadableDatabase();
 
 		Cursor result = rDB.query(BottinTableHelper.TABLE_NAME,
-				new String[] { "*" }, BottinTableHelper.BOTTIN_ID + "=?",
+				new String[] { "*" }, BottinTableHelper.BOTTIN__ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null);
 		BottinEntry b = null;
 		while (result.moveToNext()) {
@@ -205,7 +196,7 @@ public class BottinDBAdapter {
 			final String emplacement = result.getString(result
 					.getColumnIndex(BottinTableHelper.BOTTIN_EMPLACEMENT));
 			final String email = result.getString(result
-					.getColumnIndex(BottinTableHelper.BOTTIN_EMAIL));
+					.getColumnIndex(BottinTableHelper.BOTTIN_COURRIEL));
 			final String service = result.getString(result
 					.getColumnIndex(BottinTableHelper.BOTTIN_SERVICE));
 			final String titre = result.getString(result

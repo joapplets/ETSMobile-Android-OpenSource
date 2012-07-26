@@ -1,13 +1,17 @@
 package ca.etsmtl.applets.etsmobile;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.models.BottinEntry;
+import ca.etsmtl.applets.etsmobile.providers.BottinContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinDBAdapter;
+import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
 public class BottinViewActivity extends Activity {
 
@@ -24,8 +28,8 @@ public class BottinViewActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bottin_view);
 
-		Bundle b = getIntent().getExtras();
-		long id = b.getLong("id");
+		Long b = (Long) getIntent().getExtras().get("id");
+		// long id = b.getLong("id");
 
 		nomView = (TextView) findViewById(R.id.bottin_view_nom);
 		prenomView = (TextView) findViewById(R.id.bottin_view_prenom);
@@ -35,17 +39,26 @@ public class BottinViewActivity extends Activity {
 		courrielView = (TextView) findViewById(R.id.bottin_view_courriel);
 		phoneView = (TextView) findViewById(R.id.bottin_view_phone);
 
-		// BottinEntry bottinEntry = BottinDBAdapter.getInstance(this)
-		// .getEntry(id);
-//
-//		nomView.setText(bottinEntry.getNom());
-//		prenomView.setText(bottinEntry.getPrenom());
-//		serviceView.setText(bottinEntry.getService());
-//		emplView.setText(bottinEntry.getEmplacement());
-//		titreView.setText(bottinEntry.getTitre());
-//		courrielView.setText(bottinEntry.getCourriel());
-//		phoneView.setText(bottinEntry.getTelBureau());
-
+		Cursor cursor = managedQuery(
+				Uri.withAppendedPath(BottinContentProvider.CONTENT_URI,
+						b.toString()), BottinTableHelper.AVAILABLE, null, null,
+				null);
+		if (cursor.getCount() > 0 && cursor.moveToFirst()) {
+			nomView.setText(cursor.getString(cursor
+					.getColumnIndex(BottinTableHelper.BOTTIN_NOM)));
+			prenomView.setText(cursor.getString(cursor
+					.getColumnIndex(BottinTableHelper.BOTTIN_PRENOM)));
+			serviceView.setText(cursor.getString(cursor
+					.getColumnIndex(BottinTableHelper.BOTTIN_SERVICE)));
+			emplView.setText(cursor.getString(cursor
+					.getColumnIndex(BottinTableHelper.BOTTIN_EMPLACEMENT)));
+			titreView.setText(cursor.getString(cursor
+					.getColumnIndex(BottinTableHelper.BOTTIN_TIRE)));
+			courrielView.setText(cursor.getString(cursor
+					.getColumnIndex(BottinTableHelper.BOTTIN_COURRIEL)));
+			phoneView.setText(cursor.getString(cursor
+					.getColumnIndex(BottinTableHelper.BOTTIN_TELBUREAU)));
+		}
 		((ImageButton) findViewById(R.id.search_nav_bar_home_btn))
 				.setOnClickListener(new OnClickListener() {
 

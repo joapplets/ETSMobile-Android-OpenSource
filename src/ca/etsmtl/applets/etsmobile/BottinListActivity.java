@@ -1,14 +1,20 @@
 package ca.etsmtl.applets.etsmobile;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,58 +25,88 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
-import ca.etsmtl.applets.etsmobile.tools.db.BottinDBAdapter;
+import ca.etsmtl.applets.etsmobile.providers.BottinContentProvider;
+import ca.etsmtl.applets.etsmobile.services.BottinService;
+import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
+import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
 public class BottinListActivity extends ListActivity implements
 		OnClickListener, TextWatcher, OnItemClickListener {
-	private static final int[] VIEWS = new int[] {
-			R.id.bottin_list_item_prenom, R.id.bottin_list_item_nom,
-			R.id.bottin_list_item_service };
-	// private static final String[] PROJECTION = new String[] {
-	// SQLDBHelper.BOTTIN_NOM, SQLDBHelper.BOTTIN_PRENOM,
-	// SQLDBHelper.BOTTIN_SERVICE, SQLDBHelper.BOTTIN_ID };
+	private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.BottinFetcher";
+
+	/**
+	 * SimpleCursorAdapter INFO
+	 */
+	private static final String[] PROJECTION = new String[] {
+			BottinTableHelper.BOTTIN_NOM, BottinTableHelper.BOTTIN_PRENOM,
+			BottinTableHelper.BOTTIN_TIRE, BottinTableHelper.BOTTIN_SERVICE };
+	private static final int[] TXT_VIEWS = new int[] {
+			R.id.bottin_list_item_nom, R.id.bottin_list_item_prenom,
+			R.id.bottin_list_item_poste, R.id.bottin_list_item_service };
+	/**
+	 * Dialogs
+	 */
 	private static final int ALERT_INIT_BOTTIN = 0;
+	private static final int ALERT_LOADING = 1;
 	protected static final String LOG_TAG = "BottinListActivity";
 
+	/**
+	 * Db cols to show in list
+	 */
+	private static final String[] DB_COLS = new String[] {
+			BottinTableHelper.BOTTIN__ID, BottinTableHelper.BOTTIN_NOM,
+			BottinTableHelper.BOTTIN_PRENOM, BottinTableHelper.BOTTIN_TIRE,
+			BottinTableHelper.BOTTIN_SERVICE };
+
+	private static final String[] SELECTION_ARGS = new String[] { "%", "%",
+			"%", "%", "%", "%" };
+
 	private Cursor allEntryCursor;
-	private BottinDBAdapter bottinDB;
-	Handler uiHandler;
+	// Handler uiHandler;
 
 	private SimpleCursorAdapter simpleCursor;
 	private TextView txtView;
+
+	/**
+	 * SERVICE
+	 */
+	private ServiceConnection connection = new ServiceConnection() {
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			new ManualFetcher().execute((BottinBinder) service);
+		}
+	};
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base_list);
-		uiHandler = new Handler();
-//		bottinDB = BottinDBAdapter.getInstance(getApplicationContext());
 
-		allEntryCursor = bottinDB.getAll();
-		startManagingCursor(allEntryCursor);
-
+		// uiHandler = new Handler();
+		allEntryCursor = managedQuery(BottinContentProvider.CONTENT_URI,
+				DB_COLS, null, SELECTION_ARGS, " nom ASC");
 		// cursor adapter is faster
-		simpleCursor = new SimpleCursorAdapter(getApplicationContext(),
-				R.layout.bottin_list_item, allEntryCursor, null, VIEWS);
+		simpleCursor = new SimpleCursorAdapter(this, R.layout.bottin_list_item,
+				allEntryCursor, PROJECTION, TXT_VIEWS);
 
 		simpleCursor.setFilterQueryProvider(new FilterQueryProvider() {
 
 			@Override
 			public Cursor runQuery(CharSequence constraint) {
 				Log.d(LOG_TAG, "filter input  :" + constraint);
-				return bottinDB.getAllWhere((String) constraint);
+				return managedQuery(BottinContentProvider.CONTENT_URI, DB_COLS,
+						null, new String[] { (String) constraint }, "nom ASC");
 			}
 		});
 		setListAdapter(simpleCursor);
 		getListView().setOnItemClickListener(this);
-
-		// check if need to update.
-		// TODO : Add timer ? Check each Month ? Push Notification ?
-		// ets might not change the list that soon, soo ...
-		if (allEntryCursor.getCount() < 1) {
-			showDialog(ALERT_INIT_BOTTIN);
-		}
 
 		/**
 		 * SEARCH NAV BAR TODO: Create custom View -> SearchBar
@@ -86,10 +122,91 @@ public class BottinListActivity extends ListActivity implements
 	}
 
 	@Override
+	protected void onPause() {
+		try {
+			unbindService(connection);
+		} catch (IllegalArgumentException e) {
+		}
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		if (allEntryCursor.getCount() == 0) {
+			showDialog(ALERT_INIT_BOTTIN);
+			connectToFetcherService();
+		} else {
+			allEntryCursor = managedQuery(BottinContentProvider.CONTENT_URI,
+					DB_COLS, null, null, "nom ASC");
+			simpleCursor.notifyDataSetChanged();
+		}
+		super.onResume();
+	}
+
+	private void connectToFetcherService() {
+		Intent i = new Intent(this, BottinService.class);
+		if (!serviceIsRunning()) {
+			startService(i);
+		}
+		bindService(i, connection, BIND_AUTO_CREATE);
+	}
+
+	private boolean serviceIsRunning() {
+		ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+		for (RunningServiceInfo service : manager
+				.getRunningServices(Integer.MAX_VALUE)) {
+			if (service.service.getClassName().equals(SERVICE)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private class ManualFetcher extends AsyncTask<BottinBinder, Void, Void> {
+
+		@Override
+		protected void onPreExecute() {
+			// footer.setVisibility(View.VISIBLE);
+			// footer.startAnimation(showFooter());
+			// footerVisible = true;
+			showDialog(ALERT_LOADING);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Void doInBackground(BottinBinder... params) {
+			BottinBinder binder = params[0];
+			if (binder != null) {
+				binder.startFetching();
+				while (binder.isWorking()) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+					}
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			try {
+				// footer.startAnimation(hideFooter());
+				// footerVisible = false;
+				dismissDialog(ALERT_LOADING);
+				unbindService(connection);
+			} catch (IllegalArgumentException e) {
+			}
+			super.onPostExecute(result);
+		}
+
+	}
+
+	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog d;
 		switch (id) {
-		case 0:
+		case ALERT_INIT_BOTTIN:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this)
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.setMessage(R.string.bottin_init_alert)
@@ -100,7 +217,7 @@ public class BottinListActivity extends ListActivity implements
 								public void onClick(DialogInterface dialog,
 										int which) {
 
-//									new BottinLoader().execute();
+									// new BottinLoader().execute();
 									dismissDialog(ALERT_INIT_BOTTIN);
 								}
 							})
@@ -116,7 +233,7 @@ public class BottinListActivity extends ListActivity implements
 			d = builder.create();
 			break;
 
-		case 1:
+		case ALERT_LOADING:
 			d = ProgressDialog.show(this, "", "Loading. Please wait...", true);
 			break;
 		default:

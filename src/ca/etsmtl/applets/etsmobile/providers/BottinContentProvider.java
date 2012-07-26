@@ -12,16 +12,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
+import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
 
 public class BottinContentProvider extends ContentProvider {
 
-	private static final String AUTHORITY = "ca.etsmtl.applets.etsmobile";
+	private static final String AUTHORITY = "ca.etsmtl.applets.etsmobile.data.bottin";
 
 	private static final String BASE_PATH = "bottin";
 	private static final int ALL_ENTRIES = 1;
 	private static final int SINGLE_ENTRY = 2;
 
-	// --> content://ca.etsmtl.applets.etsmobile/news
+	// --> content://ca.etsmtl.applets.etsmobile/bottin
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + BASE_PATH);
 
@@ -38,14 +39,14 @@ public class BottinContentProvider extends ContentProvider {
 
 	static {
 
-		// --> ca.etsmtl.applets.etsmobile - news - 1
+		// --> ca.etsmtl.applets.etsmobile.data.bottin/bottin/
 		sURIMatcher.addURI(AUTHORITY, BASE_PATH, ALL_ENTRIES);
 
-		// --> ca.etsmtl.applets.etsmobile - news/* - 2
+		// --> ca.etsmtl.applets.etsmobile.data.bottin/bottin/id
 		sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", SINGLE_ENTRY);
 	}
 
-	private BottinTableHelper helper;
+	private ETSMobileOpenHelper helper;
 
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
@@ -68,7 +69,7 @@ public class BottinContentProvider extends ContentProvider {
 	@Override
 	public synchronized Uri insert(Uri uri, ContentValues values) {
 
-		if (sURIMatcher.match(uri) == ALL_ENTRIES) {
+		if (sURIMatcher.match(uri) == ALL_ENTRIES && values != null) {
 			SQLiteDatabase writable = helper.getWritableDatabase();
 			try {
 				if (writable.isOpen()) {
@@ -78,8 +79,8 @@ public class BottinContentProvider extends ContentProvider {
 				}
 			} catch (IllegalStateException e) {
 			} finally {
-				writable.endTransaction();
-				writable.close();
+				// writable.endTransaction();
+				// writable.close();
 				getContext().getContentResolver().notifyChange(uri, null);
 			}
 			return uri;
@@ -88,8 +89,35 @@ public class BottinContentProvider extends ContentProvider {
 	}
 
 	@Override
+	public int bulkInsert(Uri uri, ContentValues[] values) {
+		int numInserted = 0;
+		SQLiteDatabase writable = helper.getWritableDatabase();
+		writable.beginTransaction();
+		try {
+			// standard SQL insert statement, that can be reused
+			// SQLiteStatement insert =
+			// writable.compileStatement(BottinTableHelper.INSERT_STATEMENT);
+
+			for (ContentValues value : values) {
+				// bind the 1-indexed ?'s to the values specified
+				// insert.bindString(1, value.getAsString());
+				// insert.bindString(2, value.getAsLong(COLUMN2));
+				// insert.bindString(3, value.getAsString(COLUMN3));
+				// insert.execute();
+				writable.insert(BottinTableHelper.TABLE_NAME, null, value);
+			}
+			writable.setTransactionSuccessful();
+			numInserted = values.length;
+		} finally {
+			writable.endTransaction();
+			getContext().getContentResolver().notifyChange(uri, null);
+		}
+		return numInserted;
+	}
+
+	@Override
 	public synchronized boolean onCreate() {
-		helper = new BottinTableHelper(getContext());
+		helper = new ETSMobileOpenHelper(getContext());
 		return false;
 	}
 
@@ -105,21 +133,24 @@ public class BottinContentProvider extends ContentProvider {
 
 		switch (requestType) {
 		case ALL_ENTRIES:
-			String where = "nom like ? OR prenom like ? OR service like ?";
-//			for (int i = 0; i < selectionArgs.length; i++) {
-//				where += BottinTableHelper.BOTTIN_NOM + " LIKE \""
-//						+ selectionArgs[i] + "\"";
-//				if (i < selectionArgs.length - 1) {
-//					where += " OR ";
-//				}
-//			}
-//			if (where.equals("")) {
-//				where = BottinTableHelper.BOTTIN_NOM + " LIKE \"nothing\"";
-//			}
+			String where = " nom like ? OR prenom like ? OR service like ? or emplacement like ? or courriel like ? or titre like ?";
 			queryBuilder.appendWhere(where);
+			if (selectionArgs == null) {
+				selectionArgs = new String[columns.length];
+				for (int i = 0; i < columns.length; i++) {
+					selectionArgs[i] = "%";
+				}
+			} else if (selectionArgs.length == 1) {
+				String sel = selectionArgs[0];
+				selectionArgs = new String[columns.length];
+				for (int i = 0; i < columns.length; i++) {
+					selectionArgs[i] = "%" + sel + "%";
+				}
+
+			}
 			break;
 		case SINGLE_ENTRY:
-			queryBuilder.appendWhere(BottinTableHelper.BOTTIN_ID + "="
+			queryBuilder.appendWhere(BottinTableHelper.BOTTIN__ID + "="
 					+ uri.getLastPathSegment());
 			break;
 		default:
@@ -127,8 +158,8 @@ public class BottinContentProvider extends ContentProvider {
 		}
 
 		SQLiteDatabase db = helper.getWritableDatabase();
-		Cursor cursor = queryBuilder.query(db, columns, selection, null, null,
-				null, sortOrder);
+		Cursor cursor = queryBuilder.query(db, columns, selection,
+				selectionArgs, null, null, sortOrder);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
 		return cursor;
@@ -142,7 +173,6 @@ public class BottinContentProvider extends ContentProvider {
 	// Source : http://www.vogella.com/articles/AndroidSQLite/article.html
 	private synchronized void verifyColumnExists(String[] columns) {
 
-
 		if (columns != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(
 					Arrays.asList(columns));
@@ -150,8 +180,21 @@ public class BottinContentProvider extends ContentProvider {
 					Arrays.asList(BottinTableHelper.AVAILABLE));
 			// Check if all columns which are requested are available
 			if (!availableColumns.containsAll(requestedColumns)) {
+				String avail = "{\t";
+				for (String string : availableColumns) {
+					avail += string + "\t";
+				}
+				avail += "}";
+
+				String request = "{\t";
+				for (String string : requestedColumns) {
+					request += string + "\t";
+				}
+				request += "}";
+
 				throw new IllegalArgumentException(
-						"L'un des champs demandés n'existe pas");
+						"L'un des champs demandés n'existe pas\n Available="
+								+ avail + "\nRequested=" + request);
 			}
 		}
 	}

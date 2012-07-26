@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="8" />
+        android:targetSdkVersion="10" android:maxSdkVersion="15"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,15 +18,16 @@
         <receiver android:name="ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver" />
 
         <service android:name="ca.etsmtl.applets.etsmobile.services.NewsFetcher" />
+        <service android:name=".services.BottinService"></service>
 
         <provider
             android:name=".providers.NewsListContentProvider"
-            android:authorities="ca.etsmtl.applets.etsmobile"
+            android:authorities="ca.etsmtl.applets.etsmobile.data.news"
             android:exported="false" >
         </provider>
         <provider
             android:name=".providers.BottinContentProvider"
-            android:authorities="ca.etsmtl.applets.etsmobile"
+            android:authorities="ca.etsmtl.applets.etsmobile.data.bottin"
             android:exported="false" >
         </provider>
 
@@ -50,7 +51,7 @@
             android:name=".SingleNewsActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".StudentProfileActivity"
+            android:name=".ProfileActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".BottinListActivity"
@@ -60,6 +61,8 @@
         </activity>
         <activity android:name=".BottinViewActivity" >
         </activity>
+        <activity android:name=".SecurityActivity"></activity>
+        
     </application>
 
 </manifest>

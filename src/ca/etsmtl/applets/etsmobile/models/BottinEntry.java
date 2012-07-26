@@ -3,6 +3,7 @@ package ca.etsmtl.applets.etsmobile.models;
 import java.sql.Date;
 
 import android.content.ContentValues;
+import android.os.Parcel;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
 public class BottinEntry extends Model {
@@ -142,7 +143,7 @@ public class BottinEntry extends Model {
 				: telBureau);
 		cv.put(BottinTableHelper.BOTTIN_EMPLACEMENT, (emplacement == null) ? ""
 				: emplacement);
-		cv.put(BottinTableHelper.BOTTIN_EMAIL, (courriel == null) ? ""
+		cv.put(BottinTableHelper.BOTTIN_COURRIEL, (courriel == null) ? ""
 				: courriel);
 		cv.put(BottinTableHelper.BOTTIN_SERVICE, (service == null) ? ""
 				: service);
@@ -150,6 +151,12 @@ public class BottinEntry extends Model {
 		cv.put(BottinTableHelper.BOTTIN_DATE_MODIF, date_modif.toGMTString());
 		cv.put(BottinTableHelper.BOTTIN_ETS_ID, (ets_id == null) ? "" : ets_id);
 		return cv;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

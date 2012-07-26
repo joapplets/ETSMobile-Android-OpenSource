@@ -177,21 +177,21 @@ public class NewsFetcher extends Service implements Observer{
 		}
 		
 		if(source.equals(TWITTER)){
-//			String[] desc = news.getDescription().split(" ");
-//			String res = "";
-//			for (String string : desc) {
-//				if(string.startsWith("@")){
-//					string = "<a href=\"http://m.twitter.com/" + string.substring(1) + "\">" + string + "</a>";
-//				}
-//				if(string.startsWith("#")){
-//					string = "<a href=\"http://m.twitter.com/search/%23" + string.substring(1) + "\">" + string + "</a>";
-//				}
-//				if(string.startsWith("http://")){
-//					string = "<a href=\"" + string + "\">" + string + "</a>";
-//				}
-//				res += string + " ";
-//			}
-//			doc = Jsoup.parse(res);	
+			String[] desc = news.getDescription().split(" ");
+			String res = "";
+			for (String string : desc) {
+				if(string.startsWith("@")){
+					string = "<a href=\"http://m.twitter.com/" + string.substring(1) + "\">" + string + "</a>";
+				}
+				if(string.startsWith("#")){
+					string = "<a href=\"http://m.twitter.com/search/%23" + string.substring(1) + "\">" + string + "</a>";
+				}
+				if(string.startsWith("http://")){
+					string = "<a href=\"" + string + "\">" + string + "</a>";
+				}
+				res += string + " ";
+			}
+			doc = Jsoup.parse(res);	
 			
 			String link = news.getLink();
 			link = link.replace("http://twitter.com", "http://m.twitter.com");

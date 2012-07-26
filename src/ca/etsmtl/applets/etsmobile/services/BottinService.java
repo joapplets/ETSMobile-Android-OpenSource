@@ -16,17 +16,17 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import ca.etsmtl.applets.etsmobile.models.BottinEntry;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 import ca.etsmtl.applets.etsmobile.providers.BottinContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLBottinParser;
 
-public class BottinFetcher extends Service implements Observer {
+public class BottinService extends Service implements Observer {
 
 	public class BottinBinder extends Binder {
 		public void startFetching() {
@@ -47,6 +47,7 @@ public class BottinFetcher extends Service implements Observer {
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			try {
+
 				final String request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 						+ "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">"
 						+ "<soap:Body>"
@@ -80,10 +81,6 @@ public class BottinFetcher extends Service implements Observer {
 					XMLBottinParser parser = new XMLBottinParser(bundle);
 					saxParser.parse(stream, parser);
 					stream.close();
-
-					// insert all, with transaction
-					// bottinDB.insertAll(newList);
-
 				}
 
 			} catch (final MalformedURLException e) {
@@ -109,9 +106,11 @@ public class BottinFetcher extends Service implements Observer {
 		}
 	}
 
+	private ContentValues[] values = new ContentValues[500];
 	private ObservableBundle bundle;
 	private boolean working;
 	private IBinder binder = new BottinBinder();
+	private int i = 0;
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -125,18 +124,19 @@ public class BottinFetcher extends Service implements Observer {
 
 	@Override
 	public void update(Observable observable, Object object) {
-		if (object instanceof BottinEntry) {
-			BottinEntry n = (BottinEntry) object;
-			insertEntry(n);
+		if (object instanceof ContentValues) {
+			// BottinEntry n = (BottinEntry) object;
+			values[i] = (ContentValues) object;
+			if (i++ >= 499) {
+				Log.d("XMLBottinParser", "inserting 500");
+				getContentResolver().bulkInsert(
+						BottinContentProvider.CONTENT_URI, values);
+
+				values = null;
+				values = new ContentValues[500];
+				i = 0;
+			}
 		}
-	}
-
-	private void insertEntry(BottinEntry n) {
-
-		getContentResolver().insert(BottinContentProvider.CONTENT_URI,
-				n.getContentValues());
-		getSharedPreferences("dbpref", MODE_PRIVATE).edit()
-				.putBoolean("isEmpty", false).commit();
 	}
 
 	@Override

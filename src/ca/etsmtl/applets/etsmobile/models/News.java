@@ -3,6 +3,7 @@ package ca.etsmtl.applets.etsmobile.models;
 import java.util.Date;
 
 import android.content.ContentValues;
+import android.os.Parcel;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
 
 public class News extends Model {
@@ -87,5 +88,11 @@ public class News extends Model {
 
 		return values;
 
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		
+		
 	}
 }

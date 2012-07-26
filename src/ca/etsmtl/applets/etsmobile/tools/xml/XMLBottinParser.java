@@ -7,7 +7,8 @@ import java.util.Locale;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import ca.etsmtl.applets.etsmobile.models.BottinEntry;
+import android.content.ContentValues;
+import android.util.Log;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 
 public class XMLBottinParser extends XMLAppletsHandler {
@@ -22,16 +23,17 @@ public class XMLBottinParser extends XMLAppletsHandler {
 	private static final String SERVICE = "service";
 	private static final String TEL_BUREAU = "telbureau";
 	private static final String TITRE = "titre";
-	private String courriel;
+//	private String courriel;
 	private String date_modif;
-	private String emplacement;
+//	private String emplacement;
 	private String id;
 	private boolean newEntry;
-	private String nom;
-	private String prenom;
-	private String service;
-	private String tel_bureau;
-	private String titre;
+//	private String nom;
+//	private String prenom;
+//	private String service;
+//	private String tel_bureau;
+//	private String titre;
+	private ContentValues values;
 
 	public XMLBottinParser(ObservableBundle b) {
 		super(b);
@@ -41,33 +43,46 @@ public class XMLBottinParser extends XMLAppletsHandler {
 	public void endElement(final String uri, final String localName,
 			final String qName) throws SAXException {
 		if (newEntry) {
-
+			String key = null;
 			if (localName.equalsIgnoreCase(XMLBottinParser.ID)) {
-				id = buffer.toString();
+				// id = buffer.toString();
+				key = "ets_id";
 			}
 			if (localName.equalsIgnoreCase(XMLBottinParser.NOM)) {
-				nom = buffer.toString();
+				// nom = buffer.toString();
+				key = XMLBottinParser.NOM;
 			}
 			if (localName.equalsIgnoreCase(XMLBottinParser.PRENOM)) {
-				prenom = buffer.toString();
+				// prenom = buffer.toString();
+				key = XMLBottinParser.PRENOM;
 			}
 			if (localName.equalsIgnoreCase(XMLBottinParser.TEL_BUREAU)) {
-				tel_bureau = buffer.toString();
+				// tel_bureau = buffer.toString();
+				key = XMLBottinParser.TEL_BUREAU;
 			}
 			if (localName.equalsIgnoreCase(XMLBottinParser.EMPLACEMENT)) {
-				emplacement = buffer.toString();
+				// emplacement = buffer.toString();
+				key = XMLBottinParser.EMPLACEMENT;
 			}
 			if (localName.equalsIgnoreCase(XMLBottinParser.COURRIEL)) {
-				courriel = buffer.toString();
+				// courriel = buffer.toString();
+				key = XMLBottinParser.COURRIEL;
 			}
 			if (localName.equalsIgnoreCase(XMLBottinParser.SERVICE)) {
-				service = buffer.toString();
+				// service = buffer.toString();
+				key = XMLBottinParser.SERVICE;
 			}
 			if (localName.equalsIgnoreCase(XMLBottinParser.TITRE)) {
-				titre = buffer.toString();
+				// titre = buffer.toString();
+				key = XMLBottinParser.TITRE;
 			}
 			if (localName.equalsIgnoreCase(XMLBottinParser.DATE_MODIF)) {
 				date_modif = buffer.toString();
+				key = "date_modif";
+			}
+
+			if (key != null) {
+				values.put(key, buffer.toString());
 			}
 
 			if (localName.equalsIgnoreCase(ENTRY_TAG)) {
@@ -78,9 +93,9 @@ public class XMLBottinParser extends XMLAppletsHandler {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				final BottinEntry be = new BottinEntry(id, nom, prenom,
-						tel_bureau, emplacement, courriel, service, titre, date);
-				bundle.setContent(be);
+				// final BottinEntry be = new BottinEntry(id, nom, prenom,
+				// tel_bureau, emplacement, courriel, service, titre, date);
+				bundle.setContent(values);
 				newEntry = false;
 			}
 
@@ -123,7 +138,9 @@ public class XMLBottinParser extends XMLAppletsHandler {
 		// Si le tag est un "item", on crée un nouveau "news" vide et on indique
 		// qu'on est dans un "item"
 		if (localName.equalsIgnoreCase(XMLBottinParser.ENTRY_TAG)) {
+			// Log.d("XMLBottinParser", localName);
 			newEntry = true;
+			values = new ContentValues();
 		}
 	}
 }

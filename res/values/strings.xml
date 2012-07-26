@@ -40,4 +40,6 @@
     <string name="bottin_init_alert"> Attention, votre bottin est vide, le téléchargement peux prendre quelques minutes, voulez-vous continuer ?</string>
 	<string name="yes">Oui</string>
 	<string name="no">Non</string>
+	<string name="login">Login</string>
+	<string name="logout">Logout</string>
 </resources>
