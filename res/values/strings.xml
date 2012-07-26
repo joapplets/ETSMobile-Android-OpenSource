@@ -38,8 +38,12 @@
     <string name="loading">Loading…</string>
     <string name="search">Search</string>
     <string name="bottin_init_alert"> Attention, votre bottin est vide, le téléchargement peux prendre quelques minutes, voulez-vous continuer ?</string>
-	<string name="yes">Oui</string>
-	<string name="no">Non</string>
-	<string name="login">Login</string>
-	<string name="logout">Logout</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="login">Login</string>
+    <string name="login_dialog_title">Informations personelle</string>
+    <string name="login_dialog_code_perm">Code Permanent</string>
+    <string name="login_dialog_code_uni">Code Universel</string>
+    <string name="logout">Logout</string>
+
 </resources>

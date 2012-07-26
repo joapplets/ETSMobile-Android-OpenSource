@@ -30,13 +30,16 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		((ImageButton) findViewById(R.id.imgBtnabout)).setOnClickListener(this);
 	}
 
+	/**
+	 * Grid Item Click
+	 */
 	@Override
 	public void onItemClick(final AdapterView<?> arg0, final View arg1,
 			final int position, final long id) {
 		Intent intent = null;
 		switch (position) {
 		case 0:
-			// intent = new Intent(this, StudentProfileActivity.class);
+			intent = new Intent(this, ProfileActivity.class);
 			break;
 		case 1:
 			intent = new Intent(this, NewsListActivity.class);
@@ -74,11 +77,13 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		return false;
 	}
 
+	/**
+	 * About 
+	 */
 	@Override
 	public void onClick(View arg0) {
 		Intent intent = new Intent(this, AboutActivity.class);
 		startActivity(intent);
-
 	}
 
 }
