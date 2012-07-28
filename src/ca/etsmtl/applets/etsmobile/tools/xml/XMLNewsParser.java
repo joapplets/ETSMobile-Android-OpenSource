@@ -18,7 +18,7 @@ import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
  * @author Rodrigo Manyari.
  * @version 1.0
  */
-public class XMLNewsParser extends XMLAppletsHandler {
+public class XMLNewsParser extends XMLAbstractHandler {
 
 	private static final String TAG = "ca.etsmtl.applets.etsmobile.tools.xml.XMLNewsParser";
 

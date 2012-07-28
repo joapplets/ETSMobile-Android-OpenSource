@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import ca.etsmtl.applets.etsmobile.models.BottinEntry;
-import ca.etsmtl.applets.etsmobile.providers.BottinContentProvider;
-import ca.etsmtl.applets.etsmobile.tools.db.BottinDBAdapter;
+import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
 public class BottinViewActivity extends Activity {
@@ -40,7 +38,7 @@ public class BottinViewActivity extends Activity {
 		phoneView = (TextView) findViewById(R.id.bottin_view_phone);
 
 		Cursor cursor = managedQuery(
-				Uri.withAppendedPath(BottinContentProvider.CONTENT_URI,
+				Uri.withAppendedPath(ETSMobileContentProvider.CONTENT_URI,
 						b.toString()), BottinTableHelper.AVAILABLE, null, null,
 				null);
 		if (cursor.getCount() > 0 && cursor.moveToFirst()) {

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import android.content.ContentValues;
 import android.os.Parcel;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
 public class News extends Model {
 
@@ -79,12 +79,12 @@ public class News extends Model {
 	@Override
 	public ContentValues getContentValues() {
 		final ContentValues values = new ContentValues();
-		values.put(NewsTable.NEWS_TITLE, getTitle());
-		values.put(NewsTable.NEWS_DATE, getPubDate().getTime());
-		values.put(NewsTable.NEWS_DESCRIPTION, getDescription());
-		values.put(NewsTable.NEWS_GUID, getGuid());
-		values.put(NewsTable.NEWS_SOURCE, getSource());
-		values.put(NewsTable.NEWS_LINK, getLink());
+		values.put(NewsTableHelper.NEWS_TITLE, getTitle());
+		values.put(NewsTableHelper.NEWS_DATE, getPubDate().getTime());
+		values.put(NewsTableHelper.NEWS_DESCRIPTION, getDescription());
+		values.put(NewsTableHelper.NEWS_GUID, getGuid());
+		values.put(NewsTableHelper.NEWS_SOURCE, getSource());
+		values.put(NewsTableHelper.NEWS_LINK, getLink());
 
 		return values;
 

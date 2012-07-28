@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -25,9 +24,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
-import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
-import ca.etsmtl.applets.etsmobile.providers.BottinContentProvider;
+import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.services.BottinService;
 import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
@@ -90,7 +88,7 @@ public class BottinListActivity extends ListActivity implements
 		setContentView(R.layout.base_list);
 
 		// uiHandler = new Handler();
-		allEntryCursor = managedQuery(BottinContentProvider.CONTENT_URI,
+		allEntryCursor = managedQuery(ETSMobileContentProvider.CONTENT_URI,
 				DB_COLS, null, SELECTION_ARGS, " nom ASC");
 		// cursor adapter is faster
 		simpleCursor = new SimpleCursorAdapter(this, R.layout.bottin_list_item,
@@ -101,8 +99,9 @@ public class BottinListActivity extends ListActivity implements
 			@Override
 			public Cursor runQuery(CharSequence constraint) {
 				Log.d(LOG_TAG, "filter input  :" + constraint);
-				return managedQuery(BottinContentProvider.CONTENT_URI, DB_COLS,
-						null, new String[] { (String) constraint }, "nom ASC");
+				return managedQuery(ETSMobileContentProvider.CONTENT_URI,
+						DB_COLS, null, new String[] { (String) constraint },
+						"nom ASC");
 			}
 		});
 		setListAdapter(simpleCursor);
@@ -136,7 +135,7 @@ public class BottinListActivity extends ListActivity implements
 			showDialog(ALERT_INIT_BOTTIN);
 			connectToFetcherService();
 		} else {
-			allEntryCursor = managedQuery(BottinContentProvider.CONTENT_URI,
+			allEntryCursor = managedQuery(ETSMobileContentProvider.CONTENT_URI,
 					DB_COLS, null, null, "nom ASC");
 			simpleCursor.notifyDataSetChanged();
 		}

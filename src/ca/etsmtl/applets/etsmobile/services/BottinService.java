@@ -23,7 +23,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
-import ca.etsmtl.applets.etsmobile.providers.BottinContentProvider;
+import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLBottinParser;
 
 public class BottinService extends Service implements Observer {
@@ -128,10 +128,13 @@ public class BottinService extends Service implements Observer {
 			// BottinEntry n = (BottinEntry) object;
 			values[i] = (ContentValues) object;
 			if (i++ >= 499) {
-				Log.d("XMLBottinParser", "inserting 500");
+				long start = System.currentTimeMillis();
+				Log.d("XMLBottinParser", "inserting 500 : " + start + "ms");
 				getContentResolver().bulkInsert(
-						BottinContentProvider.CONTENT_URI, values);
-
+						ETSMobileContentProvider.CONTENT_URI, values);
+				long stop = System.currentTimeMillis();
+				Log.d("XMLBottinParser", "end insert : " + (stop - start)
+						+ "ms");
 				values = null;
 				values = new ContentValues[500];
 				i = 0;

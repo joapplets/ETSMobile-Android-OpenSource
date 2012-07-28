@@ -8,11 +8,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import android.content.ContentValues;
-import android.util.Log;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 
-public class XMLBottinParser extends XMLAppletsHandler {
+public class XMLBottinParser extends XMLAbstractHandler {
 
+	//xml fields
 	private static final String COURRIEL = "courriel";
 	private static final String DATE_MODIF = "datemodif";
 	private static final String EMPLACEMENT = "emplacement";
@@ -23,16 +23,9 @@ public class XMLBottinParser extends XMLAppletsHandler {
 	private static final String SERVICE = "service";
 	private static final String TEL_BUREAU = "telbureau";
 	private static final String TITRE = "titre";
-//	private String courriel;
+	
 	private String date_modif;
-//	private String emplacement;
-	private String id;
 	private boolean newEntry;
-//	private String nom;
-//	private String prenom;
-//	private String service;
-//	private String tel_bureau;
-//	private String titre;
 	private ContentValues values;
 
 	public XMLBottinParser(ObservableBundle b) {

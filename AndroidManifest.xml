@@ -17,17 +17,12 @@
         android:theme="@android:style/Theme.NoTitleBar" >
         <receiver android:name="ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver" />
 
-        <service android:name="ca.etsmtl.applets.etsmobile.services.NewsFetcher" />
+        <service android:name=".services.NewsService" />
         <service android:name=".services.BottinService"></service>
 
         <provider
-            android:name=".providers.NewsListContentProvider"
+            android:name=".providers.ETSMobileContentProvider"
             android:authorities="ca.etsmtl.applets.etsmobile.data.news"
-            android:exported="false" >
-        </provider>
-        <provider
-            android:name=".providers.BottinContentProvider"
-            android:authorities="ca.etsmtl.applets.etsmobile.data.bottin"
             android:exported="false" >
         </provider>
 

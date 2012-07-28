@@ -25,6 +25,13 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
+/**
+ * Deprecated, not really working, For Future Use (still not able to do json
+ * request to signet mobile)
+ * 
+ * @author Phil
+ * 
+ */
 public class JSONRetreiver extends AsyncTask<String, Integer, JSONObject> {
 
 	public static final String[] requestTypes = new String[] { "post", "get" };

@@ -14,9 +14,9 @@ import android.view.View;
 import android.widget.ListView;
 import ca.etsmtl.applets.etsmobile.adapters.NewsCursorAdapter;
 import ca.etsmtl.applets.etsmobile.listeners.NewsListSelectedItemListener;
-import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
+import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
+import ca.etsmtl.applets.etsmobile.services.NewsService;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
 public class NewsListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -52,33 +52,33 @@ public class NewsListFragment extends ListFragment implements LoaderManager.Load
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
 	    String[] projection = {
-	    		NewsTable.NEWS_ID,
-	    		NewsTable.NEWS_GUID, 
-	    		NewsTable.NEWS_TITLE, 
-	    		NewsTable.NEWS_DATE,
-	    		NewsTable.NEWS_DESCRIPTION,
-	    		NewsTable.NEWS_SOURCE};
+	    		NewsTableHelper.NEWS_ID,
+	    		NewsTableHelper.NEWS_GUID, 
+	    		NewsTableHelper.NEWS_TITLE, 
+	    		NewsTableHelper.NEWS_DATE,
+	    		NewsTableHelper.NEWS_DESCRIPTION,
+	    		NewsTableHelper.NEWS_SOURCE};
 	    
 	    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 	    String[] source = new String[3];
 	    if(prefs.getBoolean("rssETS", true)){
-	    	source[0] = NewsFetcher.RSS_ETS;
+	    	source[0] = NewsService.RSS_ETS;
 	    }
 	    if(prefs.getBoolean("facebook", true)){
-	    	source[1] = NewsFetcher.FACEBOOK;
+	    	source[1] = NewsService.FACEBOOK;
 	    }
 	    if(prefs.getBoolean("twitter", true)){
-	    	source[2] = NewsFetcher.TWITTER;
+	    	source[2] = NewsService.TWITTER;
 	    }
 	    
 	    CursorLoader cursorLoader = new CursorLoader(
 	    		
 	    		getActivity(),
-	            NewsListContentProvider.CONTENT_URI, 
+	            ETSMobileContentProvider.CONTENT_URI, 
 	            projection, 
 	            null, 
 	            source, 
-	            NewsTable.NEWS_DATE + " DESC");
+	            NewsTableHelper.NEWS_DATE + " DESC");
 	    
 	    return cursorLoader;
 	}

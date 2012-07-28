@@ -31,8 +31,8 @@ import ca.etsmtl.applets.etsmobile.fragments.NewsListFragment;
 import ca.etsmtl.applets.etsmobile.listeners.NewsListSelectedItemListener;
 import ca.etsmtl.applets.etsmobile.preferences.NewsListPreferences;
 import ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher.NewsFetcherBinder;
+import ca.etsmtl.applets.etsmobile.services.NewsService;
+import ca.etsmtl.applets.etsmobile.services.NewsService.NewsFetcherBinder;
 
 public class NewsListActivity extends FragmentActivity implements NewsListSelectedItemListener, OnClickListener, AnimationListener{
 
@@ -211,7 +211,7 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 	}
 	
 	private void connectToFetcherService(){
-		Intent i = new Intent(this, NewsFetcher.class);
+		Intent i = new Intent(this, NewsService.class);
 		if(!serviceIsRunning()){
 			startService(i);
 		}
