@@ -38,7 +38,7 @@ public class BottinViewActivity extends Activity {
 		phoneView = (TextView) findViewById(R.id.bottin_view_phone);
 
 		Cursor cursor = managedQuery(
-				Uri.withAppendedPath(ETSMobileContentProvider.CONTENT_URI,
+				Uri.withAppendedPath(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
 						b.toString()), BottinTableHelper.AVAILABLE, null, null,
 				null);
 		if (cursor.getCount() > 0 && cursor.moveToFirst()) {

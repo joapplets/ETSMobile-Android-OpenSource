@@ -34,7 +34,7 @@ public class SingleNewsActivity extends Activity{
 		int id = bundle.getInt("id");
 		
 		String[] projection = {NewsTableHelper.NEWS_DATE, NewsTableHelper.NEWS_TITLE, NewsTableHelper.NEWS_DESCRIPTION, NewsTableHelper.NEWS_SOURCE, NewsTableHelper.NEWS_LINK};
-		Cursor c = managedQuery(Uri.withAppendedPath(ETSMobileContentProvider.CONTENT_URI, String.valueOf(id)), projection, null, null, null);
+		Cursor c = managedQuery(Uri.withAppendedPath(ETSMobileContentProvider.CONTENT_URI_NEWS, String.valueOf(id)), projection, null, null, null);
 		if(c.moveToFirst()){
 			date = dateFormat.format(c.getLong(c.getColumnIndex(NewsTableHelper.NEWS_DATE)));
 			title = c.getString(c.getColumnIndex(NewsTableHelper.NEWS_TITLE));

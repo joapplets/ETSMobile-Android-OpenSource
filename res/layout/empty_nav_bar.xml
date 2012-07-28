@@ -11,9 +11,9 @@
         android:id="@+id/rel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+
         <ImageButton
-            android:id="@+id/search_nav_bar_home_btn"
+            android:id="@+id/empty_nav_bar_home_btn"
             style="@style/btnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

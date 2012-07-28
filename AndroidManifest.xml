@@ -22,7 +22,7 @@
 
         <provider
             android:name=".providers.ETSMobileContentProvider"
-            android:authorities="ca.etsmtl.applets.etsmobile.data.news"
+            android:authorities="ca.etsmtl.applets.etsmobile.data"
             android:exported="false" >
         </provider>
 

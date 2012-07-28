@@ -74,7 +74,7 @@ public class NewsListFragment extends ListFragment implements LoaderManager.Load
 	    CursorLoader cursorLoader = new CursorLoader(
 	    		
 	    		getActivity(),
-	            ETSMobileContentProvider.CONTENT_URI, 
+	            ETSMobileContentProvider.CONTENT_URI_NEWS, 
 	            projection, 
 	            null, 
 	            source, 

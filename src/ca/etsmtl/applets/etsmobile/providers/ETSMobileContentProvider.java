@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
@@ -20,22 +21,24 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 
 	private static final String NEWS_PATH = "news";
 	private static final String BOTTIN_PATH = "bottin";
-	private static final int ALL = 1;
-	private static final int SINGLE = 2;
+	private static final int ALL_NEWS = 1;
+	private static final int SINGLE_NEWS = 2;
+	private static final int ALL_BOTTIN = 3;
+	private static final int SINGLE_BOTTIN = 4;
 
 	/**
 	 * NEWS
 	 */
 	// --> content://ca.etsmtl.applets.etsmobile/news
-	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-			+ "/" + NEWS_PATH);
+	public static final Uri CONTENT_URI_NEWS = Uri.parse("content://"
+			+ AUTHORITY + "/" + NEWS_PATH);
 
 	// --> vnd.android.cursor.dir/news
-	public static final String CONTENT_MULTIPLE_ITEM = ContentResolver.CURSOR_DIR_BASE_TYPE
+	public static final String CONTENT_MULTIPLE_ITEM_NEWS = ContentResolver.CURSOR_DIR_BASE_TYPE
 			+ "/" + NEWS_PATH;
 
 	// --> vnd.android.cursor.item/news
-	public static final String CONTENT_SINGLE_ITEM = ContentResolver.CURSOR_ITEM_BASE_TYPE
+	public static final String CONTENT_SINGLE_ITEM_NEWS = ContentResolver.CURSOR_ITEM_BASE_TYPE
 			+ "/" + NEWS_PATH;
 
 	/**
@@ -59,29 +62,29 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	static {
 
 		// --> ca.etsmtl.applets.etsmobile - news - 1
-		sURIMatcher.addURI(AUTHORITY, NEWS_PATH, ALL);
+		sURIMatcher.addURI(AUTHORITY, NEWS_PATH, ALL_NEWS);
 
 		// --> ca.etsmtl.applets.etsmobile - news/* - 2
-		sURIMatcher.addURI(AUTHORITY, NEWS_PATH + "/#", SINGLE);
+		sURIMatcher.addURI(AUTHORITY, NEWS_PATH + "/#", SINGLE_NEWS);
 
 		// --> ca.etsmtl.applets.etsmobile - bottin - 3
-		sURIMatcher.addURI(AUTHORITY, BOTTIN_PATH, ALL);
+		sURIMatcher.addURI(AUTHORITY, BOTTIN_PATH, ALL_BOTTIN);
 
 		// --> ca.etsmtl.applets.etsmobile - bottin/* - 4
-		sURIMatcher.addURI(AUTHORITY, BOTTIN_PATH + "/#", SINGLE);
+		sURIMatcher.addURI(AUTHORITY, BOTTIN_PATH + "/#", SINGLE_BOTTIN);
 	}
 
 	private ETSMobileOpenHelper helper;
 
 	@Override
-	public synchronized boolean onCreate() {
+	public boolean onCreate() {
 		helper = new ETSMobileOpenHelper(getContext());
 		return false;
 	}
 
 	@Override
-	public synchronized Cursor query(Uri uri, String[] columns,
-			String selection, String[] selectionArgs, String sortOrder) {
+	public Cursor query(Uri uri, String[] columns, String selection,
+			String[] selectionArgs, String sortOrder) {
 
 		final int requestType = sURIMatcher.match(uri);
 		final String path = uri.getPath();
@@ -90,35 +93,30 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		verifyColumnExists(columns, path);
 
 		switch (requestType) {
-		case ALL:
-			if (path.equals(NEWS_PATH)) {
-				queryBuilder.setTables(NewsTableHelper.TABLE_NAME);
-				buildNewsQueryAll(selectionArgs, queryBuilder);
-			} else {
-				queryBuilder.setTables(BottinTableHelper.TABLE_NAME);
-				buildBottinQueryAll(columns, selectionArgs, queryBuilder);
-			}
-
+		case ALL_NEWS:
+			queryBuilder.setTables(NewsTableHelper.TABLE_NAME);
+			buildNewsQueryAll(selectionArgs, queryBuilder);
 			break;
-		case SINGLE:
-			if (path.equals(NEWS_PATH)) {
-				queryBuilder.setTables(NewsTableHelper.TABLE_NAME);
-				buildNewsQuerySingle(uri, queryBuilder);
-			} else {
-				queryBuilder.setTables(BottinTableHelper.TABLE_NAME);
-				buildBottinQuerySingle(uri, queryBuilder);
-			}
-
+		case SINGLE_NEWS:
+			queryBuilder.setTables(NewsTableHelper.TABLE_NAME);
+			buildNewsQuerySingle(uri, queryBuilder);
+			break;
+		case ALL_BOTTIN:
+			queryBuilder.setTables(BottinTableHelper.TABLE_NAME);
+			buildBottinQueryAll(columns, selectionArgs, queryBuilder);
+			break;
+		case SINGLE_BOTTIN:
+			queryBuilder.setTables(BottinTableHelper.TABLE_NAME);
+			buildBottinQuerySingle(uri, queryBuilder);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
 
 		final SQLiteDatabase db = helper.getWritableDatabase();
-		final Cursor cursor = queryBuilder.query(db, columns, selection, null,
-				null, null, sortOrder);
+		final Cursor cursor = queryBuilder.query(db, columns, selection,
+				selectionArgs, null, null, sortOrder);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
-
 		return cursor;
 	}
 
@@ -135,13 +133,11 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	private void buildNewsQueryAll(String[] selectionArgs,
 			SQLiteQueryBuilder queryBuilder) {
 		String where = "";
-		for (int i = 0; i < selectionArgs.length; i++) {
-			where += NewsTableHelper.NEWS_SOURCE + " LIKE \"" + selectionArgs[i]
-					+ "\"";
-			if (i < selectionArgs.length - 1) {
-				where += " OR ";
-			}
+		for (int i = 0; i < selectionArgs.length - 1; i++) {
+			where += NewsTableHelper.NEWS_SOURCE + " LIKE ? OR ";
 		}
+		where += NewsTableHelper.NEWS_SOURCE + " LIKE ? ";
+
 		if (where.equals("")) {
 			where = NewsTableHelper.NEWS_SOURCE + " LIKE \"nothing\"";
 		}
@@ -150,8 +146,16 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 
 	private void buildBottinQueryAll(String[] columns, String[] selectionArgs,
 			SQLiteQueryBuilder queryBuilder) {
-		String where = " nom like ? OR prenom like ? OR service like ? or emplacement like ? or courriel like ? or titre like ?";
+		// String where =
+		// " nom like ? OR prenom like ? OR service like ? or emplacement like ? or courriel like ? or titre like ?";
+		String where = "";
+
+		for (int i = 0; i < columns.length - 1; i++) {
+			where += columns[i] + " like ? OR ";
+		}
+		where += columns[columns.length - 1] + " like ? ";
 		queryBuilder.appendWhere(where);
+
 		if (selectionArgs == null) {
 			selectionArgs = new String[columns.length];
 			for (int i = 0; i < columns.length; i++) {
@@ -168,28 +172,31 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	}
 
 	@Override
-	public synchronized int delete(Uri uri, String selection,
-			String[] selectionArgs) {
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		return 0;
 	}
 
 	@Override
-	public synchronized String getType(Uri uri) {
+	public String getType(Uri uri) {
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
-		case ALL:
-			return CONTENT_MULTIPLE_ITEM;
-		case SINGLE:
-			return CONTENT_SINGLE_ITEM;
+		case ALL_NEWS:
+			return CONTENT_MULTIPLE_ITEM_NEWS;
+		case SINGLE_NEWS:
+			return CONTENT_SINGLE_ITEM_NEWS;
+		case ALL_BOTTIN:
+			return CONTENT_MULTIPLE_BOTTIN;
+		case SINGLE_BOTTIN:
+			return CONTENT_SINGLE_BOTTIN;
 		default:
 			return null;
 		}
 	}
 
 	@Override
-	public synchronized Uri insert(Uri uri, ContentValues values) {
+	public Uri insert(Uri uri, ContentValues values) {
 
-		if (sURIMatcher.match(uri) == ALL) {
+		if (sURIMatcher.match(uri) == ALL_NEWS) {
 			SQLiteDatabase writable = helper.getWritableDatabase();
 			try {
 				if (writable.isOpen()) {
@@ -211,29 +218,26 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values) {
-		if (uri.getPath().equals(BOTTIN_PATH)) {
-			int numInserted = 0;
-			SQLiteDatabase writable = helper.getWritableDatabase();
-			writable.beginTransaction();
-			try {
-				for (ContentValues value : values) {
 
-					writable.insert(BottinTableHelper.TABLE_NAME, null, value);
-				}
-				writable.setTransactionSuccessful();
-				numInserted = values.length;
-			} finally {
-				writable.endTransaction();
-				getContext().getContentResolver().notifyChange(uri, null);
+		int numInserted = 0;
+		SQLiteDatabase writable = helper.getWritableDatabase();
+		writable.beginTransaction();
+		try {
+			for (ContentValues value : values) {
+				writable.insert(getRequestedTable(uri.getPath()), null, value);
 			}
-			return numInserted;
+			writable.setTransactionSuccessful();
+			numInserted = values.length;
+		} finally {
+			writable.endTransaction();
+			getContext().getContentResolver().notifyChange(uri, null);
 		}
-		return 0;
+		return numInserted;
 	}
 
 	private String getRequestedTable(String path) {
 		String tableName = "";
-		if (path.equals(NEWS_PATH)) {
+		if (path.contains(NEWS_PATH)) {
 			tableName = NewsTableHelper.TABLE_NAME;
 		} else {
 			tableName = BottinTableHelper.TABLE_NAME;
@@ -242,24 +246,24 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	}
 
 	@Override
-	public synchronized int update(Uri uri, ContentValues values,
-			String selection, String[] selectionArgs) {
+	public int update(Uri uri, ContentValues values, String selection,
+			String[] selectionArgs) {
 		return 0;
 	}
 
 	// Source : http://www.vogella.com/articles/AndroidSQLite/article.html
-	private synchronized void verifyColumnExists(String[] columns, String path) {
+	private void verifyColumnExists(String[] columns, String path) {
 		if (columns != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(
 					Arrays.asList(columns));
 
 			HashSet<String> availableColumns = null;
-			if (path.equals(NEWS_PATH)) {
-				availableColumns = new HashSet<String>(
-						Arrays.asList(BottinTableHelper.AVAILABLE));
-			} else {
+			if (path.contains(NEWS_PATH)) {
 				availableColumns = new HashSet<String>(
 						Arrays.asList(NewsTableHelper.AVAILABLE));
+			} else {
+				availableColumns = new HashSet<String>(
+						Arrays.asList(BottinTableHelper.AVAILABLE));
 			}
 			// Check if all columns which are requested are available
 			if (!availableColumns.containsAll(requestedColumns)) {

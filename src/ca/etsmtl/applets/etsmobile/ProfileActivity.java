@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
@@ -57,7 +58,18 @@ public class ProfileActivity extends Activity implements OnClickListener,
 			text = getString(R.string.login);
 			tag = false;
 		}
+		/**
+		 * SEARCH NAV BAR TODO: Create custom View -> ActionBar
+		 * */
+		// home btn
+		((ImageButton) findViewById(R.id.empty_nav_bar_home_btn))
+				.setOnClickListener(new OnClickListener() {
 
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				});
 		btnLogin.setText(text);
 		btnLogin.setTag(tag);
 	}
