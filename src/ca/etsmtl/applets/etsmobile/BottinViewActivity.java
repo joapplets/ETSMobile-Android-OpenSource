@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import ca.etsmtl.applets.etsmobile.models.BottinEntry;
 import ca.etsmtl.applets.etsmobile.providers.BottinContentProvider;
-import ca.etsmtl.applets.etsmobile.tools.db.BottinDBAdapter;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
 public class BottinViewActivity extends Activity {

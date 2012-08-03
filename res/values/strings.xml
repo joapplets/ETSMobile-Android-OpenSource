@@ -45,5 +45,6 @@
     <string name="login_dialog_code_perm">Code Permanent</string>
     <string name="login_dialog_code_uni">Code Universel</string>
     <string name="logout">Logout</string>
+    <string name="usernamePasswordRequired">Vous devez vous enregistrer sous la section Profil.</string>
 
 </resources>
