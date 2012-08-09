@@ -78,7 +78,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	}
 
 	/**
-	 * About 
+	 * About
 	 */
 	@Override
 	public void onClick(View arg0) {

@@ -23,10 +23,12 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
-import ca.etsmtl.applets.etsmobile.providers.BottinContentProvider;
+import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.xml.XMLBottinParser;
 
 public class BottinService extends Service implements Observer {
+
+	private static final String TAG = "BottinService";
 
 	public class BottinBinder extends Binder {
 		public void startFetching() {
@@ -106,11 +108,12 @@ public class BottinService extends Service implements Observer {
 		}
 	}
 
-	private ContentValues[] values = new ContentValues[500];
+	// private ContentValues[] values = new ContentValues[500];
 	private ObservableBundle bundle;
 	private boolean working;
 	private IBinder binder = new BottinBinder();
-	private int i = 0;
+
+	// private int i = 0;
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -124,18 +127,14 @@ public class BottinService extends Service implements Observer {
 
 	@Override
 	public void update(Observable observable, Object object) {
-		if (object instanceof ContentValues) {
-			// BottinEntry n = (BottinEntry) object;
-			values[i] = (ContentValues) object;
-			if (i++ >= 499) {
-				Log.d("XMLBottinParser", "inserting 500");
-				getContentResolver().bulkInsert(
-						BottinContentProvider.CONTENT_URI, values);
-
-				values = null;
-				values = new ContentValues[500];
-				i = 0;
-			}
+		if (object instanceof ContentValues[]) {
+			long start = System.currentTimeMillis();
+			Log.d(TAG, "");
+			getContentResolver().bulkInsert(
+					ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+					(ContentValues[]) object);
+			long stop = System.currentTimeMillis();
+			Log.d(TAG, "end insert : " + (stop - start) + "ms");
 		}
 	}
 

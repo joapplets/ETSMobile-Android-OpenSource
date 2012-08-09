@@ -62,10 +62,15 @@
         </activity>
         <activity android:name=".BottinViewActivity" >
         </activity>
+<<<<<<< HEAD
         <activity android:name=".SecurityActivity"></activity>
         <activity android:name=".MyCoursesSessionActivity"></activity>
         <activity android:name=".MyCourseActivity"></activity>
         <activity android:name=".MyCourseDetailActivity"></activity>
+=======
+        <activity android:name=".SecurityActivity" >
+        </activity>
+>>>>>>> dev
     </application>
 
 </manifest>

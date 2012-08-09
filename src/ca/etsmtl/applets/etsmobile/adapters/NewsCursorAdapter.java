@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
+import ca.etsmtl.applets.etsmobile.services.NewsService;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
 public class NewsCursorAdapter extends CursorAdapter{
 
@@ -35,31 +35,31 @@ public class NewsCursorAdapter extends CursorAdapter{
 	
 		//title
 		tempV = (TextView)view.findViewById(R.id.newsListItemTitle);
-		tempV.setText(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsTable.NEWS_TITLE))));
+		tempV.setText(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsTableHelper.NEWS_TITLE))));
 		
 		//date TODO parser la date dans le bon format
 		tempV = (TextView)view.findViewById(R.id.newsListItemDate);
-		tempV.setText(dateFormat.format(cursor.getLong(cursor.getColumnIndex(NewsTable.NEWS_DATE))));
+		tempV.setText(dateFormat.format(cursor.getLong(cursor.getColumnIndex(NewsTableHelper.NEWS_DATE))));
 		
 		//description
 		tempV = (TextView)view.findViewById(R.id.newsListItemDescription);
-		tempV.setText(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsTable.NEWS_DESCRIPTION))));
+		tempV.setText(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsTableHelper.NEWS_DESCRIPTION))));
 		
 		//logo
 		tempV = (TextView)view.findViewById(R.id.newsListItemLogo);
-		source = cursor.getString(cursor.getColumnIndex(NewsTable.NEWS_SOURCE));
-		if(source.equals(NewsFetcher.RSS_ETS)){
+		source = cursor.getString(cursor.getColumnIndex(NewsTableHelper.NEWS_SOURCE));
+		if(source.equals(NewsService.RSS_ETS)){
 			tempV.setBackgroundDrawable(webLogo);
 		}
-		if(source.equals(NewsFetcher.FACEBOOK)){
+		if(source.equals(NewsService.FACEBOOK)){
 			tempV.setBackgroundDrawable(facebookLogo);
 		}
-		if(source.equals(NewsFetcher.TWITTER)){
+		if(source.equals(NewsService.TWITTER)){
 			tempV.setBackgroundDrawable(twitterLogo);
 		}
 		
 		//guid
-		view.setTag(cursor.getInt(cursor.getColumnIndex(NewsTable.NEWS_ID)));
+		view.setTag(cursor.getInt(cursor.getColumnIndex(NewsTableHelper.NEWS_ID)));
 	}
 
 	@Override

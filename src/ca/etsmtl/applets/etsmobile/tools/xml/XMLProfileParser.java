@@ -8,7 +8,7 @@ import android.util.Log;
 
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 
-public class XMLProfileParser extends XMLAppletsHandler {
+public class XMLProfileParser extends XMLAbstractHandler {
 
 	private static final String ENTRY_TAG = "infoEtudiantResult";
 	private static final String NOM = "nom";

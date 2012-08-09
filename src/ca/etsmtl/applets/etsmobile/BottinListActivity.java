@@ -25,7 +25,7 @@ import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import ca.etsmtl.applets.etsmobile.providers.BottinContentProvider;
+import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.services.BottinService;
 import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
@@ -51,7 +51,7 @@ public class BottinListActivity extends ListActivity implements
 	protected static final String LOG_TAG = "BottinListActivity";
 
 	/**
-	 * Db cols to show in list
+	 * Db cols to show in list items
 	 */
 	private static final String[] DB_COLS = new String[] {
 			BottinTableHelper.BOTTIN__ID, BottinTableHelper.BOTTIN_NOM,
@@ -59,7 +59,7 @@ public class BottinListActivity extends ListActivity implements
 			BottinTableHelper.BOTTIN_SERVICE };
 
 	private static final String[] SELECTION_ARGS = new String[] { "%", "%",
-			"%", "%", "%", "%" };
+			"%", "%", "%" };
 
 	private Cursor allEntryCursor;
 	// Handler uiHandler;
@@ -88,8 +88,9 @@ public class BottinListActivity extends ListActivity implements
 		setContentView(R.layout.base_list);
 
 		// uiHandler = new Handler();
-		allEntryCursor = managedQuery(BottinContentProvider.CONTENT_URI,
-				DB_COLS, null, SELECTION_ARGS, " nom ASC");
+		allEntryCursor = managedQuery(
+				ETSMobileContentProvider.CONTENT_URI_BOTTIN, DB_COLS, null,
+				SELECTION_ARGS, "nom ASC");
 		// cursor adapter is faster
 		simpleCursor = new SimpleCursorAdapter(this, R.layout.bottin_list_item,
 				allEntryCursor, PROJECTION, TXT_VIEWS);
@@ -99,7 +100,8 @@ public class BottinListActivity extends ListActivity implements
 			@Override
 			public Cursor runQuery(CharSequence constraint) {
 				Log.d(LOG_TAG, "filter input  :" + constraint);
-				return managedQuery(BottinContentProvider.CONTENT_URI, DB_COLS,
+				return managedQuery(
+						ETSMobileContentProvider.CONTENT_URI_BOTTIN, DB_COLS,
 						null, new String[] { (String) constraint }, "nom ASC");
 			}
 		});
@@ -132,10 +134,11 @@ public class BottinListActivity extends ListActivity implements
 	protected void onResume() {
 		if (allEntryCursor.getCount() == 0) {
 			showDialog(ALERT_INIT_BOTTIN);
-			connectToFetcherService();
+			// connectToFetcherService();
 		} else {
-			allEntryCursor = managedQuery(BottinContentProvider.CONTENT_URI,
-					DB_COLS, null, null, "nom ASC");
+			allEntryCursor = managedQuery(
+					ETSMobileContentProvider.CONTENT_URI_BOTTIN, DB_COLS, null,
+					null, "nom ASC");
 			simpleCursor.notifyDataSetChanged();
 		}
 		super.onResume();
@@ -215,7 +218,7 @@ public class BottinListActivity extends ListActivity implements
 								public void onClick(DialogInterface dialog,
 										int which) {
 
-									// new BottinLoader().execute();
+									connectToFetcherService();
 									dismissDialog(ALERT_INIT_BOTTIN);
 								}
 							})
@@ -225,7 +228,6 @@ public class BottinListActivity extends ListActivity implements
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									BottinListActivity.this.finish();
 								}
 							});
 			d = builder.create();

@@ -14,9 +14,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import ca.etsmtl.applets.etsmobile.providers.NewsListContentProvider;
-import ca.etsmtl.applets.etsmobile.services.NewsFetcher;
-import ca.etsmtl.applets.etsmobile.tools.db.NewsTable;
+import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
+import ca.etsmtl.applets.etsmobile.services.NewsService;
+import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
 public class SingleNewsActivity extends Activity{
 	
@@ -33,14 +33,14 @@ public class SingleNewsActivity extends Activity{
 		
 		int id = bundle.getInt("id");
 		
-		String[] projection = {NewsTable.NEWS_DATE, NewsTable.NEWS_TITLE, NewsTable.NEWS_DESCRIPTION, NewsTable.NEWS_SOURCE, NewsTable.NEWS_LINK};
-		Cursor c = managedQuery(Uri.withAppendedPath(NewsListContentProvider.CONTENT_URI, String.valueOf(id)), projection, null, null, null);
+		String[] projection = {NewsTableHelper.NEWS_DATE, NewsTableHelper.NEWS_TITLE, NewsTableHelper.NEWS_DESCRIPTION, NewsTableHelper.NEWS_SOURCE, NewsTableHelper.NEWS_LINK};
+		Cursor c = managedQuery(Uri.withAppendedPath(ETSMobileContentProvider.CONTENT_URI_NEWS, String.valueOf(id)), projection, null, null, null);
 		if(c.moveToFirst()){
-			date = dateFormat.format(c.getLong(c.getColumnIndex(NewsTable.NEWS_DATE)));
-			title = c.getString(c.getColumnIndex(NewsTable.NEWS_TITLE));
-			content = c.getString(c.getColumnIndex(NewsTable.NEWS_DESCRIPTION));
-			source = c.getString(c.getColumnIndex(NewsTable.NEWS_SOURCE));
-			link = c.getString(c.getColumnIndex(NewsTable.NEWS_LINK));
+			date = dateFormat.format(c.getLong(c.getColumnIndex(NewsTableHelper.NEWS_DATE)));
+			title = c.getString(c.getColumnIndex(NewsTableHelper.NEWS_TITLE));
+			content = c.getString(c.getColumnIndex(NewsTableHelper.NEWS_DESCRIPTION));
+			source = c.getString(c.getColumnIndex(NewsTableHelper.NEWS_SOURCE));
+			link = c.getString(c.getColumnIndex(NewsTableHelper.NEWS_LINK));
 		}
 	
 		final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -74,7 +74,7 @@ public class SingleNewsActivity extends Activity{
 		settings.setSupportZoom(false);
 		settings.setDomStorageEnabled(true);
 		
-		if(source.equals(NewsFetcher.FACEBOOK) || source.equals(NewsFetcher.TWITTER)){
+		if(source.equals(NewsService.FACEBOOK) || source.equals(NewsService.TWITTER)){
 			webView.setWebViewClient(new WebViewClient(){
 				
 				@Override
@@ -84,7 +84,7 @@ public class SingleNewsActivity extends Activity{
 			});
 			webView.loadUrl(link);
 		}
-		if(source.equals(NewsFetcher.RSS_ETS)){
+		if(source.equals(NewsService.RSS_ETS)){
 			Document doc = Jsoup.parse(content);
 			doc.head().append("<meta name=\"viewport\" content=\"width=device-width; target-densityDpi=device-dpi\">");
 			doc.head().append("<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/rssets.css\">");

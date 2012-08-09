@@ -8,8 +8,8 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/top_nav_bar" />
-
+        layout="@layout/empty_nav_bar" />
+
     <TableLayout
         android:id="@+id/layout1"
         android:layout_width="fill_parent"
@@ -21,97 +21,91 @@
         android:padding="10dip"
         android:stretchColumns="2" >
 
-		<TableRow >
-		
-		<TextView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_column="1"
-		    android:text="@string/student_profile_lastname"
-		    android:textAppearance="?android:attr/textAppearanceMedium"
-		    android:textColor="@color/black" />
-		
-		<TextView
-		    android:id="@+id/student_profile_lastname"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_column="2"
-		    android:layout_gravity="right"
-		    android:text=""
-		    android:textAppearance="?android:attr/textAppearanceMedium"
-		    android:textColor="@color/black" />
-        
-	    </TableRow>
+        <TableRow>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="@string/student_profile_lastname"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/student_profile_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="right"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+        </TableRow>
 
         <TableRow>
-		
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:text="@string/student_profile_name"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
-        
-        <TextView
-            android:id="@+id/student_profile_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:layout_gravity="right"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="@string/student_profile_name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/student_profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="right"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
         </TableRow>
-        
+
         <TableRow>
-		
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:text="@string/student_profile_codePermanent"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
-        
-        <TextView
-            android:id="@+id/student_profile_codePermanent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:layout_gravity="right"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="@string/student_profile_codePermanent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/student_profile_codePermanent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="right"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
         </TableRow>
-        
+
         <TableRow>
-		
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:text="@string/student_profile_solde"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
-        
-        <TextView
-            android:id="@+id/student_profile_solde"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:layout_gravity="right"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="@string/student_profile_solde"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/student_profile_solde"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="right"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
         </TableRow>
-        
     </TableLayout>
-
+
     <Button
         android:id="@+id/profile_login_btn"
         android:layout_width="match_parent"

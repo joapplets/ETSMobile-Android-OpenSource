@@ -16,13 +16,13 @@ public class ETSMobileOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(BottinTableHelper.CREATE_TABLE);
-		db.execSQL(NewsTable.CREATE_TABLE);
+		db.execSQL(NewsTableHelper.CREATE_TABLE);
 
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(NewsTable.DROP_TABLE);
+		db.execSQL(NewsTableHelper.DROP_TABLE);
 		db.execSQL(BottinTableHelper.DROP_TABLE);
 		onCreate(db);
 
