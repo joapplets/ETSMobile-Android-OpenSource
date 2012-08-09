@@ -5,8 +5,9 @@
     android:versionName="1.0" >
 
     <uses-sdk
+        android:maxSdkVersion="15"
         android:minSdkVersion="8"
-        android:targetSdkVersion="10" android:maxSdkVersion="15"/>
+        android:targetSdkVersion="10" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +19,8 @@
         <receiver android:name="ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver" />
 
         <service android:name=".services.NewsService" />
-        <service android:name=".services.BottinService"></service>
+        <service android:name=".services.BottinService" >
+        </service>
 
         <provider
             android:name=".providers.ETSMobileContentProvider"
@@ -52,12 +54,16 @@
             android:name=".BottinListActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        <activity
+            android:name=".CourseListActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
         <activity android:name=".AboutActivity" >
         </activity>
         <activity android:name=".BottinViewActivity" >
         </activity>
-        <activity android:name=".SecurityActivity"></activity>
-        
+        <activity android:name=".SecurityActivity" >
+        </activity>
     </application>
 
 </manifest>

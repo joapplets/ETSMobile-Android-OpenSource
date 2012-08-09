@@ -54,7 +54,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			intent = new Intent(this, BottinListActivity.class);
 			break;
 		case 5:
-			// intent = new Intent(this, MyCoursesActivity.class);
+			intent = new Intent(this, CourseListActivity.class);
 			break;
 		default:
 			break;
@@ -78,7 +78,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	}
 
 	/**
-	 * About 
+	 * About
 	 */
 	@Override
 	public void onClick(View arg0) {

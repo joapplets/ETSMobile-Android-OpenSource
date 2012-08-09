@@ -7,11 +7,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -138,6 +140,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 
 			} else {
 				// init layout
+				final Context ctx = this;
 				loginTaskHandler.post(new Runnable() {
 
 					@Override
@@ -152,7 +155,8 @@ public class ProfileActivity extends Activity implements OnClickListener,
 								.setText(val.getAsString("codePerm").trim());
 
 						// save credentials to prefs
-						Editor editor = getPreferences(MODE_PRIVATE).edit();
+						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+						Editor editor = prefs.edit();
 						editor.putString("codeP", codeP);
 						editor.putString("codeU", codeU);
 						editor.commit();
