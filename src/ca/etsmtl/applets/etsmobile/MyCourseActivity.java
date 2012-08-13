@@ -10,6 +10,7 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,7 +26,7 @@ public class MyCourseActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_courses_view);
 		
-		UserCredentials creds = new UserCredentials(getPreferences(MODE_PRIVATE));
+		UserCredentials creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
 		final String sessionString = getIntent().getExtras().getString("session");
 		
 		if (creds.getPassword() != null && creds.getUsername() != null && ! "".equals(creds.getPassword()) && ! "".equals(creds.getUsername())) {
