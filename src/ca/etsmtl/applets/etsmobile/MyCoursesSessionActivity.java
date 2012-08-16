@@ -11,6 +11,7 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -26,7 +27,7 @@ public class MyCoursesSessionActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_courses_view);
 		
-		UserCredentials creds = new UserCredentials(getPreferences(MODE_PRIVATE));
+		UserCredentials creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
 		
 		if (creds.getPassword() != null && creds.getUsername() != null && ! "".equals(creds.getPassword()) && ! "".equals(creds.getUsername())) {
 			final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = 
@@ -37,13 +38,13 @@ public class MyCoursesSessionActivity extends ListActivity {
 							Session.class,
 							FetchType.ARRAY);
 			
-			ArrayAdapter<Session> myCoursesAdapter = new ArrayAdapter<Session>(getApplicationContext(), android.R.layout.simple_list_item_1, sessions);
+			ArrayAdapter<Session> myCoursesAdapter = new ArrayAdapter<Session>(this, android.R.layout.simple_list_item_1, sessions);
 			getListView().setAdapter(myCoursesAdapter);
 			
 			signetBackgroundThead.execute();
 
 			getListView().setOnItemClickListener(new OnItemClickListener() {
-	
+
 				@Override
 				public void onItemClick(AdapterView<?> adapterView, View view, int position,
 						long arg3) {

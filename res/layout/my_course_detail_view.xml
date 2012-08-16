@@ -5,6 +5,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
     
+    <include
+        android:id="@+id/empty_nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/empty_nav_bar" />
+    
     <TextView 
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/text1"

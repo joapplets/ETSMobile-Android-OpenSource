@@ -16,8 +16,8 @@ public class UserCredentials {
 	
 	public UserCredentials(SharedPreferences prefs) {
 		if (prefs != null) {
-			password = prefs.getString("codeP", "");
-			username = prefs.getString("codeU", "");
+			username = prefs.getString("codeP", "");
+			password = prefs.getString("codeU", "");
 		}
 	}
 }

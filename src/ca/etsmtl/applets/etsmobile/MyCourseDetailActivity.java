@@ -11,6 +11,7 @@ import ca.etsmtl.applets.etsmobile.models.EvaluationElement;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import android.app.Activity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ public class MyCourseDetailActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_course_detail_view);
 		
-		UserCredentials creds = new UserCredentials(getPreferences(MODE_PRIVATE));
+		UserCredentials creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
 		
 		final String session = getIntent().getExtras().getString("session");
 		final String sigle = getIntent().getExtras().getString("sigle");

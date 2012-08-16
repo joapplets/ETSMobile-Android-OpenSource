@@ -1,55 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="wrap_content" 
+	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context=".NewsListActivity" >
-
+    android:orientation="vertical" >
 
     <include
-        android:layout_width="wrap_content"
+        android:id="@+id/empty_nav_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/top_nav_bar" 
-        android:id="@+id/nav_bar"/>
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/top_nav_bar" />
+        layout="@layout/empty_nav_bar" />
     
-    <LinearLayout 
-        android:id="@+id/listView_footer"
-        android:layout_width="fill_parent"
-        android:layout_height="20dip"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:visibility="gone">
-        
-        <ImageView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        	android:layout_marginTop="2dip"
-        	android:scaleType="matrix"
-            android:src="@drawable/spinner" />
-        
-
-        <TextView
-            android:id="@+id/listView_loading"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#ffffff"
-            android:gravity="center_horizontal"
-            android:paddingLeft="5dip"
-            android:text="@string/loading" />
-    </LinearLayout>
-
-
-
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/nav_bar" >
+        android:layout_below="@+id/empty_nav_bar" >
 
     </ListView>
         
