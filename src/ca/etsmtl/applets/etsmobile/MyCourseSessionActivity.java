@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 import ca.etsmtl.applet.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applet.etsmobile.api.SignetBackgroundThread.FetchType;
+import ca.etsmtl.applets.etsmobile.adapters.MyCourseSessionAdapter;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
@@ -15,13 +16,12 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-public class MyCoursesSessionActivity extends ListActivity {
+public class MyCourseSessionActivity extends ListActivity {
 
 	private ArrayList<Session> sessions = new ArrayList<Session>();
-	
+	private MyCourseSessionAdapter myCoursesAdapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,7 +38,7 @@ public class MyCoursesSessionActivity extends ListActivity {
 							Session.class,
 							FetchType.ARRAY);
 			
-			ArrayAdapter<Session> myCoursesAdapter = new ArrayAdapter<Session>(this, android.R.layout.simple_list_item_1, sessions);
+			myCoursesAdapter = new MyCourseSessionAdapter(this, android.R.layout.simple_list_item_1, sessions);
 			getListView().setAdapter(myCoursesAdapter);
 			
 			signetBackgroundThead.execute();
@@ -49,7 +49,7 @@ public class MyCoursesSessionActivity extends ListActivity {
 				public void onItemClick(AdapterView<?> adapterView, View view, int position,
 						long arg3) {
 					Bundle b = new Bundle();
-					b.putString("session", sessions.get(position).getShortName());
+					b.putString("session", myCoursesAdapter.getItem(position).getShortName());
 					Intent nextActivity = new Intent(view.getContext(), MyCourseActivity.class);
 					nextActivity.putExtras(b);
 	                startActivity(nextActivity);
@@ -66,7 +66,7 @@ public class MyCoursesSessionActivity extends ListActivity {
 						runOnUiThread(new Runnable() {
 							public void run() {
 								sessions = newSessions;
-								ArrayAdapter<Session> myCoursesAdapter = new ArrayAdapter<Session>(getApplicationContext(), android.R.layout.simple_list_item_1, sessions);
+								myCoursesAdapter = new MyCourseSessionAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, sessions);
 								getListView().setAdapter(myCoursesAdapter);
 							}
 						});

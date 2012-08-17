@@ -63,7 +63,7 @@
         <activity android:name=".BottinViewActivity" >
         </activity>
         <activity android:name=".SecurityActivity"></activity>
-        <activity android:name=".MyCoursesSessionActivity"></activity>
+        <activity android:name=".MyCourseSessionActivity"></activity>
         <activity android:name=".MyCourseActivity"></activity>
         <activity android:name=".MyCourseDetailActivity"></activity>
     </application>
