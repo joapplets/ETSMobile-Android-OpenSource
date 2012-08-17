@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 import ca.etsmtl.applet.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applet.etsmobile.api.SignetBackgroundThread.FetchType;
+import ca.etsmtl.applets.etsmobile.adapters.MyCourseAdapter;
 import ca.etsmtl.applets.etsmobile.models.Course;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import android.app.ListActivity;
@@ -13,13 +14,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class MyCourseActivity extends ListActivity {
 	
 	private ArrayList<Course> courseActivities = new ArrayList<Course>();
+	private MyCourseAdapter myCoursesAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class MyCourseActivity extends ListActivity {
 							Course.class,
 							FetchType.ARRAY);
 			
-			ArrayAdapter<Course> myCoursesAdapter = new ArrayAdapter<Course>(getApplicationContext(), android.R.layout.simple_list_item_1, courseActivities);
+			myCoursesAdapter = new MyCourseAdapter(getApplicationContext(), R.layout.course_list_item, courseActivities);
 			getListView().setAdapter(myCoursesAdapter);
 			
 			signetBackgroundThead.execute();
@@ -49,10 +50,10 @@ public class MyCourseActivity extends ListActivity {
 				public void onItemClick(AdapterView<?> adapterView, View view, int position,
 						long arg3) {
 					Bundle b = new Bundle();
-					b.putString("sigle", courseActivities.get(position).getSigle());
+					b.putString("sigle", myCoursesAdapter.getItem(position).getSigle());
 					b.putString("session", sessionString);
-					b.putString("cote", courseActivities.get(position).getCote());
-					b.putString("groupe", courseActivities.get(position).getGroupe());
+					b.putString("cote", myCoursesAdapter.getItem(position).getCote());
+					b.putString("groupe", myCoursesAdapter.getItem(position).getGroupe());
 					Intent nextActivity = new Intent(view.getContext(), MyCourseDetailActivity.class);
 					nextActivity.putExtras(b);
 	                startActivity(nextActivity);
@@ -76,7 +77,7 @@ public class MyCourseActivity extends ListActivity {
 									}
 								}
 								
-								ArrayAdapter<Course> myCoursesAdapter = new ArrayAdapter<Course>(getApplicationContext(), android.R.layout.simple_list_item_1, courseActivities);
+								myCoursesAdapter = new MyCourseAdapter(getApplicationContext(), R.layout.course_list_item, courseActivities);
 								getListView().setAdapter(myCoursesAdapter);
 							}
 						});

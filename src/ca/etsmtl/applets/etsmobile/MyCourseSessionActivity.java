@@ -10,11 +10,14 @@ import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
@@ -22,10 +25,21 @@ public class MyCourseSessionActivity extends ListActivity {
 
 	private ArrayList<Session> sessions = new ArrayList<Session>();
 	private MyCourseSessionAdapter myCoursesAdapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.my_courses_view);
+		
+		ImageButton btnHome = (ImageButton)findViewById(R.id.empty_nav_bar_home_btn);
+		btnHome.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		
 		UserCredentials creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
 		
@@ -38,7 +52,7 @@ public class MyCourseSessionActivity extends ListActivity {
 							Session.class,
 							FetchType.ARRAY);
 			
-			myCoursesAdapter = new MyCourseSessionAdapter(this, android.R.layout.simple_list_item_1, sessions);
+			myCoursesAdapter = new MyCourseSessionAdapter(this, R.layout.session_list_item, sessions);
 			getListView().setAdapter(myCoursesAdapter);
 			
 			signetBackgroundThead.execute();
@@ -56,6 +70,10 @@ public class MyCourseSessionActivity extends ListActivity {
 				}
 			});
 			
+			final ProgressDialog progress = new ProgressDialog(this);
+			progress.setMessage(getString(R.string.loading));
+			progress.show();
+			
 			new Thread(new Runnable() {
 				
 				@Override
@@ -66,8 +84,9 @@ public class MyCourseSessionActivity extends ListActivity {
 						runOnUiThread(new Runnable() {
 							public void run() {
 								sessions = newSessions;
-								myCoursesAdapter = new MyCourseSessionAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, sessions);
+								myCoursesAdapter = new MyCourseSessionAdapter(getApplicationContext(), R.layout.session_list_item, sessions);
 								getListView().setAdapter(myCoursesAdapter);
+								progress.dismiss();
 							}
 						});
 						
