@@ -47,5 +47,13 @@
     <string name="logout">Logout</string>
     <string name="usernamePasswordRequired">Vous devez vous enregistrer sous la section Profil.</string>
     <string name="mesCours">Mes cours</string>
-
+	<string name="sommaire">Sommaire</string>
+	<string name="mesNotes">Mes notes</string>
+	<string name="cote">Cote</string>
+	<string name="noteACejour">Note à ce jour</string>
+	<string name="moyenne">Moyenne de la classe</string>
+	<string name="ecartType">Écart-type</string>
+	<string name="mediane">Médiane</string>
+	<string name="rangCentille">Rang centille</string>
+	<string name="nodata">Aucune donnée.</string>
 </resources>

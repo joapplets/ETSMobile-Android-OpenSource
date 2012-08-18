@@ -23,9 +23,10 @@ import android.widget.Toast;
 
 public class MyCourseSessionActivity extends ListActivity {
 
-	private ArrayList<Session> sessions = new ArrayList<Session>();
+	private ArrayList<Session> sessions;
 	private MyCourseSessionAdapter myCoursesAdapter;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,62 +44,78 @@ public class MyCourseSessionActivity extends ListActivity {
 		
 		UserCredentials creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
 		
+		if (savedInstanceState != null) {
+			sessions = (ArrayList<Session>) savedInstanceState.getSerializable("sessions");
+		}
+		
+		getListView().setOnItemClickListener(new OnItemClickListener() {
+			
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int position,
+					long arg3) {
+				Bundle b = new Bundle();
+				b.putString("session", myCoursesAdapter.getItem(position).getShortName());
+				Intent nextActivity = new Intent(view.getContext(), MyCourseActivity.class);
+				nextActivity.putExtras(b);
+                startActivity(nextActivity);
+			}
+		});
+		
 		if (creds.getPassword() != null && creds.getUsername() != null && ! "".equals(creds.getPassword()) && ! "".equals(creds.getUsername())) {
-			final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = 
-					new SignetBackgroundThread<ArrayList<Session>, Session>(
-							"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx", 
-							"listeSessions",
-							creds,
-							Session.class,
-							FetchType.ARRAY);
 			
-			myCoursesAdapter = new MyCourseSessionAdapter(this, R.layout.session_list_item, sessions);
-			getListView().setAdapter(myCoursesAdapter);
-			
-			signetBackgroundThead.execute();
+			if (sessions == null) {
+				final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = 
+						new SignetBackgroundThread<ArrayList<Session>, Session>(
+								"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx", 
+								"listeSessions",
+								creds,
+								Session.class,
+								FetchType.ARRAY);
 
-			getListView().setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> adapterView, View view, int position,
-						long arg3) {
-					Bundle b = new Bundle();
-					b.putString("session", myCoursesAdapter.getItem(position).getShortName());
-					Intent nextActivity = new Intent(view.getContext(), MyCourseActivity.class);
-					nextActivity.putExtras(b);
-	                startActivity(nextActivity);
-				}
-			});
-			
-			final ProgressDialog progress = new ProgressDialog(this);
-			progress.setMessage(getString(R.string.loading));
-			progress.show();
-			
-			new Thread(new Runnable() {
+				signetBackgroundThead.execute();
 				
-				@Override
-				public void run() {
-					try {
-						final ArrayList<Session> newSessions = signetBackgroundThead.get();
-						
-						runOnUiThread(new Runnable() {
-							public void run() {
-								sessions = newSessions;
-								myCoursesAdapter = new MyCourseSessionAdapter(getApplicationContext(), R.layout.session_list_item, sessions);
-								getListView().setAdapter(myCoursesAdapter);
-								progress.dismiss();
-							}
-						});
-						
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					} catch (ExecutionException e) {
-						e.printStackTrace();
+				final ProgressDialog progress = new ProgressDialog(this);
+				progress.setMessage(getString(R.string.loading));
+				progress.show();
+				
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						try {
+							final ArrayList<Session> newSessions = signetBackgroundThead.get();
+							
+							runOnUiThread(new Runnable() {
+								public void run() {
+									sessions = newSessions;
+									myCoursesAdapter = new MyCourseSessionAdapter(getApplicationContext(), R.layout.session_list_item, sessions);
+									getListView().setAdapter(myCoursesAdapter);
+									if (progress != null) {
+										progress.dismiss();
+									}
+								}
+							});
+							
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						} catch (ExecutionException e) {
+							e.printStackTrace();
+						}
 					}
-				}
-			}).start();
+				}).start();
+			} else {
+				myCoursesAdapter = new MyCourseSessionAdapter(getApplicationContext(), R.layout.session_list_item, sessions);
+				getListView().setAdapter(myCoursesAdapter);
+			}
+			
 		} else {
 			Toast.makeText(this, getString(R.string.usernamePasswordRequired), Toast.LENGTH_LONG).show();
 		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	  super.onSaveInstanceState(savedInstanceState);
+	  savedInstanceState.putSerializable("sessions", this.sessions);
 	}
 }

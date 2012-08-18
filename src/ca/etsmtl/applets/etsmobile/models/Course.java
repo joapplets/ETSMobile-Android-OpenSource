@@ -1,12 +1,16 @@
 package ca.etsmtl.applets.etsmobile.models;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 import com.google.gson.annotations.SerializedName;
 
 @Data
-public class Course {
+public class Course implements Serializable {
 	
+	private static final long serialVersionUID = 6504532940801622460L;
+
 	@SerializedName("sigle")
 	private String sigle;
 	
