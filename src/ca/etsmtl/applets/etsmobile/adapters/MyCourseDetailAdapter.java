@@ -110,7 +110,7 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement>{
 			default:
 				EvaluationElement element = getItem(position);
 				((TextView) view.findViewById(R.id.textView)).setText(element.getNom());
-				((TextView) view.findViewById(R.id.value)).setText(element.getNote());
+				((TextView) view.findViewById(R.id.value)).setText(element.getNote() + "/" + element.getCorrigeSur());
 				break;
 			}
 		}
