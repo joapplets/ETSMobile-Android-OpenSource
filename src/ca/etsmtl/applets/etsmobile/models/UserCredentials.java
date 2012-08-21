@@ -1,11 +1,9 @@
 package ca.etsmtl.applets.etsmobile.models;
 
-import lombok.Data;
 import android.content.SharedPreferences;
 
 import com.google.gson.annotations.SerializedName;
 
-@Data
 public class UserCredentials {
 	
 	@SerializedName("motPasse")
@@ -19,5 +17,21 @@ public class UserCredentials {
 			username = prefs.getString("codeP", "");
 			password = prefs.getString("codeU", "");
 		}
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

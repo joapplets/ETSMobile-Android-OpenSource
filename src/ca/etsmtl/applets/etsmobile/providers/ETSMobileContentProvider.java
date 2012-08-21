@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
