@@ -46,6 +46,7 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".SingleNewsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".ProfileActivity"

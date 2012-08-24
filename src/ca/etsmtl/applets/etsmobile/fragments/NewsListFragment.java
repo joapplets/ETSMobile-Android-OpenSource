@@ -20,7 +20,7 @@ import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
 public class NewsListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-	private final static String TAG = "ca.etsmtl.applets.etsmobile.fragments.NewsListFragment";
+	//private final static String TAG = "ca.etsmtl.applets.etsmobile.fragments.NewsListFragment";
 	private NewsListSelectedItemListener selectedItemListener;
 	private NewsCursorAdapter adapter;
 	
@@ -47,6 +47,12 @@ public class NewsListFragment extends ListFragment implements LoaderManager.Load
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		selectedItemListener.onItemClick(v);
+	}
+	
+	@Override
+	public void onDestroy() {
+		getLoaderManager().destroyLoader(ID);
+		super.onDestroy();
 	}
 	
 	@Override
