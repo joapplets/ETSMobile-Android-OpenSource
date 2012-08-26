@@ -51,9 +51,7 @@
         <activity
             android:name=".ProfileActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name=".BottinListActivity"
-            android:theme="@android:style/Theme.NoTitleBar" >
+        <activity android:name=".BottinListActivity" >
         </activity>
         <activity
             android:name=".CourseListActivity"
@@ -63,10 +61,14 @@
         </activity>
         <activity android:name=".BottinViewActivity" >
         </activity>
-        <activity android:name=".SecurityActivity"></activity>
-        <activity android:name=".MyCourseSessionActivity"></activity>
-        <activity android:name=".MyCourseActivity"></activity>
-        <activity android:name=".MyCourseDetailActivity"></activity>
+        <activity android:name=".SecurityActivity" >
+        </activity>
+        <activity android:name=".MyCourseSessionActivity" >
+        </activity>
+        <activity android:name=".MyCourseActivity" >
+        </activity>
+        <activity android:name=".MyCourseDetailActivity" >
+        </activity>
     </application>
 
 </manifest>

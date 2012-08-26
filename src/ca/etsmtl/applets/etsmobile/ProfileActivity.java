@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
+import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 
 public class ProfileActivity extends Activity implements OnClickListener,
@@ -32,14 +33,15 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	private final ObservableBundle bundle = new ObservableBundle();
 	private Handler loginTaskHandler;
 	private View view;
-	private String codeU;
-	private String codeP;
+	private UserCredentials creds;
 
 	/**
 	 * Login dialog onClick
 	 */
 	@Override
 	public void onClick(final DialogInterface dialog, final int which) {
+		String codeP;
+		String codeU;
 		switch (which) {
 		case DialogInterface.BUTTON_POSITIVE:
 			codeP = ((TextView) view.findViewById(R.id.login_dialog_code_perm))
@@ -89,17 +91,19 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		btnLogin = (Button) findViewById(R.id.profile_login_btn);
 		btnLogin.setOnClickListener(this);
 
-		final SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-		final String codeP = prefs.getString("codeP", "");
-		final String codeU = prefs.getString("codeU", "");
+		creds = new UserCredentials(
+				PreferenceManager.getDefaultSharedPreferences(this));
+		// final String codeP = prefs.getString("codeP", "");
+		// final String codeU = prefs.getString("codeU", "");
 		// handles callback from observable
 		loginTaskHandler = new Handler();
 		bundle.addObserver(this);
 
 		CharSequence text;
 		boolean tag;
-		if (!codeP.equals("") && !codeU.equals("")) {
-			new ProfileTask(bundle).execute(codeP, codeU);
+		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
+			new ProfileTask(bundle).execute(creds.getUsername(),
+					creds.getPassword());
 			text = getString(R.string.logout);
 			tag = true;
 		} else {
@@ -179,8 +183,8 @@ public class ProfileActivity extends Activity implements OnClickListener,
 						final SharedPreferences prefs = PreferenceManager
 								.getDefaultSharedPreferences(ctx);
 						final Editor editor = prefs.edit();
-						editor.putString("codeP", codeP);
-						editor.putString("codeU", codeU);
+						editor.putString("codeP", creds.getUsername());
+						editor.putString("codeU", creds.getPassword());
 						editor.commit();
 						btnLogin.setTag(true);
 						btnLogin.setText(getString(R.string.logout));

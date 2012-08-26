@@ -56,7 +56,7 @@ public class BottinViewActivity extends Activity {
 			phoneView.setText(cursor.getString(cursor
 					.getColumnIndex(BottinTableHelper.BOTTIN_TELBUREAU)));
 		}
-		((ImageButton) findViewById(R.id.search_nav_bar_home_btn))
+		((ImageButton) findViewById(R.id.empty_nav_bar_home_btn))
 				.setOnClickListener(new OnClickListener() {
 
 					@Override

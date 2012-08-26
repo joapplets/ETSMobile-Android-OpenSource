@@ -258,6 +258,10 @@ public class BottinListActivity extends ListActivity implements
 
 	@Override
 	protected void onResume() {
+		allEntryCursor = managedQuery(
+				ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+				BottinListActivity.DB_COLS, null,
+				BottinListActivity.SELECTION_ARGS, "nom ASC");
 		if (allEntryCursor.getCount() == 0) {
 			showDialog(BottinListActivity.ALERT_INIT_BOTTIN);
 			// connectToFetcherService();
