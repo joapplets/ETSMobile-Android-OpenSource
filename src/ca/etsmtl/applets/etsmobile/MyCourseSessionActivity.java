@@ -15,6 +15,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.adapters.MyCourseSessionAdapter;
+import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
+import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
