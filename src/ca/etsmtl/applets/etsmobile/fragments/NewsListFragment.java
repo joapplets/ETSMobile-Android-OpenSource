@@ -1,5 +1,7 @@
 package ca.etsmtl.applets.etsmobile.fragments;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -20,7 +22,7 @@ import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
 public class NewsListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-	private final static String TAG = "ca.etsmtl.applets.etsmobile.fragments.NewsListFragment";
+	//private final static String TAG = "ca.etsmtl.applets.etsmobile.fragments.NewsListFragment";
 	private NewsListSelectedItemListener selectedItemListener;
 	private NewsCursorAdapter adapter;
 	
@@ -50,6 +52,12 @@ public class NewsListFragment extends ListFragment implements LoaderManager.Load
 	}
 	
 	@Override
+	public void onDestroy() {
+		getLoaderManager().destroyLoader(ID);
+		super.onDestroy();
+	}
+	
+	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
 	    String[] projection = {
 	    		NewsTableHelper.NEWS_ID,
@@ -60,15 +68,20 @@ public class NewsListFragment extends ListFragment implements LoaderManager.Load
 	    		NewsTableHelper.NEWS_SOURCE};
 	    
 	    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-	    String[] source = new String[3];
+	    ArrayList<String> source = new ArrayList<String>();
 	    if(prefs.getBoolean("rssETS", true)){
-	    	source[0] = NewsService.RSS_ETS;
+	    	source.add(NewsService.RSS_ETS);
 	    }
 	    if(prefs.getBoolean("facebook", true)){
-	    	source[1] = NewsService.FACEBOOK;
+	    	source.add(NewsService.FACEBOOK);
 	    }
 	    if(prefs.getBoolean("twitter", true)){
-	    	source[2] = NewsService.TWITTER;
+	    	source.add(NewsService.TWITTER);
+	    }
+	    
+	    String[] s = new String[source.size()];
+	    for(int i = 0; i < source.size(); i++){
+	    	s[i] = source.get(i);
 	    }
 	    
 	    CursorLoader cursorLoader = new CursorLoader(
@@ -77,7 +90,7 @@ public class NewsListFragment extends ListFragment implements LoaderManager.Load
 	            ETSMobileContentProvider.CONTENT_URI_NEWS, 
 	            projection, 
 	            null, 
-	            source, 
+	            s,
 	            NewsTableHelper.NEWS_DATE + " DESC");
 	    
 	    return cursorLoader;

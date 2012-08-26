@@ -17,9 +17,7 @@ import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
 public class NewsCursorAdapter extends CursorAdapter{
 
-
-	private TextView tempV;
-	private String source;
+	private String source, title, description;
 	private Drawable webLogo, facebookLogo, twitterLogo;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMMMMMMMM yyyy");
 	
@@ -27,39 +25,46 @@ public class NewsCursorAdapter extends CursorAdapter{
 		super(context, c, flags);
 		webLogo = context.getResources().getDrawable(R.drawable.news_background_ets);
 		facebookLogo = context.getResources().getDrawable(R.drawable.news_background_facebookets);
-		twitterLogo = context.getResources().getDrawable(R.drawable.news_background_twitterets);	
+		twitterLogo = context.getResources().getDrawable(R.drawable.news_background_twitterets);
 	}
-
+	
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 	
-		//title
-		tempV = (TextView)view.findViewById(R.id.newsListItemTitle);
-		tempV.setText(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsTableHelper.NEWS_TITLE))));
+		ViewHolder holder = (ViewHolder) view.getTag(R.string.viewholdercontenttag);
+		if(holder == null){
+			holder = new ViewHolder();
+			holder.title = (TextView)view.findViewById(R.id.newsListItemTitle);
+			holder.date = (TextView)view.findViewById(R.id.newsListItemDate);
+			holder.description = (TextView)view.findViewById(R.id.newsListItemDescription);
+			holder.logo = (TextView)view.findViewById(R.id.newsListItemLogo);
+			view.setTag(R.string.viewholdercontenttag, holder);
+		}
 		
-		//date TODO parser la date dans le bon format
-		tempV = (TextView)view.findViewById(R.id.newsListItemDate);
-		tempV.setText(dateFormat.format(cursor.getLong(cursor.getColumnIndex(NewsTableHelper.NEWS_DATE))));
+		title = cursor.getString(cursor.getColumnIndex(NewsTableHelper.NEWS_TITLE));
+		holder.title.setText(Html.fromHtml(title));
 		
-		//description
-		tempV = (TextView)view.findViewById(R.id.newsListItemDescription);
-		tempV.setText(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsTableHelper.NEWS_DESCRIPTION))));
+		holder.date.setText(dateFormat.format(cursor.getLong(cursor.getColumnIndex(NewsTableHelper.NEWS_DATE))));
 		
-		//logo
-		tempV = (TextView)view.findViewById(R.id.newsListItemLogo);
+		description = cursor.getString(cursor.getColumnIndex(NewsTableHelper.NEWS_DESCRIPTION));
+		if(description.length() > 200){
+			holder.description.setText(Html.fromHtml(description.substring(0, 199)));	
+		}else{
+			holder.description.setText(Html.fromHtml(description));
+		}
+		
 		source = cursor.getString(cursor.getColumnIndex(NewsTableHelper.NEWS_SOURCE));
 		if(source.equals(NewsService.RSS_ETS)){
-			tempV.setBackgroundDrawable(webLogo);
+			holder.logo.setBackgroundDrawable(webLogo);
 		}
 		if(source.equals(NewsService.FACEBOOK)){
-			tempV.setBackgroundDrawable(facebookLogo);
+			holder.logo.setBackgroundDrawable(facebookLogo);
 		}
 		if(source.equals(NewsService.TWITTER)){
-			tempV.setBackgroundDrawable(twitterLogo);
+			holder.logo.setBackgroundDrawable(twitterLogo);
 		}
 		
-		//guid
-		view.setTag(cursor.getInt(cursor.getColumnIndex(NewsTableHelper.NEWS_ID)));
+		view.setTag(R.string.viewholderidtag, cursor.getInt(cursor.getColumnIndex(NewsTableHelper.NEWS_ID)));
 	}
 
 	@Override
@@ -69,5 +74,8 @@ public class NewsCursorAdapter extends CursorAdapter{
 		bindView(v, context, cursor);
 		return v;
 	}
-
+	
+	public static class ViewHolder{
+		TextView title, date, description, logo;
+	}
 }

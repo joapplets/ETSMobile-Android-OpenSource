@@ -3,16 +3,10 @@ package ca.etsmtl.applets.etsmobile.tools.xml;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import android.content.ContentValues;
 import android.util.Log;
 import ca.etsmtl.applets.etsmobile.models.News;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
@@ -41,16 +35,12 @@ public class XMLNewsParser extends XMLAbstractHandler {
 	// Des variables qui nous permettent de faire le traitement.
 	private String source, title, date, description, guid, link;
 	private ArrayList<String> guids;
-	private List<ContentValues> values = new ArrayList<ContentValues>();
 	private boolean inItem;
 	private boolean isThere;
 	private News news;
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat(
 			"EEE, d MMM yyyy HH:mm:ss z");
-
-
-	private Document doc = null;
 
 	public XMLNewsParser(String source, ArrayList<String> guids,
 			ObservableBundle bundle) {
@@ -113,74 +103,13 @@ public class XMLNewsParser extends XMLAbstractHandler {
 				try {
 					news = new News(title, description, guid, source,
 							dateFormat.parse(date), link);
-					values.add(formatNews(news).getContentValues());
-					inItem = false;
+					bundle.setContent(news);
 				} catch (ParseException e) {
 					Log.e(TAG, e.toString());
 				}
 			}
-		}
-
-		if (localName.equals("rss")) {
-			bundle.setContent(values.toArray(new ContentValues[] {}));
+			inItem = false;
 		}
 		buffer = null;
-	}
-
-	private News formatNews(News news) {
-		String source = news.getSource();
-
-		if (source.equals(RSS_ETS)) {
-			doc = Jsoup.parse(news.getDescription());
-
-			// enlève l'icône fb et twitter en haut du feed
-			doc.select("a[href*=http://www.facebook.com/share.php?]").remove();
-			doc.select("a[href*=http://api.tweetmeme.com/share?]").remove();
-
-			Elements images = doc.select("img");
-			String imgSource;
-			for (Element element : images) {
-				element.removeAttr("width");
-				element.removeAttr("height");
-				element.removeAttr("style");
-				imgSource = element.attr("src");
-				element.attr("src", imgSource);
-			}
-		}
-
-		if (source.equals(FACEBOOK)) {
-			String link = news.getLink();
-			link = link.replace("http://www.facebook.com",
-					"http://m.facebook.com");
-			news.setLink(link);
-		}
-
-		if (source.equals(TWITTER)) {
-			String[] desc = news.getDescription().split(" ");
-			String res = "";
-			for (String string : desc) {
-				if (string.startsWith("@")) {
-					string = "<a href=\"http://m.twitter.com/"
-							+ string.substring(1) + "\">" + string + "</a>";
-				}
-				if (string.startsWith("#")) {
-					string = "<a href=\"http://m.twitter.com/search/%23"
-							+ string.substring(1) + "\">" + string + "</a>";
-				}
-				if (string.startsWith("http://")) {
-					string = "<a href=\"" + string + "\">" + string + "</a>";
-				}
-				res += string + " ";
-			}
-			doc = Jsoup.parse(res);
-
-			String link = news.getLink();
-			link = link.replace("http://twitter.com", "http://m.twitter.com");
-			news.setLink(link);
-		}
-		if (doc != null) {
-			news.setDescription(doc.html());
-		}
-		return news;
 	}
 }

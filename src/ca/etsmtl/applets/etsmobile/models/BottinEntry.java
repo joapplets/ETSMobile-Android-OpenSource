@@ -155,7 +155,6 @@ public class BottinEntry extends Model {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
 		
 	}
 

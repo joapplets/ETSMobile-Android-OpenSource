@@ -85,9 +85,7 @@ public class News extends Model {
 		values.put(NewsTableHelper.NEWS_GUID, getGuid());
 		values.put(NewsTableHelper.NEWS_SOURCE, getSource());
 		values.put(NewsTableHelper.NEWS_LINK, getLink());
-
 		return values;
-
 	}
 
 	@Override

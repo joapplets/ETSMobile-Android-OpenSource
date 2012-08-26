@@ -23,12 +23,13 @@
     
     <TextView
         android:id="@+id/listView_loading"
+        android:background="@drawable/loading_border"
         android:layout_width="fill_parent"
         android:layout_height="25dip"
-        android:background="#ffffff"
-        android:drawableLeft="@drawable/spinner"
+        android:drawableLeft="@drawable/loading_icon"
         android:gravity="center_horizontal"
         android:paddingLeft="5dip"
+        android:paddingTop="2dip"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:text="@string/loading">

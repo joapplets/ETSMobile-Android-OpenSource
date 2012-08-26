@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -40,31 +41,31 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 	private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.NewsFetcher";
 	private TextView footer;
 	private boolean footerVisible = false;
-	
+
 	private ServiceConnection connection = new ServiceConnection() {
-		
+
 		@Override
 		public void onServiceDisconnected(ComponentName name) {}
-		
+
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			new ManualFetcher().execute((NewsFetcherBinder)service);
 		}
 	};
-	
+
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.news_list_fragment);
-		
+
 		ImageButton btnHome = (ImageButton)findViewById(R.id.base_list_home_btn);
 		Button btnSources = (Button)findViewById(R.id.base_list_source_btn);
-		
+
 		btnHome.setOnClickListener(this);
 		btnSources.setOnClickListener(this);
-		
+
 		footer = (TextView)findViewById(R.id.listView_loading);
-		
+
 		setAlarm();
 	}
 
@@ -83,7 +84,7 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 		}
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		try {
@@ -91,7 +92,7 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 		} catch (IllegalArgumentException e) {}
 		super.onPause();
 	}
-	
+
 	public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.layout.news_list_menu, menu);
@@ -112,20 +113,20 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 			break;
 		}
 	}
-	
+
 	@Override
 	public void onItemClick(View v){
-		
+
 		// On crée un nouveau intent qui va nous permettre de lancer
 		// la nouvelle activity
-		
+
 		Intent intent = new Intent(getApplicationContext(), SingleNewsActivity.class);
-		intent.putExtra("id", (Integer)v.getTag());
-		
+		intent.putExtra("id", ((Integer)v.getTag(R.string.viewholderidtag)));
+
 		// On lance l'intent qui va créer la nouvelle activity.			
 		startActivity(intent);
 	}
-	
+
 	@Override
 	public void onAnimationEnd(Animation animation) {
 		if(!footerVisible){
@@ -138,11 +139,11 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 
 	@Override
 	public void onAnimationStart(Animation animation) {}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent = null;
-		
+
 		switch (item.getItemId()) {
 		case R.id.newsListMenuUpdate:
 			connectToFetcherService();
@@ -153,33 +154,33 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 		default:
 			break;
 		}
-		
+
 		if(intent != null){
 			startActivity(intent);
 		}
-		
+
 		return true;
 	}
-	
+
 	private void setAlarm() {
 		Intent toAlarm = new Intent(this, NewsAlarmReceiver.class);
 		PendingIntent toDownload = PendingIntent.getBroadcast(this, 0, toAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
 		AlarmManager alarms = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-		
+
 		Calendar updateTime = Calendar.getInstance();
 	    updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
-	    
+
 	    updateTime.set(Calendar.HOUR_OF_DAY, 6);
 	    updateTime.set(Calendar.MINUTE, 00);
 	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, toDownload);
-	    
+
 	    updateTime.set(Calendar.HOUR_OF_DAY, 12);
 	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, toDownload);
-	    
+
 	    updateTime.set(Calendar.HOUR_OF_DAY, 18);
 	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, toDownload);
 	}
-	
+
     private Animation hideFooter(){
 		Animation animation = new TranslateAnimation(0, 0, 0, 40);
 		animation.setDuration(500);
@@ -199,7 +200,7 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 		footerVisible = true;
 		return animation;
     }
-	
+
 	private boolean serviceIsRunning(){
     	ActivityManager manager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
     	for(RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
@@ -209,7 +210,7 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
     	}
     	return false;
 	}
-	
+
 	private void connectToFetcherService(){
 		Intent i = new Intent(this, NewsService.class);
 		if(!serviceIsRunning()){
@@ -217,17 +218,18 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 		}
 		bindService(i, connection, BIND_AUTO_CREATE);
 	}
-	
+
 	private class ManualFetcher extends AsyncTask<NewsFetcherBinder, Void, Void>{
 
 		@Override
 		protected void onPreExecute() {
 			footer.setVisibility(View.VISIBLE);
 			footer.startAnimation(showFooter());
+			((AnimationDrawable)footer.getCompoundDrawables()[0]).start();
 			footerVisible = true;
 			super.onPreExecute();
 		}
-		
+
 		@Override
 		protected Void doInBackground(NewsFetcherBinder... params) {
 			NewsFetcherBinder binder = params[0];
@@ -241,7 +243,7 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 			}
 			return null;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Void result) {
 			try{
@@ -251,8 +253,8 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 			}catch(IllegalArgumentException e){}
 			super.onPostExecute(result);
 		}
-		
+
 	}
 
-		
+
 }

@@ -10,28 +10,51 @@ import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.services.NewsService;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
 public class SingleNewsActivity extends Activity{
 	
+	private WebView webView;
+	private FrameLayout webViewPlaceholder;
 	private String html, title, content, date, source, link;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMMMMMMMM yyyy");
+	private static ProgressDialog progressDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		setContentView(R.layout.news_view);
+		init();		
+		
+		progressDialog = new ProgressDialog(SingleNewsActivity.this);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressDialog.setCancelable(false);
+		progressDialog.setTitle("�TS Mobile");
+		progressDialog.setMessage("En cours de chargement");
+		progressDialog.show();
+	}
+	
+	private void init(){
 		
 		// On va chercher les param passés par le bundle et on associe
 		// les valeurs aux champs respectifs.
 		Bundle bundle = getIntent().getExtras();
 		
 		int id = bundle.getInt("id");
+		
+		System.out.println("The requested id is : " + id);
 		
 		String[] projection = {NewsTableHelper.NEWS_DATE, NewsTableHelper.NEWS_TITLE, NewsTableHelper.NEWS_DESCRIPTION, NewsTableHelper.NEWS_SOURCE, NewsTableHelper.NEWS_LINK};
 		Cursor c = managedQuery(Uri.withAppendedPath(ETSMobileContentProvider.CONTENT_URI_NEWS, String.valueOf(id)), projection, null, null, null);
@@ -42,57 +65,75 @@ public class SingleNewsActivity extends Activity{
 			source = c.getString(c.getColumnIndex(NewsTableHelper.NEWS_SOURCE));
 			link = c.getString(c.getColumnIndex(NewsTableHelper.NEWS_LINK));
 		}
-	
-		final ProgressDialog progressDialog = new ProgressDialog(this);
-		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		progressDialog.setCancelable(false);
-		progressDialog.setTitle("ÉTS Mobile");
-		progressDialog.setMessage("Veuillez patienter...");
 		
-		WebView webView = new WebView(this);
-		webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-		WebSettings settings = webView.getSettings();
-		webView.setWebChromeClient(new WebChromeClient(){
-			@Override
-			public void onProgressChanged(WebView view, int progress) {
-		        progressDialog.show();
-		        progressDialog.setProgress(0);
-		        setProgress(progress * 1000);
-
-		        progressDialog.incrementProgressBy(progress);
-
-		        if(progress == 100 && progressDialog.isShowing()){
-		        	progressDialog.dismiss();	
-		        }
-			}
-		});
+		webViewPlaceholder = ((FrameLayout)findViewById(R.id.webViewPlaceholder));
 		
-		// Si on enable js on, par précaution on disable l'accès au FS
-		// sauf pour le dossier assets et res
-		settings.setJavaScriptEnabled(true);
-		settings.setAllowFileAccess(false);
-		settings.setSupportZoom(false);
-		settings.setDomStorageEnabled(true);
-		
-		if(source.equals(NewsService.FACEBOOK) || source.equals(NewsService.TWITTER)){
-			webView.setWebViewClient(new WebViewClient(){
-				
+		if(webView == null){
+			webView = new WebView(this);
+			webView.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+			webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+			WebSettings settings = webView.getSettings();
+			webView.setWebChromeClient(new WebChromeClient(){
 				@Override
-				public boolean shouldOverrideUrlLoading(WebView view, String url) {
-					return super.shouldOverrideUrlLoading(view, url);
+				public void onProgressChanged(WebView view, int progress) {
+			        if(progressDialog != null && progress == 100 && progressDialog.isShowing()){
+			        	Message msg = new Message();
+			        	msg.setTarget(handler);
+			        	msg.sendToTarget();
+			        }
 				}
 			});
-			webView.loadUrl(link);
+			
+			// Si on enable js on, par précaution on disable l'accès au FS
+			// sauf pour le dossier assets et res
+			settings.setJavaScriptEnabled(true);
+			settings.setAllowFileAccess(false);
+			settings.setSupportZoom(false);
+			settings.setDomStorageEnabled(true);
+			
+			if(source.equals(NewsService.FACEBOOK) || source.equals(NewsService.TWITTER)){
+				webView.setWebViewClient(new WebViewClient(){
+					
+					@Override
+					public boolean shouldOverrideUrlLoading(WebView view, String url) {
+						return super.shouldOverrideUrlLoading(view, url);
+					}
+				});
+				webView.loadUrl(link);
+			}
+			if(source.equals(NewsService.RSS_ETS)){
+				Document doc = Jsoup.parse(content);
+				doc.head().append("<meta name=\"viewport\" content=\"width=device-width; target-densityDpi=device-dpi\">");
+				doc.head().append("<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/rssets.css\">");
+				html = doc.html();
+				html = "<h2>" + title + "</h2><br>" + date +"<hr width=\"98%\" size=\"2\" align=\"center\"><br>" + html; 
+				webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
+			}
 		}
-		if(source.equals(NewsService.RSS_ETS)){
-			Document doc = Jsoup.parse(content);
-			doc.head().append("<meta name=\"viewport\" content=\"width=device-width; target-densityDpi=device-dpi\">");
-			doc.head().append("<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/rssets.css\">");
-			html = doc.html();
-			html = "<h2>" + title + "</h2><br>" + date +"<hr width=\"98%\" size=\"2\" align=\"center\"><br>" + html; 
-			webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
+		webViewPlaceholder.addView(webView);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		if(webView != null){
+			webViewPlaceholder.removeView(webView);
 		}
-		setContentView(webView);
-	} 
+		super.onRestoreInstanceState(savedInstanceState);
+		setContentView(R.layout.news_view);
+		init();
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		webView.saveState(outState);
+		super.onSaveInstanceState(outState);
+	}
+	
+	private static Handler handler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			progressDialog.dismiss();
+		};
+	};
 	
 }

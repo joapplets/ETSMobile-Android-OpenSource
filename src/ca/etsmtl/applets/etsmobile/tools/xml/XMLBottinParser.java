@@ -7,7 +7,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import android.content.ContentValues;
-import android.util.Log;
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 
 public class XMLBottinParser extends XMLAbstractHandler {
