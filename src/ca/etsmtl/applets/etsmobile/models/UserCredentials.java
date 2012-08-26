@@ -5,14 +5,14 @@ import android.content.SharedPreferences;
 import com.google.gson.annotations.SerializedName;
 
 public class UserCredentials {
-	
+
 	@SerializedName("motPasse")
 	private String password;
-	
+
 	@SerializedName("codeAccesUniversel")
 	private String username;
-	
-	public UserCredentials(SharedPreferences prefs) {
+
+	public UserCredentials(final SharedPreferences prefs) {
 		if (prefs != null) {
 			username = prefs.getString("codeP", "");
 			password = prefs.getString("codeU", "");
@@ -23,15 +23,15 @@ public class UserCredentials {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 }

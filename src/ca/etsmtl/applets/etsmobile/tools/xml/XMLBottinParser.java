@@ -22,12 +22,12 @@ public class XMLBottinParser extends XMLAbstractHandler {
 	private static final String SERVICE = "service";
 	private static final String TEL_BUREAU = "telbureau";
 	private static final String TITRE = "titre";
-	
+
 	private boolean newEntry;
 	private ContentValues values;
-	private List<ContentValues> cvalues = new ArrayList<ContentValues>();
+	private final List<ContentValues> cvalues = new ArrayList<ContentValues>();
 
-	public XMLBottinParser(ObservableBundle b) {
+	public XMLBottinParser(final ObservableBundle b) {
 		super(b);
 	}
 
@@ -68,11 +68,10 @@ public class XMLBottinParser extends XMLAbstractHandler {
 				values.put(key, buffer.toString());
 			}
 
-			if (localName.equalsIgnoreCase(ENTRY_TAG)) {
+			if (localName.equalsIgnoreCase(XMLBottinParser.ENTRY_TAG)) {
 				cvalues.add(values);
 				newEntry = false;
 			}
-
 
 			buffer = null;
 		}

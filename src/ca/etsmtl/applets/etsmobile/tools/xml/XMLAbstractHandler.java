@@ -10,15 +10,17 @@ public abstract class XMLAbstractHandler extends DefaultHandler {
 	protected ObservableBundle bundle;
 	protected StringBuffer buffer;
 
-	public XMLAbstractHandler(ObservableBundle b) {
-		this.bundle = b;
+	public XMLAbstractHandler(final ObservableBundle b) {
+		bundle = b;
 	}
-	
-	public void characters(char[] ch, int start, int length)
+
+	@Override
+	public void characters(final char[] ch, final int start, final int length)
 			throws SAXException {
-		String lecture = new String(ch, start, length);
-		if (buffer != null)
+		final String lecture = new String(ch, start, length);
+		if (buffer != null) {
 			buffer.append(lecture);
+		}
 	}
 
 }

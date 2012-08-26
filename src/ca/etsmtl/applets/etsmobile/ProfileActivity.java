@@ -29,23 +29,69 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	private static final int SHOW_LOGIN = 1;
 	private Button btnLogin;
 	protected StudentProfile profile;
-	private ObservableBundle bundle = new ObservableBundle();
+	private final ObservableBundle bundle = new ObservableBundle();
 	private Handler loginTaskHandler;
 	private View view;
 	private String codeU;
 	private String codeP;
 
+	/**
+	 * Login dialog onClick
+	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onClick(final DialogInterface dialog, final int which) {
+		switch (which) {
+		case DialogInterface.BUTTON_POSITIVE:
+			codeP = ((TextView) view.findViewById(R.id.login_dialog_code_perm))
+					.getText().toString();
+			codeU = ((TextView) view
+					.findViewById(R.id.login_dialog_code_univesel)).getText()
+					.toString();
+			new ProfileTask(bundle).execute(codeP, codeU);
+			// dialog.dismiss();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * Login btn
+	 */
+	@Override
+	public void onClick(final View view) {
+		if (!(Boolean) btnLogin.getTag()) {
+			showDialog(ProfileActivity.SHOW_LOGIN);
+		} else {
+			// remove credentials
+			final Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+			editor.putString("codeP", "");
+			editor.putString("codeU", "");
+			editor.commit();
+			btnLogin.setTag(false);
+			btnLogin.setText(getString(R.string.login));
+
+			((TextView) findViewById(R.id.student_profile_name)).setText("");
+			((TextView) findViewById(R.id.student_profile_lastname))
+					.setText("");
+			((TextView) findViewById(R.id.student_profile_solde)).setText("");
+			((TextView) findViewById(R.id.student_profile_codePermanent))
+					.setText("");
+		}
+	}
+
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.student_profile);
 		view = getLayoutInflater().inflate(R.layout.login_dialog, null);
 		btnLogin = (Button) findViewById(R.id.profile_login_btn);
 		btnLogin.setOnClickListener(this);
 
-		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-		String codeP = prefs.getString("codeP", "");
-		String codeU = prefs.getString("codeU", "");
+		final SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+		final String codeP = prefs.getString("codeP", "");
+		final String codeU = prefs.getString("codeU", "");
 		// handles callback from observable
 		loginTaskHandler = new Handler();
 		bundle.addObserver(this);
@@ -68,7 +114,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 				.setOnClickListener(new OnClickListener() {
 
 					@Override
-					public void onClick(View v) {
+					public void onClick(final View v) {
 						finish();
 					}
 				});
@@ -76,33 +122,8 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		btnLogin.setTag(tag);
 	}
 
-	/**
-	 * Login btn
-	 */
 	@Override
-	public void onClick(View view) {
-		if (!(Boolean) btnLogin.getTag()) {
-			showDialog(SHOW_LOGIN);
-		} else {
-			// remove credentials
-			Editor editor = getPreferences(MODE_PRIVATE).edit();
-			editor.putString("codeP", "");
-			editor.putString("codeU", "");
-			editor.commit();
-			btnLogin.setTag(false);
-			btnLogin.setText(getString(R.string.login));
-
-			((TextView) findViewById(R.id.student_profile_name)).setText("");
-			((TextView) findViewById(R.id.student_profile_lastname))
-					.setText("");
-			((TextView) findViewById(R.id.student_profile_solde)).setText("");
-			((TextView) findViewById(R.id.student_profile_codePermanent))
-					.setText("");
-		}
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id, Bundle args) {
+	protected Dialog onCreateDialog(final int id, final Bundle args) {
 		Dialog d = super.onCreateDialog(id, args);
 		switch (id) {
 		case 1:
@@ -121,7 +142,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	 * TODO OPTIMISATION, SUXZ HARD
 	 */
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(final Observable arg0, final Object arg1) {
 		final ContentValues val = (ContentValues) arg1;
 		if (val != null) {
 			// show login error
@@ -155,8 +176,9 @@ public class ProfileActivity extends Activity implements OnClickListener,
 								.setText(val.getAsString("codePerm").trim());
 
 						// save credentials to prefs
-						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-						Editor editor = prefs.edit();
+						final SharedPreferences prefs = PreferenceManager
+								.getDefaultSharedPreferences(ctx);
+						final Editor editor = prefs.edit();
 						editor.putString("codeP", codeP);
 						editor.putString("codeU", codeU);
 						editor.commit();
@@ -166,27 +188,6 @@ public class ProfileActivity extends Activity implements OnClickListener,
 				});
 
 			}
-		}
-	}
-
-	/**
-	 * Login dialog onClick
-	 */
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
-		switch (which) {
-		case DialogInterface.BUTTON_POSITIVE:
-			codeP = ((TextView) view.findViewById(R.id.login_dialog_code_perm))
-					.getText().toString();
-			codeU = ((TextView) view
-					.findViewById(R.id.login_dialog_code_univesel)).getText()
-					.toString();
-			new ProfileTask(bundle).execute(codeP, codeU);
-			// dialog.dismiss();
-			break;
-
-		default:
-			break;
 		}
 	}
 

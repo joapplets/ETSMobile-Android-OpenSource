@@ -4,17 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class StudentProfile extends Model {
-	private String nom, prenom, codePerm, solde;
+	private final String nom, prenom, codePerm, solde;
 
-	public StudentProfile(String nom, String prenom, String codePerm,
-			String solde) {
-		this.nom = nom;
-		this.prenom = prenom;
-		this.codePerm = codePerm;
-		this.solde = solde;
-	}
+	public static final Creator<StudentProfile> CREATOR = new Parcelable.Creator<StudentProfile>() {
+		@Override
+		public StudentProfile createFromParcel(final Parcel in) {
+			return new StudentProfile(in);
+		}
 
-	public StudentProfile(Parcel in) {
+		@Override
+		public StudentProfile[] newArray(final int size) {
+			return new StudentProfile[size];
+		}
+	};
+
+	public StudentProfile(final Parcel in) {
 		super(in);
 		nom = in.readString();
 		prenom = in.readString();
@@ -22,12 +26,16 @@ public class StudentProfile extends Model {
 		solde = in.readString();
 	}
 
-	public String getCodePerm() {
-		return codePerm;
+	public StudentProfile(final String nom, final String prenom,
+			final String codePerm, final String solde) {
+		this.nom = nom;
+		this.prenom = prenom;
+		this.codePerm = codePerm;
+		this.solde = solde;
 	}
 
-	public String getSolde() {
-		return solde;
+	public String getCodePerm() {
+		return codePerm;
 	}
 
 	public String getNom() {
@@ -38,21 +46,15 @@ public class StudentProfile extends Model {
 		return prenom;
 	}
 
+	public String getSolde() {
+		return solde;
+	}
+
 	@Override
-	public void writeToParcel(Parcel dst, int arg1) {
+	public void writeToParcel(final Parcel dst, final int arg1) {
 		dst.writeString(nom);
 		dst.writeString(prenom);
 		dst.writeString(codePerm);
 		dst.writeString(solde);
 	}
-	
-	public static final Creator<StudentProfile> CREATOR = new Parcelable.Creator<StudentProfile>() {
-		public StudentProfile createFromParcel(Parcel in) {
-			return new StudentProfile(in);
-		}
-
-		public StudentProfile[] newArray(int size) {
-			return new StudentProfile[size];
-		}
-	};
 }

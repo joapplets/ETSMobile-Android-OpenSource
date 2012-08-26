@@ -7,7 +7,8 @@ import android.widget.ImageButton;
 
 public class SecurityActivity extends Activity {
 
-	protected void onCreate(android.os.Bundle savedInstanceState) {
+	@Override
+	protected void onCreate(final android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
 		// home btn
@@ -15,7 +16,7 @@ public class SecurityActivity extends Activity {
 				.setOnClickListener(new OnClickListener() {
 
 					@Override
-					public void onClick(View view) {
+					public void onClick(final View view) {
 						finish();
 					}
 				});

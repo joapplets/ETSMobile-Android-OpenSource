@@ -30,30 +30,32 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	 */
 	// --> content://ca.etsmtl.applets.etsmobile/news
 	public static final Uri CONTENT_URI_NEWS = Uri.parse("content://"
-			+ AUTHORITY + "/" + NEWS_PATH);
+			+ ETSMobileContentProvider.AUTHORITY + "/"
+			+ ETSMobileContentProvider.NEWS_PATH);
 
 	// --> vnd.android.cursor.dir/news
 	public static final String CONTENT_MULTIPLE_ITEM_NEWS = ContentResolver.CURSOR_DIR_BASE_TYPE
-			+ "/" + NEWS_PATH;
+			+ "/" + ETSMobileContentProvider.NEWS_PATH;
 
 	// --> vnd.android.cursor.item/news
 	public static final String CONTENT_SINGLE_ITEM_NEWS = ContentResolver.CURSOR_ITEM_BASE_TYPE
-			+ "/" + NEWS_PATH;
+			+ "/" + ETSMobileContentProvider.NEWS_PATH;
 
 	/**
 	 * BOTTIN
 	 */
 	// --> content://ca.etsmtl.applets.etsmobile/bottin
 	public static final Uri CONTENT_URI_BOTTIN = Uri.parse("content://"
-			+ AUTHORITY + "/" + BOTTIN_PATH);
+			+ ETSMobileContentProvider.AUTHORITY + "/"
+			+ ETSMobileContentProvider.BOTTIN_PATH);
 
 	// --> vnd.android.cursor.dir/bottin
 	public static final String CONTENT_MULTIPLE_BOTTIN = ContentResolver.CURSOR_DIR_BASE_TYPE
-			+ "/" + BOTTIN_PATH;
+			+ "/" + ETSMobileContentProvider.BOTTIN_PATH;
 
 	// --> vnd.android.cursor.item/bottin
 	public static final String CONTENT_SINGLE_BOTTIN = ContentResolver.CURSOR_ITEM_BASE_TYPE
-			+ "/" + BOTTIN_PATH;
+			+ "/" + ETSMobileContentProvider.BOTTIN_PATH;
 
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
@@ -61,19 +63,159 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	static {
 
 		// --> ca.etsmtl.applets.etsmobile - news - 1
-		sURIMatcher.addURI(AUTHORITY, NEWS_PATH, ALL_NEWS);
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.NEWS_PATH,
+				ETSMobileContentProvider.ALL_NEWS);
 
 		// --> ca.etsmtl.applets.etsmobile - news/* - 2
-		sURIMatcher.addURI(AUTHORITY, NEWS_PATH + "/#", SINGLE_NEWS);
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.NEWS_PATH + "/#",
+				ETSMobileContentProvider.SINGLE_NEWS);
 
 		// --> ca.etsmtl.applets.etsmobile - bottin - 3
-		sURIMatcher.addURI(AUTHORITY, BOTTIN_PATH, ALL_BOTTIN);
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.BOTTIN_PATH,
+				ETSMobileContentProvider.ALL_BOTTIN);
 
 		// --> ca.etsmtl.applets.etsmobile - bottin/* - 4
-		sURIMatcher.addURI(AUTHORITY, BOTTIN_PATH + "/#", SINGLE_BOTTIN);
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.BOTTIN_PATH + "/#",
+				ETSMobileContentProvider.SINGLE_BOTTIN);
 	}
 
 	private ETSMobileOpenHelper helper;
+
+	private void buildBottinQueryAll(final String[] columns,
+			String[] selectionArgs, final SQLiteQueryBuilder queryBuilder) {
+		// String where =
+		// " nom like ? OR prenom like ? OR service like ? or emplacement like ? or courriel like ? or titre like ?";
+		String where = "";
+
+		for (int i = 0; i < columns.length - 1; i++) {
+			where += columns[i] + " like ? OR ";
+		}
+		where += columns[columns.length - 1] + " like ? ";
+		queryBuilder.appendWhere(where);
+
+		if (selectionArgs == null) {
+			selectionArgs = new String[columns.length];
+			for (int i = 0; i < columns.length; i++) {
+				selectionArgs[i] = "%";
+			}
+		} else if (selectionArgs.length == 1) {
+			final String sel = selectionArgs[0];
+			selectionArgs = new String[columns.length];
+			for (int i = 0; i < columns.length; i++) {
+				selectionArgs[i] = "%" + sel + "%";
+			}
+
+		}
+	}
+
+	private void buildBottinQuerySingle(final Uri uri,
+			final SQLiteQueryBuilder queryBuilder) {
+		queryBuilder.appendWhere(BottinTableHelper.BOTTIN__ID + "="
+				+ uri.getLastPathSegment());
+	}
+
+	private void buildNewsQueryAll(final String[] selectionArgs,
+			final SQLiteQueryBuilder queryBuilder) {
+		String where = "";
+		for (int i = 0; i < selectionArgs.length - 1; i++) {
+			where += NewsTableHelper.NEWS_SOURCE + " LIKE ? OR ";
+		}
+		where += NewsTableHelper.NEWS_SOURCE + " LIKE ? ";
+
+		if (where.equals("")) {
+			where = NewsTableHelper.NEWS_SOURCE + " LIKE \"nothing\"";
+		}
+		queryBuilder.appendWhere(where);
+	}
+
+	private void buildNewsQuerySingle(final Uri uri,
+			final SQLiteQueryBuilder queryBuilder) {
+		queryBuilder.appendWhere(NewsTableHelper.NEWS_ID + "="
+				+ uri.getLastPathSegment());
+	}
+
+	@Override
+	public int bulkInsert(final Uri uri, final ContentValues[] values) {
+
+		int numInserted = 0;
+		final SQLiteDatabase writable = helper.getWritableDatabase();
+		writable.beginTransaction();
+		try {
+			for (final ContentValues value : values) {
+				writable.insert(getRequestedTable(uri.getPath()), null, value);
+			}
+			writable.setTransactionSuccessful();
+			numInserted = values.length;
+		} finally {
+			writable.endTransaction();
+			getContext().getContentResolver().notifyChange(uri, null);
+		}
+		return numInserted;
+	}
+
+	@Override
+	public int delete(final Uri uri, final String selection,
+			final String[] selectionArgs) {
+		return 0;
+	}
+
+	private String getRequestedTable(final String path) {
+		String tableName = "";
+		if (path.contains(ETSMobileContentProvider.NEWS_PATH)) {
+			tableName = NewsTableHelper.TABLE_NAME;
+		} else {
+			tableName = BottinTableHelper.TABLE_NAME;
+		}
+		return tableName;
+	}
+
+	@Override
+	public String getType(final Uri uri) {
+		final int uriType = ETSMobileContentProvider.sURIMatcher.match(uri);
+		switch (uriType) {
+		case ALL_NEWS:
+			return ETSMobileContentProvider.CONTENT_MULTIPLE_ITEM_NEWS;
+		case SINGLE_NEWS:
+			return ETSMobileContentProvider.CONTENT_SINGLE_ITEM_NEWS;
+		case ALL_BOTTIN:
+			return ETSMobileContentProvider.CONTENT_MULTIPLE_BOTTIN;
+		case SINGLE_BOTTIN:
+			return ETSMobileContentProvider.CONTENT_SINGLE_BOTTIN;
+		default:
+			return null;
+		}
+	}
+
+	@Override
+	public Uri insert(final Uri uri, final ContentValues values) {
+
+		if (ETSMobileContentProvider.sURIMatcher.match(uri) == ETSMobileContentProvider.ALL_NEWS) {
+			final SQLiteDatabase writable = helper.getWritableDatabase();
+			try {
+				if (writable.isOpen()) {
+					writable.beginTransaction();
+					writable.insert(getRequestedTable(uri.getPath()), null,
+							values);
+					writable.setTransactionSuccessful();
+				}
+			} catch (final IllegalStateException e) {
+			} finally {
+				writable.endTransaction();
+				writable.close();
+				getContext().getContentResolver().notifyChange(uri, null);
+			}
+			return uri;
+		}
+		return null;
+	}
 
 	@Override
 	public boolean onCreate() {
@@ -82,10 +224,11 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	}
 
 	@Override
-	public Cursor query(Uri uri, String[] columns, String selection,
-			String[] selectionArgs, String sortOrder) {
+	public Cursor query(final Uri uri, final String[] columns,
+			final String selection, final String[] selectionArgs,
+			final String sortOrder) {
 
-		final int requestType = sURIMatcher.match(uri);
+		final int requestType = ETSMobileContentProvider.sURIMatcher.match(uri);
 		final String path = uri.getPath();
 		final SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
@@ -119,145 +262,20 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		return cursor;
 	}
 
-	private void buildBottinQuerySingle(Uri uri, SQLiteQueryBuilder queryBuilder) {
-		queryBuilder.appendWhere(BottinTableHelper.BOTTIN__ID + "="
-				+ uri.getLastPathSegment());
-	}
-
-	private void buildNewsQuerySingle(Uri uri, SQLiteQueryBuilder queryBuilder) {
-		queryBuilder.appendWhere(NewsTableHelper.NEWS_ID + "="
-				+ uri.getLastPathSegment());
-	}
-
-	private void buildNewsQueryAll(String[] selectionArgs,
-			SQLiteQueryBuilder queryBuilder) {
-		String where = "";
-		for (int i = 0; i < selectionArgs.length - 1; i++) {
-			where += NewsTableHelper.NEWS_SOURCE + " LIKE ? OR ";
-		}
-		where += NewsTableHelper.NEWS_SOURCE + " LIKE ? ";
-
-		if (where.equals("")) {
-			where = NewsTableHelper.NEWS_SOURCE + " LIKE \"nothing\"";
-		}
-		queryBuilder.appendWhere(where);
-	}
-
-	private void buildBottinQueryAll(String[] columns, String[] selectionArgs,
-			SQLiteQueryBuilder queryBuilder) {
-		// String where =
-		// " nom like ? OR prenom like ? OR service like ? or emplacement like ? or courriel like ? or titre like ?";
-		String where = "";
-
-		for (int i = 0; i < columns.length - 1; i++) {
-			where += columns[i] + " like ? OR ";
-		}
-		where += columns[columns.length - 1] + " like ? ";
-		queryBuilder.appendWhere(where);
-
-		if (selectionArgs == null) {
-			selectionArgs = new String[columns.length];
-			for (int i = 0; i < columns.length; i++) {
-				selectionArgs[i] = "%";
-			}
-		} else if (selectionArgs.length == 1) {
-			String sel = selectionArgs[0];
-			selectionArgs = new String[columns.length];
-			for (int i = 0; i < columns.length; i++) {
-				selectionArgs[i] = "%" + sel + "%";
-			}
-
-		}
-	}
-
 	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		return 0;
-	}
-
-	@Override
-	public String getType(Uri uri) {
-		int uriType = sURIMatcher.match(uri);
-		switch (uriType) {
-		case ALL_NEWS:
-			return CONTENT_MULTIPLE_ITEM_NEWS;
-		case SINGLE_NEWS:
-			return CONTENT_SINGLE_ITEM_NEWS;
-		case ALL_BOTTIN:
-			return CONTENT_MULTIPLE_BOTTIN;
-		case SINGLE_BOTTIN:
-			return CONTENT_SINGLE_BOTTIN;
-		default:
-			return null;
-		}
-	}
-
-	@Override
-	public Uri insert(Uri uri, ContentValues values) {
-
-		if (sURIMatcher.match(uri) == ALL_NEWS) {
-			SQLiteDatabase writable = helper.getWritableDatabase();
-			try {
-				if (writable.isOpen()) {
-					writable.beginTransaction();
-					writable.insert(getRequestedTable(uri.getPath()), null,
-							values);
-					writable.setTransactionSuccessful();
-				}
-			} catch (IllegalStateException e) {
-			} finally {
-				writable.endTransaction();
-				writable.close();
-				getContext().getContentResolver().notifyChange(uri, null);
-			}
-			return uri;
-		}
-		return null;
-	}
-
-	@Override
-	public int bulkInsert(Uri uri, ContentValues[] values) {
-
-		int numInserted = 0;
-		SQLiteDatabase writable = helper.getWritableDatabase();
-		writable.beginTransaction();
-		try {
-			for (ContentValues value : values) {
-				writable.insert(getRequestedTable(uri.getPath()), null, value);
-			}
-			writable.setTransactionSuccessful();
-			numInserted = values.length;
-		} finally {
-			writable.endTransaction();
-			getContext().getContentResolver().notifyChange(uri, null);
-		}
-		return numInserted;
-	}
-
-	private String getRequestedTable(String path) {
-		String tableName = "";
-		if (path.contains(NEWS_PATH)) {
-			tableName = NewsTableHelper.TABLE_NAME;
-		} else {
-			tableName = BottinTableHelper.TABLE_NAME;
-		}
-		return tableName;
-	}
-
-	@Override
-	public int update(Uri uri, ContentValues values, String selection,
-			String[] selectionArgs) {
+	public int update(final Uri uri, final ContentValues values,
+			final String selection, final String[] selectionArgs) {
 		return 0;
 	}
 
 	// Source : http://www.vogella.com/articles/AndroidSQLite/article.html
-	private void verifyColumnExists(String[] columns, String path) {
+	private void verifyColumnExists(final String[] columns, final String path) {
 		if (columns != null) {
-			HashSet<String> requestedColumns = new HashSet<String>(
+			final HashSet<String> requestedColumns = new HashSet<String>(
 					Arrays.asList(columns));
 
 			HashSet<String> availableColumns = null;
-			if (path.contains(NEWS_PATH)) {
+			if (path.contains(ETSMobileContentProvider.NEWS_PATH)) {
 				availableColumns = new HashSet<String>(
 						Arrays.asList(NewsTableHelper.AVAILABLE));
 			} else {
@@ -267,13 +285,13 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			// Check if all columns which are requested are available
 			if (!availableColumns.containsAll(requestedColumns)) {
 				String avail = "{\t";
-				for (String string : availableColumns) {
+				for (final String string : availableColumns) {
 					avail += string + "\t";
 				}
 				avail += "}";
 
 				String request = "{\t";
-				for (String string : requestedColumns) {
+				for (final String string : requestedColumns) {
 					request += string + "\t";
 				}
 				request += "}";

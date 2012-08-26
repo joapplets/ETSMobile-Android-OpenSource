@@ -22,11 +22,11 @@ public class BottinViewActivity extends Activity {
 	private TextView phoneView;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bottin_view);
 
-		Long b = (Long) getIntent().getExtras().get("id");
+		final Long b = (Long) getIntent().getExtras().get("id");
 		// long id = b.getLong("id");
 
 		nomView = (TextView) findViewById(R.id.bottin_view_nom);
@@ -37,10 +37,9 @@ public class BottinViewActivity extends Activity {
 		courrielView = (TextView) findViewById(R.id.bottin_view_courriel);
 		phoneView = (TextView) findViewById(R.id.bottin_view_phone);
 
-		Cursor cursor = managedQuery(
-				Uri.withAppendedPath(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-						b.toString()), BottinTableHelper.AVAILABLE, null, null,
-				null);
+		final Cursor cursor = managedQuery(Uri.withAppendedPath(
+				ETSMobileContentProvider.CONTENT_URI_BOTTIN, b.toString()),
+				BottinTableHelper.AVAILABLE, null, null, null);
 		if (cursor.getCount() > 0 && cursor.moveToFirst()) {
 			nomView.setText(cursor.getString(cursor
 					.getColumnIndex(BottinTableHelper.BOTTIN_NOM)));
@@ -61,7 +60,7 @@ public class BottinViewActivity extends Activity {
 				.setOnClickListener(new OnClickListener() {
 
 					@Override
-					public void onClick(View v) {
+					public void onClick(final View v) {
 						BottinViewActivity.this.finish();
 					}
 				});

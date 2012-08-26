@@ -5,7 +5,6 @@ import org.xml.sax.SAXException;
 
 import android.content.ContentValues;
 import android.util.Log;
-
 import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 
 public class XMLProfileParser extends XMLAbstractHandler {
@@ -19,13 +18,13 @@ public class XMLProfileParser extends XMLAbstractHandler {
 	private boolean newEntry;
 	private ContentValues values;
 
-	public XMLProfileParser(ObservableBundle b) {
+	public XMLProfileParser(final ObservableBundle b) {
 		super(b);
 	}
 
 	@Override
-	public void endElement(String uri, String localName, String qName)
-			throws SAXException {
+	public void endElement(final String uri, final String localName,
+			final String qName) throws SAXException {
 		// TODO Auto-generated method stub
 		if (newEntry) {
 			String key = null;
@@ -51,7 +50,7 @@ public class XMLProfileParser extends XMLAbstractHandler {
 				values.put(key, buffer.toString());
 			}
 
-			if (localName.equalsIgnoreCase(ENTRY_TAG)) {
+			if (localName.equalsIgnoreCase(XMLProfileParser.ENTRY_TAG)) {
 				bundle.setContent(values);
 				newEntry = false;
 			}
@@ -60,8 +59,9 @@ public class XMLProfileParser extends XMLAbstractHandler {
 	}
 
 	@Override
-	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException {
+	public void startElement(final String uri, final String localName,
+			final String qName, final Attributes attributes)
+			throws SAXException {
 		// TODO Auto-generated method stub
 		super.startElement(uri, localName, qName, attributes);
 		buffer = new StringBuffer();

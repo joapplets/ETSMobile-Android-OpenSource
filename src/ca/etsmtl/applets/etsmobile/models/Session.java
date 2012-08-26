@@ -16,48 +16,47 @@ public class Session implements Serializable {
 
 	@SerializedName("auLong")
 	private String longName;
-	
+
 	@SerializedName("dateDebut")
 	private String dateDebutString;
-	
+
 	public Date getDateDebut() {
-		SimpleDateFormat formatter ; 
-		Date date; 
+		SimpleDateFormat formatter;
+		Date date;
 		formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			date = (Date)formatter.parse(getDateDebutString());
-		} catch (ParseException e) {
+			date = formatter.parse(getDateDebutString());
+		} catch (final ParseException e) {
 			date = null;
 		}
-		
+
 		return date;
-	}
-	
-
-	public String getShortName() {
-		return shortName;
-	}
-
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
-	}
-
-	public String getLongName() {
-		return longName;
-	}
-
-	public void setLongName(String longName) {
-		this.longName = longName;
 	}
 
 	public String getDateDebutString() {
 		return dateDebutString;
 	}
 
-	public void setDateDebutString(String dateDebutString) {
+	public String getLongName() {
+		return longName;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setDateDebutString(final String dateDebutString) {
 		this.dateDebutString = dateDebutString;
 	}
-	
+
+	public void setLongName(final String longName) {
+		this.longName = longName;
+	}
+
+	public void setShortName(final String shortName) {
+		this.shortName = shortName;
+	}
+
 	@Override
 	public String toString() {
 		return getLongName();

@@ -16,6 +16,15 @@ import ca.etsmtl.applets.etsmobile.adapters.ETSMobileAdapter;
 public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		OnTouchListener, OnClickListener {
 
+	/**
+	 * About
+	 */
+	@Override
+	public void onClick(final View arg0) {
+		final Intent intent = new Intent(this, AboutActivity.class);
+		startActivity(intent);
+	}
+
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,15 +84,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			break;
 		}
 		return false;
-	}
-
-	/**
-	 * About
-	 */
-	@Override
-	public void onClick(View arg0) {
-		Intent intent = new Intent(this, AboutActivity.class);
-		startActivity(intent);
 	}
 
 }

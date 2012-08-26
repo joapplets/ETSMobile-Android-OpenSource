@@ -11,19 +11,19 @@ abstract public class Model implements Parcelable {
 	public Model() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	protected Model(Parcel in){
-		
-	}
 
-	public ContentValues getContentValues() {
-		values = new ContentValues();
-		return values;
+	protected Model(final Parcel in) {
+
 	}
 
 	@Override
 	public int describeContents() {
 		return 0;
+	}
+
+	public ContentValues getContentValues() {
+		values = new ContentValues();
+		return values;
 	}
 
 }

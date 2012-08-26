@@ -18,7 +18,7 @@ public class AboutActivity extends Activity {
 				.setOnClickListener(new OnClickListener() {
 
 					@Override
-					public void onClick(View view) {
+					public void onClick(final View view) {
 						finish();
 					}
 				});

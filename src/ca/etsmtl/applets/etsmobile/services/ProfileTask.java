@@ -22,19 +22,20 @@ public class ProfileTask extends AsyncTask<String, String, Void> {
 
 	private static final String TAG = "ProfileTask";
 	public static final String PROFILE_KEY = "profile";
-	private ObservableBundle bundle;
+	private final ObservableBundle bundle;
 
-	public ProfileTask(ObservableBundle bundle) {
+	public ProfileTask(final ObservableBundle bundle) {
 		this.bundle = bundle;
 	}
 
 	@Override
-	protected Void doInBackground(String... params) {
+	protected Void doInBackground(final String... params) {
 		try {
 
 			final String request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 					+ "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">"
-					+ "<soap:Body>" + "<infoEtudiant xmlns=\"http://etsmtl.ca/\">"
+					+ "<soap:Body>"
+					+ "<infoEtudiant xmlns=\"http://etsmtl.ca/\">"
 					+ "<codeAccesUniversel>" + params[0]
 					+ "</codeAccesUniversel>" + "<motPasse>" + params[1]
 					+ "</motPasse>" + "</infoEtudiant>" + "</soap:Body>"
@@ -47,7 +48,7 @@ public class ProfileTask extends AsyncTask<String, String, Void> {
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
 
-			OutputStreamWriter writer = new OutputStreamWriter(
+			final OutputStreamWriter writer = new OutputStreamWriter(
 					conn.getOutputStream());
 
 			writer.write(request);
@@ -55,20 +56,20 @@ public class ProfileTask extends AsyncTask<String, String, Void> {
 
 			final InputStream stream = conn.getInputStream();
 			if (stream != null) {
-				SAXParser saxParser = SAXParserFactory.newInstance()
+				final SAXParser saxParser = SAXParserFactory.newInstance()
 						.newSAXParser();
-				XMLProfileParser parser = new XMLProfileParser(bundle);
+				final XMLProfileParser parser = new XMLProfileParser(bundle);
 				saxParser.parse(stream, parser);
 				stream.close();
 			}
 		} catch (final MalformedURLException e) {
-			Log.e(TAG, e.toString());
+			Log.e(ProfileTask.TAG, e.toString());
 		} catch (final IOException e) {
-			Log.e(TAG, e.toString());
-		} catch (ParserConfigurationException e) {
-			Log.e(TAG, e.toString());
-		} catch (SAXException e) {
-			Log.e(TAG, e.toString());
+			Log.e(ProfileTask.TAG, e.toString());
+		} catch (final ParserConfigurationException e) {
+			Log.e(ProfileTask.TAG, e.toString());
+		} catch (final SAXException e) {
+			Log.e(ProfileTask.TAG, e.toString());
 		}
 		return null;
 	}

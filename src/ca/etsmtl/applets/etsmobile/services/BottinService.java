@@ -28,17 +28,15 @@ import ca.etsmtl.applets.etsmobile.tools.xml.XMLBottinParser;
 
 public class BottinService extends Service implements Observer {
 
-	private static final String TAG = "BottinService";
-
 	public class BottinBinder extends Binder {
+		public boolean isWorking() {
+			return working;
+		}
+
 		public void startFetching() {
 			if (!working) {
 				new Fetcher().execute();
 			}
-		}
-
-		public boolean isWorking() {
-			return working;
 		}
 	}
 
@@ -47,7 +45,7 @@ public class BottinService extends Service implements Observer {
 		private static final String TAG = "BottinFetcherFetcher";
 
 		@Override
-		protected Void doInBackground(Void... arg0) {
+		protected Void doInBackground(final Void... arg0) {
 			try {
 
 				final String request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -70,7 +68,7 @@ public class BottinService extends Service implements Observer {
 				conn.setRequestProperty("SOAPAction",
 						"\"http://etsmtl.ca/Recherche\"");
 
-				OutputStreamWriter writer = new OutputStreamWriter(
+				final OutputStreamWriter writer = new OutputStreamWriter(
 						conn.getOutputStream());
 
 				writer.write(request);
@@ -78,69 +76,72 @@ public class BottinService extends Service implements Observer {
 
 				final InputStream stream = conn.getInputStream();
 				if (stream != null) {
-					SAXParser saxParser = SAXParserFactory.newInstance()
+					final SAXParser saxParser = SAXParserFactory.newInstance()
 							.newSAXParser();
-					XMLBottinParser parser = new XMLBottinParser(bundle);
+					final XMLBottinParser parser = new XMLBottinParser(bundle);
 					saxParser.parse(stream, parser);
 					stream.close();
 				}
 
 			} catch (final MalformedURLException e) {
-				Log.e(TAG, e.toString());
+				Log.e(Fetcher.TAG, e.toString());
 			} catch (final IOException e) {
-				Log.e(TAG, e.toString());
-			} catch (ParserConfigurationException e) {
-				Log.e(TAG, e.toString());
-			} catch (SAXException e) {
-				Log.e(TAG, e.toString());
+				Log.e(Fetcher.TAG, e.toString());
+			} catch (final ParserConfigurationException e) {
+				Log.e(Fetcher.TAG, e.toString());
+			} catch (final SAXException e) {
+				Log.e(Fetcher.TAG, e.toString());
 			}
 			return null;
+		}
+
+		@Override
+		protected void onPostExecute(final Void result) {
+			working = false;
 		}
 
 		@Override
 		protected void onPreExecute() {
 			working = true;
 		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			working = false;
-		}
 	}
+
+	private static final String TAG = "BottinService";
 
 	// private ContentValues[] values = new ContentValues[500];
 	private ObservableBundle bundle;
 	private boolean working;
-	private IBinder binder = new BottinBinder();
+	private final IBinder binder = new BottinBinder();
 
 	// private int i = 0;
 
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
+	public IBinder onBind(final Intent arg0) {
+		return binder;
+	}
+
+	@Override
+	public int onStartCommand(final Intent intent, final int flags,
+			final int startId) {
 		bundle = new ObservableBundle();
 		bundle.addObserver(this);
 		if (!working) {
 			new Fetcher().execute();
 		}
-		return START_NOT_STICKY;
+		return Service.START_NOT_STICKY;
 	}
 
 	@Override
-	public void update(Observable observable, Object object) {
+	public void update(final Observable observable, final Object object) {
 		if (object instanceof ContentValues[]) {
-			long start = System.currentTimeMillis();
-			Log.d(TAG, "");
+			final long start = System.currentTimeMillis();
+			Log.d(BottinService.TAG, "");
 			getContentResolver().bulkInsert(
 					ETSMobileContentProvider.CONTENT_URI_BOTTIN,
 					(ContentValues[]) object);
-			long stop = System.currentTimeMillis();
-			Log.d(TAG, "end insert : " + (stop - start) + "ms");
+			final long stop = System.currentTimeMillis();
+			Log.d(BottinService.TAG, "end insert : " + (stop - start) + "ms");
 		}
-	}
-
-	@Override
-	public IBinder onBind(Intent arg0) {
-		return binder;
 	}
 
 }

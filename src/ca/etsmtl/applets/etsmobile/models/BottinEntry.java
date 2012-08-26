@@ -42,7 +42,32 @@ public class BottinEntry extends Model {
 
 		this(-1, nom2, prenom2, tel_bureau, emplacement2, courriel, service2,
 				titre2, date_modif2);
-		this.ets_id = id2;
+		ets_id = id2;
+	}
+
+	@Override
+	public boolean equals(final Object o) {
+		final BottinEntry b = (BottinEntry) o;
+		return b.getNom().equals(getNom()) && b.getPrenom().equals(getPrenom())
+				&& b.getCourriel().equals(getCourriel());
+	}
+
+	@Override
+	public ContentValues getContentValues() {
+		final ContentValues cv = new ContentValues();
+		cv.put(BottinTableHelper.BOTTIN_NOM, nom == null ? "" : nom);
+		cv.put(BottinTableHelper.BOTTIN_PRENOM, prenom == null ? "" : prenom);
+		cv.put(BottinTableHelper.BOTTIN_TELBUREAU, telBureau == null ? ""
+				: telBureau);
+		cv.put(BottinTableHelper.BOTTIN_EMPLACEMENT, emplacement == null ? ""
+				: emplacement);
+		cv.put(BottinTableHelper.BOTTIN_COURRIEL, courriel == null ? ""
+				: courriel);
+		cv.put(BottinTableHelper.BOTTIN_SERVICE, service == null ? "" : service);
+		cv.put(BottinTableHelper.BOTTIN_TIRE, titre == null ? "" : titre);
+		cv.put(BottinTableHelper.BOTTIN_DATE_MODIF, date_modif.toGMTString());
+		cv.put(BottinTableHelper.BOTTIN_ETS_ID, ets_id == null ? "" : ets_id);
+		return cv;
 	}
 
 	public String getCourriel() {
@@ -57,12 +82,12 @@ public class BottinEntry extends Model {
 		return emplacement;
 	}
 
-	public long getId() {
-		return uuid;
-	}
-
 	public String getEtsId() {
 		return ets_id;
+	}
+
+	public long getId() {
+		return uuid;
 	}
 
 	public String getNom() {
@@ -127,35 +152,8 @@ public class BottinEntry extends Model {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		final BottinEntry b = (BottinEntry) o;
-		return (b.getNom().equals(getNom())
-				&& b.getPrenom().equals(getPrenom()) && b.getCourriel().equals(
-				getCourriel()));
-	}
+	public void writeToParcel(final Parcel dest, final int flags) {
 
-	@Override
-	public ContentValues getContentValues() {
-		ContentValues cv = new ContentValues();
-		cv.put(BottinTableHelper.BOTTIN_NOM, (nom == null) ? "" : nom);
-		cv.put(BottinTableHelper.BOTTIN_PRENOM, (prenom == null) ? "" : prenom);
-		cv.put(BottinTableHelper.BOTTIN_TELBUREAU, (telBureau) == null ? ""
-				: telBureau);
-		cv.put(BottinTableHelper.BOTTIN_EMPLACEMENT, (emplacement == null) ? ""
-				: emplacement);
-		cv.put(BottinTableHelper.BOTTIN_COURRIEL, (courriel == null) ? ""
-				: courriel);
-		cv.put(BottinTableHelper.BOTTIN_SERVICE, (service == null) ? ""
-				: service);
-		cv.put(BottinTableHelper.BOTTIN_TIRE, (titre == null) ? "" : titre);
-		cv.put(BottinTableHelper.BOTTIN_DATE_MODIF, date_modif.toGMTString());
-		cv.put(BottinTableHelper.BOTTIN_ETS_ID, (ets_id == null) ? "" : ets_id);
-		return cv;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		
 	}
 
 }

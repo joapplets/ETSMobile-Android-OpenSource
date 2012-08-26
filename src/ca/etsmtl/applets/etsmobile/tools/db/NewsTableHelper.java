@@ -15,17 +15,22 @@ public class NewsTableHelper {
 	public static final String NEWS_LINK = "link";
 
 	// Database creation SQL statement
-	public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME
-			+ " ( " + NEWS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ NEWS_TITLE + " TEXT NOT NULL, " + NEWS_DATE + " LONG NOT NULL, "
-			+ NEWS_DESCRIPTION + " TEXT NOT NULL, " + NEWS_GUID
-			+ " TEXT NOT NULL, " + NEWS_LINK + " TEXT , " + NEWS_SOURCE
-			+ " TEXT NOT NULL);";
+	public static final String CREATE_TABLE = "CREATE TABLE "
+			+ NewsTableHelper.TABLE_NAME + " ( " + NewsTableHelper.NEWS_ID
+			+ " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ NewsTableHelper.NEWS_TITLE + " TEXT NOT NULL, "
+			+ NewsTableHelper.NEWS_DATE + " LONG NOT NULL, "
+			+ NewsTableHelper.NEWS_DESCRIPTION + " TEXT NOT NULL, "
+			+ NewsTableHelper.NEWS_GUID + " TEXT NOT NULL, "
+			+ NewsTableHelper.NEWS_LINK + " TEXT , "
+			+ NewsTableHelper.NEWS_SOURCE + " TEXT NOT NULL);";
 	public static final String DROP_TABLE = "DROP TABLE IF EXISTS "
-			+ TABLE_NAME;
+			+ NewsTableHelper.TABLE_NAME;
 
-	public static final String[] AVAILABLE = new String[] { NEWS_ID,
-			NEWS_TITLE, NEWS_DATE, NEWS_DESCRIPTION, NEWS_GUID, NEWS_LINK,
-			NEWS_SOURCE };
+	public static final String[] AVAILABLE = new String[] {
+			NewsTableHelper.NEWS_ID, NewsTableHelper.NEWS_TITLE,
+			NewsTableHelper.NEWS_DATE, NewsTableHelper.NEWS_DESCRIPTION,
+			NewsTableHelper.NEWS_GUID, NewsTableHelper.NEWS_LINK,
+			NewsTableHelper.NEWS_SOURCE };
 
 }

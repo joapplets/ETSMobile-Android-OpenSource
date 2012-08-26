@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -32,8 +33,47 @@ import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
 public class BottinListActivity extends ListActivity implements
 		OnClickListener, TextWatcher, OnItemClickListener {
-	private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.BottinFetcher";
+	private class ManualFetcher extends AsyncTask<BottinBinder, Void, Void> {
 
+		@Override
+		protected Void doInBackground(final BottinBinder... params) {
+			final BottinBinder binder = params[0];
+			if (binder != null) {
+				binder.startFetching();
+				while (binder.isWorking()) {
+					try {
+						Thread.sleep(1000);
+					} catch (final InterruptedException e) {
+					}
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(final Void result) {
+			try {
+				// footer.startAnimation(hideFooter());
+				// footerVisible = false;
+				dismissDialog(BottinListActivity.ALERT_LOADING);
+				unbindService(connection);
+			} catch (final IllegalArgumentException e) {
+			}
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// footer.setVisibility(View.VISIBLE);
+			// footer.startAnimation(showFooter());
+			// footerVisible = true;
+			showDialog(BottinListActivity.ALERT_LOADING);
+			super.onPreExecute();
+		}
+
+	}
+
+	private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.BottinFetcher";
 	/**
 	 * SimpleCursorAdapter INFO
 	 */
@@ -48,6 +88,7 @@ public class BottinListActivity extends ListActivity implements
 	 */
 	private static final int ALERT_INIT_BOTTIN = 0;
 	private static final int ALERT_LOADING = 1;
+
 	protected static final String LOG_TAG = "BottinListActivity";
 
 	/**
@@ -63,24 +104,53 @@ public class BottinListActivity extends ListActivity implements
 
 	private Cursor allEntryCursor;
 	// Handler uiHandler;
-
 	private SimpleCursorAdapter simpleCursor;
+
 	private TextView txtView;
 
 	/**
 	 * SERVICE
 	 */
-	private ServiceConnection connection = new ServiceConnection() {
+	private final ServiceConnection connection = new ServiceConnection() {
 
 		@Override
-		public void onServiceDisconnected(ComponentName name) {
-		}
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
+		public void onServiceConnected(final ComponentName name,
+				final IBinder service) {
 			new ManualFetcher().execute((BottinBinder) service);
 		}
+
+		@Override
+		public void onServiceDisconnected(final ComponentName name) {
+		}
 	};
+
+	@Override
+	public void afterTextChanged(final Editable s) {
+	}
+
+	@Override
+	public void beforeTextChanged(final CharSequence s, final int start,
+			final int count, final int after) {
+	}
+
+	private void connectToFetcherService() {
+		final Intent i = new Intent(this, BottinService.class);
+		if (!serviceIsRunning()) {
+			startService(i);
+		}
+		bindService(i, connection, Context.BIND_AUTO_CREATE);
+	}
+
+	@Override
+	public void onClick(final View v) {
+		switch (v.getId()) {
+		case R.id.search_nav_bar_home_btn:
+			finish();
+			break;
+		default:
+			break;
+		}
+	}
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -89,20 +159,24 @@ public class BottinListActivity extends ListActivity implements
 
 		// uiHandler = new Handler();
 		allEntryCursor = managedQuery(
-				ETSMobileContentProvider.CONTENT_URI_BOTTIN, DB_COLS, null,
-				SELECTION_ARGS, "nom ASC");
+				ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+				BottinListActivity.DB_COLS, null,
+				BottinListActivity.SELECTION_ARGS, "nom ASC");
 		// cursor adapter is faster
 		simpleCursor = new SimpleCursorAdapter(this, R.layout.bottin_list_item,
-				allEntryCursor, PROJECTION, TXT_VIEWS);
+				allEntryCursor, BottinListActivity.PROJECTION,
+				BottinListActivity.TXT_VIEWS);
 
 		simpleCursor.setFilterQueryProvider(new FilterQueryProvider() {
 
 			@Override
-			public Cursor runQuery(CharSequence constraint) {
-				Log.d(LOG_TAG, "filter input  :" + constraint);
+			public Cursor runQuery(final CharSequence constraint) {
+				Log.d(BottinListActivity.LOG_TAG, "filter input  :"
+						+ constraint);
 				return managedQuery(
-						ETSMobileContentProvider.CONTENT_URI_BOTTIN, DB_COLS,
-						null, new String[] { (String) constraint }, "nom ASC");
+						ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+						BottinListActivity.DB_COLS, null,
+						new String[] { (String) constraint }, "nom ASC");
 			}
 		});
 		setListAdapter(simpleCursor);
@@ -122,112 +196,33 @@ public class BottinListActivity extends ListActivity implements
 	}
 
 	@Override
-	protected void onPause() {
-		try {
-			unbindService(connection);
-		} catch (IllegalArgumentException e) {
-		}
-		super.onPause();
-	}
-
-	@Override
-	protected void onResume() {
-		if (allEntryCursor.getCount() == 0) {
-			showDialog(ALERT_INIT_BOTTIN);
-			// connectToFetcherService();
-		} else {
-			allEntryCursor = managedQuery(
-					ETSMobileContentProvider.CONTENT_URI_BOTTIN, DB_COLS, null,
-					null, "nom ASC");
-			simpleCursor.notifyDataSetChanged();
-		}
-		super.onResume();
-	}
-
-	private void connectToFetcherService() {
-		Intent i = new Intent(this, BottinService.class);
-		if (!serviceIsRunning()) {
-			startService(i);
-		}
-		bindService(i, connection, BIND_AUTO_CREATE);
-	}
-
-	private boolean serviceIsRunning() {
-		ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-		for (RunningServiceInfo service : manager
-				.getRunningServices(Integer.MAX_VALUE)) {
-			if (service.service.getClassName().equals(SERVICE)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private class ManualFetcher extends AsyncTask<BottinBinder, Void, Void> {
-
-		@Override
-		protected void onPreExecute() {
-			// footer.setVisibility(View.VISIBLE);
-			// footer.startAnimation(showFooter());
-			// footerVisible = true;
-			showDialog(ALERT_LOADING);
-			super.onPreExecute();
-		}
-
-		@Override
-		protected Void doInBackground(BottinBinder... params) {
-			BottinBinder binder = params[0];
-			if (binder != null) {
-				binder.startFetching();
-				while (binder.isWorking()) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-					}
-				}
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			try {
-				// footer.startAnimation(hideFooter());
-				// footerVisible = false;
-				dismissDialog(ALERT_LOADING);
-				unbindService(connection);
-			} catch (IllegalArgumentException e) {
-			}
-			super.onPostExecute(result);
-		}
-
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
+	protected Dialog onCreateDialog(final int id) {
 		Dialog d;
 		switch (id) {
 		case ALERT_INIT_BOTTIN:
-			AlertDialog.Builder builder = new AlertDialog.Builder(this)
+			final AlertDialog.Builder builder = new AlertDialog.Builder(this)
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.setMessage(R.string.bottin_init_alert)
 					.setTitle("Attention")
 					.setPositiveButton(R.string.yes,
 							new DialogInterface.OnClickListener() {
 
-								public void onClick(DialogInterface dialog,
-										int which) {
+								@Override
+								public void onClick(
+										final DialogInterface dialog,
+										final int which) {
 
 									connectToFetcherService();
-									dismissDialog(ALERT_INIT_BOTTIN);
+									dismissDialog(BottinListActivity.ALERT_INIT_BOTTIN);
 								}
 							})
 					.setNegativeButton(R.string.no,
 							new DialogInterface.OnClickListener() {
 
 								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
+								public void onClick(
+										final DialogInterface dialog,
+										final int which) {
 								}
 							});
 			d = builder.create();
@@ -244,38 +239,56 @@ public class BottinListActivity extends ListActivity implements
 	}
 
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.search_nav_bar_home_btn:
-			finish();
-			break;
-		default:
-			break;
-		}
+	public void onItemClick(final AdapterView<?> vc, final View view,
+			final int position, final long id) {
+		final Intent intent = new Intent(getApplicationContext(),
+				BottinViewActivity.class);
+		intent.putExtra("id", id);
+		startActivity(intent);
 	}
 
 	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		Log.d(LOG_TAG, s + " - " + start + " - " + before + " - " + count + "");
+	protected void onPause() {
+		try {
+			unbindService(connection);
+		} catch (final IllegalArgumentException e) {
+		}
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		if (allEntryCursor.getCount() == 0) {
+			showDialog(BottinListActivity.ALERT_INIT_BOTTIN);
+			// connectToFetcherService();
+		} else {
+			allEntryCursor = managedQuery(
+					ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+					BottinListActivity.DB_COLS, null, null, "nom ASC");
+			simpleCursor.notifyDataSetChanged();
+		}
+		super.onResume();
+	}
+
+	@Override
+	public void onTextChanged(final CharSequence s, final int start,
+			final int before, final int count) {
+		Log.d(BottinListActivity.LOG_TAG, s + " - " + start + " - " + before
+				+ " - " + count + "");
 		if (simpleCursor != null) {
 			simpleCursor.getFilter().filter(s);
 		}
 	}
 
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {
-	}
-
-	@Override
-	public void afterTextChanged(Editable s) {
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> vc, View view, int position, long id) {
-		Intent intent = new Intent(getApplicationContext(),
-				BottinViewActivity.class);
-		intent.putExtra("id", id);
-		startActivity(intent);
+	private boolean serviceIsRunning() {
+		final ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		for (final RunningServiceInfo service : manager
+				.getRunningServices(Integer.MAX_VALUE)) {
+			if (service.service.getClassName().equals(
+					BottinListActivity.SERVICE)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

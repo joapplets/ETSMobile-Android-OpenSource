@@ -14,66 +14,15 @@ public class News extends Model {
 	public News() {
 	}
 
-	public News(String title, String description, String guid, String source,
-			Date date, String link) {
+	public News(final String title, final String description,
+			final String guid, final String source, final Date date,
+			final String link) {
 		this.title = title;
 		this.description = description;
 		this.guid = guid;
 		this.source = source;
 		this.date = date;
 		this.link = link;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setPubDate(Date date) {
-		this.date = date;
-	}
-
-	public void setPubDate(long date) {
-		this.date = new Date(date);
-	}
-
-	public Date getPubDate() {
-		return date;
-	}
-
-	public void setGuid(String guid) {
-		this.guid = guid;
-	}
-
-	public String getGuid() {
-		return guid;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-
-	public String getSource() {
-		return source;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
-	}
-
-	public String getLink() {
-		return link;
 	}
 
 	@Override
@@ -88,9 +37,60 @@ public class News extends Model {
 		return values;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public Date getPubDate() {
+		return date;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
+	}
+
+	public void setGuid(final String guid) {
+		this.guid = guid;
+	}
+
+	public void setLink(final String link) {
+		this.link = link;
+	}
+
+	public void setPubDate(final Date date) {
+		this.date = date;
+	}
+
+	public void setPubDate(final long date) {
+		this.date = new Date(date);
+	}
+
+	public void setSource(final String source) {
+		this.source = source;
+	}
+
+	public void setTitle(final String title) {
+		this.title = title;
+	}
+
 	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		
-		
+	public void writeToParcel(final Parcel dest, final int flags) {
+
 	}
 }
