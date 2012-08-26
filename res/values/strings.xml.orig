@@ -45,9 +45,11 @@
     <string name="login_dialog_code_perm">Code Permanent</string>
     <string name="login_dialog_code_uni">Code Universel</string>
     <string name="logout">Logout</string>
+<<<<<<< HEAD
 	<string name="viewholderidtag">ID_TAG</string>
     <string name="viewholdercontenttag">Content_TAG</string>
-
+    
+=======
     <string name="usernamePasswordRequired">Vous devez vous enregistrer sous la section Profil.</string>
     <string name="mesCours">Mes cours</string>
 	<string name="sommaire">Sommaire</string>
@@ -59,4 +61,5 @@
 	<string name="mediane">Médiane</string>
 	<string name="rangCentille">Rang centille</string>
 	<string name="nodata">Aucune donnée.</string>
+>>>>>>> mesCours
 </resources>
