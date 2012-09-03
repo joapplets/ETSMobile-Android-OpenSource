@@ -42,24 +42,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".NewsListActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name=".preferences.NewsListPreferences"
-            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name=".NewsListActivity" />
+        <activity android:name=".preferences.NewsListPreferences" />
         <activity
             android:name=".SingleNewsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name=".ProfileActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:configChanges="keyboard|keyboardHidden|orientation" />
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".BottinListActivity" >
         </activity>
-        <activity
-            android:name=".CourseListActivity"
-            android:theme="@android:style/Theme.NoTitleBar" >
+        <activity android:name=".CourseListActivity" >
         </activity>
         <activity android:name=".AboutActivity" >
         </activity>

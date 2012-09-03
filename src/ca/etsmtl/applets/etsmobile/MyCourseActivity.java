@@ -3,8 +3,13 @@ package ca.etsmtl.applets.etsmobile;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import com.etsmt.applets.etsmobile.dialogs.LoginDialog;
+
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,12 +23,16 @@ import ca.etsmtl.applets.etsmobile.adapters.MyCourseAdapter;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.Course;
+import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
+import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 
-public class MyCourseActivity extends ListActivity {
+public class MyCourseActivity extends ListActivity implements OnDismissListener {
 
+	private static final int SHOW_LOGIN = 0;
 	private ArrayList<Course> courseActivities;
 	private MyCourseAdapter myCoursesAdapter;
+	private ObservableBundle bundle;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -132,9 +141,25 @@ public class MyCourseActivity extends ListActivity {
 				getListView().setAdapter(myCoursesAdapter);
 			}
 		} else {
+			showDialog(SHOW_LOGIN);
 			Toast.makeText(this, getString(R.string.usernamePasswordRequired),
 					Toast.LENGTH_LONG).show();
 		}
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog d = null;
+		switch (id) {
+		case SHOW_LOGIN:
+			d = new LoginDialog(this);
+			d.setOnDismissListener(this);
+			break;
+
+		default:
+			break;
+		}
+		return d;
 	}
 
 	@Override
@@ -142,5 +167,27 @@ public class MyCourseActivity extends ListActivity {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState
 				.putSerializable("courseActivities", courseActivities);
+	}
+
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+		doLogin();
+	}
+
+	private void doLogin() {
+		UserCredentials creds = new UserCredentials(
+				PreferenceManager.getDefaultSharedPreferences(this));
+		CharSequence text = "";
+		boolean tag = false;
+		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
+			new ProfileTask(bundle).execute(creds.getUsername(),
+					creds.getPassword());
+			text = getString(R.string.logout);
+			tag = true;
+		} else {
+			text = getString(R.string.login);
+			tag = false;
+		}
+
 	}
 }

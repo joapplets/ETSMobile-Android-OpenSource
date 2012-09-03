@@ -6,6 +6,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserCredentials {
 
+	public static final String CODE_U = "codeU";
+
+	public static final String CODE_P = "codeP";
+
 	@SerializedName("motPasse")
 	private String password;
 
@@ -14,8 +18,8 @@ public class UserCredentials {
 
 	public UserCredentials(final SharedPreferences prefs) {
 		if (prefs != null) {
-			username = prefs.getString("codeP", "");
-			password = prefs.getString("codeU", "");
+			username = prefs.getString(CODE_P, "");
+			password = prefs.getString(CODE_U, "");
 		}
 	}
 

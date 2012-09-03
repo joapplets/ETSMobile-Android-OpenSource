@@ -36,7 +36,6 @@
     <string name="student_profile_solde">Solde</string>
     <string name="student_profile_codePermanent">Code permanent</string>
     <string name="loading">Chargement…</string>
-    <string name="search">Search</string>
     <string name="bottin_init_alert"> Attention, votre bottin est vide, le téléchargement peux prendre quelques minutes, voulez-vous continuer ?</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
@@ -59,8 +58,8 @@
     <string name="rangCentille">Rang centille</string>
     <string name="nodata">Aucune donnée.</string>
     <string name="about_team_android"><b>Réalisation - Équipe Android</b>\n Philippe David\nRodrigo Manyari\nVincent Séguin\nMicheal Bernier</string>
-    <string name="about_team_ti_ets">Intégration avec les Systèmes d’entreprise (TI - ÉTS)\nRobert Gervais\nOlivier Lacasse</string>
-	<string name="about_team_applets">Responsables du club\nAntoine Lamy (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
-	<string name="about_partenaires">Partenaires 2012–2013</string>
+    <string name="about_team_ti_ets"><b>Intégration avec les Systèmes d’entreprise (TI - ÉTS)</b>\nRobert Gervais\nOlivier Lacasse</string>
+	<string name="about_team_applets"><b>Responsables du club</b>\nAntoine Lamy (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
+	<string name="about_partenaires"><b>Partenaires 2012–2013</b></string>
 	<string name="about_particuliers"><b>Remerciements Particuliers</b>\nFrançois Coallier (DDTSA)\nIdrissa Konkobo (Systèmes d\'entreprise)\nObed José (Icônes)\nBruno Côté (Sécurité)\nCarl-Olivier Perras-Beaulieu (Communications)</string>
 </resources>

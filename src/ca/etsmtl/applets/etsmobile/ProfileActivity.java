@@ -3,12 +3,15 @@ package ca.etsmtl.applets.etsmobile;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.etsmt.applets.etsmobile.dialogs.LoginDialog;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -25,38 +28,37 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 
 public class ProfileActivity extends Activity implements OnClickListener,
-		Observer, android.content.DialogInterface.OnClickListener {
+		Observer, OnDismissListener {
 
 	private static final int SHOW_LOGIN = 1;
 	private Button btnLogin;
 	protected StudentProfile profile;
 	private final ObservableBundle bundle = new ObservableBundle();
 	private Handler loginTaskHandler;
-	private View view;
 	private UserCredentials creds;
 
-	/**
-	 * Login dialog onClick
-	 */
-	@Override
-	public void onClick(final DialogInterface dialog, final int which) {
-		String codeP;
-		String codeU;
-		switch (which) {
-		case DialogInterface.BUTTON_POSITIVE:
-			codeP = ((TextView) view.findViewById(R.id.login_dialog_code_perm))
-					.getText().toString();
-			codeU = ((TextView) view
-					.findViewById(R.id.login_dialog_code_univesel)).getText()
-					.toString();
-			new ProfileTask(bundle).execute(codeP, codeU);
-			// dialog.dismiss();
-			break;
-
-		default:
-			break;
-		}
-	}
+	// /**
+	// * Login dialog onClick
+	// */
+	// @Override
+	// public void onClick(final DialogInterface dialog, final int which) {
+	// String codeP;
+	// String codeU;
+	// switch (which) {
+	// case DialogInterface.BUTTON_POSITIVE:
+	// codeP = ((TextView) view.findViewById(R.id.login_dialog_code_perm))
+	// .getText().toString();
+	// codeU = ((TextView) view
+	// .findViewById(R.id.login_dialog_code_univesel)).getText()
+	// .toString();
+	// new ProfileTask(bundle).execute(codeP, codeU);
+	// // dialog.dismiss();
+	// break;
+	//
+	// default:
+	// break;
+	// }
+	// }
 
 	/**
 	 * Login btn
@@ -87,29 +89,10 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.student_profile);
-		view = getLayoutInflater().inflate(R.layout.login_dialog, null);
+
 		btnLogin = (Button) findViewById(R.id.profile_login_btn);
 		btnLogin.setOnClickListener(this);
 
-		creds = new UserCredentials(
-				PreferenceManager.getDefaultSharedPreferences(this));
-		// final String codeP = prefs.getString("codeP", "");
-		// final String codeU = prefs.getString("codeU", "");
-		// handles callback from observable
-		loginTaskHandler = new Handler();
-		bundle.addObserver(this);
-
-		CharSequence text;
-		boolean tag;
-		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
-			new ProfileTask(bundle).execute(creds.getUsername(),
-					creds.getPassword());
-			text = getString(R.string.logout);
-			tag = true;
-		} else {
-			text = getString(R.string.login);
-			tag = false;
-		}
 		/**
 		 * SEARCH NAV BAR TODO: Create custom View -> ActionBar
 		 * */
@@ -122,6 +105,26 @@ public class ProfileActivity extends Activity implements OnClickListener,
 						finish();
 					}
 				});
+
+		loginTaskHandler = new Handler();
+		bundle.addObserver(this);
+		doLogin();
+	}
+
+	private void doLogin() {
+		creds = new UserCredentials(
+				PreferenceManager.getDefaultSharedPreferences(this));
+		CharSequence text = "";
+		boolean tag = false;
+		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
+			new ProfileTask(bundle).execute(creds.getUsername(),
+					creds.getPassword());
+			text = getString(R.string.logout);
+			tag = true;
+		} else {
+			text = getString(R.string.login);
+			tag = false;
+		}
 		btnLogin.setText(text);
 		btnLogin.setTag(tag);
 	}
@@ -131,9 +134,8 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		Dialog d = super.onCreateDialog(id, args);
 		switch (id) {
 		case 1:
-			d = new AlertDialog.Builder(this)
-					.setTitle(getString(R.string.login_dialog_title))
-					.setView(view).setPositiveButton("Ok", this).create();
+			d = new LoginDialog(this);
+			d.setOnDismissListener(this);
 			break;
 
 		default:
@@ -193,6 +195,11 @@ public class ProfileActivity extends Activity implements OnClickListener,
 
 			}
 		}
+	}
+
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+		doLogin();
 	}
 
 }

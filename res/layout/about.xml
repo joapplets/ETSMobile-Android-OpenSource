@@ -10,17 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/empty_nav_bar" />
-
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
         <LinearLayout
             android:id="@+id/wrap1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/credits_tag" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -29,7 +37,7 @@
                 android:gravity="center"
                 android:text="@string/about_team_android"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
@@ -37,24 +45,40 @@
                 android:gravity="center"
                 android:text="@string/about_team_applets"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="all"
                 android:gravity="center"
                 android:text="@string/about_team_ti_ets"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Large Text"
+                android:text="@string/about_particuliers"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/about_partenaires"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/partenaires2012" />
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>

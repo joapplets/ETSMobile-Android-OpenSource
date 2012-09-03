@@ -8,12 +8,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 
 public class AboutActivity extends Activity {
-//	private WebView webView;
+
 	private ScrollView scrollView;
 
 	private Handler handler;
@@ -36,13 +35,14 @@ public class AboutActivity extends Activity {
 
 					@Override
 					public void run() {
+						scrollView.smoothScrollTo(0,
+								scrollView.getScrollY() + 5);
 					}
 				});
 			}
 		};
 		Timer t = new Timer();
-		t.schedule(scrollerSchedule, 0, 500);
-		scrollView.smoothScrollTo(0, scrollView.getScrollY() + 10);
+		t.schedule(scrollerSchedule, 0, 100);
 
 		// home btn
 		((ImageButton) findViewById(R.id.empty_nav_bar_home_btn))
