@@ -18,9 +18,14 @@ public class UserCredentials {
 
 	public UserCredentials(final SharedPreferences prefs) {
 		if (prefs != null) {
-			username = prefs.getString(CODE_P, "");
-			password = prefs.getString(CODE_U, "");
+			username = prefs.getString(UserCredentials.CODE_P, "");
+			password = prefs.getString(UserCredentials.CODE_U, "");
 		}
+	}
+
+	public UserCredentials(final String codeP, final String codeU) {
+		username = codeP;
+		password = codeU;
 	}
 
 	public String getPassword() {

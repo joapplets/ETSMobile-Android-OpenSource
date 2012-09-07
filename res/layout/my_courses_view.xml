@@ -6,18 +6,18 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <include
-        android:id="@+id/empty_nav_bar"
+    <com.etsmt.applets.etsmobile.views.NavBar
+        android:id="@+id/navBar3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/empty_nav_bar" />
+        layout="@layout/nav_bar" />
     
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/empty_nav_bar" />
+        android:layout_below="@+id/navBar3" />
         
     <TextView 
         android:id="@+id/empty"

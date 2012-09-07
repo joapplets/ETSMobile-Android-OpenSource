@@ -1,77 +1,60 @@
 package ca.etsmtl.applets.etsmobile.services;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.SAXException;
+import java.util.concurrent.ExecutionException;
 
 import android.os.AsyncTask;
-import android.util.Log;
-import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
-import ca.etsmtl.applets.etsmobile.tools.xml.XMLProfileParser;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
+import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
+import ca.etsmtl.applets.etsmobile.models.StudentProfile;
+import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
-public class ProfileTask extends AsyncTask<String, String, Void> {
+public class ProfileTask extends
+		AsyncTask<UserCredentials, String, StudentProfile> {
 
-	private static final String TAG = "ProfileTask";
 	public static final String PROFILE_KEY = "profile";
-	private final ObservableBundle bundle;
+	public static final int ON_POST_EXEC = 0;
+	private final Handler handler;
 
-	public ProfileTask(final ObservableBundle bundle) {
-		this.bundle = bundle;
+	public ProfileTask(final Handler handler) {
+		this.handler = handler;
+
 	}
 
 	@Override
-	protected Void doInBackground(final String... params) {
+	protected StudentProfile doInBackground(final UserCredentials... params) {
+
+		final SignetBackgroundThread<StudentProfile, StudentProfile> signets = new SignetBackgroundThread<StudentProfile, StudentProfile>(
+				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
+				"infoEtudiant", params[0], StudentProfile.class,
+				FetchType.OBJECT);
+		onPreExecute();
+
+		signets.execute();
+		StudentProfile profile = null;
 		try {
-
-			final String request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-					+ "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">"
-					+ "<soap:Body>"
-					+ "<infoEtudiant xmlns=\"http://etsmtl.ca/\">"
-					+ "<codeAccesUniversel>" + params[0]
-					+ "</codeAccesUniversel>" + "<motPasse>" + params[1]
-					+ "</motPasse>" + "</infoEtudiant>" + "</soap:Body>"
-					+ "</soap:Envelope>";
-			final URL url = new URL(
-					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx?op=infoEtudiant");
-			final HttpURLConnection conn = (HttpURLConnection) url
-					.openConnection();
-			conn.setDoOutput(true);
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
-
-			final OutputStreamWriter writer = new OutputStreamWriter(
-					conn.getOutputStream());
-
-			writer.write(request);
-			writer.flush();
-
-			final InputStream stream = conn.getInputStream();
-			if (stream != null) {
-				final SAXParser saxParser = SAXParserFactory.newInstance()
-						.newSAXParser();
-				final XMLProfileParser parser = new XMLProfileParser(bundle);
-				saxParser.parse(stream, parser);
-				stream.close();
-			}
-		} catch (final MalformedURLException e) {
-			Log.e(ProfileTask.TAG, e.toString());
-		} catch (final IOException e) {
-			Log.e(ProfileTask.TAG, e.toString());
-		} catch (final ParserConfigurationException e) {
-			Log.e(ProfileTask.TAG, e.toString());
-		} catch (final SAXException e) {
-			Log.e(ProfileTask.TAG, e.toString());
+			profile = signets.get();
+		} catch (final InterruptedException e) {
+			onCancelled();
+			e.printStackTrace();
+		} catch (final ExecutionException e) {
+			onCancelled();
+			e.printStackTrace();
 		}
-		return null;
+		return profile;
+	}
+
+	@Override
+	protected void onPostExecute(final StudentProfile result) {
+		super.onPostExecute(result);
+		final Message msg = handler.obtainMessage(ProfileTask.ON_POST_EXEC);
+		final Bundle data = new Bundle();
+		data.putParcelable(ProfileTask.PROFILE_KEY, result);
+		msg.setData(data);
+		msg.sendToTarget();
+
 	}
 
 }

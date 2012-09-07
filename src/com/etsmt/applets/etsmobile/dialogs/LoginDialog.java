@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
@@ -17,18 +16,18 @@ public class LoginDialog extends AlertDialog {
 	private TextView codeP;
 	private TextView codeU;
 
-	public LoginDialog(Context context) {
+	public LoginDialog(final Context context) {
 		super(context);
 	}
 
-	protected LoginDialog(Context context, boolean cancelable,
-			OnCancelListener cancelListener) {
+	protected LoginDialog(final Context context, final boolean cancelable,
+			final OnCancelListener cancelListener) {
 		super(context, cancelable, cancelListener);
-		
+
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_dialog);
 		codeP = (TextView) findViewById(R.id.login_dialog_code_perm);
@@ -38,7 +37,7 @@ public class LoginDialog extends AlertDialog {
 		setButton("Ok", new OnClickListener() {
 
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(final DialogInterface dialog, final int which) {
 				final SharedPreferences prefs = PreferenceManager
 						.getDefaultSharedPreferences(getContext());
 				final Editor edit = prefs.edit();
@@ -52,7 +51,7 @@ public class LoginDialog extends AlertDialog {
 		setButton2("Cancel", new OnClickListener() {
 
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(final DialogInterface dialog, final int which) {
 				codeP.setText("");
 				codeU.setText("");
 

@@ -25,6 +25,7 @@
 		Montréal (Qc) H3C 1K3
 		Téléphone:
 		514 396-8800</string>
+    <string name="apphence_key">8d31bdcc179d40b0af806d41a32010ef7f3f0d38</string>
     <string name="info_applets_title">Applets, Ingénierie mobile</string>
     <string name="info_applets_text">Good news! After more than a year of work and
 		planning, the club Applets is now officially recognized by the ÉTS as
@@ -59,7 +60,8 @@
     <string name="nodata">Aucune donnée.</string>
     <string name="about_team_android"><b>Réalisation - Équipe Android</b>\n Philippe David\nRodrigo Manyari\nVincent Séguin\nMicheal Bernier</string>
     <string name="about_team_ti_ets"><b>Intégration avec les Systèmes d’entreprise (TI - ÉTS)</b>\nRobert Gervais\nOlivier Lacasse</string>
-	<string name="about_team_applets"><b>Responsables du club</b>\nAntoine Lamy (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
-	<string name="about_partenaires"><b>Partenaires 2012–2013</b></string>
-	<string name="about_particuliers"><b>Remerciements Particuliers</b>\nFrançois Coallier (DDTSA)\nIdrissa Konkobo (Systèmes d\'entreprise)\nObed José (Icônes)\nBruno Côté (Sécurité)\nCarl-Olivier Perras-Beaulieu (Communications)</string>
+    <string name="about_team_applets"><b>Responsables du club</b>\nAntoine Lamy (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
+    <string name="about_partenaires"><b>Partenaires 2012–2013</b></string>
+    <string name="about_particuliers"><b>Remerciements Particuliers</b>\nFrançois Coallier (DDTSA)\nIdrissa Konkobo (Systèmes d\'entreprise)\nObed José (Icônes)\nBruno Côté (Sécurité)\nCarl-Olivier Perras-Beaulieu (Communications)</string>
+
 </resources>

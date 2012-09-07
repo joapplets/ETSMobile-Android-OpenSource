@@ -26,7 +26,7 @@ public class AboutActivity extends Activity {
 
 		scrollView = (ScrollView) findViewById(R.id.scrollView1);
 		handler = new Handler();
-		TimerTask scrollerSchedule = new TimerTask() {
+		final TimerTask scrollerSchedule = new TimerTask() {
 
 			@Override
 			public void run() {
@@ -41,7 +41,7 @@ public class AboutActivity extends Activity {
 				});
 			}
 		};
-		Timer t = new Timer();
+		final Timer t = new Timer();
 		t.schedule(scrollerSchedule, 0, 100);
 
 		// home btn

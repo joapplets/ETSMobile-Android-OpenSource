@@ -28,25 +28,5 @@
         android:text="Prenom"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/bottin_list_item_poste"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/bottin_list_item_nom"
-        android:paddingLeft="10dip"
-        android:text="Service"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/bottin_list_item_service"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bottin_list_item_poste"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:paddingLeft="10dip"
-        android:text="Poste" />
 
 </RelativeLayout>
