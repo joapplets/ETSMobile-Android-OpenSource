@@ -47,11 +47,15 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="com.apphance.android.LAUNCH" >
-                </action>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" >
-                </category>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <!-- <action android:name="com.apphance.android.LAUNCH" > -->
+                <!-- </action> -->
+
+
+                <!-- <category android:name="android.intent.category.DEFAULT" > -->
+                <!-- </category> -->
             </intent-filter>
         </activity>
         <activity android:name=".NewsListActivity" />
@@ -70,40 +74,42 @@
         <activity android:name=".MyCourseDetailActivity" />
         <activity android:name=".BibliothequeActivity" />
         <!-- Apphance activities -->
-        <activity
-            android:name="com.apphance.android.LauncherActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.apphance.android.ui.LoginActivity"
-            android:launchMode="singleInstance" >
-        </activity>
-        <activity
-            android:name="com.apphance.android.ui.TestCycleActivity"
-            android:launchMode="singleInstance" >
-        </activity>
-        <activity
-            android:name="com.apphance.android.ui.ProblemActivity"
-            android:configChanges="orientation"
-            android:launchMode="singleInstance" >
-        </activity>
+        <!-- <activity -->
+        <!-- android:name="com.apphance.android.LauncherActivity" -->
+        <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" > -->
+        <!-- </activity> -->
+        <!-- <activity -->
+        <!-- android:name="com.apphance.android.ui.LoginActivity" -->
+        <!-- android:launchMode="singleInstance" > -->
+        <!-- </activity> -->
+        <!-- <activity -->
+        <!-- android:name="com.apphance.android.ui.TestCycleActivity" -->
+        <!-- android:launchMode="singleInstance" > -->
+        <!-- </activity> -->
+        <!-- <activity -->
+        <!-- android:name="com.apphance.android.ui.ProblemActivity" -->
+        <!-- android:configChanges="orientation" -->
+        <!-- android:launchMode="singleInstance" > -->
+        <!-- </activity> -->
+
 
         <!-- Apphance activity alias -->
-        <activity-alias
-            android:name=".ApphanceLauncherActivity"
-            android:targetActivity="com.apphance.android.LauncherActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <!-- <activity-alias -->
+        <!-- android:name=".ApphanceLauncherActivity" -->
+        <!-- android:targetActivity="com.apphance.android.LauncherActivity" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity-alias> -->
     </application>
 
     <!-- Apphance instrumentation -->
-    <instrumentation
-        android:name="com.apphance.android.ApphanceInstrumentation"
-        android:targetPackage="ca.etsmtl.applets.etsmobile" >
-    </instrumentation>
+    <!-- <instrumentation -->
+    <!-- android:name="com.apphance.android.ApphanceInstrumentation" -->
+    <!-- android:targetPackage="ca.etsmtl.applets.etsmobile" > -->
+    <!-- </instrumentation> -->
 
 </manifest>

@@ -63,5 +63,20 @@
     <string name="about_team_applets"><b>Responsables du club</b>\nAntoine Lamy (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
     <string name="about_partenaires"><b>Partenaires 2012–2013</b></string>
     <string name="about_particuliers"><b>Remerciements Particuliers</b>\nFrançois Coallier (DDTSA)\nIdrissa Konkobo (Systèmes d\'entreprise)\nObed José (Icônes)\nBruno Côté (Sécurité)\nCarl-Olivier Perras-Beaulieu (Communications)</string>
-
+	<string name="secu_title1">Joindre la sécurité</string>
+	<string name="secu_phone_lbl">541–396–8900</string>
+	<string name="secu_title2">Procédures d\'urgence</string>
+	<string name="secu_appel_lbl">Appel d\'urgence</string>
+	<string name="secu_ext_lbl">À l\'interne</string>
+	<string name="secu_ext">Poste 55</string>
+	<string-array name="secu_urgence">
+	    <item >Appel à la bombe</item>
+	    <item >Colis suspect</item>
+	    <item >Incendie</item>
+	    <item >Odeur suspecte</item>
+	    <item >Panne d\'ascenseur</item>
+	    <item >Panne électrique</item>
+	    <item >Personne armée</item>
+	    <item >Urgence médicale</item>
+	</string-array>
 </resources>
