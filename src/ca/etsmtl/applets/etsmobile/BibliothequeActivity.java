@@ -18,14 +18,12 @@ public class BibliothequeActivity extends Activity {
 		setContentView(R.layout.webview);
 
 		webView = (WebView) findViewById(R.id.webView1);
-		
-		WebSettings webSettings = webView.getSettings();
+
+		final WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
-		
+
 		webView.loadUrl(getString(R.string.url_biblio));
 
-		
-		
 		navBar = (NavBar) findViewById(R.id.navBar2);
 		navBar.setTitle(R.drawable.navbar_biblio_title);
 		navBar.hideRightButton();

@@ -81,6 +81,8 @@ public class MyCourseActivity extends ListActivity implements OnDismissListener 
 	}
 
 	private void initCours(final String sessionString) {
+		creds = new UserCredentials(
+				PreferenceManager.getDefaultSharedPreferences(this));
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

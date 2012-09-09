@@ -1,7 +1,5 @@
 package ca.etsmtl.applets.etsmobile;
 
-import com.etsmt.applets.etsmobile.views.NavBar;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,11 +15,12 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
+
+import com.etsmt.applets.etsmobile.views.NavBar;
 
 public class ProfileActivity extends Activity implements OnClickListener,
 		OnDismissListener, DialogInterface.OnClickListener {
@@ -82,13 +81,13 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		CharSequence text = "";
 		boolean tag = false;
 		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
-			new ProfileTask(handler).execute(creds);
 			text = getString(R.string.logout);
 			tag = true;
 		} else {
 			text = getString(R.string.login);
 			tag = false;
 		}
+		new ProfileTask(handler).execute(creds);
 		btnLogin.setText(text);
 		btnLogin.setTag(tag);
 	}
@@ -152,7 +151,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		btnLogin.setOnClickListener(this);
 		view = getLayoutInflater().inflate(R.layout.login_dialog, null);
 
-		//NEW !!!
+		// NEW !!!
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_profil_title);
 		navBar.hideRightButton();

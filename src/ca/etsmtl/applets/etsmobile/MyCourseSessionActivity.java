@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageButton;
 import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.adapters.MyCourseSessionAdapter;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
@@ -20,10 +19,13 @@ import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
+import com.etsmt.applets.etsmobile.views.NavBar;
+
 public class MyCourseSessionActivity extends ListActivity {
 
 	private ArrayList<Session> sessions;
 	private MyCourseSessionAdapter myCoursesAdapter;
+	private NavBar navBar;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -32,12 +34,18 @@ public class MyCourseSessionActivity extends ListActivity {
 
 		setContentView(R.layout.my_courses_view);
 
-		final ImageButton btnHome = (ImageButton) findViewById(R.id.empty_nav_bar_home_btn);
-		btnHome.setOnClickListener(new OnClickListener() {
+		navBar = (NavBar) findViewById(R.id.navBar3);
+		navBar.hideRightButton();
+		navBar.setTitle(R.drawable.navbar_notes_title);
+		navBar.setHomeAction(new OnClickListener() {
 
 			@Override
 			public void onClick(final View v) {
-				finish();
+				final Intent intent = new Intent(v.getContext(),
+						ETSMobileActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
 			}
 		});
 

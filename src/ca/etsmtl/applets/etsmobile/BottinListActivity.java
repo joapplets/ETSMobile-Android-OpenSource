@@ -96,8 +96,7 @@ public class BottinListActivity extends ListActivity implements
 			BottinTableHelper.BOTTIN__ID, BottinTableHelper.BOTTIN_NOM,
 			BottinTableHelper.BOTTIN_PRENOM };
 
-	private static final String[] SELECTION_ARGS = new String[] { "%", "%",
-			"%" };
+	private static final String[] SELECTION_ARGS = new String[] { "%", "%", "%" };
 
 	private Cursor allEntryCursor;
 	// Handler uiHandler;

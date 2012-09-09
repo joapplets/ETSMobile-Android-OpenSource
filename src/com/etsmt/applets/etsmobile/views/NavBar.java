@@ -31,7 +31,7 @@ public class NavBar extends RelativeLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		root_layout = (RelativeLayout) layoutInflater.inflate(R.layout.nav_bar,
 				this, true);
-		
+
 		if (!isInEditMode()) {
 			init();
 		}
@@ -58,12 +58,12 @@ public class NavBar extends RelativeLayout {
 		});
 	}
 
-	public void setTitle(final int resId) {
-		imageTitle.setImageResource(resId);
+	public void setHomeAction(final OnClickListener l) {
+		homeBtn.setOnClickListener(l);
 	}
 
-	public void setHomeAction(OnClickListener l) {
-		homeBtn.setOnClickListener(l);
+	public void setTitle(final int resId) {
+		imageTitle.setImageResource(resId);
 	}
 
 }

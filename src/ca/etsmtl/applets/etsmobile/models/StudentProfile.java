@@ -35,19 +35,19 @@ public class StudentProfile extends Model {
 	}
 
 	public String getCodePerm() {
-		return (codePerm != null) ? codePerm.trim() : "";
+		return codePerm != null ? codePerm.trim() : "";
 	}
 
 	public String getNom() {
-		return (nom != null) ? nom.trim() : "";
+		return nom != null ? nom.trim() : "";
 	}
 
 	public String getPrenom() {
-		return (prenom != null) ? prenom.trim() : "";
+		return prenom != null ? prenom.trim() : "";
 	}
 
 	public String getSolde() {
-		return (solde != null) ? solde.trim() : "";
+		return solde != null ? solde.trim() : "";
 	}
 
 	@Override
