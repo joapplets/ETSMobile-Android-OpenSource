@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -77,21 +76,16 @@ public class SecurityActivity extends MapActivity {
 			@Override
 			public void onItemClick(final AdapterView<?> arg0, final View arg1,
 					final int arg2, final long arg3) {
-
-				// Intent intent = new Intent(getApplicationContext(),
-				// UrgenceActivity.class);
-				// startActivity(intent);
-
-				final Intent intent = new Intent(Intent.ACTION_VIEW, Uri
-						.parse("android.resource://" + getPackageName() + "/"
-								+ R.raw.odeur_suspecte_et_fuite_gaz_2009_04_01));
-				intent.setType("application/pdf");
+				Intent intent = new Intent(getApplicationContext(),
+						UrgenceActivity.class);
+				intent.putExtra("id", arg2);
 				startActivity(intent);
+
 			}
 		});
 		listView.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, getResources().getStringArray(
-						R.array.secu_urgence)));
+				android.R.layout.simple_list_item_1, getResources()
+						.getStringArray(R.array.secu_urgence)));
 
 		mapView = (MapView) findViewById(R.id.mapview);
 
