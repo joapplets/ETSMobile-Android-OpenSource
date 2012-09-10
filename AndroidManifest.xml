@@ -70,7 +70,7 @@
         <activity android:name=".BottinViewActivity" />
         <activity android:name=".SecurityActivity" />
         <activity android:name=".MyCourseSessionActivity" />
-        <activity android:name=".MyCourseActivity" />
+        <activity android:name=".MyCourseListActivity" />
         <activity android:name=".MyCourseDetailActivity" />
         <activity android:name=".BibliothequeActivity" />
         <activity android:name=".UrgenceActivity" />

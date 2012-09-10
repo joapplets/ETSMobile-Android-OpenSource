@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import ca.etsmtl.applets.etsmobile.ETSMobileActivity;
 import ca.etsmtl.applets.etsmobile.R;
@@ -18,6 +19,7 @@ public class NavBar extends RelativeLayout {
 	private ImageButton homeBtn;
 	private ImageView imageTitle;
 	private Button rightBtn;
+	private ProgressBar loading;
 
 	public NavBar(final Context context) {
 		super(context);
@@ -46,8 +48,9 @@ public class NavBar extends RelativeLayout {
 				.findViewById(R.id.base_bar_home_btn);
 		imageTitle = (ImageView) root_layout
 				.findViewById(R.id.base_bar_img_title);
+		imageTitle.setVisibility(INVISIBLE);
 		rightBtn = (Button) root_layout.findViewById(R.id.base_bar_source_btn);
-
+		loading = (ProgressBar) root_layout.findViewById(R.id.base_bar_loading);
 		homeBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -63,11 +66,20 @@ public class NavBar extends RelativeLayout {
 	}
 
 	public void setTitle(final int resId) {
+		imageTitle.setVisibility(VISIBLE);
 		imageTitle.setImageResource(resId);
 	}
 
 	public void hideTitle() {
 		imageTitle.setVisibility(INVISIBLE);
+	}
+
+	public void showLoading() {
+		loading.setVisibility(VISIBLE);
+	}
+
+	public void hideLoading() {
+		loading.setVisibility(GONE);
 	}
 
 }

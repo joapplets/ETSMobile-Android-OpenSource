@@ -64,6 +64,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 
 					btnLogin.setTag(true);
 					btnLogin.setText(getString(R.string.logout));
+					navBar.hideLoading();
 				}
 				break;
 
@@ -155,6 +156,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_profil_title);
 		navBar.hideRightButton();
+		navBar.showLoading();
 		doLogin();
 	}
 

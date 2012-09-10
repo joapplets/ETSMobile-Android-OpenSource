@@ -36,9 +36,9 @@
                 android:text="@string/secu_appel_lbl"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/secu_list_header_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -48,6 +48,7 @@
                 android:text="@string/secu_phone_lbl"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue_ets" />
+
         </LinearLayout>
 
         <LinearLayout

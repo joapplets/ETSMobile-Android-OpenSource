@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -25,6 +26,13 @@ public class UrgenceActivity extends Activity {
 		id = getIntent().getExtras().getInt("id");
 
 		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.setHomeAction(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 		navBar.hideRightButton();
 		navBar.hideTitle();
 
@@ -36,34 +44,34 @@ public class UrgenceActivity extends Activity {
 		pdf_raw = 0;
 		int text = 0;
 		switch (id) {
-		case 0:
+		case 1:
 			text = R.string.urgence_resum_bombe;
 			pdf_raw = R.raw.appel_a_la_bombe_2009_04_01;
 			break;
-		case 1:
+		case 2:
 			text = R.string.urgence_resum_colis;
 			pdf_raw = R.raw.colis_suspect_et_nrbc_2009_04_01;
 			break;
-		case 2:
+		case 3:
 			text = R.string.urgence_resum_feu;
 			pdf_raw = R.raw.incendie_evacuation_urgence;
-		case 3:
+		case 4:
 			text = R.string.urgence_resum_odeur;
 			pdf_raw = R.raw.odeur_suspecte_et_fuite_gaz_2009_04_01;
 			break;
-		case 4:
+		case 5:
 			text = R.string.urgence_resum_pane_asc;
 			pdf_raw = R.raw.panne_assenceur_2009_04_01;
 			break;
-		case 5:
+		case 6:
 			text = R.string.urgence_resum_panne_elec;
 			pdf_raw = R.raw.panne_electrique_2009_04_01;
 			break;
-		case 6:
+		case 7:
 			text = R.string.urgence_resum_pers_arm;
 			pdf_raw = R.raw.personne_armee_2009_04_01;
 			break;
-		case 7:
+		case 8:
 			text = R.string.urgence_resum_medic;
 			pdf_raw = R.raw.urgence_cedicale_2009_04_01;
 			break;
@@ -72,7 +80,7 @@ public class UrgenceActivity extends Activity {
 		}
 
 		txtView1.setText(urgence[id]);
-		txtView2.setText(text);
+		txtView2.setText(Html.fromHtml(getString(text)));
 		findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -86,7 +94,7 @@ public class UrgenceActivity extends Activity {
 
 		final Intent intent = new Intent(Intent.ACTION_VIEW,
 				Uri.parse("android.resource://" + getPackageName() + "/"
-						+ pdf_raw));
+						+ getString(pdf_raw)));
 		intent.setType("application/pdf");
 		startActivity(intent);
 	}

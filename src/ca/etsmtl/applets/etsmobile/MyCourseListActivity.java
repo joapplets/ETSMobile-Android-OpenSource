@@ -31,7 +31,7 @@ import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import com.etsmt.applets.etsmobile.dialogs.LoginDialog;
 import com.etsmt.applets.etsmobile.views.NavBar;
 
-public class MyCourseActivity extends ListActivity implements OnDismissListener {
+public class MyCourseListActivity extends ListActivity implements OnDismissListener {
 
 	private static final int SHOW_LOGIN = 0;
 	protected static final int LOGIN_ERROR = 0;
@@ -57,7 +57,7 @@ public class MyCourseActivity extends ListActivity implements OnDismissListener 
 
 					initCours(sessionString);
 				} else {
-					showDialog(MyCourseActivity.LOGIN_ERROR);
+					showDialog(MyCourseListActivity.LOGIN_ERROR);
 				}
 				break;
 
@@ -110,9 +110,10 @@ public class MyCourseActivity extends ListActivity implements OnDismissListener 
 
 			signetBackgroundThead.execute();
 
-			final ProgressDialog progress = new ProgressDialog(this);
-			progress.setMessage(getString(R.string.loading));
-			progress.show();
+//			final ProgressDialog progress = new ProgressDialog(this);
+//			progress.setMessage(getString(R.string.loading));
+//			progress.show();
+			navBar.showLoading();
 
 			new Thread(new Runnable() {
 
@@ -139,9 +140,10 @@ public class MyCourseActivity extends ListActivity implements OnDismissListener 
 										R.layout.course_list_item,
 										courseActivities);
 								getListView().setAdapter(myCoursesAdapter);
-								if (progress != null) {
-									progress.dismiss();
-								}
+//								if (progress != null) {
+//									progress.dismiss();
+//								}
+								navBar.hideLoading();
 							}
 						});
 
@@ -194,7 +196,7 @@ public class MyCourseActivity extends ListActivity implements OnDismissListener 
 				&& !"".equals(creds.getUsername())) {
 			initCours(sessionString);
 		} else {
-			showDialog(MyCourseActivity.SHOW_LOGIN);
+			showDialog(MyCourseListActivity.SHOW_LOGIN);
 			Toast.makeText(this, getString(R.string.usernamePasswordRequired),
 					Toast.LENGTH_LONG).show();
 		}

@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -64,7 +65,14 @@ public class SecurityActivity extends MapActivity {
 
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.hideRightButton();
+		
+		navBar.setHomeAction(new OnClickListener() {
 
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 		listView = (ListView) findViewById(android.R.id.list);
 
 		final ViewGroup viewGroup = (ViewGroup) getLayoutInflater().inflate(
@@ -86,6 +94,15 @@ public class SecurityActivity extends MapActivity {
 		listView.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, getResources()
 						.getStringArray(R.array.secu_urgence)));
+
+		viewGroup.findViewById(R.id.secu_list_header_phone).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+
+					}
+				});
 
 		mapView = (MapView) findViewById(R.id.mapview);
 
