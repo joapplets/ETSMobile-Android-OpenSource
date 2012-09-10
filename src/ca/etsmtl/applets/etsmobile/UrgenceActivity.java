@@ -25,6 +25,8 @@ public class UrgenceActivity extends Activity {
 		id = getIntent().getExtras().getInt("id");
 
 		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.hideRightButton();
+		navBar.hideTitle();
 
 		txtView1 = (TextView) findViewById(R.id.urgence_title);
 		txtView2 = (TextView) findViewById(R.id.urgence_txt);

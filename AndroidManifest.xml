@@ -73,6 +73,7 @@
         <activity android:name=".MyCourseActivity" />
         <activity android:name=".MyCourseDetailActivity" />
         <activity android:name=".BibliothequeActivity" />
+        <activity android:name=".UrgenceActivity" />
         <!-- Apphance activities -->
         <!-- <activity -->
         <!-- android:name="com.apphance.android.LauncherActivity" -->

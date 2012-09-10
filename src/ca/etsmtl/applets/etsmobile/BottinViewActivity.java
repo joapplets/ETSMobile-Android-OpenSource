@@ -1,5 +1,7 @@
 package ca.etsmtl.applets.etsmobile;
 
+import com.etsmt.applets.etsmobile.views.NavBar;
+
 import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
@@ -20,6 +22,7 @@ public class BottinViewActivity extends Activity {
 	private TextView titreView;
 	private TextView courrielView;
 	private TextView phoneView;
+	private NavBar navBar;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -56,14 +59,10 @@ public class BottinViewActivity extends Activity {
 			phoneView.setText(cursor.getString(cursor
 					.getColumnIndex(BottinTableHelper.BOTTIN_TELBUREAU)));
 		}
-		((ImageButton) findViewById(R.id.empty_nav_bar_home_btn))
-				.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(final View v) {
-						BottinViewActivity.this.finish();
-					}
-				});
+		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.setTitle(R.drawable.navbar_phonebook_title);
+		navBar.hideRightButton();
 
 	}
 }

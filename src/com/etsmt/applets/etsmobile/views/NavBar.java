@@ -66,4 +66,8 @@ public class NavBar extends RelativeLayout {
 		imageTitle.setImageResource(resId);
 	}
 
+	public void hideTitle() {
+		imageTitle.setVisibility(INVISIBLE);
+	}
+
 }
