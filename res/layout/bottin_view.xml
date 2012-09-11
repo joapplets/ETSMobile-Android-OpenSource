@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <include
+
+    <com.etsmt.applets.etsmobile.views.NavBar
+        android:id="@+id/navBar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/empty_nav_bar" />

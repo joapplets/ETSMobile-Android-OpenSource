@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageButton;
 import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.adapters.MyCourseSessionAdapter;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
@@ -20,10 +19,13 @@ import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
+import com.etsmt.applets.etsmobile.views.NavBar;
+
 public class MyCourseSessionActivity extends ListActivity {
 
 	private ArrayList<Session> sessions;
 	private MyCourseSessionAdapter myCoursesAdapter;
+	private NavBar navBar;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -32,8 +34,10 @@ public class MyCourseSessionActivity extends ListActivity {
 
 		setContentView(R.layout.my_courses_view);
 
-		final ImageButton btnHome = (ImageButton) findViewById(R.id.empty_nav_bar_home_btn);
-		btnHome.setOnClickListener(new OnClickListener() {
+		navBar = (NavBar) findViewById(R.id.navBar3);
+		navBar.hideRightButton();
+		navBar.setTitle(R.drawable.navbar_notes_title);
+		navBar.setHomeAction(new OnClickListener() {
 
 			@Override
 			public void onClick(final View v) {
@@ -58,7 +62,7 @@ public class MyCourseSessionActivity extends ListActivity {
 				b.putString("session", myCoursesAdapter.getItem(position)
 						.getShortName());
 				final Intent nextActivity = new Intent(view.getContext(),
-						MyCourseActivity.class);
+						MyCourseListActivity.class);
 				nextActivity.putExtras(b);
 				startActivity(nextActivity);
 			}
@@ -75,9 +79,10 @@ public class MyCourseSessionActivity extends ListActivity {
 
 				signetBackgroundThead.execute();
 
-				final ProgressDialog progress = new ProgressDialog(this);
-				progress.setMessage(getString(R.string.loading));
-				progress.show();
+//				final ProgressDialog progress = new ProgressDialog(this);
+//				progress.setMessage(getString(R.string.loading));
+//				progress.show();
+				navBar.showLoading();
 
 				new Thread(new Runnable() {
 
@@ -96,9 +101,10 @@ public class MyCourseSessionActivity extends ListActivity {
 											R.layout.session_list_item,
 											sessions);
 									getListView().setAdapter(myCoursesAdapter);
-									if (progress != null) {
-										progress.dismiss();
-									}
+//									if (progress != null) {
+//										progress.dismiss();
+//									}
+									navBar.hideLoading();
 								}
 							});
 

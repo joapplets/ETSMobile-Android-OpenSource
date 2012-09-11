@@ -25,7 +25,6 @@ public class XMLProfileParser extends XMLAbstractHandler {
 	@Override
 	public void endElement(final String uri, final String localName,
 			final String qName) throws SAXException {
-		// TODO Auto-generated method stub
 		if (newEntry) {
 			String key = null;
 			if (localName.equalsIgnoreCase(XMLProfileParser.NOM)) {
@@ -62,11 +61,9 @@ public class XMLProfileParser extends XMLAbstractHandler {
 	public void startElement(final String uri, final String localName,
 			final String qName, final Attributes attributes)
 			throws SAXException {
-		// TODO Auto-generated method stub
 		super.startElement(uri, localName, qName, attributes);
 		buffer = new StringBuffer();
 		if (localName.equalsIgnoreCase(XMLProfileParser.ENTRY_TAG)) {
-			// Log.d("XMLBottinParser", localName);
 			newEntry = true;
 			values = new ContentValues();
 		}

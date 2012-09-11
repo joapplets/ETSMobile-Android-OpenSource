@@ -75,4 +75,10 @@
         </activity>
     </application>
 
+    <!-- Apphance instrumentation -->
+    <!-- <instrumentation -->
+    <!-- android:name="com.apphance.android.ApphanceInstrumentation" -->
+    <!-- android:targetPackage="ca.etsmtl.applets.etsmobile" > -->
+    <!-- </instrumentation> -->
+
 </manifest>

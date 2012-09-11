@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 
+import com.apphance.android.Log;
 import com.google.gson.Gson;
 
 public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
@@ -99,10 +100,8 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 
 			array = objectList;
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -147,15 +146,12 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 			JSONObject jsonRootArray;
 			jsonRootArray = jsonObject.getJSONObject("d");
 			object = (T) gson.fromJson(jsonRootArray.toString(), typeOfClass);
-
+			android.util.Log.d("JSON", jsonRootArray.toString());
 		} catch (final MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return object;

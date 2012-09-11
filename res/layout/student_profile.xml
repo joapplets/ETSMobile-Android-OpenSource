@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="@drawable/home_background"
     android:orientation="vertical" >
 
-    <include
+    <com.etsmt.applets.etsmobile.views.NavBar
+        android:id="@+id/navBar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/empty_nav_bar" />
+        layout="@layout/nav_bar" >
 
+    </com.etsmt.applets.etsmobile.views.NavBar>
+
     <TableLayout
         android:id="@+id/layout1"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="100dip"
+        android:layout_margin="10dip"
         android:background="@drawable/bkg_white_round_corners"
         android:padding="10dip"
         android:stretchColumns="2" >
-
-        <TableRow>
-
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_margin="2dip"
+            android:orientation="horizontal" >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -30,20 +34,23 @@
                 android:text="@string/student_profile_lastname"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:layout_gravity="right"
-                android:text=""
+                android:layout_marginLeft="5dip"
+                android:gravity="left"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
+
         </TableRow>
-
-        <TableRow>
-
+
+        <TableRow
+            android:layout_margin="2dip"
+            android:orientation="horizontal" >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,20 +58,21 @@
                 android:text="@string/student_profile_name"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:layout_gravity="right"
+                android:layout_marginLeft="5dip"
                 android:text=""
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
+
         </TableRow>
-
-        <TableRow>
-
+
+        <TableRow android:layout_margin="2dip" >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,20 +80,20 @@
                 android:text="@string/student_profile_codePermanent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_codePermanent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:layout_gravity="right"
-                android:text=""
+                android:layout_marginLeft="5dip"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
+
         </TableRow>
-
-        <TableRow>
-
+
+        <TableRow android:layout_margin="2dip" >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,23 +101,25 @@
                 android:text="@string/student_profile_solde"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_solde"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:layout_gravity="right"
+                android:layout_marginLeft="5dip"
                 android:text=""
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
+
         </TableRow>
     </TableLayout>
-
+
     <Button
         android:id="@+id/profile_login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dip"
         android:text="@string/login" />
 
 </LinearLayout>

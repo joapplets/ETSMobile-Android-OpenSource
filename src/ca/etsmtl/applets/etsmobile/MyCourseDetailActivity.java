@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.adapters.MyCourseDetailAdapter;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
@@ -19,9 +18,12 @@ import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.CourseEvaluation;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
+import com.etsmt.applets.etsmobile.views.NavBar;
+
 public class MyCourseDetailActivity extends ListActivity {
 
 	private CourseEvaluation courseEvaluation;
+	private NavBar navBar;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -29,16 +31,14 @@ public class MyCourseDetailActivity extends ListActivity {
 
 		setContentView(R.layout.my_courses_view);
 
-		final ImageButton btnHome = (ImageButton) findViewById(R.id.empty_nav_bar_home_btn);
-		btnHome.setOnClickListener(new OnClickListener() {
+		navBar = (NavBar) findViewById(R.id.navBar3);
+		navBar.hideRightButton();
+		navBar.setTitle(R.drawable.navbar_notes_title);
+		navBar.setHomeAction(new OnClickListener() {
 
 			@Override
 			public void onClick(final View v) {
-				final Intent intent = new Intent(v.getContext(),
-						ETSMobileActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
+				finish();
 			}
 		});
 
@@ -73,10 +73,11 @@ public class MyCourseDetailActivity extends ListActivity {
 
 				signetBackgroundThead.execute();
 
-				final ProgressDialog progress = new ProgressDialog(this);
-				progress.setMessage(getString(R.string.loading));
-				progress.show();
+//				final ProgressDialog progress = new ProgressDialog(this);
+//				progress.setMessage(getString(R.string.loading));
+//				progress.show();
 
+				navBar.showLoading();
 				new Thread(new Runnable() {
 
 					@Override
@@ -98,9 +99,10 @@ public class MyCourseDetailActivity extends ListActivity {
 									getListView().setEmptyView(
 											findViewById(R.id.empty));
 
-									if (progress != null) {
-										progress.dismiss();
-									}
+//									if (progress != null) {
+//										progress.dismiss();
+//									}
+									navBar.hideLoading();
 								}
 							});
 
