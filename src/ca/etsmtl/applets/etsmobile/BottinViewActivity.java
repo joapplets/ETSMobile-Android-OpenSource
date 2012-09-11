@@ -1,17 +1,14 @@
 package ca.etsmtl.applets.etsmobile;
 
-import com.etsmt.applets.etsmobile.views.NavBar;
-
 import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
+
+import com.etsmt.applets.etsmobile.views.NavBar;
 
 public class BottinViewActivity extends Activity {
 
