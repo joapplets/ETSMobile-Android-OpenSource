@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 
-import com.apphance.android.Log;
 import com.google.gson.Gson;
 
 public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {

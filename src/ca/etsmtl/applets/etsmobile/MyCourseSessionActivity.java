@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
