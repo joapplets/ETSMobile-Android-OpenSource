@@ -174,11 +174,8 @@ public class MyCourseListActivity extends ListActivity implements
 
 			@Override
 			public void onClick(final View v) {
-				final Intent intent = new Intent(v.getContext(),
-						ETSMobileActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
+
+				finish();
 			}
 		});
 
