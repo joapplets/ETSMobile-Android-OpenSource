@@ -78,11 +78,9 @@ public class BottinListActivity extends ListActivity implements
 	 * SimpleCursorAdapter INFO
 	 */
 	private static final String[] PROJECTION = new String[] {
-			BottinTableHelper.BOTTIN_NOM, BottinTableHelper.BOTTIN_PRENOM,
-			BottinTableHelper.BOTTIN_TIRE, BottinTableHelper.BOTTIN_SERVICE };
+			BottinTableHelper.BOTTIN_NOM, BottinTableHelper.BOTTIN_PRENOM };
 	private static final int[] TXT_VIEWS = new int[] {
-			R.id.bottin_list_item_nom, R.id.bottin_list_item_prenom,
-			R.id.bottin_list_item_poste, R.id.bottin_list_item_service };
+			R.id.bottin_list_item_nom, R.id.bottin_list_item_prenom };
 	/**
 	 * Dialogs
 	 */
@@ -96,11 +94,9 @@ public class BottinListActivity extends ListActivity implements
 	 */
 	private static final String[] DB_COLS = new String[] {
 			BottinTableHelper.BOTTIN__ID, BottinTableHelper.BOTTIN_NOM,
-			BottinTableHelper.BOTTIN_PRENOM, BottinTableHelper.BOTTIN_TIRE,
-			BottinTableHelper.BOTTIN_SERVICE };
+			BottinTableHelper.BOTTIN_PRENOM };
 
-	private static final String[] SELECTION_ARGS = new String[] { "%", "%",
-			"%", "%", "%" };
+	private static final String[] SELECTION_ARGS = new String[] { "%", "%", "%" };
 
 	private Cursor allEntryCursor;
 	// Handler uiHandler;

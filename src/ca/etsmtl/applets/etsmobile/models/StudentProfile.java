@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class StudentProfile extends Model {
-	private final String nom, prenom, codePerm, solde;
+	private final String nom, prenom, codePerm, soldeTotal;
 
 	public static final Creator<StudentProfile> CREATOR = new Parcelable.Creator<StudentProfile>() {
 		@Override
@@ -23,7 +23,7 @@ public class StudentProfile extends Model {
 		nom = in.readString();
 		prenom = in.readString();
 		codePerm = in.readString();
-		solde = in.readString();
+		soldeTotal = in.readString();
 	}
 
 	public StudentProfile(final String nom, final String prenom,
@@ -31,23 +31,23 @@ public class StudentProfile extends Model {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.codePerm = codePerm;
-		this.solde = solde;
+		this.soldeTotal = solde;
 	}
 
 	public String getCodePerm() {
-		return codePerm;
+		return codePerm != null ? codePerm.trim() : "";
 	}
 
 	public String getNom() {
-		return nom;
+		return nom != null ? nom.trim() : "";
 	}
 
 	public String getPrenom() {
-		return prenom;
+		return prenom != null ? prenom.trim() : "";
 	}
 
 	public String getSolde() {
-		return solde;
+		return soldeTotal != null ? soldeTotal.trim() : "";
 	}
 
 	@Override
@@ -55,6 +55,6 @@ public class StudentProfile extends Model {
 		dst.writeString(nom);
 		dst.writeString(prenom);
 		dst.writeString(codePerm);
-		dst.writeString(solde);
+		dst.writeString(soldeTotal);
 	}
 }
