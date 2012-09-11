@@ -30,7 +30,8 @@ import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import com.etsmt.applets.etsmobile.dialogs.LoginDialog;
 import com.etsmt.applets.etsmobile.views.NavBar;
 
-public class MyCourseListActivity extends ListActivity implements OnDismissListener {
+public class MyCourseListActivity extends ListActivity implements
+		OnDismissListener {
 
 	private static final int SHOW_LOGIN = 0;
 	protected static final int LOGIN_ERROR = 0;
@@ -109,9 +110,9 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 
 			signetBackgroundThead.execute();
 
-//			final ProgressDialog progress = new ProgressDialog(this);
-//			progress.setMessage(getString(R.string.loading));
-//			progress.show();
+			// final ProgressDialog progress = new ProgressDialog(this);
+			// progress.setMessage(getString(R.string.loading));
+			// progress.show();
 			navBar.showLoading();
 
 			new Thread(new Runnable() {
@@ -139,9 +140,9 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 										R.layout.course_list_item,
 										courseActivities);
 								getListView().setAdapter(myCoursesAdapter);
-//								if (progress != null) {
-//									progress.dismiss();
-//								}
+								// if (progress != null) {
+								// progress.dismiss();
+								// }
 								navBar.hideLoading();
 							}
 						});

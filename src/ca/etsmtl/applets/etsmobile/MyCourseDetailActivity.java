@@ -71,9 +71,9 @@ public class MyCourseDetailActivity extends ListActivity {
 
 				signetBackgroundThead.execute();
 
-//				final ProgressDialog progress = new ProgressDialog(this);
-//				progress.setMessage(getString(R.string.loading));
-//				progress.show();
+				// final ProgressDialog progress = new ProgressDialog(this);
+				// progress.setMessage(getString(R.string.loading));
+				// progress.show();
 
 				navBar.showLoading();
 				new Thread(new Runnable() {
@@ -97,9 +97,9 @@ public class MyCourseDetailActivity extends ListActivity {
 									getListView().setEmptyView(
 											findViewById(R.id.empty));
 
-//									if (progress != null) {
-//										progress.dismiss();
-//									}
+									// if (progress != null) {
+									// progress.dismiss();
+									// }
 									navBar.hideLoading();
 								}
 							});
