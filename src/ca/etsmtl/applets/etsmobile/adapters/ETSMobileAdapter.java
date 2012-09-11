@@ -21,10 +21,10 @@ public class ETSMobileAdapter extends BaseAdapter {
 	private final Integer[] icons = { R.drawable.icon_profile,
 			R.drawable.icon_news, R.drawable.icon_emergency,
 			R.drawable.icon_schedule, R.drawable.icon_addressbook,
-			R.drawable.icon_courses };
+			R.drawable.icon_courses ,R.drawable.icon_addressbook};
 
 	private final String[] iconsLabels = { "Profil", "Nouvelles", "Sécurité",
-			"Horaire", "Bottin", "Mes cours" };
+			"Horaire", "Bottin", "Mes cours","Coop" };
 
 	public ETSMobileAdapter(final Context context) {
 		this.context = context;

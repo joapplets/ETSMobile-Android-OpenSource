@@ -65,6 +65,9 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		case 5:
 			intent = new Intent(this, MyCourseSessionActivity.class);
 			break;
+		case 6:
+			intent = new Intent(this,CoopActivity.class);
+			break;
 		default:
 			break;
 		}
