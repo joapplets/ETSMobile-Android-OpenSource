@@ -39,7 +39,6 @@ public class MyCourseSessionActivity extends ListActivity {
 		navBar.setTitle(R.drawable.navbar_notes_title);
 		navBar.setHomeAction(new OnClickListener() {
 
-			@Override
 			public void onClick(final View v) {
 				finish();
 			}
@@ -55,7 +54,6 @@ public class MyCourseSessionActivity extends ListActivity {
 
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
 			public void onItemClick(final AdapterView<?> adapterView,
 					final View view, final int position, final long arg3) {
 				final Bundle b = new Bundle();
@@ -86,14 +84,12 @@ public class MyCourseSessionActivity extends ListActivity {
 
 				new Thread(new Runnable() {
 
-					@Override
 					public void run() {
 						try {
 							final ArrayList<Session> newSessions = signetBackgroundThead
 									.get();
 
 							runOnUiThread(new Runnable() {
-								@Override
 								public void run() {
 									sessions = newSessions;
 									myCoursesAdapter = new MyCourseSessionAdapter(

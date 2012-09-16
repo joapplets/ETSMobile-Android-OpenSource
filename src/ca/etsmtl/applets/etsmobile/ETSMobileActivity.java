@@ -63,7 +63,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	};
 	private UserCredentials credentials;
 
-	@Override
 	public void onClick(final DialogInterface dialog, final int which) {
 		String codeP;
 		String codeU;
@@ -87,7 +86,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	/**
 	 * About
 	 */
-	@Override
 	public void onClick(final View arg0) {
 		final Intent intent = new Intent(this, AboutActivity.class);
 		startActivity(intent);
@@ -145,7 +143,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	/**
 	 * Grid Item Click
 	 */
-	@Override
 	public void onItemClick(final AdapterView<?> arg0, final View arg1,
 			final int position, final long id) {
 		Intent intent = null;
@@ -160,6 +157,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			intent = new Intent(this, SecurityActivity.class);
 			break;
 		case 3:
+			intent = new Intent(this, CalendarActivity.class);
 			// intent = new Intent(this, ScheduleActivity.class);
 			break;
 		case 4:
@@ -183,7 +181,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	}
 
 	/** Disable scrolling of the main view */
-	@Override
 	public boolean onTouch(final View v, final MotionEvent event) {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_MOVE:

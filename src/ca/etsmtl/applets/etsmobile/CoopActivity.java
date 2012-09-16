@@ -8,7 +8,7 @@ public class CoopActivity extends Activity{
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.information);
+		//setContentView(R.layout.information);
 	}
 
 }

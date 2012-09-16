@@ -96,7 +96,6 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	/**
 	 * Login dialog onClick
 	 */
-	@Override
 	public void onClick(final DialogInterface dialog, final int which) {
 		String codeP;
 		String codeU;
@@ -121,7 +120,6 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	/**
 	 * Login btn
 	 */
-	@Override
 	public void onClick(final View view) {
 		if (!(Boolean) btnLogin.getTag()) {
 			showDialog(ProfileActivity.SHOW_LOGIN);
@@ -178,7 +176,6 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		return d;
 	}
 
-	@Override
 	public void onDismiss(final DialogInterface dialog) {
 		doLogin();
 	}

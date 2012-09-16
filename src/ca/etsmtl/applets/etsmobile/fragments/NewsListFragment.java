@@ -38,7 +38,7 @@ public class NewsListFragment extends ListFragment implements
 		} catch (final ClassCastException e) {
 			throw new ClassCastException(
 					activity.toString()
-							+ "l'activité doit implémenter l'interface NewsListSelectedItemListener");
+							+ "l'activitï¿½ doit implï¿½menter l'interface NewsListSelectedItemListener");
 		}
 	}
 
@@ -51,7 +51,6 @@ public class NewsListFragment extends ListFragment implements
 		setListAdapter(adapter);
 	}
 
-	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle bundle) {
 		final String[] projection = { NewsTableHelper.NEWS_ID,
 				NewsTableHelper.NEWS_GUID, NewsTableHelper.NEWS_TITLE,
@@ -97,12 +96,10 @@ public class NewsListFragment extends ListFragment implements
 		selectedItemListener.onItemClick(v);
 	}
 
-	@Override
 	public void onLoaderReset(final Loader<Cursor> loader) {
 		adapter.swapCursor(null);
 	}
 
-	@Override
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
 		adapter.swapCursor(cursor);
 	}

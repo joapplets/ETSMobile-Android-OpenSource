@@ -53,7 +53,6 @@ public class NavBar extends RelativeLayout {
 		loading = (ProgressBar) root_layout.findViewById(R.id.base_bar_loading);
 		homeBtn.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(final View v) {
 				getContext().startActivity(
 						new Intent(getContext(), ETSMobileActivity.class));

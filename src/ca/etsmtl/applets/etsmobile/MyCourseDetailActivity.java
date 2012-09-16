@@ -36,7 +36,6 @@ public class MyCourseDetailActivity extends ListActivity {
 		navBar.setTitle(R.drawable.navbar_notes_title);
 		navBar.setHomeAction(new OnClickListener() {
 
-			@Override
 			public void onClick(final View v) {
 				finish();
 			}
@@ -80,14 +79,12 @@ public class MyCourseDetailActivity extends ListActivity {
 				navBar.showLoading();
 				new Thread(new Runnable() {
 
-					@Override
 					public void run() {
 						try {
 							courseEvaluation = signetBackgroundThead.get();
 							courseEvaluation.setCote(coteFinale);
 
 							runOnUiThread(new Runnable() {
-								@Override
 								public void run() {
 									final MyCourseDetailAdapter myCoursesAdapter = new MyCourseDetailAdapter(
 											getApplicationContext(),

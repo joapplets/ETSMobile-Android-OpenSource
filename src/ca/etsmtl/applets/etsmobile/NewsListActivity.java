@@ -87,13 +87,11 @@ public class NewsListActivity extends FragmentActivity implements
 
 	private final ServiceConnection connection = new ServiceConnection() {
 
-		@Override
 		public void onServiceConnected(final ComponentName name,
 				final IBinder service) {
 			new ManualFetcher().execute((NewsFetcherBinder) service);
 		}
 
-		@Override
 		public void onServiceDisconnected(final ComponentName name) {
 		}
 	};
@@ -116,22 +114,18 @@ public class NewsListActivity extends FragmentActivity implements
 		return animation;
 	}
 
-	@Override
 	public void onAnimationEnd(final Animation animation) {
 		if (!footerVisible) {
 			footer.setVisibility(View.GONE);
 		}
 	}
 
-	@Override
 	public void onAnimationRepeat(final Animation animation) {
 	}
 
-	@Override
 	public void onAnimationStart(final Animation animation) {
 	}
 
-	@Override
 	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.base_list_home_btn:
@@ -170,17 +164,16 @@ public class NewsListActivity extends FragmentActivity implements
 		return true;
 	}
 
-	@Override
 	public void onItemClick(final View v) {
 
-		// On crée un nouveau intent qui va nous permettre de lancer
+		// On crï¿½e un nouveau intent qui va nous permettre de lancer
 		// la nouvelle activity
 
 		final Intent intent = new Intent(getApplicationContext(),
 				SingleNewsActivity.class);
 		intent.putExtra("id", (Integer) v.getTag(R.string.viewholderidtag));
 
-		// On lance l'intent qui va créer la nouvelle activity.
+		// On lance l'intent qui va crï¿½er la nouvelle activity.
 		startActivity(intent);
 	}
 

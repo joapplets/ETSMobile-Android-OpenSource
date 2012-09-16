@@ -52,12 +52,10 @@ public class SecurityActivity extends MapActivity {
 
 	private MapView mapView;
 
-	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
 
-	@Override
 	protected void onCreate(final android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -68,7 +66,6 @@ public class SecurityActivity extends MapActivity {
 		
 		navBar.setHomeAction(new OnClickListener() {
 
-			@Override
 			public void onClick(View arg0) {
 				finish();
 			}
@@ -81,7 +78,6 @@ public class SecurityActivity extends MapActivity {
 		listView.addHeaderView(viewGroup, null, false);
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
 			public void onItemClick(final AdapterView<?> arg0, final View arg1,
 					final int arg2, final long arg3) {
 				Intent intent = new Intent(getApplicationContext(),
@@ -98,7 +94,6 @@ public class SecurityActivity extends MapActivity {
 		viewGroup.findViewById(R.id.secu_list_header_phone).setOnClickListener(
 				new OnClickListener() {
 
-					@Override
 					public void onClick(View v) {
 
 					}
@@ -112,7 +107,7 @@ public class SecurityActivity extends MapActivity {
 		final MapController controller = mapView.getController();
 
 		final Address adress = SecurityActivity.searchLocationByName(this,
-				"École de Technologie Supérieure");
+				"ï¿½cole de Technologie Supï¿½rieure");
 		if (adress != null) {
 
 			final GeoPoint geo = new GeoPoint(
@@ -120,7 +115,7 @@ public class SecurityActivity extends MapActivity {
 					(int) (adress.getLongitude() * 1E6));
 
 			final OverlayItem items = new OverlayItem(geo,
-					"École de Technologie SUpérieur", "");
+					"ï¿½cole de Technologie SUpï¿½rieur", "");
 			markers.addOverlay(items);
 
 			mapView.getOverlays().add(markers);

@@ -109,22 +109,18 @@ public class BottinListActivity extends ListActivity implements
 	 */
 	private final ServiceConnection connection = new ServiceConnection() {
 
-		@Override
 		public void onServiceConnected(final ComponentName name,
 				final IBinder service) {
 			new ManualFetcher().execute((BottinBinder) service);
 		}
 
-		@Override
 		public void onServiceDisconnected(final ComponentName name) {
 		}
 	};
 
-	@Override
 	public void afterTextChanged(final Editable s) {
 	}
 
-	@Override
 	public void beforeTextChanged(final CharSequence s, final int start,
 			final int count, final int after) {
 	}
@@ -137,7 +133,6 @@ public class BottinListActivity extends ListActivity implements
 		bindService(i, connection, Context.BIND_AUTO_CREATE);
 	}
 
-	@Override
 	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.search_nav_bar_home_btn:
@@ -165,7 +160,6 @@ public class BottinListActivity extends ListActivity implements
 
 		simpleCursor.setFilterQueryProvider(new FilterQueryProvider() {
 
-			@Override
 			public Cursor runQuery(final CharSequence constraint) {
 				Log.d(BottinListActivity.LOG_TAG, "filter input  :"
 						+ constraint);
@@ -203,7 +197,6 @@ public class BottinListActivity extends ListActivity implements
 					.setPositiveButton(R.string.yes,
 							new DialogInterface.OnClickListener() {
 
-								@Override
 								public void onClick(
 										final DialogInterface dialog,
 										final int which) {
@@ -215,7 +208,6 @@ public class BottinListActivity extends ListActivity implements
 					.setNegativeButton(R.string.no,
 							new DialogInterface.OnClickListener() {
 
-								@Override
 								public void onClick(
 										final DialogInterface dialog,
 										final int which) {
@@ -234,7 +226,6 @@ public class BottinListActivity extends ListActivity implements
 		return d;
 	}
 
-	@Override
 	public void onItemClick(final AdapterView<?> vc, final View view,
 			final int position, final long id) {
 		final Intent intent = new Intent(getApplicationContext(),
@@ -270,7 +261,6 @@ public class BottinListActivity extends ListActivity implements
 		super.onResume();
 	}
 
-	@Override
 	public void onTextChanged(final CharSequence s, final int start,
 			final int before, final int count) {
 		Log.d(BottinListActivity.LOG_TAG, s + " - " + start + " - " + before

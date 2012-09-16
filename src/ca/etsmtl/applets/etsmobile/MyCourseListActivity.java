@@ -85,7 +85,6 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 				PreferenceManager.getDefaultSharedPreferences(this));
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
 			public void onItemClick(final AdapterView<?> adapterView,
 					final View view, final int position, final long arg3) {
 				final Bundle b = new Bundle();
@@ -117,14 +116,12 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 
 			new Thread(new Runnable() {
 
-				@Override
 				public void run() {
 					try {
 						final ArrayList<Course> newCourseActivities = signetBackgroundThead
 								.get();
 
 						runOnUiThread(new Runnable() {
-							@Override
 							public void run() {
 								courseActivities = new ArrayList<Course>();
 
@@ -172,7 +169,6 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 		navBar.setTitle(R.drawable.navbar_notes_title);
 		navBar.setHomeAction(new OnClickListener() {
 
-			@Override
 			public void onClick(final View v) {
 				final Intent intent = new Intent(v.getContext(),
 						ETSMobileActivity.class);
@@ -217,7 +213,6 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 		return d;
 	}
 
-	@Override
 	public void onDismiss(final DialogInterface dialog) {
 		doLogin();
 	}

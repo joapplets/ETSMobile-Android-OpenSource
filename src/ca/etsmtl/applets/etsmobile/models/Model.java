@@ -16,7 +16,6 @@ abstract public class Model implements Parcelable {
 
 	}
 
-	@Override
 	public int describeContents() {
 		return 0;
 	}

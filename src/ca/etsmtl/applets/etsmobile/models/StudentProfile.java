@@ -7,12 +7,10 @@ public class StudentProfile extends Model {
 	private final String nom, prenom, codePerm, soldeTotal;
 
 	public static final Creator<StudentProfile> CREATOR = new Parcelable.Creator<StudentProfile>() {
-		@Override
 		public StudentProfile createFromParcel(final Parcel in) {
 			return new StudentProfile(in);
 		}
 
-		@Override
 		public StudentProfile[] newArray(final int size) {
 			return new StudentProfile[size];
 		}
@@ -50,7 +48,6 @@ public class StudentProfile extends Model {
 		return soldeTotal != null ? soldeTotal.trim() : "";
 	}
 
-	@Override
 	public void writeToParcel(final Parcel dst, final int arg1) {
 		dst.writeString(nom);
 		dst.writeString(prenom);
