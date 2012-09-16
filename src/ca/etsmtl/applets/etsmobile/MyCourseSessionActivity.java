@@ -78,9 +78,9 @@ public class MyCourseSessionActivity extends ListActivity {
 
 				signetBackgroundThead.execute();
 
-//				final ProgressDialog progress = new ProgressDialog(this);
-//				progress.setMessage(getString(R.string.loading));
-//				progress.show();
+				// final ProgressDialog progress = new ProgressDialog(this);
+				// progress.setMessage(getString(R.string.loading));
+				// progress.show();
 				navBar.showLoading();
 
 				new Thread(new Runnable() {
@@ -100,9 +100,9 @@ public class MyCourseSessionActivity extends ListActivity {
 											R.layout.session_list_item,
 											sessions);
 									getListView().setAdapter(myCoursesAdapter);
-//									if (progress != null) {
-//										progress.dismiss();
-//									}
+									// if (progress != null) {
+									// progress.dismiss();
+									// }
 									navBar.hideLoading();
 								}
 							});

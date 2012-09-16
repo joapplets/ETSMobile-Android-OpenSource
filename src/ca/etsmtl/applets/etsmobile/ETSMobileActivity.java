@@ -25,6 +25,7 @@ import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 
+import com.apphance.android.Apphance;
 import com.apphance.android.Log;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener,
@@ -96,8 +97,8 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Apphance.startNewSession(this, getString(R.string.apphence_key),
-		// Apphance.Mode.QA);
+		Apphance.startNewSession(this, getString(R.string.apphence_key),
+				Apphance.Mode.QA);
 		setContentView(R.layout.main);
 
 		final GridView gridview = (GridView) findViewById(R.id.gridview);

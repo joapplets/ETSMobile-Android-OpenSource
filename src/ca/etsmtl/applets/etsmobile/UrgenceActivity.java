@@ -29,7 +29,7 @@ public class UrgenceActivity extends Activity {
 		navBar.setHomeAction(new OnClickListener() {
 
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(final View arg0) {
 				finish();
 			}
 		});
@@ -84,7 +84,7 @@ public class UrgenceActivity extends Activity {
 		findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				openPdf();
 			}
 		});
