@@ -84,11 +84,12 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
 			text = getString(R.string.logout);
 			tag = true;
+			navBar.showLoading();
+			new ProfileTask(handler).execute(creds);
 		} else {
 			text = getString(R.string.login);
 			tag = false;
 		}
-		new ProfileTask(handler).execute(creds);
 		btnLogin.setText(text);
 		btnLogin.setTag(tag);
 	}
@@ -127,7 +128,8 @@ public class ProfileActivity extends Activity implements OnClickListener,
 			showDialog(ProfileActivity.SHOW_LOGIN);
 		} else {
 			// remove credentials
-			final Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+			final Editor editor = PreferenceManager
+					.getDefaultSharedPreferences(this).edit();
 			editor.putString("codeP", "");
 			editor.putString("codeU", "");
 			editor.commit();
@@ -156,7 +158,6 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_profil_title);
 		navBar.hideRightButton();
-		navBar.showLoading();
 		doLogin();
 	}
 

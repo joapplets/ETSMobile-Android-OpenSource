@@ -124,7 +124,8 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 			final URLConnection conn = url.openConnection();
 			conn.addRequestProperty("Content-Type",
 					"application/json; charset=UTF-8");
-
+			conn.setReadTimeout(3000);
+			conn.setConnectTimeout(3000);
 			conn.setDoOutput(true);
 			final OutputStreamWriter wr = new OutputStreamWriter(
 					conn.getOutputStream());
@@ -145,7 +146,6 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 			JSONObject jsonRootArray;
 			jsonRootArray = jsonObject.getJSONObject("d");
 			object = (T) gson.fromJson(jsonRootArray.toString(), typeOfClass);
-			android.util.Log.d("JSON", jsonRootArray.toString());
 		} catch (final MalformedURLException e) {
 			e.printStackTrace();
 		} catch (final IOException e) {

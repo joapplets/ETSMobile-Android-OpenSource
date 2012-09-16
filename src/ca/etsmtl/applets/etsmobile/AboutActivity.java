@@ -36,18 +36,18 @@ public class AboutActivity extends Activity {
 					@Override
 					public void run() {
 						if (scrollView.getScrollY() < scrollView
-								.getMaxScrollAmount() * 7) {
+								.getMaxScrollAmount() * 9) {
 							scrollView.smoothScrollTo(0,
-									scrollView.getScrollY() + 6);
+									scrollView.getScrollY()+1);
 						} else {
-							scrollView.scrollTo(0, 0);
+							scrollView.smoothScrollTo(0, 0);
 						}
 					}
 				});
 			}
 		};
 		final Timer t = new Timer();
-		t.schedule(scrollerSchedule, 1000, 200);
+		t.schedule(scrollerSchedule, 1000, 100);
 
 		// home btn
 		((ImageButton) findViewById(R.id.empty_nav_bar_home_btn))
