@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.etsmt.applets.etsmobile.views.MyMapMarker;
 import com.etsmt.applets.etsmobile.views.NavBar;
@@ -51,6 +54,7 @@ public class SecurityActivity extends MapActivity {
 	private ListView listView;
 
 	private MapView mapView;
+	private TextView phone;
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -95,14 +99,20 @@ public class SecurityActivity extends MapActivity {
 				android.R.layout.simple_list_item_1, getResources()
 						.getStringArray(R.array.secu_urgence)));
 
-		viewGroup.findViewById(R.id.secu_list_header_phone).setOnClickListener(
-				new OnClickListener() {
+		phone = (TextView) viewGroup.findViewById(R.id.secu_list_header_phone);
 
-					@Override
-					public void onClick(final View v) {
+		phone.setOnClickListener(new OnClickListener() {
 
-					}
-				});
+			@Override
+			public void onClick(final View v) {
+				Intent callIntent = new Intent(Intent.ACTION_CALL);
+				callIntent.setData(Uri.parse("tel:+"
+						+ phone.getText().toString().trim()));
+				startActivity(callIntent);
+			}
+		});
+
+		Linkify.addLinks(phone, Linkify.PHONE_NUMBERS);
 
 		mapView = (MapView) findViewById(R.id.mapview);
 

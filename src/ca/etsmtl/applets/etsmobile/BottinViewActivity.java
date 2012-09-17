@@ -41,8 +41,9 @@ public class BottinViewActivity extends Activity {
 				ETSMobileContentProvider.CONTENT_URI_BOTTIN, b.toString()),
 				BottinTableHelper.AVAILABLE, null, null, null);
 		if (cursor.getCount() > 0 && cursor.moveToFirst()) {
-			nomView.setText(cursor.getString(cursor
-					.getColumnIndex(BottinTableHelper.BOTTIN_NOM)));
+			CharSequence nom = cursor.getString(cursor
+					.getColumnIndex(BottinTableHelper.BOTTIN_NOM));
+			nomView.setText(nom);
 			prenomView.setText(cursor.getString(cursor
 					.getColumnIndex(BottinTableHelper.BOTTIN_PRENOM)));
 			serviceView.setText(cursor.getString(cursor

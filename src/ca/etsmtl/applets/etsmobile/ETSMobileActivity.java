@@ -27,6 +27,7 @@ import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 
 import com.apphance.android.Apphance;
 import com.apphance.android.Log;
+import com.apphance.android.ui.ProblemActivity;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		OnTouchListener, OnClickListener,
@@ -155,22 +156,27 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			intent = new Intent(this, ProfileActivity.class);
 			break;
 		case 1:
-			intent = new Intent(this, NewsListActivity.class);
+			intent = new Intent(this, BibliothequeActivity.class);
 			break;
 		case 2:
-			intent = new Intent(this, SecurityActivity.class);
+			intent = new Intent(this, NewsListActivity.class);
 			break;
 		case 3:
-			// intent = new Intent(this, ScheduleActivity.class);
+			intent = new Intent(this, SecurityActivity.class);
 			break;
 		case 4:
-			intent = new Intent(this, BottinListActivity.class);
+			// intent = new Intent(this, ScheduleActivity.class);
 			break;
 		case 5:
-			intent = new Intent(this, MyCourseSessionActivity.class);
+			intent = new Intent(this, BottinListActivity.class);
 			break;
 		case 6:
-			intent = new Intent(this, BibliothequeActivity.class);
+			intent = new Intent(this, MyCourseSessionActivity.class);
+			break;
+		case 7:
+			Apphance.problem();
+			break;
+
 		default:
 			break;
 		}
