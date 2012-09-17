@@ -2,7 +2,7 @@
     
       
 	    <item android:id="@+id/return_menu"
-	          android:icon="@drawable/menu"
+	          android:icon="@drawable/icon_home"
 	          android:title="@string/menu" />
 	    
 	      <item

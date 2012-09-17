@@ -24,6 +24,14 @@ public class NavBar extends RelativeLayout {
 	public NavBar(final Context context) {
 		super(context);
 
+		final LayoutInflater layoutInflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		root_layout = (RelativeLayout) layoutInflater.inflate(R.layout.nav_bar,
+				this, true);
+
+		if (!isInEditMode()) {
+			init();
+		}
 	}
 
 	public NavBar(final Context context, final AttributeSet attrs) {
