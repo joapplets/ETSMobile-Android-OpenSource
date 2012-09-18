@@ -61,6 +61,11 @@
              android:name=".CoopActivity"
              android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        
+                  <activity 
+             android:name=".ScheduleActivity"
+             android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
         <activity android:name=".AboutActivity" >
         </activity>
         <activity android:name=".BottinViewActivity" >

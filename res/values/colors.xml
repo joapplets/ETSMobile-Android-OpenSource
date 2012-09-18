@@ -9,4 +9,7 @@
 	<color name="actionbar_separator">#666666</color>
 	<color name="alt_row">#EEEEEE</color>
 	<color name="list_separator_color">#d2d2d2</color>
+	
+	<color name="gridview_background">#9FA2AC</color>
+	<color name="background">#FFFFFF</color>
 </resources>
