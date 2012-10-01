@@ -89,6 +89,7 @@ public class News extends Model {
 		this.title = title;
 	}
 
+	@Override
 	public void writeToParcel(final Parcel dest, final int flags) {
 
 	}

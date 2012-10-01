@@ -36,6 +36,7 @@ public class LoginDialog extends AlertDialog {
 		setTitle(R.string.login_dialog_title);
 		setButton("Ok", new OnClickListener() {
 
+			@Override
 			public void onClick(final DialogInterface dialog, final int which) {
 				final SharedPreferences prefs = PreferenceManager
 						.getDefaultSharedPreferences(getContext());
@@ -49,6 +50,7 @@ public class LoginDialog extends AlertDialog {
 
 		setButton2("Cancel", new OnClickListener() {
 
+			@Override
 			public void onClick(final DialogInterface dialog, final int which) {
 				codeP.setText("");
 				codeU.setText("");

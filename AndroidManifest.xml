@@ -73,37 +73,6 @@
         </activity>
         <activity android:name=".MyCourseDetailActivity" >
         </activity>
-        
-        <activity 
-            android:name=".CalendarActivity">
-    		<intent-filter>
-        		<action android:name="android.intent.action.PICK" />
-        		<category android:name="android.intent.category.DEFAULT" />
-        		<data android:mimeType="vnd.android.cursor.dir/vnd.exina.android.calendar.date" />
-    		</intent-filter>
-    		<intent-filter>
-        		<action android:name="android.intent.action.VIEW" />
-        		<category android:name="android.intent.category.DEFAULT" />
-        		<data android:mimeType="vnd.android.cursor.dir/vnd.exina.android.calendar.date" />
-    		</intent-filter>
-		</activity>
-
-        <activity
-            android:name=".views.AjoutEventActivity">
-        </activity>
-        <activity
-            android:name=".views.CourseActivity">
-        </activity>
-        <activity
-            android:name=".views.AllEventActivity">
-        </activity>
-        <activity
-            android:name=".views.CourseDetailsActivity">
-        </activity>
-        <activity
-            android:name=".views.EventDetailsActivity">
-        </activity>
-        
     </application>
 
     <!-- Apphance instrumentation -->

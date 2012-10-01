@@ -131,6 +131,7 @@ public class BottinService extends Service implements Observer {
 		return Service.START_NOT_STICKY;
 	}
 
+	@Override
 	public void update(final Observable observable, final Object object) {
 		if (object instanceof ContentValues[]) {
 			final long start = System.currentTimeMillis();

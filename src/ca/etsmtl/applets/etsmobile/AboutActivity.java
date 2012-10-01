@@ -33,6 +33,7 @@ public class AboutActivity extends Activity {
 
 				handler.post(new Runnable() {
 
+					@Override
 					public void run() {
 						if (scrollView.getScrollY() < scrollView
 								.getMaxScrollAmount()*7) {
@@ -52,6 +53,7 @@ public class AboutActivity extends Activity {
 		((ImageButton) findViewById(R.id.empty_nav_bar_home_btn))
 				.setOnClickListener(new OnClickListener() {
 
+					@Override
 					public void onClick(final View view) {
 						finish();
 					}

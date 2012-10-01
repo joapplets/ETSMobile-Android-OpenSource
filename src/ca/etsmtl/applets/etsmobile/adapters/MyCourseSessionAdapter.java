@@ -28,6 +28,7 @@ public class MyCourseSessionAdapter extends ArrayAdapter<Session> {
 		super(context, textViewResourceId, objects);
 
 		Collections.sort(objects, new Comparator<Session>() {
+			@Override
 			public int compare(final Session s1, final Session s2) {
 				return s2.getDateDebut().compareTo(s1.getDateDebut());
 			}

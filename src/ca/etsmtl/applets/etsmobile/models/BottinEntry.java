@@ -151,6 +151,7 @@ public class BottinEntry extends Model {
 		return prenom + " " + nom;
 	}
 
+	@Override
 	public void writeToParcel(final Parcel dest, final int flags) {
 
 	}

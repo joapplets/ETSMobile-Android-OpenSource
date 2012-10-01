@@ -26,12 +26,12 @@ public class MyMapMarker extends ItemizedOverlay {
 
 	}
 
-
+	@Override
 	protected OverlayItem createItem(final int i) {
 		return mOverlays.get(i);
 	}
 
-
+	@Override
 	protected boolean onTap(final int index) {
 		// OverlayItem item = mOverlays.get(index);
 		// AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
@@ -47,7 +47,7 @@ public class MyMapMarker extends ItemizedOverlay {
 		return true;
 	}
 
-
+	@Override
 	public int size() {
 		return mOverlays.size();
 	}

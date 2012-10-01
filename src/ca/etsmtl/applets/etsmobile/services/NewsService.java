@@ -162,7 +162,7 @@ public class NewsService extends Service implements Observer {
 		if (source.equals(NewsService.RSS_ETS)) {
 			doc = Jsoup.parse(news.getDescription());
 
-			// enlï¿½ve l'icï¿½ne fb et twitter en haut du feed
+			// enlève l'icône fb et twitter en haut du feed
 			doc.select("a[href*=http://www.facebook.com/share.php?]").remove();
 			doc.select("a[href*=http://api.tweetmeme.com/share?]").remove();
 
@@ -209,6 +209,7 @@ public class NewsService extends Service implements Observer {
 		return Service.START_NOT_STICKY;
 	}
 
+	@Override
 	public void update(final Observable observable, final Object object) {
 		if (object instanceof News) {
 			News n = (News) object;

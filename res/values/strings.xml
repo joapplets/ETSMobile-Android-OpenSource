@@ -105,35 +105,4 @@ communication t&amp;#233;l&amp;#233;phonique&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;&amp
 toutes les informations requises avant de raccrocher .&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Prodiguer les premiers soins seulement si vous avez re&amp;#231;u la formation appropri&amp;#233;e&lt;/li&gt;&lt;li&gt;S’informer aux personnes autours si une personne sur l’&amp;#233;tage est
 secouriste ou d’en trouver un.&lt;/li&gt;&lt;li&gt;Demeurer sur place pour assister le secouriste ou pour donner un compl&amp;#233;ment d’informations.&lt;/li&gt;&lt;li&gt;S’il y a des personnes autour, leur demander de l’aide en attendant les secours&lt;/li&gt;&lt;li&gt;Si les gens sont trop pr&amp;#232;s de la victime, exiger qu’ils se d&amp;#233;placent afin de laisser de la place &amp;#224; la victime et de faciliter les soins&lt;/li&gt;&lt;li&gt;Ne jamais d&amp;#233;placer la victime sauf si la situation repr&amp;#233;sente un danger pour la personne&lt;/li&gt;&lt;li&gt;Ne pas donner de nourriture ou de liquide &amp;#224; la victime m&amp;#234;me si elle l’exige&lt;/li&gt;&lt;li&gt;Si possible ou n&amp;#233;cessaire, demeurer en communication avec la s&amp;#233;curit&amp;#233; et suivre les instructions donn&amp;#233;es&lt;/li&gt;&lt;li&gt;Si l’&amp;#233;tat d’une personne se d&amp;#233;t&amp;#233;riore, aviser &amp;#224; nouveau la s&amp;#233;curit&amp;#233;&lt;/li&gt;&lt;li&gt;Demeurer sur les lieux jusqu’&amp;#224; ce que les secours arrivent&lt;/li&gt;&lt;/ul&gt;</string>
 
-    <!-- Calendrier -->
-    <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">ETS MOBILE</string>
-    <string name="title_activity_horaire">ETS MOBILE - HORAIRE</string>
-    <string name="title_activity_cours">ETS MOBILE - COURS</string>
-    <string name="title_activity_evenements">ETS MOBILE - ÉVENEMENTS</string>
-    <string name="str_Horaire">Horaire</string>
-    <string name="str_Cours">Cours</string>
-    <string name="str_Evenement">Événements</string>
-    <string name="str_Type">Type</string>
-    <string name="str_AjtEvenement">Ajout événements</string>
-
-
-	<!-- Ajoute Evenement  -->
-    <string name="type">Type</string>
-    <string name="title">Titre</string>
-    <string name="date">Date</string>
-    <string name="from">De</string>
-    <string name="to">À</string>
-    <string name="classroom">Salle</string>
-    <string name="info">Info</string>
-    <string name="cooEquip">Coéquipier</string>
-     
-    
-    <string name="creer">Créer</string>
-    <string name="cancel">Annuler</string>
-    <string name= "ajoutEven">Ajouter Événement</string>
-    <string name= "menu">Menu</string>
-    <string name= "ok">OK</string>
-    <string name= "modify">Modifier</string>
-    <string name= "delete">Supprimé</string>
 </resources>
