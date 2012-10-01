@@ -22,8 +22,13 @@ import android.graphics.Point;
 
 
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import android.widget.Button;;
@@ -50,8 +55,8 @@ NumGridView mNumGridView;
       
         this.current = new CurrentCalendar();
         
-        Button btn_previous = (Button) findViewById(R.id.btn_previous);
-        Button btn_next = (Button) findViewById(R.id.btn_next);
+        ImageButton btn_previous = (ImageButton) findViewById(R.id.btn_previous);
+        ImageButton btn_next = (ImageButton) findViewById(R.id.btn_next);
         
        
         btn_previous.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +79,7 @@ NumGridView mNumGridView;
       
         mNumGridView.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
         
+        
         CalendarTextView txtcalendar_title = (CalendarTextView)findViewById(R.id.calendar_title);
       
         
@@ -94,11 +100,42 @@ NumGridView mNumGridView;
     OnCellTouchListener mNumGridView_OnCellTouchListener = new OnCellTouchListener() {
         @Override public void onCellTouch( NumGridView v, int x, int y ) {
         	v.setSelectedCell(new Point(x,y));
-           v.invalidate();
+           
+        	// startAnimationPopOut();
+        	v.invalidate();
+           
+          
         }
     };
     
+    /* animation */
+/*
+    private void startAnimationPopOut() {         
+        NumGridView myLayout = (NumGridView) findViewById(R.id.numgridview);
 
+        Animation animation = AnimationUtils.loadAnimation(this,R.anim.bottom_out);
 
+        animation.setAnimationListener(new AnimationListener() {                  
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+        });
+
+        myLayout.clearAnimation();
+        myLayout.startAnimation(animation);
+
+    }
+*/
    
 }

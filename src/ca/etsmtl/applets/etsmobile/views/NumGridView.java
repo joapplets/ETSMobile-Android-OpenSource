@@ -41,6 +41,9 @@ import android.view.View;
 @SuppressLint({ "DrawAllocation", "DrawAllocation" })
 public class NumGridView extends View implements Observer{
 
+	
+	final int nbCellulesY =6; //on va générer toujours un grilles 7 x 6
+	
     // Member variables 
     protected Paint      mPaintBg;    // Holds the style for painting the cell background 
     protected Paint      mPaintFg;    // Holds the style for painting the cell foreground 
@@ -74,29 +77,29 @@ public class NumGridView extends View implements Observer{
       
         mPaintBorders = new Paint();
         mPaintBorders.setAntiAlias(true);
-        mPaintBorders.setColor(Color.BLACK);
+        mPaintBorders.setColor(getResources().getColor(R.color.calendar_cell_border_color));
         mPaintBorders.setStyle(Paint.Style.STROKE);
         mPaintBorders.setStrokeWidth(3);
       
         // Setup paint background
         mPaintBg = new Paint();
         mPaintBg.setAntiAlias(true);
-        mPaintBg.setColor(Color.rgb(250, 250, 250));
+        mPaintBg.setColor(getResources().getColor(R.color.calendar_cell_background_color));
        
         mPaintBg.setStyle(Paint.Style.FILL_AND_STROKE);
        
         // Setup paint foreground
         mPaintFg = new Paint();
         mPaintFg.setAntiAlias(true);
-        mPaintFg.setColor(Color.BLACK);
+        mPaintFg.setColor(getResources().getColor(R.color.calendar_cell_text_color));
         mPaintFg.setTypeface(Typeface.create(Typeface.SERIF, Typeface.BOLD));
         mPaintFg.setTextAlign(Paint.Align.CENTER);
        
         // Get the XML attributes
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumGridView);
         mStretch = a.getBoolean(R.styleable.NumGridView_stretch, false);
-        mCellCountX = a.getInt(R.styleable.NumGridView_cellCountX, 8);
-        mCellCountY = a.getInt(R.styleable.NumGridView_cellCountY, 8);
+        mCellCountX = a.getInt(R.styleable.NumGridView_cellCountX, 7);
+        mCellCountY = a.getInt(R.styleable.NumGridView_cellCountY, 6);
         a.recycle();
 
        
@@ -181,15 +184,14 @@ public class NumGridView extends View implements Observer{
         }
          
         // Determine offset
-        /*
+        
         mOffsetX= ( vw - mCellWidth *mCellCountX ) / 2;
-        mOffsetY= ( vh - mCellHeight*mCellCountY ) / 2;
-      */
-       // mOffsetX= ( vw - mCellWidth *mCellCountX ) ;
-       // mOffsetY= ( vh - mCellHeight*mCellCountY ) ;
+
+
+       
         
         // Satisfy contract by calling setMeasuredDimension
-        setMeasuredDimension( mOffsetX + mCellCountX*mCellWidth + mOffsetX , mOffsetY + mCellCountY*mCellHeight + mOffsetY );
+        setMeasuredDimension( mOffsetX + mCellCountX*mCellWidth + mOffsetX ,nbCellulesY *mCellHeight );
 
         // Set font size
         float specified_fontsize= mPaintFg.getTextSize();
@@ -229,41 +231,34 @@ public class NumGridView extends View implements Observer{
                 if(this.selectedCell.equals(x,y))
                 {
                 	this.mPaintFg.setAlpha(100);
-                	this.mPaintBg.setColor(Color.rgb(0, 113, 227));
-            		this.mPaintFg.setColor(Color.rgb(255, 255, 255));
+                	this.mPaintBg.setColor(getResources().getColor(R.color.calendar_selected_cell_background_color));
+            		this.mPaintFg.setColor(getResources().getColor(R.color.calendar_selected_cell_text_color));
                 }
                 else if(c.get(Calendar.MONTH) == now.get(Calendar.MONTH) && c.get(Calendar.DAY_OF_MONTH) == now.get(Calendar.DAY_OF_MONTH))
                 {
                 	this.mPaintFg.setAlpha(100);
-                	this.mPaintBg.setColor(Color.rgb(115, 137, 165));
-            		this.mPaintFg.setColor(Color.rgb(255, 255, 255));
+                	this.mPaintBg.setColor(getResources().getColor(R.color.calendar_current_day_cell_background_color));
+            		this.mPaintFg.setColor(getResources().getColor(R.color.calendar_current_day_cell_text_color));
                 }
                 else if(c.get(Calendar.MONTH) == this.current.get(Calendar.MONTH))
                 {
                 	this.mPaintFg.setAlpha(100);
-                    this.mPaintBg.setColor(Color.rgb(250, 250, 250));
-                   this.mPaintFg.setColor(Color.BLACK);
+                    this.mPaintBg.setColor(getResources().getColor(R.color.calendar_cell_background_color));
+                   this.mPaintFg.setColor(getResources().getColor(R.color.calendar_cell_text_color));
 
                 }
                 else
                 {
-                    this.mPaintBg.setColor(Color.rgb(250, 250, 250));
-                    this.mPaintFg.setColor(Color.BLACK);
+                    this.mPaintBg.setColor(getResources().getColor(R.color.calendar_cell_background_color));
+                    this.mPaintFg.setColor(getResources().getColor(R.color.calendar_cell_text_color));
                     this.mPaintFg.setAlpha(50); 
                 }
   
-                
-              
-                
               
                 canvas.drawRect( new Rect(dx+1,dy+1,dx+mCellWidth-2,dy+mCellHeight-2), mPaintBorders );
-               
-                
-                
+
                 canvas.drawRect( new Rect(dx+1,dy+1,dx+mCellWidth-2,dy+mCellHeight-2), mPaintBg );
-                
-              
-                
+
                 
                 // Draw the cell value                
                 int v= mCells[x][y];

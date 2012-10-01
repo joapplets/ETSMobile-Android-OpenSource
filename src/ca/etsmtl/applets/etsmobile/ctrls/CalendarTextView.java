@@ -35,7 +35,7 @@ public class CalendarTextView extends TextView implements Observer{
 		// TODO Auto-generated method stub
 		Calendar current = (Calendar)  data;
 		this.setText(new SimpleDateFormat("MMMM yyyy", Locale.CANADA_FRENCH).format(current.getTime()));
-		System.out.println("update!");
+		
 	}
 
 

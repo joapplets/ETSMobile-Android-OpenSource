@@ -13,6 +13,8 @@ public class CurrentCalendar extends Observable implements Comparable<Calendar>{
 	public CurrentCalendar()
 	{
 		 this.current = Calendar.getInstance(TimeZone.getTimeZone("Canada/Eastern"), Locale.CANADA_FRENCH);
+	
+			
 	}
 	
 	
