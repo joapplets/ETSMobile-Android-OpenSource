@@ -19,8 +19,7 @@ public class EventDetailsModel {
 		COURSE		("Cours"), 
 		TP			("TP"), 
 		MEETING		("Réunion"),
-		PERSONAL	("Personnel"),
-		REVIEW		("Examen");
+		PERSONAL	("Personnel");
 
 		private final String description;
 

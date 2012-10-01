@@ -15,7 +15,7 @@ public class AddEventCtrl {
 	private CourseList courseList;
 	
 	public AddEventCtrl(){
-		locaux = LocalListModel.getInstance();
+		locaux = new LocalListModel();
 		courseList = CourseList.getInstance();
 	}
 	
@@ -25,18 +25,13 @@ public class AddEventCtrl {
 		EventDetailsModel event = new EventDetailsModel(); 
 		event = setEventDetail(event, type, courseSymbol, titre, date, endTime, salle,  info );
 		EventHandler.getInstance().add(event);
-		if(!checkLocal(salle)){
-			addLocal(salle);
-		}
 	}
 	
 	public void modifyEvent(String type, String courseSymbol,String titre,Calendar date, Calendar endTime, String salle, String info,int eventID){
 		
 		EventDetailsModel event = EventHandler.getInstance().getEventById(eventID);
 		event = setEventDetail(event, type, courseSymbol, titre, date, endTime, salle,  info );
-		if(!checkLocal(salle)){
-			addLocal(salle);
-		}
+
 	}
 	
 	public EventDetailsModel setEventDetail(EventDetailsModel event, String type, String courseSymbol, String titre, Calendar date, Calendar endTime, String salle, String info ){
@@ -63,24 +58,12 @@ public class AddEventCtrl {
 		else if(type.equals(EventType.PERSONAL.getDescription())){
 			event.setEventType(EventType.PERSONAL);
 		}
-		else if(type.equals(EventType.REVIEW.getDescription())){
-			event.setEventType(EventType.REVIEW);
-		}
+		
 		return event;
 	}
 		
 	public String[] getLocauxString(){
 		return locaux.getListLocaux();
-	}
-	
-	public boolean checkLocal(String local){
-		Log.v("checkLocal", "checkLocalOK ");
-		return locaux.checkLocal(local);
-	}
-	
-	public void addLocal(String local){
-		Log.v("addLocal", "addLocalOK ");
-		locaux.addLocal(local);
 	}
 	
 	public String[] getCourseSymbols(){

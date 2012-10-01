@@ -19,10 +19,6 @@ package ca.etsmtl.applets.etsmobile;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.xml.sax.helpers.AttributesImpl;
-
-import com.etsmt.applets.etsmobile.views.NavBar;
-
 import ca.etsmtl.applets.etsmobile.ctrls.CalendarCtrl;
 import ca.etsmtl.applets.etsmobile.ctrls.EventListAdapter;
 import ca.etsmtl.applets.etsmobile.models.EventDetailsModel;
@@ -37,7 +33,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -54,7 +49,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
+@SuppressLint("ParserError")
 public class CalendarActivity extends Activity {
 	public static final String MIME_TYPE = "vnd.android.cursor.dir/vnd.exina.android.calendar.date";
 	Handler mHandler = new Handler();
@@ -65,7 +60,7 @@ public class CalendarActivity extends Activity {
 	private Calendar dateMonthShown;
 	private ArrayList<EventDetailsModel> list;
 	private TextView actualMonth;
-
+	private TextView actualYear;
 	
 	
     /** Called when the activity is first created. */
@@ -91,16 +86,9 @@ public class CalendarActivity extends Activity {
             }
         });
         
-     
-        NavBar nav_bar = new NavBar(this);
-        nav_bar.hideRightButton();
-        nav_bar.setTitle(R.drawable.navbar_horaire_title);
-
         LinearLayout linearLayoutCalendarTitle = new LinearLayout(this.getApplicationContext());
         linearLayoutCalendarTitle.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayoutCalendar.addView(nav_bar);
         linearLayoutCalendar.addView(linearLayoutCalendarTitle);
-     
         
         //text of the actual month (over the calendar)
         actualMonth = new TextView(this.getApplicationContext());
@@ -108,16 +96,21 @@ public class CalendarActivity extends Activity {
         actualMonth.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1.0f));
         actualMonth.setGravity(Gravity.CENTER);
         
-
+      //text of the actual Year (over the calendar)
+        actualYear = new TextView(this.getApplicationContext());
+        actualYear.setText("Actual Month");
+        actualYear.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1.0f));
+        actualYear.setGravity(Gravity.CENTER);
+        
         //left button to switch month
         Button leftMonthButton = new Button(this.getApplicationContext());
-        leftMonthButton.setBackgroundResource(R.drawable.left);
+        leftMonthButton.setText("<");
         leftMonthButton.setPadding(40, 5, 40, 5);
         leftMonthButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
         
         Button rightMonthButton = new Button(this.getApplicationContext());
-        rightMonthButton.setBackgroundResource(R.drawable.right);        
+        rightMonthButton.setText(">");            
 /*
         rightMonthButton.setPadding(40, 5, 40, 5);        
         rightMonthButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -131,16 +124,16 @@ public class CalendarActivity extends Activity {
         actualMonth.setTextAppearance(this, android.R.style.TextAppearance_Medium);
         actualMonth.setGravity(Gravity.CENTER);
 
-       
-       
-        
         linearLayoutCalendarTitle.addView(leftMonthButton);
         linearLayoutCalendarTitle.addView(actualMonth);
+        linearLayoutCalendarTitle.addView(actualYear);
         linearLayoutCalendarTitle.addView(rightMonthButton);       
         
    
         linearLayoutCalendar.addView(calendarCtrl.getCalendarView());
-        actualMonth.setText(String.format("%tB", calendarCtrl.getCurrentDate())+" "+calendarCtrl.getCurrentDate().get(Calendar.YEAR));
+        actualMonth.setText(String.format("%tB", calendarCtrl.getCurrentDate()));
+        actualYear.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+        actualYear.setText(""+calendarCtrl.getCurrentDate().get(Calendar.YEAR));
         
         View lineDividerBlank = new View(this.getApplicationContext());
         lineDividerBlank.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, 15 ));
@@ -208,7 +201,8 @@ public class CalendarActivity extends Activity {
     	else
     		calendarCtrl.previousMonth();
 		dateMonthShown.add(Calendar.MONTH, addMonth);		
-		actualMonth.setText(String.format("%tB", dateMonthShown)+" "+""+dateMonthShown.get(Calendar.YEAR));
+		actualMonth.setText(String.format("%tB", dateMonthShown));
+		actualYear.setText(""+dateMonthShown.get(Calendar.YEAR));
 		updateList(calendarCtrl.getCurrentDate().get(Calendar.YEAR), calendarCtrl.getCurrentDate().get(Calendar.MONTH), 1);
     }
 
