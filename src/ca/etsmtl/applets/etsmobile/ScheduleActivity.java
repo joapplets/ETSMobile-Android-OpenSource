@@ -1,5 +1,9 @@
 package ca.etsmtl.applets.etsmobile;
 
+import java.util.concurrent.ExecutionException;
+
+import com.etsmt.applets.etsmobile.views.NavBar;
+
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -9,6 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RemoteViews.ActionException;
+import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
+import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.ctrls.CalendarTextView;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 import ca.etsmtl.applets.etsmobile.views.NumGridView;
@@ -20,12 +27,16 @@ public class ScheduleActivity extends Activity {
 
 	CurrentCalendar current;
 	NumGridView mNumGridView;
+	private NavBar navBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calendar_view);
 
+		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.hideRightButton();
+		
 		Resources res = getResources();
 		String[] day_names = res.getStringArray(R.array.day_names);
 
@@ -71,6 +82,19 @@ public class ScheduleActivity extends Activity {
 
 		this.current.setChanged();
 		this.current.notifyObservers(this.current.getCalendar());
+
+		try {
+			new SignetBackgroundThread<String, String>(
+					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
+					"listeHoraireEtProf", new String[] { "" }, String.class,
+					FetchType.ARRAY).execute().get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
