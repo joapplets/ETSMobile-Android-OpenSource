@@ -61,6 +61,17 @@
              android:name=".CoopActivity"
              android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        
+        <activity 
+             android:name=".ScheduleActivity"
+             android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter>
+  				  <data android:scheme="etsmobile" />
+   				   <action android:name="android.intent.action.VIEW" />
+   				   <category android:name="android.intent.category.DEFAULT" />
+    				<category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
         <activity android:name=".AboutActivity" >
         </activity>
         <activity android:name=".BottinViewActivity" >
