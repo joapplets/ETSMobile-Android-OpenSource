@@ -3,9 +3,9 @@ package ca.etsmtl.applets.etsmobile;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
@@ -31,6 +31,7 @@ import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import com.etsmt.applets.etsmobile.dialogs.LoginDialog;
 import com.etsmt.applets.etsmobile.views.NavBar;
 
+@SuppressLint({ "HandlerLeak", "HandlerLeak" })
 public class MyCourseListActivity extends ListActivity implements OnDismissListener {
 
 	private static final int SHOW_LOGIN = 0;
@@ -38,6 +39,7 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 	private ArrayList<Course> courseActivities;
 	private MyCourseAdapter myCoursesAdapter;
 
+	//should be static
 	private final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(final Message msg) {
@@ -110,9 +112,6 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 
 			signetBackgroundThead.execute();
 
-//			final ProgressDialog progress = new ProgressDialog(this);
-//			progress.setMessage(getString(R.string.loading));
-//			progress.show();
 			navBar.showLoading();
 
 			new Thread(new Runnable() {

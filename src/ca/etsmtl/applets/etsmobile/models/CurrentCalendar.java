@@ -5,54 +5,43 @@ import java.util.Locale;
 import java.util.Observable;
 import java.util.TimeZone;
 
-public class CurrentCalendar extends Observable implements Comparable<Calendar>{
+public class CurrentCalendar extends Observable implements Comparable<Calendar> {
 
 	Calendar current;
-	
 
-	public CurrentCalendar()
-	{
-		 this.current = Calendar.getInstance(TimeZone.getTimeZone("Canada/Eastern"), Locale.CANADA_FRENCH);
-	
-			
+	public CurrentCalendar() {
+		this.current = Calendar.getInstance(
+				TimeZone.getTimeZone("Canada/Eastern"), Locale.CANADA_FRENCH);
+
 	}
-	
-	
-	public void nextMonth()
-	{
+
+	public void nextMonth() {
 		this.current.add(Calendar.MONTH, 1);
-		
+
 		super.setChanged();
 		this.notifyObservers(this.current);
 	}
-	
-	public void previousMonth()
-	{
+
+	public void previousMonth() {
 		this.current.add(Calendar.MONTH, -1);
 		super.setChanged();
 		super.notifyObservers(this.current);
 	}
-	
-	
-	public void setChanged()
-	{
+
+	public void setChanged() {
 		super.setChanged();
 	}
-	
-	public Calendar getCalendar()
-	{
+
+	public Calendar getCalendar() {
 		return this.current;
 	}
 
-
 	@Override
 	public int compareTo(Calendar another) {
-		// TODO Auto-generated method stub
 
-		return this.current.get(Calendar.MONTH) == another.get(Calendar.MONTH)? 0 : 1;
+		return this.current.get(Calendar.MONTH) == another.get(Calendar.MONTH) ? 0
+				: 1;
 	}
-	
-	
-	
+
 	
 }
