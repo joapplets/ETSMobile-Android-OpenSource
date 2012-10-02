@@ -6,8 +6,7 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebView.PictureListener;
-
-import com.etsmt.applets.etsmobile.views.NavBar;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class BibliothequeActivity extends Activity {
 
@@ -24,9 +23,9 @@ public class BibliothequeActivity extends Activity {
 		final WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		webView.setPictureListener(new PictureListener() {
-			
+
 			@Override
-			public void onNewPicture(WebView arg0, Picture arg1) {
+			public void onNewPicture(final WebView arg0, final Picture arg1) {
 				navBar.hideLoading();
 			}
 		});

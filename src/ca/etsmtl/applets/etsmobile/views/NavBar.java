@@ -1,4 +1,4 @@
-package com.etsmt.applets.etsmobile.views;
+package ca.etsmtl.applets.etsmobile.views;
 
 import android.content.Context;
 import android.content.Intent;
@@ -39,8 +39,16 @@ public class NavBar extends RelativeLayout {
 		}
 	}
 
+	public void hideLoading() {
+		loading.setVisibility(View.GONE);
+	}
+
 	public void hideRightButton() {
 		rightBtn.setVisibility(View.INVISIBLE);
+	}
+
+	public void hideTitle() {
+		imageTitle.setVisibility(View.INVISIBLE);
 	}
 
 	private void init() {
@@ -48,7 +56,7 @@ public class NavBar extends RelativeLayout {
 				.findViewById(R.id.base_bar_home_btn);
 		imageTitle = (ImageView) root_layout
 				.findViewById(R.id.base_bar_img_title);
-		imageTitle.setVisibility(INVISIBLE);
+		imageTitle.setVisibility(View.INVISIBLE);
 		rightBtn = (Button) root_layout.findViewById(R.id.base_bar_source_btn);
 		loading = (ProgressBar) root_layout.findViewById(R.id.base_bar_loading);
 		homeBtn.setOnClickListener(new OnClickListener() {
@@ -66,20 +74,12 @@ public class NavBar extends RelativeLayout {
 	}
 
 	public void setTitle(final int resId) {
-		imageTitle.setVisibility(VISIBLE);
+		imageTitle.setVisibility(View.VISIBLE);
 		imageTitle.setImageResource(resId);
 	}
 
-	public void hideTitle() {
-		imageTitle.setVisibility(INVISIBLE);
-	}
-
 	public void showLoading() {
-		loading.setVisibility(VISIBLE);
-	}
-
-	public void hideLoading() {
-		loading.setVisibility(GONE);
+		loading.setVisibility(View.VISIBLE);
 	}
 
 }

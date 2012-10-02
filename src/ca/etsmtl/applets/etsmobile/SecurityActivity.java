@@ -16,9 +16,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import ca.etsmtl.applets.etsmobile.views.MyMapMarker;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-import com.etsmt.applets.etsmobile.views.MyMapMarker;
-import com.etsmt.applets.etsmobile.views.NavBar;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -65,11 +65,11 @@ public class SecurityActivity extends MapActivity {
 
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.hideRightButton();
-		
+
 		navBar.setHomeAction(new OnClickListener() {
 
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(final View arg0) {
 				finish();
 			}
 		});
@@ -84,7 +84,7 @@ public class SecurityActivity extends MapActivity {
 			@Override
 			public void onItemClick(final AdapterView<?> arg0, final View arg1,
 					final int arg2, final long arg3) {
-				Intent intent = new Intent(getApplicationContext(),
+				final Intent intent = new Intent(getApplicationContext(),
 						UrgenceActivity.class);
 				intent.putExtra("id", arg2);
 				startActivity(intent);
@@ -99,7 +99,7 @@ public class SecurityActivity extends MapActivity {
 				new OnClickListener() {
 
 					@Override
-					public void onClick(View v) {
+					public void onClick(final View v) {
 
 					}
 				});

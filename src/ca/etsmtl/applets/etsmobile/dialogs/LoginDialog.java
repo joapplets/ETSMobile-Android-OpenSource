@@ -1,4 +1,4 @@
-package com.etsmt.applets.etsmobile.dialogs;
+package ca.etsmtl.applets.etsmobile.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;

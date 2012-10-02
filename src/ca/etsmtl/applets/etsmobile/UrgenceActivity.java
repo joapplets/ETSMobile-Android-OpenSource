@@ -8,8 +8,7 @@ import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-
-import com.etsmt.applets.etsmobile.views.NavBar;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class UrgenceActivity extends Activity {
 	private int id;
@@ -29,7 +28,7 @@ public class UrgenceActivity extends Activity {
 		navBar.setHomeAction(new OnClickListener() {
 
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(final View arg0) {
 				finish();
 			}
 		});
@@ -84,7 +83,7 @@ public class UrgenceActivity extends Activity {
 		findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				openPdf();
 			}
 		});

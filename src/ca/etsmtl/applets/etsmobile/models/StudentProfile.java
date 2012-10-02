@@ -31,7 +31,7 @@ public class StudentProfile extends Model {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.codePerm = codePerm;
-		this.soldeTotal = solde;
+		soldeTotal = solde;
 	}
 
 	public String getCodePerm() {

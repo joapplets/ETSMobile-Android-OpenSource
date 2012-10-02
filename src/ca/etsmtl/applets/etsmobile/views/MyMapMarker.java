@@ -1,4 +1,4 @@
-package com.etsmt.applets.etsmobile.views;
+package ca.etsmtl.applets.etsmobile.views;
 
 import java.util.ArrayList;
 

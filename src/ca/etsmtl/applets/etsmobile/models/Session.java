@@ -26,10 +26,6 @@ public class Session implements Serializable {
 	@SerializedName("dateFinCours")
 	private String dateFinCoursString;
 
-	private String dateDebutAnnulationAvecRemboursement;
-
-	private String dateDinAnulationAvecRemboursement;
-
 	public Date getDateDebut() {
 		SimpleDateFormat formatter;
 		Date date;
@@ -45,6 +41,23 @@ public class Session implements Serializable {
 
 	public String getDateDebutString() {
 		return dateDebutString;
+	}
+
+	public Date getDateFin() {
+		SimpleDateFormat formatter;
+		Date date;
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date = formatter.parse(getDateFinString());
+		} catch (final ParseException e) {
+			date = null;
+		}
+
+		return date;
+	}
+
+	public String getDateFinString() {
+		return dateFinString;
 	}
 
 	public String getLongName() {
@@ -70,22 +83,5 @@ public class Session implements Serializable {
 	@Override
 	public String toString() {
 		return getLongName();
-	}
-
-	public Date getDateFin() {
-		SimpleDateFormat formatter;
-		Date date;
-		formatter = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			date = formatter.parse(getDateFinString());
-		} catch (final ParseException e) {
-			date = null;
-		}
-
-		return date;
-	}
-
-	public String getDateFinString() {
-		return dateFinString;
 	}
 }

@@ -5,8 +5,6 @@ import java.util.Hashtable;
 import java.util.concurrent.ExecutionException;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -17,8 +15,7 @@ import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.CourseEvaluation;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
-
-import com.etsmt.applets.etsmobile.views.NavBar;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class MyCourseDetailActivity extends ListActivity {
 
@@ -73,9 +70,9 @@ public class MyCourseDetailActivity extends ListActivity {
 
 				signetBackgroundThead.execute();
 
-//				final ProgressDialog progress = new ProgressDialog(this);
-//				progress.setMessage(getString(R.string.loading));
-//				progress.show();
+				// final ProgressDialog progress = new ProgressDialog(this);
+				// progress.setMessage(getString(R.string.loading));
+				// progress.show();
 
 				navBar.showLoading();
 				new Thread(new Runnable() {
@@ -99,9 +96,9 @@ public class MyCourseDetailActivity extends ListActivity {
 									getListView().setEmptyView(
 											findViewById(R.id.empty));
 
-//									if (progress != null) {
-//										progress.dismiss();
-//									}
+									// if (progress != null) {
+									// progress.dismiss();
+									// }
 									navBar.hideLoading();
 								}
 							});

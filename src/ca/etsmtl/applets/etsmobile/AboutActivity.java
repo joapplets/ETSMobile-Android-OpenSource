@@ -36,7 +36,7 @@ public class AboutActivity extends Activity {
 					@Override
 					public void run() {
 						if (scrollView.getScrollY() < scrollView
-								.getMaxScrollAmount()*7) {
+								.getMaxScrollAmount() * 7) {
 							scrollView.smoothScrollTo(0,
 									scrollView.getScrollY() + 6);
 						} else {

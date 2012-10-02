@@ -23,23 +23,23 @@ import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.adapters.MyCourseAdapter;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
+import ca.etsmtl.applets.etsmobile.dialogs.LoginDialog;
 import ca.etsmtl.applets.etsmobile.models.Course;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
-
-import com.etsmt.applets.etsmobile.dialogs.LoginDialog;
-import com.etsmt.applets.etsmobile.views.NavBar;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 @SuppressLint({ "HandlerLeak", "HandlerLeak" })
-public class MyCourseListActivity extends ListActivity implements OnDismissListener {
+public class MyCourseListActivity extends ListActivity implements
+		OnDismissListener {
 
 	private static final int SHOW_LOGIN = 0;
 	protected static final int LOGIN_ERROR = 0;
 	private ArrayList<Course> courseActivities;
 	private MyCourseAdapter myCoursesAdapter;
 
-	//should be static
+	// should be static
 	private final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(final Message msg) {
@@ -139,9 +139,9 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 										R.layout.course_list_item,
 										courseActivities);
 								getListView().setAdapter(myCoursesAdapter);
-//								if (progress != null) {
-//									progress.dismiss();
-//								}
+								// if (progress != null) {
+								// progress.dismiss();
+								// }
 								navBar.hideLoading();
 							}
 						});
