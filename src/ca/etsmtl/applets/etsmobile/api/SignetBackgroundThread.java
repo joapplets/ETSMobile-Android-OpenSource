@@ -19,6 +19,14 @@ import android.os.AsyncTask;
 import com.apphance.android.Log;
 import com.google.gson.Gson;
 
+/**
+ * Use this class to make async JSON GET/POST to signETS
+ * 
+ * @author Vincent Seguin
+ * 
+ * @param <T>
+ * @param <E>
+ */
 public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 	public enum FetchType {
 		ARRAY, OBJECT

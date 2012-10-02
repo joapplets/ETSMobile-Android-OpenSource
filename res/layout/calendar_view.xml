@@ -7,10 +7,12 @@
     android:background="@color/background"
 	 android:id="@+id/anim_layout"
     >
-          <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/empty_nav_bar" />
+
+          <com.etsmt.applets.etsmobile.views.NavBar
+              android:id="@+id/navBar1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              layout="@layout/empty_nav_bar" />
 
     <LinearLayout
         android:layout_width="match_parent"
