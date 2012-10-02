@@ -5,13 +5,13 @@
     android:background="@drawable/home_background"
     android:orientation="vertical" >
 
-    <com.etsmt.applets.etsmobile.views.NavBar
+    <ca.etsmtl.applets.etsmobile.views.NavBar
         android:id="@+id/navBar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/nav_bar" >
 
-    </com.etsmt.applets.etsmobile.views.NavBar>
+    </ca.etsmtl.applets.etsmobile.views.NavBar>
 
     <TableLayout
         android:id="@+id/layout1"

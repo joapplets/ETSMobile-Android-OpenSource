@@ -215,7 +215,7 @@ public class ScheduleActivity extends Activity {
 		if (currentSession != null) {
 			cours = getCoursIntervalSession();
 		}
-		cours.get(0);
+//		cours.get(0);
 	}
 
 	/* animation */

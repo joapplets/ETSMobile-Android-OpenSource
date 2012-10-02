@@ -1,78 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:numgrid="http://schemas.android.com/apk/res/ca.etsmtl.applets.etsmobile"
-    android:orientation="vertical"
+    android:id="@+id/anim_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-	 android:id="@+id/anim_layout"
-    >
+    android:orientation="vertical" >
 
-          <com.etsmt.applets.etsmobile.views.NavBar
-              android:id="@+id/navBar1"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              layout="@layout/empty_nav_bar" />
+    <ca.etsmtl.applets.etsmobile.views.NavBar
+        android:id="@+id/navBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/empty_nav_bar" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        
-         >
+        android:layout_height="wrap_content" >
 
-
-        
         <ImageButton
-   			 android:id="@+id/btn_previous"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:src="@drawable/ic_previous_item"
-		    android:background="@null"
-		     />
+            android:id="@+id/btn_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_previous_item" />
 
         <ca.etsmtl.applets.etsmobile.ctrls.CalendarTextView
             android:id="@+id/calendar_title"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="0.19"
-            android:gravity="center"
-          
-             />
+            android:gravity="center" />
 
         <ImageButton
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:gravity="right"
-            android:src="@drawable/ic_next_item" 
-            android:background="@null"/>
+            android:src="@drawable/ic_next_item" />
     </LinearLayout>
 
-     <GridView
-         android:id="@+id/gridDayNames"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:numColumns="7"
+    <GridView
+        android:id="@+id/gridDayNames"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center_horizontal"
-          android:layout_gravity="center" >
-		
+        android:numColumns="7" >
     </GridView>
-    
-  
-     	<ca.etsmtl.applets.etsmobile.views.NumGridView
-     		android:id="@+id/numgridview" 
-     		android:layout_width="match_parent"
-     		android:layout_height="0dp"
-     		android:layout_weight="0.5"
-     		android:background="@color/background" 
-     		numgrid:cellCountX="7"
-     		numgrid:cellCountY="6" />
-  
-     <!-- stretch is false by default -->
-        
 
-<!--    
+    <ca.etsmtl.applets.etsmobile.views.NumGridView
+        android:id="@+id/numgridview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="@color/background"
+        numgrid:cellCountX="7"
+        numgrid:cellCountY="6" />
 
+    <!-- stretch is false by default -->
+
+
+    <!--
         <Button
             android:id="@+id/btn_previous"
             android:layout_width="wrap_content"
@@ -88,14 +77,14 @@
      		numgrid:cellCountX="7"
      		numgrid:cellCountY="6" />
         
-    </GridView> -->
+    </GridView>
+    -->
 
-     <ListView
-         android:id="@+id/lst_cours"
-         android:layout_width="match_parent"
-         android:layout_weight="0.25"
-         android:layout_height="0dp" >
-     </ListView>
-	
+    <ListView
+        android:id="@+id/lst_cours"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25" >
+    </ListView>
+
 </LinearLayout>
-
