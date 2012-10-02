@@ -160,7 +160,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			intent = new Intent(this, SecurityActivity.class);
 			break;
 		case 3:
-			// intent = new Intent(this, ScheduleActivity.class);
+			intent = new Intent(this, ScheduleActivity.class);
 			break;
 		case 4:
 			intent = new Intent(this, BottinListActivity.class);
@@ -169,10 +169,10 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			intent = new Intent(this, MyCourseSessionActivity.class);
 			break;
 		case 6:
-			intent = new Intent(this,CoopActivity.class);
+			intent = new Intent(this, BibliothequeActivity.class);
 			break;
 		case 7:
-			intent = new Intent(this, BibliothequeActivity.class);
+			intent = new Intent(this,CoopActivity.class);
 		default:
 			break;
 		}
