@@ -14,7 +14,7 @@ import java.util.TimeZone;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.CalendarEvent;
-import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
+
 
 
 
@@ -24,7 +24,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
@@ -192,8 +191,6 @@ public class NumGridView extends View implements Observer{
         
         mOffsetX= ( vw - mCellWidth *mCellCountX ) / 2;
 
-
-       
         
         // Satisfy contract by calling setMeasuredDimension
         setMeasuredDimension( mOffsetX + mCellCountX*mCellWidth + mOffsetX ,nbCellulesY *mCellHeight );

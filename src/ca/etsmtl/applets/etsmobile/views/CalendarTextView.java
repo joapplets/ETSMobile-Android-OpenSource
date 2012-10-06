@@ -6,8 +6,6 @@ import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
-import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
-
 
 import android.content.Context;
 import android.util.AttributeSet;

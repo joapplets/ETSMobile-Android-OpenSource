@@ -10,7 +10,6 @@ import ca.etsmtl.applets.etsmobile.models.CalendarEvent;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class CalendarEventsListView extends ListView implements Observer{

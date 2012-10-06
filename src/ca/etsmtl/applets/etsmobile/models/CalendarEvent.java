@@ -2,9 +2,6 @@ package ca.etsmtl.applets.etsmobile.models;
 
 import java.util.Date;
 
-import android.graphics.Color;
-import android.text.format.Time;
-
 public class CalendarEvent {
 	
 	private Date startDate;
