@@ -231,12 +231,9 @@ public class ScheduleActivity extends Activity {
 		mNumGridView = (NumGridView) findViewById(R.id.numgridview);
 		mNumGridView.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
-		
+		//Affiche le mois courant
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
-		
-		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 
-		
 		current = new CurrentCalendar();
 		// initialisation des observers
 		current.addObserver(mNumGridView);
@@ -244,7 +241,14 @@ public class ScheduleActivity extends Activity {
 
 		current.setChanged();
 		current.notifyObservers(current.getCalendar());
-
+		
+		//Affiche la liste des évènements d'aoujourd'hui
+		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
+		mNumGridView.getCurrentCell().addObserver(lst_cours);
+		
+		mNumGridView.getCurrentCell().setChanged();
+		mNumGridView.getCurrentCell().notifyObservers();
+		
 		getSessions();
 
 		findAndInitCurrentSession();

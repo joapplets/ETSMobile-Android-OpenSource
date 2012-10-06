@@ -3,12 +3,8 @@ package ca.etsmtl.applets.etsmobile.adapters;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
-
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.CalendarEvent;
-
-
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Paint.Style;
@@ -20,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent>{
 
@@ -37,16 +32,16 @@ public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent>{
 		this.context = context;
 		
 	}
-
 	
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		View rowView = inflater.inflate(this.layoutResourceId, parent, false);
-		TextView textView = (TextView) rowView.findViewById(R.id.txt_title);
-
 		Resources res = this.context.getResources();
 		
+		//set title
+		TextView textView = (TextView) rowView.findViewById(R.id.txt_title);
+
 		
 		textView.setText(String.format(res.getString(
 				R.string.calendar_event_list_item_title), 
@@ -54,7 +49,7 @@ public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent>{
 					format(this.events.get(position).getStartDate()),
 				this.events.get(position).getName()));
 		
-		
+		//set subtitle
 		textView = (TextView) rowView.findViewById(R.id.txt_subtitle);
 		
 		textView.setText(String.format(res.getString(
@@ -62,6 +57,8 @@ public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent>{
 				this.events.get(position).getEventType(), 
 				this.events.get(position).getLocation()));
 		
+		
+		//set indicator
 		ShapeDrawable indicator = new ShapeDrawable(new  OvalShape());
 		indicator.getPaint().setColor(this.events.get(position).getEventColor());
 		indicator.getPaint().setStyle(Style.FILL);

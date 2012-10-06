@@ -111,18 +111,9 @@ public class NumGridView extends View implements Observer{
         mCellCountY = a.getInt(R.styleable.NumGridView_cellCountY, 6);
         a.recycle();
 
-        currentCell = new CalendarCell(null);
-       
+        
         // Setup the grid cells
-        mCells= new CalendarCell[mCellCountX][mCellCountY];
-        for(int y=0; y<mCellCountY; y++) 
-        {
-        	for(int x=0; x<mCellCountX; x++) 
-        	{
-        		mCells[x][y]= new CalendarCell();
-        		
-        	}
-        }
+      
     }
     
 
@@ -429,13 +420,19 @@ public class NumGridView extends View implements Observer{
 		  
 		  Iterator<Calendar> it = days.iterator();
 		  
+		  Date now=null;
+		  
+		  if(this.currentCell==null)
+			   now = Calendar.getInstance(TimeZone.getTimeZone("Canada/Eastern"), Locale.CANADA_FRENCH).getTime();
+		  
 	        for(int y=0; y<mCellCountY; y++) 
 	        {
 	        	for(int x=0; x<mCellCountX; x++) 
 	        	{
 	        		mCells[x][y]= new CalendarCell(it.next().getTime());
-	         		
-	    
+	         	
+	        		
+	        		//set test data
         			mCells[x][y].add(new CalendarEvent("LOG720", "Cours", "A-1424",  Color.RED, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
 	        		mCells[x][y].add(new CalendarEvent("LOG619", "Cours", "A-1234",  Color.YELLOW, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
 	        		mCells[x][y].add(new CalendarEvent("LOG720", "TP", "A-4321",  Color.GREEN, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
@@ -444,6 +441,13 @@ public class NumGridView extends View implements Observer{
 	        	    mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.GRAY, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
 	        		mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.BLACK, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
 	        		
+	        		
+	        	   if(this.currentCell==null) {
+	        			if(mCells[x][y].getDate().getMonth() == now.getMonth() &&  mCells[x][y].getDate().getDate() == now.getDate())
+	        				setCurrentCell(mCells[x][y]);
+	        	   }
+	        				
+	        			
 	        	}
 	        }
 	        
