@@ -1,6 +1,7 @@
 package ca.etsmtl.applets.etsmobile;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -15,11 +16,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
-import ca.etsmtl.applets.etsmobile.ctrls.CalendarTextView;
+import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.Cours;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
+import ca.etsmtl.applets.etsmobile.views.CalendarEventsListView;
+import ca.etsmtl.applets.etsmobile.views.CalendarTextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 import ca.etsmtl.applets.etsmobile.views.NumGridView;
 import ca.etsmtl.applets.etsmobile.views.NumGridView.OnCellTouchListener;
@@ -63,6 +66,7 @@ public class ScheduleActivity extends Activity {
 
 	private CurrentCalendar current;
 	private NumGridView mNumGridView;
+	private CalendarEventsListView lst_cours;
 	private NavBar navBar;
 	private ArrayList<Session> sessions;
 	private Session currentSession;
@@ -70,9 +74,42 @@ public class ScheduleActivity extends Activity {
 	private final OnCellTouchListener mNumGridView_OnCellTouchListener = new OnCellTouchListener() {
 		@Override
 		public void onCellTouch(final NumGridView v, final int x, final int y) {
-			v.setSelectedCell(new Point(x, y));
-
-			// startAnimationPopOut();
+			CalendarCell cell = v.getCell(x, y);
+			cell.deleteObservers();
+			
+			
+			if(cell.getDate().getMonth() == current.getCalendar().get(Calendar.MONTH))
+			{
+				
+				cell.addObserver(lst_cours);
+				cell.setChanged();
+				cell.notifyObservers();
+				v.setCurrentCell(cell);
+				
+			}
+			else
+			{
+				if(cell.getDate().before(current.getCalendar().getTime()))
+				{
+					current.previousMonth();
+					cell = v.getCell(x, v.getmCellCountY()-1);
+					cell.addObserver(lst_cours);
+					cell.setChanged();
+					cell.notifyObservers();
+					v.setCurrentCell(cell);
+				}
+				else if(cell.getDate().after(current.getCalendar().getTime()))
+				{
+					current.nextMonth();
+					cell = v.getCell( x, 0);
+					cell.addObserver(lst_cours);
+					cell.setChanged();
+					cell.notifyObservers();
+					v.setCurrentCell(cell);
+				
+				}
+			}
+			
 			v.invalidate();
 
 		}
@@ -157,19 +194,21 @@ public class ScheduleActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calendar_view);
 
+		
+		//set the navigation bar
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.hideRightButton();
 
+		//set the gridview containing the day names
 		final String[] day_names = getResources().getStringArray(
 				R.array.day_names);
-		// grille des jours
+	
 		final GridView grid = (GridView) findViewById(R.id.gridDayNames);
 		grid.setAdapter(new ArrayAdapter<String>(this, R.layout.day_name,
 				day_names));
 
-		current = new CurrentCalendar();
-
-		// bouton des mois
+		
+		//set next and previous buttons
 		final ImageButton btn_previous = (ImageButton) findViewById(R.id.btn_previous);
 		final ImageButton btn_next = (ImageButton) findViewById(R.id.btn_next);
 		btn_previous.setOnClickListener(new View.OnClickListener() {
@@ -189,18 +228,18 @@ public class ScheduleActivity extends Activity {
 			}
 		});
 
+		
+		//set the calendar view
 		mNumGridView = (NumGridView) findViewById(R.id.numgridview);
 		mNumGridView.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
+		
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
+		
+		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 
-		final ListView lst_cours = (ListView) findViewById(R.id.lst_cours);
-
-		final String[] cours_names_examples = { "Cours 1", "Cours 2" };
-		listeCoursAdapter = new ArrayAdapter<String>(this, R.layout.day_name,
-				cours_names_examples);
-		lst_cours.setAdapter(listeCoursAdapter);
-
+		
+		current = new CurrentCalendar();
 		// initialisation des observers
 		current.addObserver(mNumGridView);
 		current.addObserver(txtcalendar_title);
@@ -218,31 +257,6 @@ public class ScheduleActivity extends Activity {
 //		cours.get(0);
 	}
 
-	/* animation */
-	/*
-	 * private void startAnimationPopOut() { NumGridView myLayout =
-	 * (NumGridView) findViewById(R.id.numgridview);
-	 * 
-	 * Animation animation =
-	 * AnimationUtils.loadAnimation(this,R.anim.bottom_out);
-	 * 
-	 * animation.setAnimationListener(new AnimationListener() {
-	 * 
-	 * @Override public void onAnimationStart(Animation animation) {
-	 * 
-	 * }
-	 * 
-	 * @Override public void onAnimationRepeat(Animation animation) {
-	 * 
-	 * }
-	 * 
-	 * @Override public void onAnimationEnd(Animation animation) {
-	 * 
-	 * } });
-	 * 
-	 * myLayout.clearAnimation(); myLayout.startAnimation(animation);
-	 * 
-	 * }
-	 */
+
 
 }

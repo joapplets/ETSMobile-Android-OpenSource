@@ -64,13 +64,8 @@
         
         <activity 
              android:name=".ScheduleActivity"
-             android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter>
-  				  <data android:scheme="etsmobile" />
-   				   <action android:name="android.intent.action.VIEW" />
-   				   <category android:name="android.intent.category.DEFAULT" />
-    				<category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
+              android:screenOrientation="portrait" 
+            >
         </activity>
         <activity android:name=".AboutActivity" >
         </activity>
