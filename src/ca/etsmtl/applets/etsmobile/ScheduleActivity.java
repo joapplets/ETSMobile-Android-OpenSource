@@ -197,6 +197,7 @@ public class ScheduleActivity extends Activity {
 		
 		//set the navigation bar
 		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.setTitle(R.drawable.navbar_horaire_title);
 		navBar.hideRightButton();
 
 		//set the gridview containing the day names
