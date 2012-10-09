@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
+             android:contentDescription="@string/btn_previous_content_description"
             android:src="@drawable/ic_previous_item" />
 
         <ca.etsmtl.applets.etsmobile.views.CalendarTextView
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="right"
+            android:contentDescription="@string/btn_next_content_description"
             android:src="@drawable/ic_next_item" />
     </LinearLayout>
 
@@ -54,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.50"
-       >
+    >
         
        	<ca.etsmtl.applets.etsmobile.views.NumGridView
 		        android:id="@+id/numgridview1"
