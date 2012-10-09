@@ -65,6 +65,7 @@
         <activity 
              android:name=".ScheduleActivity"
               android:screenOrientation="portrait" 
+               android:theme="@android:style/Theme.NoTitleBar"
             >
         </activity>
         <activity android:name=".AboutActivity" >

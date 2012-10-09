@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:numgrid="http://schemas.android.com/apk/res/ca.etsmtl.applets.etsmobile"
-    android:id="@+id/anim_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    >
 
     <ca.etsmtl.applets.etsmobile.views.NavBar
         android:id="@+id/navBar1"
@@ -48,19 +48,46 @@
         android:numColumns="7" >
     </GridView>
 
-    <ca.etsmtl.applets.etsmobile.views.NumGridView
-        android:id="@+id/numgridview"
+   <LinearLayout
+		android:id="@+id/layout"
+		android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
-        numgrid:cellCountX="7"
-        numgrid:cellCountY="6" />
-
+        android:layout_weight="0.50"
+       >
+        
+       	<ca.etsmtl.applets.etsmobile.views.NumGridView
+		        android:id="@+id/numgridview1"
+		        android:visibility="gone"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:scrollHorizontally="true"
+		        numgrid:cellCountX="7"
+		        numgrid:cellCountY="6" />
+       		    
+		    <ca.etsmtl.applets.etsmobile.views.NumGridView
+		        android:id="@+id/numgridview2"
+		        android:visibility="gone"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:scrollHorizontally="true"
+		        numgrid:cellCountX="7"
+		        numgrid:cellCountY="6" />
+		    
+		    <ca.etsmtl.applets.etsmobile.views.NumGridView
+		        android:id="@+id/numgridview3"
+		        android:visibility="gone"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:scrollHorizontally="true"
+		        numgrid:cellCountX="7"
+		        numgrid:cellCountY="6" />
+    </LinearLayout>
   
      <ca.etsmtl.applets.etsmobile.views.CalendarEventsListView
          android:id="@+id/lst_cours"
          android:layout_width="match_parent"
-         android:layout_weight="0.25"
+         android:layout_weight="0.23"
          android:layout_height="0dp" />
 
 </LinearLayout>

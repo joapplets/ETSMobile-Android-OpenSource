@@ -45,7 +45,7 @@ public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent>{
 		
 		textView.setText(String.format(res.getString(
 				R.string.calendar_event_list_item_title), 
-				new SimpleDateFormat("HH:mm", Locale.CANADA_FRENCH).
+				new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.CANADA_FRENCH).
 					format(this.events.get(position).getStartDate()),
 				this.events.get(position).getName()));
 		

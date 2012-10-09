@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.Observable;
 import java.util.TimeZone;
 
-public class CurrentCalendar extends Observable implements Comparable<Calendar> {
+public class CurrentCalendar extends Observable {
 
 	Calendar current;
 
@@ -14,12 +14,7 @@ public class CurrentCalendar extends Observable implements Comparable<Calendar> 
 				Locale.CANADA_FRENCH);
 	}
 
-	@Override
-	public int compareTo(final Calendar another) {
 
-		return current.get(Calendar.MONTH) == another.get(Calendar.MONTH) ? 0
-				: 1;
-	}
 
 	public Calendar getCalendar() {
 		return current;

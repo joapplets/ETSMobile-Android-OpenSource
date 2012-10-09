@@ -8,9 +8,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
@@ -62,12 +67,80 @@ public class ScheduleActivity extends Activity {
 	}
 
 	private CurrentCalendar current;
-	private NumGridView mNumGridView;
+	private NumGridView mNumGridView1,mNumGridView2,mNumGridView3;
 	private CalendarEventsListView lst_cours;
 	private NavBar navBar;
 	private ArrayList<Session> sessions;
 	private Session currentSession;
 
+	
+	public void slideDown()
+	{
+	    mNumGridView2.setOnCellTouchListener(null);
+		
+		mNumGridView3.clearAnimation();
+		mNumGridView3.setVisibility(View.GONE);
+		TranslateAnimation slide;
+		
+		   
+		slide = new TranslateAnimation(0, 0, mNumGridView1.getHeight()*-1.0f,0 );
+		slide.setDuration(1000);   
+		slide.setFillAfter(true);   
+		mNumGridView1.startAnimation(slide);  
+		mNumGridView1.setVisibility(View.VISIBLE);
+		
+		
+		
+		slide = new TranslateAnimation(0, 0, 0,mNumGridView2.getHeight()+mNumGridView2.getCellHeight());   
+	    slide.setDuration(1000);   
+	    slide.setFillAfter(true);   
+	   
+	  
+	     
+	    mNumGridView2.startAnimation(slide);  
+	
+	    mNumGridView2.setVisibility(View.GONE);
+	   
+	  
+	}
+	
+	
+	public void slideUp()
+	{
+		mNumGridView2.setOnCellTouchListener(null);
+		
+		mNumGridView1.clearAnimation();
+		mNumGridView1.setVisibility(View.GONE);
+		
+		//éviter d'avoir le OnCellTouchListener de la grille1 par dessus la grille 3 (superposition)
+		mNumGridView1.layout(mNumGridView1.getLeft(), mNumGridView1.getTop()-mNumGridView1.getHeight(), mNumGridView1.getRight(), mNumGridView1.getBottom()-mNumGridView1.getHeight());
+		
+		
+		   
+		TranslateAnimation slide = new TranslateAnimation(0, 0, mNumGridView2.getHeight()+mNumGridView2.getCellHeight(),0 );   
+		slide.setDuration(1000);   
+		slide.setFillAfter(true);   
+		mNumGridView3.startAnimation(slide);  
+		    
+		mNumGridView3.setVisibility(View.VISIBLE);
+		   
+		   
+		slide = new TranslateAnimation(0, 0, 0,mNumGridView2.getHeight() * -1.0f );   
+	    slide.setDuration(1000);   
+	    slide.setFillAfter(true);   
+	    
+	  
+	    mNumGridView2.startAnimation(slide);  
+
+	    
+	    mNumGridView2.setVisibility(View.GONE);
+	    
+	 
+	}
+	
+	
+	
+	
 	private final OnCellTouchListener mNumGridView_OnCellTouchListener = new OnCellTouchListener() {
 		@Override
 		public void onCellTouch(final NumGridView v, final int x, final int y) {
@@ -75,7 +148,8 @@ public class ScheduleActivity extends Activity {
 			cell.deleteObservers();
 			
 			
-			if(cell.getDate().getMonth() == current.getCalendar().get(Calendar.MONTH))
+			if(cell.getDate().getMonth() == current.getCalendar().getTime().getMonth() && 
+					cell.getDate().getYear() == current.getCalendar().getTime().getYear())
 			{
 				
 				cell.addObserver(lst_cours);
@@ -88,22 +162,42 @@ public class ScheduleActivity extends Activity {
 			{
 				if(cell.getDate().before(current.getCalendar().getTime()))
 				{
+
+					
+					mNumGridView2.update(null, mNumGridView1.getCurrent().clone());
+					mNumGridView2.setCurrentCell(x,y);
+					mNumGridView2.invalidate();
+					
 					current.previousMonth();
-					cell = v.getCell(x, v.getmCellCountY()-1);
+					slideDown();
+					
+			
+					cell = mNumGridView1.getCell(x, mNumGridView1.getmCellCountY()-1);
+				
 					cell.addObserver(lst_cours);
 					cell.setChanged();
 					cell.notifyObservers();
-					v.setCurrentCell(cell);
+					mNumGridView1.setCurrentCell(cell);
+					
+					
 				}
 				else if(cell.getDate().after(current.getCalendar().getTime()))
 				{
+					
+					mNumGridView2.update(null, mNumGridView3.getCurrent().clone());
+					mNumGridView2.setCurrentCell(x,y);
+					mNumGridView2.invalidate();
+					
 					current.nextMonth();
-					cell = v.getCell( x, 0);
+					slideUp();
+					
+					cell = mNumGridView3.getCell(x, 0);
+					
 					cell.addObserver(lst_cours);
 					cell.setChanged();
 					cell.notifyObservers();
-					v.setCurrentCell(cell);
-				
+					mNumGridView3.setCurrentCell(cell);
+					
 				}
 			}
 			
@@ -213,7 +307,14 @@ public class ScheduleActivity extends Activity {
 			@Override
 			public void onClick(final View v) {
 
+				
+				mNumGridView2.update(null, mNumGridView1.getCurrent().clone());
+				mNumGridView2.setCurrentCell(mNumGridView1.getCurrentCell());
+				mNumGridView2.invalidate();
+				
 				current.previousMonth();
+				slideDown();
+				
 
 			}
 		});
@@ -221,34 +322,58 @@ public class ScheduleActivity extends Activity {
 			@Override
 			public void onClick(final View v) {
 
+				mNumGridView2.update(null, mNumGridView3.getCurrent().clone());
+				mNumGridView2.setCurrentCell(mNumGridView3.getCurrentCell());
+				mNumGridView2.invalidate();
+				
 				current.nextMonth();
+				slideUp();
 
 			}
 		});
 
 		
 		//set the calendar view
-		mNumGridView = (NumGridView) findViewById(R.id.numgridview);
-		mNumGridView.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
+		mNumGridView1 = (NumGridView) findViewById(R.id.numgridview1);
+		mNumGridView1.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
+
+		mNumGridView2 = (NumGridView) findViewById(R.id.numgridview2);
+		mNumGridView2.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
+		
+		mNumGridView3 = (NumGridView) findViewById(R.id.numgridview3);
+		mNumGridView3.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
 		//Affiche le mois courant
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
 
 		current = new CurrentCalendar();
 		// initialisation des observers
-		current.addObserver(mNumGridView);
+	
+		current.addObserver(mNumGridView1);
+		current.addObserver(mNumGridView2);
+		current.addObserver(mNumGridView3);
 		current.addObserver(txtcalendar_title);
 
 		current.setChanged();
 		current.notifyObservers(current.getCalendar());
 		
-		//Affiche la liste des évènements d'aoujourd'hui
+		//Affiche la liste des évènements d'aujourd'hui
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
-		mNumGridView.getCurrentCell().addObserver(lst_cours);
+		mNumGridView2.getCurrentCell().addObserver(lst_cours);
 		
-		mNumGridView.getCurrentCell().setChanged();
-		mNumGridView.getCurrentCell().notifyObservers();
+		mNumGridView2.getCurrentCell().setChanged();
+		mNumGridView2.getCurrentCell().notifyObservers();
 		
+		
+		mNumGridView2.setVisibility(View.VISIBLE);
+		
+		
+		
+		current.deleteObserver(mNumGridView2);
+		
+	
+		
+		/*
 		getSessions();
 
 		findAndInitCurrentSession();
@@ -256,9 +381,11 @@ public class ScheduleActivity extends Activity {
 		if (currentSession != null) {
 			cours = getCoursIntervalSession();
 		}
-//		cours.get(0);
+		cours.get(0);
+		 * */
+ 
 	}
 
-
+	
 
 }

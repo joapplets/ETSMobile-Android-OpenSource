@@ -60,9 +60,9 @@ public class NumGridView extends View implements Observer{
     protected int        mOffsetX;    // Horizontal offset in pixels (to center the grid)
     protected int        mOffsetY;    // Vertical offset in pixels (to center the grid)
  
-  
-    
-    private Calendar current;
+
+
+	private Calendar current;
     private CalendarCell currentCell;
     
 
@@ -226,7 +226,7 @@ public class NumGridView extends View implements Observer{
                 	this.mPaintBg.setColor(getResources().getColor(R.color.calendar_selected_cell_background_color));
             		this.mPaintFg.setColor(getResources().getColor(R.color.calendar_selected_cell_text_color));
                 }
-                else if(cell.getDate().getMonth() == now.getMonth() && cell.getDate().getDate() == now.getDate())
+                else if(cell.getDate().getYear() == now.getYear() && cell.getDate().getMonth() == now.getMonth() && cell.getDate().getDate() == now.getDate())
                 {
                 	this.mPaintFg.setAlpha(100);
                 	this.mPaintBg.setColor(getResources().getColor(R.color.calendar_current_day_cell_background_color));
@@ -431,16 +431,24 @@ public class NumGridView extends View implements Observer{
 	        	{
 	        		mCells[x][y]= new CalendarCell(it.next().getTime());
 	         	
-	        		
+	        		//test lower and upper bounds
+	        		if(  mCells[x][y].getDate().getDate()==1 || 
+	        			mCells[x][y].getDate().getDate()==2 ||
+	        		    mCells[x][y].getDate().getDate()==28 ||
+	        		    mCells[x][y].getDate().getDate()==29 ||
+	        		    mCells[x][y].getDate().getDate()==30 ||
+	        			mCells[x][y].getDate().getDate()==31 || 
+	        			mCells[x][y].getDate().getDate()==18)
+	        		{
 	        		//set test data
-        			mCells[x][y].add(new CalendarEvent("LOG720", "Cours", "A-1424",  Color.RED, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
-	        		mCells[x][y].add(new CalendarEvent("LOG619", "Cours", "A-1234",  Color.YELLOW, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
-	        		mCells[x][y].add(new CalendarEvent("LOG720", "TP", "A-4321",  Color.GREEN, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
-	        		mCells[x][y].add(new CalendarEvent("LOG121", "TP", "A-2222",  Color.CYAN, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
-	        		mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.MAGENTA, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
-	        	    mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.GRAY, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
-	        		mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.BLACK, Calendar.getInstance().getTime(), Calendar.getInstance().getTime()));
-	        		
+	        			mCells[x][y].add(new CalendarEvent("LOG720", "Cours", "A-1424",  Color.RED, mCells[x][y].getDate(), mCells[x][y].getDate()));
+		        		mCells[x][y].add(new CalendarEvent("LOG619", "Cours", "A-1234",  Color.YELLOW, mCells[x][y].getDate(), mCells[x][y].getDate()));
+		        		mCells[x][y].add(new CalendarEvent("LOG720", "TP", "A-4321",  Color.GREEN,mCells[x][y].getDate(), mCells[x][y].getDate()));
+		        		mCells[x][y].add(new CalendarEvent("LOG121", "TP", "A-2222",  Color.CYAN, mCells[x][y].getDate(), mCells[x][y].getDate()));
+		        		mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.MAGENTA, mCells[x][y].getDate(), mCells[x][y].getDate()));
+		        	   mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.GRAY, mCells[x][y].getDate(), mCells[x][y].getDate()));
+		        		mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.BLACK, mCells[x][y].getDate(), mCells[x][y].getDate()));
+	        		}
 	        		
 	        	   if(this.currentCell==null) {
 	        			if(mCells[x][y].getDate().getMonth() == now.getMonth() &&  mCells[x][y].getDate().getDate() == now.getDate())
@@ -455,7 +463,13 @@ public class NumGridView extends View implements Observer{
 		
 	
 	}
-
+	
+	public int getCellHeight()
+	{
+		return mCellHeight;
+	}
+	
+	
     public int getmCellCountY() {
 		return mCellCountY;
 	}
@@ -467,6 +481,16 @@ public class NumGridView extends View implements Observer{
 
 	public void setCurrentCell(CalendarCell currentCell) {
 		this.currentCell = currentCell;
+	}
+
+	public void setCurrentCell(int x, int y) {
+		this.currentCell = mCells[x][y];
+	}
+ 
+  
+    
+    public Calendar getCurrent() {
+		return current;
 	}
 
 
