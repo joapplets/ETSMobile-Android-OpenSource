@@ -98,8 +98,8 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/*Apphance.startNewSession(this, getString(R.string.apphence_key),
-				Apphance.Mode.QA);*/
+		Apphance.startNewSession(this, getString(R.string.apphence_key),
+				Apphance.Mode.QA);
 		setContentView(R.layout.main);
 
 		final GridView gridview = (GridView) findViewById(R.id.gridview);
