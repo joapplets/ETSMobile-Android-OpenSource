@@ -71,10 +71,10 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		String codeU;
 		switch (which) {
 		case DialogInterface.BUTTON_POSITIVE:
-			codeP = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
+			codeP = ((TextView) view.findViewById(R.id.login_dialog_code_univesel))
 					.getText().toString();
 			codeU = ((TextView) view
-					.findViewById(R.id.login_dialog_code_univesel)).getText()
+					.findViewById(R.id.login_dialog_mot_passe)).getText()
 					.toString();
 			credentials = new UserCredentials(codeP, codeU);
 			new ProfileTask(handler).execute(credentials);
