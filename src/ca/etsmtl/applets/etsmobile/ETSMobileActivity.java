@@ -71,7 +71,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		String codeU;
 		switch (which) {
 		case DialogInterface.BUTTON_POSITIVE:
-			codeP = ((TextView) view.findViewById(R.id.login_dialog_code_perm))
+			codeP = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
 					.getText().toString();
 			codeU = ((TextView) view
 					.findViewById(R.id.login_dialog_code_univesel)).getText()
@@ -98,8 +98,8 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Apphance.startNewSession(this, getString(R.string.apphence_key),
-				Apphance.Mode.QA);
+		/*Apphance.startNewSession(this, getString(R.string.apphence_key),
+				Apphance.Mode.QA);*/
 		setContentView(R.layout.main);
 
 		final GridView gridview = (GridView) findViewById(R.id.gridview);

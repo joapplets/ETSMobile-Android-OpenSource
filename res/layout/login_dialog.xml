@@ -8,10 +8,10 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_dialog_code_perm" />
+        android:text="@string/login_dialog_code_uni" />
 
     <EditText
-        android:id="@+id/login_dialog_code_perm"
+        android:id="@+id/login_dialog_code_univesel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10" >
@@ -23,10 +23,10 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_dialog_code_uni" />
+        android:text="@string/pref_mot_passe_lbl" />
 
     <EditText
-        android:id="@+id/login_dialog_code_univesel"
+        android:id="@+id/login_dialog_mot_passe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

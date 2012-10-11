@@ -103,7 +103,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		String codeU;
 		switch (which) {
 		case DialogInterface.BUTTON_POSITIVE:
-			codeP = ((TextView) view.findViewById(R.id.login_dialog_code_perm))
+			codeP = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
 					.getText().toString();
 			codeU = ((TextView) view
 					.findViewById(R.id.login_dialog_code_univesel)).getText()
