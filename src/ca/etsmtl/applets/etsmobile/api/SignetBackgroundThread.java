@@ -37,6 +37,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 	private final Class<E> typeOfClass;
 
 	private final FetchType fetchType;
+	private String liste;
 
 	public SignetBackgroundThread(final String urlStr, final String action,
 			final Object bodyParams, final Class<E> typeOfClass,
@@ -46,6 +47,17 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 		this.bodyParams = bodyParams;
 		this.typeOfClass = typeOfClass;
 		this.fetchType = fetchType;
+		this.liste = "liste";
+	}
+	public SignetBackgroundThread(final String urlStr, final String action,
+			final Object bodyParams, final Class<E> typeOfClass,
+			final FetchType fetchType, final String liste) {
+		this.urlStr = urlStr;
+		this.action = action;
+		this.bodyParams = bodyParams;
+		this.typeOfClass = typeOfClass;
+		this.fetchType = fetchType;
+		this.liste = liste;
 	}
 
 	@Override
@@ -98,7 +110,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 			jsonObject = new JSONObject(jsonString);
 
 			JSONArray jsonRootArray;
-			jsonRootArray = jsonObject.getJSONObject("d").getJSONArray("liste");
+			jsonRootArray = jsonObject.getJSONObject("d").getJSONArray(liste);
 
 			for (int i = 0; i < jsonRootArray.length(); i++) {
 				objectList.add(gson.fromJson(jsonRootArray.getJSONObject(i)

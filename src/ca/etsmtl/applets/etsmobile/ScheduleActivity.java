@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -18,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
+import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.Cours;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
@@ -64,6 +66,14 @@ public class ScheduleActivity extends Activity {
 
 		@SerializedName("pSession")
 		private String session;
+		
+		public ListeHorraireEtProf(UserCredentials cred,
+				Session currentSession) {
+			// TODO Auto-generated constructor stub
+			password = cred.getPassword();
+			username = cred.getUsername();
+			session = currentSession.getLongName();	
+		}
 	}
 
 	private CurrentCalendar current;
@@ -112,7 +122,7 @@ public class ScheduleActivity extends Activity {
 		mNumGridView1.clearAnimation();
 		mNumGridView1.setVisibility(View.GONE);
 		
-		//éviter d'avoir le OnCellTouchListener de la grille1 par dessus la grille 3 (superposition)
+		//ÔøΩviter d'avoir le OnCellTouchListener de la grille1 par dessus la grille 3 (superposition)
 		mNumGridView1.layout(mNumGridView1.getLeft(), mNumGridView1.getTop()-mNumGridView1.getHeight(), mNumGridView1.getRight(), mNumGridView1.getBottom()-mNumGridView1.getHeight());
 		
 		
@@ -210,7 +220,7 @@ public class ScheduleActivity extends Activity {
 
 	/**
 	 * Trouve la session en cours parmis les sessions accessibles, initialise
-	 * les paramÍtre d'affichage de session
+	 * les paramÔøΩtre d'affichage de session
 	 */
 	private void findAndInitCurrentSession() {
 		for (final Session s : sessions) {
@@ -226,21 +236,22 @@ public class ScheduleActivity extends Activity {
 
 	}
 
+
 	/**
-	 * Donne la liste des cours dans l'interval d'une session donnÈe
+	 * Donne la liste des cours dans l'interval d'une session donn√©e
 	 * 
 	 * @return
 	 */
-	private ArrayList<Cours> getCoursIntervalSession() {
+	private ArrayList<ActivityCalendar> getCoursIntervalSession() {
 		try {
-			final IntervalSession interval = new IntervalSession(
+			final ListeHorraireEtProf listeHoraireEtProf = new ListeHorraireEtProf(
 					new UserCredentials(PreferenceManager
 							.getDefaultSharedPreferences(this)),
 					currentSession);
-			final SignetBackgroundThread<ArrayList<Cours>, Cours> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Cours>, Cours>(
+			final SignetBackgroundThread<ArrayList<ActivityCalendar>, ActivityCalendar> signetBackgroundThead = new SignetBackgroundThread<ArrayList<ActivityCalendar>, ActivityCalendar>(
 					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
-					"listeCoursIntervalleSessions", interval, Cours.class,
-					FetchType.ARRAY);
+					"listeHoraireEtProf", listeHoraireEtProf, ActivityCalendar.class,
+					FetchType.ARRAY, "listeActivites");
 
 			signetBackgroundThead.execute();
 
@@ -254,6 +265,7 @@ public class ScheduleActivity extends Activity {
 		}
 		return null;
 	}
+
 
 	/**
 	 * Obtien la liste des sessions acceccibles
@@ -357,7 +369,7 @@ public class ScheduleActivity extends Activity {
 		current.setChanged();
 		current.notifyObservers(current.getCalendar());
 		
-		//Affiche la liste des évènements d'aujourd'hui
+		//Affiche la liste des ÔøΩvÔøΩnements d'aujourd'hui
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 		mNumGridView2.getCurrentCell().addObserver(lst_cours);
 		
@@ -373,16 +385,26 @@ public class ScheduleActivity extends Activity {
 		
 	
 		
-		/*
+		
 		getSessions();
 
 		findAndInitCurrentSession();
 
 		if (currentSession != null) {
-			cours = getCoursIntervalSession();
+			Log.v("nbrActivity","nbrDactivity"+ getCoursIntervalSession().size());
+			Log.v("nbrActivity","nbrDactivity1"+ getCoursIntervalSession().get(0).getName()+" "+getCoursIntervalSession().get(0).getCours());
+			Log.v("nbrActivity","nbrDactivity2"+ getCoursIntervalSession().get(1).getName()+" "+getCoursIntervalSession().get(1).getCours());
+			Log.v("nbrActivity","nbrDactivity3"+ getCoursIntervalSession().get(2).getName()+" "+getCoursIntervalSession().get(2).getCours());
+			Log.v("nbrActivity","nbrDactivity4"+ getCoursIntervalSession().get(3).getName()+" "+getCoursIntervalSession().get(3).getCours());
+			Log.v("nbrActivity","nbrDactivity5"+ getCoursIntervalSession().get(4).getName()+" "+getCoursIntervalSession().get(4).getCours());
+			Log.v("nbrActivity","nbrDactivity6"+ getCoursIntervalSession().get(5).getName()+" "+getCoursIntervalSession().get(5).getCours());
+			Log.v("nbrActivity","nbrDactivity7"+ getCoursIntervalSession().get(6).getName()+" "+getCoursIntervalSession().get(6).getCours());
+			Log.v("nbrActivity","nbrDactivity8"+ getCoursIntervalSession().get(7).getName()+" "+getCoursIntervalSession().get(7).getCours());
+			Log.v("nbrActivity","nbrDactivity9"+ getCoursIntervalSession().get(8).getName()+" "+getCoursIntervalSession().get(8).getCours());
+			Log.v("nbrActivity","nbrDactivity10"+ getCoursIntervalSession().get(9).getName()+" "+getCoursIntervalSession().get(9).getCours());
+			
 		}
-		cours.get(0);
-		 * */
+	
  
 	}
 
