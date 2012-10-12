@@ -67,7 +67,7 @@ public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent>{
 		
 		img.setBackgroundDrawable(indicator);
 	
-		
+		img.setAlpha(0);
 	
 	
 		return rowView;

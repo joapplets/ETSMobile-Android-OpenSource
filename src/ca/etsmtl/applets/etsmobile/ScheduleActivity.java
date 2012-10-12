@@ -385,7 +385,7 @@ public class ScheduleActivity extends Activity {
 		
 	
 		
-		
+		/*
 		getSessions();
 
 		findAndInitCurrentSession();
@@ -405,7 +405,7 @@ public class ScheduleActivity extends Activity {
 			
 		}
 	
- 
+ 	*/
 	}
 
 	

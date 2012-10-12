@@ -190,7 +190,7 @@ public class NumGridView extends View implements Observer{
         float specified_fontsize= mPaintFg.getTextSize();
         float measured_fontsize= mPaintFg.descent()-mPaintFg.ascent();
         float font_factor= specified_fontsize/measured_fontsize;
-        mPaintFg.setTextSize( mCellHeight*0.8f*font_factor );
+        mPaintFg.setTextSize( mCellHeight*0.5f*font_factor );
     }
 
     
@@ -268,7 +268,7 @@ public class NumGridView extends View implements Observer{
                {
             	   event = it.next();
             	   this.mPaintCourseIndicator.setColor(event.getEventColor());
-            	   canvas.drawCircle( startpos + (3*i*radius), dy+mCellHeight-(2*radius),radius, this.mPaintCourseIndicator);
+            	   canvas.drawCircle( startpos + (3*i*radius), dy+mCellHeight-(4*radius),radius, this.mPaintCourseIndicator);
             	   i++;
                }
                 
@@ -446,8 +446,8 @@ public class NumGridView extends View implements Observer{
 		        		mCells[x][y].add(new CalendarEvent("LOG720", "TP", "A-4321",  Color.GREEN,mCells[x][y].getDate(), mCells[x][y].getDate()));
 		        		mCells[x][y].add(new CalendarEvent("LOG121", "TP", "A-2222",  Color.CYAN, mCells[x][y].getDate(), mCells[x][y].getDate()));
 		        		mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.MAGENTA, mCells[x][y].getDate(), mCells[x][y].getDate()));
-		        	   mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.GRAY, mCells[x][y].getDate(), mCells[x][y].getDate()));
-		        		mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.BLACK, mCells[x][y].getDate(), mCells[x][y].getDate()));
+		        	   //mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.GRAY, mCells[x][y].getDate(), mCells[x][y].getDate()));
+		        		//mCells[x][y].add(new CalendarEvent("LOG210", "TP", "A-1111",  Color.BLACK, mCells[x][y].getDate(), mCells[x][y].getDate()));
 	        		}
 	        		
 	        	   if(this.currentCell==null) {
