@@ -3,8 +3,10 @@ package ca.etsmtl.applets.etsmobile;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -21,6 +23,7 @@ import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
+import ca.etsmtl.applets.etsmobile.models.CalendarEvent;
 import ca.etsmtl.applets.etsmobile.models.Cours;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 import ca.etsmtl.applets.etsmobile.models.Session;
@@ -369,7 +372,7 @@ public class ScheduleActivity extends Activity {
 		current.setChanged();
 		current.notifyObservers(current.getCalendar());
 		
-		//Affiche la liste des ÔøΩvÔøΩnements d'aujourd'hui
+		//Affiche la liste des évènements d'aujourd'hui
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 		mNumGridView2.getCurrentCell().addObserver(lst_cours);
 		
@@ -391,23 +394,26 @@ public class ScheduleActivity extends Activity {
 		findAndInitCurrentSession();
 
 		if (currentSession != null) {
-			Log.v("nbrActivity","nbrDactivity"+ getCoursIntervalSession().size());
-			Log.v("nbrActivity","nbrDactivity1"+ getCoursIntervalSession().get(0).getName()+" "+getCoursIntervalSession().get(0).getCours());
-			Log.v("nbrActivity","nbrDactivity2"+ getCoursIntervalSession().get(1).getName()+" "+getCoursIntervalSession().get(1).getCours());
-			Log.v("nbrActivity","nbrDactivity3"+ getCoursIntervalSession().get(2).getName()+" "+getCoursIntervalSession().get(2).getCours());
-			Log.v("nbrActivity","nbrDactivity4"+ getCoursIntervalSession().get(3).getName()+" "+getCoursIntervalSession().get(3).getCours());
-			Log.v("nbrActivity","nbrDactivity5"+ getCoursIntervalSession().get(4).getName()+" "+getCoursIntervalSession().get(4).getCours());
-			Log.v("nbrActivity","nbrDactivity6"+ getCoursIntervalSession().get(5).getName()+" "+getCoursIntervalSession().get(5).getCours());
-			Log.v("nbrActivity","nbrDactivity7"+ getCoursIntervalSession().get(6).getName()+" "+getCoursIntervalSession().get(6).getCours());
-			Log.v("nbrActivity","nbrDactivity8"+ getCoursIntervalSession().get(7).getName()+" "+getCoursIntervalSession().get(7).getCours());
-			Log.v("nbrActivity","nbrDactivity9"+ getCoursIntervalSession().get(8).getName()+" "+getCoursIntervalSession().get(8).getCours());
-			Log.v("nbrActivity","nbrDactivity10"+ getCoursIntervalSession().get(9).getName()+" "+getCoursIntervalSession().get(9).getCours());
-			
+			//Contient les activitÈes (tp et cours d'un Ètudiant )
+			ArrayList<ActivityCalendar>  arrayActivity = removeDuplicates(  getCoursIntervalSession() );
+			Log.v("Nbr d'activité", "Nbr d'activité "+arrayActivity.size());
 		}
 	
  	*/
 	}
 
-	
-
+	public ArrayList<ActivityCalendar> removeDuplicates(ArrayList<ActivityCalendar> activityList)
+	{
+	  for ( int i = 0; i < activityList.size(); i++ ) {
+	     for ( int j = 0; j < activityList.size(); j++ ){
+	        if ( i == j ){
+	        }
+	        else if ( activityList.get( j ).getCours().equals( activityList.get( i ).getCours() ) && activityList.get( j ).getName().equals( activityList.get( i ).getName())){
+	           activityList.get(i).setLocation(activityList.get(i).getLocation()+"/"+activityList.get(j).getLocation());
+	           activityList.remove( j );
+	        }
+	     }
+	 }
+	  return activityList;
+	}
 }
