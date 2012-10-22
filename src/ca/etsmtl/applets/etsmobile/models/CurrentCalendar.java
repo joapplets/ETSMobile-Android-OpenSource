@@ -14,8 +14,6 @@ public class CurrentCalendar extends Observable {
 				Locale.CANADA_FRENCH);
 	}
 
-
-
 	public Calendar getCalendar() {
 		return current;
 	}

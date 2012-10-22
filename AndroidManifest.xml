@@ -19,8 +19,7 @@
         <receiver android:name="ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver" />
 
         <service android:name=".services.NewsService" />
-        <service android:name=".services.BottinService" >
-        </service>
+        <service android:name=".services.BottinService" />
 
         <provider
             android:name=".providers.ETSMobileContentProvider"
@@ -57,35 +56,23 @@
             android:name=".CourseListActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-         <activity 
-             android:name=".CoopActivity"
-             android:theme="@android:style/Theme.NoTitleBar" >
+        <activity
+            android:name=".CoopActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        
-        <activity 
-             android:name=".ScheduleActivity"
-              android:screenOrientation="portrait" 
-               android:theme="@android:style/Theme.NoTitleBar"
-            >
+        <activity
+            android:name=".ScheduleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:name=".AboutActivity" >
-        </activity>
-        <activity android:name=".BottinViewActivity" >
-        </activity>
-        <activity android:name=".SecurityActivity" >
-        </activity>
-        <activity android:name=".MyCourseSessionActivity" >
-        </activity>
-        <activity android:name=".MyCourseActivity" >
-        </activity>
-        <activity android:name=".MyCourseDetailActivity" >
-        </activity>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".BottinViewActivity" />
+        <activity android:name=".BibliothequeActivity" />
+        <activity android:name=".SecurityActivity" />
+        <activity android:name=".MyCourseSessionActivity" />
+        <activity android:name=".MyCourseActivity" />
+        <activity android:name=".MyCourseDetailActivity" />
+        <activity android:name=".MyCourseListActivity" />
     </application>
-
-    <!-- Apphance instrumentation -->
-    <!-- <instrumentation -->
-    <!-- android:name="com.apphance.android.ApphanceInstrumentation" -->
-    <!-- android:targetPackage="ca.etsmtl.applets.etsmobile" > -->
-    <!-- </instrumentation> -->
 
 </manifest>

@@ -4,47 +4,46 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.ListView;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.adapters.CalendarEventsAdapter;
 import ca.etsmtl.applets.etsmobile.models.CalendarEvent;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.ListView;
+public class CalendarEventsListView extends ListView implements Observer {
 
-public class CalendarEventsListView extends ListView implements Observer{
-
-	
 	Context context;
-	public CalendarEventsListView(Context context) {
+
+	public CalendarEventsListView(final Context context) {
 		super(context);
-		
+
 		this.context = context;
 		// TODO Auto-generated constructor stub
-		
-	}
-	
-	public CalendarEventsListView(Context context, AttributeSet attrs, int defStyle) {
-	    super(context, attrs, defStyle);
-	    this.context = context;
+
 	}
 
-	public CalendarEventsListView(Context context, AttributeSet attrs) {
-	    super(context, attrs);
-	    this.context = context;
+	public CalendarEventsListView(final Context context,
+			final AttributeSet attrs) {
+		super(context, attrs);
+		this.context = context;
 	}
 
+	public CalendarEventsListView(final Context context,
+			final AttributeSet attrs, final int defStyle) {
+		super(context, attrs, defStyle);
+		this.context = context;
+	}
 
+	@Override
 	@SuppressWarnings("unchecked")
-	public void update(Observable observable, Object data) {
+	public void update(final Observable observable, final Object data) {
 		// TODO Auto-generated method stub
-		List<CalendarEvent> events = (List<CalendarEvent>) data;
-		
-		setAdapter(new CalendarEventsAdapter(this.context, R.layout.calendar_event_list_item,
-				events));
-		
+		final List<CalendarEvent> events = (List<CalendarEvent>) data;
+
+		setAdapter(new CalendarEventsAdapter(context,
+				R.layout.calendar_event_list_item, events));
+
 	}
-
-
 
 }
