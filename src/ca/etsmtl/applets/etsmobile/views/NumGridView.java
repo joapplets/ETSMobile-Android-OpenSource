@@ -23,6 +23,7 @@ import android.view.View;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
+import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 
 /**
  * NumGridView is view that renders a grid, where each cell contains a number.
@@ -392,10 +393,15 @@ public class NumGridView extends View implements Observer {
 		mOnCellTouchListener = listener;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void update(final Observable observable, final Object data) {
+	public void update( Observable observable,  Object data) {
 		// TODO Auto-generated method stub
-		current = (Calendar) data;
+		
+		
+		this.current = ((CurrentCalendar) observable).getCalendar();
+		this.activities = (ArrayList<ActivityCalendar>) data;
+		
 		final List<Calendar> days = new ArrayList<Calendar>();
 
 		final Calendar firstdayofmonth = (Calendar) current.clone();
@@ -493,10 +499,6 @@ public class NumGridView extends View implements Observer {
 
 		this.invalidate();
 
-	}
-
-	public void setActivities(ArrayList<ActivityCalendar> result) {
-		this.activities = result;
 	}
 
 }

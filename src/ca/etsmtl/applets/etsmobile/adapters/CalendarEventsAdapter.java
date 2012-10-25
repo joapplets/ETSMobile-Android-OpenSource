@@ -1,8 +1,8 @@
 package ca.etsmtl.applets.etsmobile.adapters;
 
-import java.text.SimpleDateFormat;
+
 import java.util.List;
-import java.util.Locale;
+
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -16,16 +16,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
-import ca.etsmtl.applets.etsmobile.models.CalendarEvent;
+import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 
-public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent> {
+public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 
 	Context context;
 	int layoutResourceId;
-	List<CalendarEvent> events;
+	List<ActivityCalendar> events;
 
 	public CalendarEventsAdapter(final Context context,
-			final int textViewResourceId, final List<CalendarEvent> objects) {
+			final int textViewResourceId, final List<ActivityCalendar> objects) {
 		super(context, textViewResourceId, objects);
 		layoutResourceId = textViewResourceId;
 		events = objects;
@@ -47,16 +47,15 @@ public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent> {
 
 		textView.setText(String.format(res
 				.getString(R.string.calendar_event_list_item_title),
-				new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.CANADA_FRENCH)
-						.format(events.get(position).getStartDate()), events
-						.get(position).getName()));
+				 events.get(position).getStartDate(), events
+						.get(position).getCours()));
 
 		// set subtitle
 		textView = (TextView) rowView.findViewById(R.id.txt_subtitle);
 
 		textView.setText(String.format(res
 				.getString(R.string.calendar_event_list_item_subtitle), events
-				.get(position).getEventType(), events.get(position)
+				.get(position).getCodeActivite(), events.get(position)
 				.getLocation()));
 
 		// set indicator

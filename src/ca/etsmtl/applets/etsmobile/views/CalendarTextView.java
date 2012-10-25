@@ -6,6 +6,8 @@ import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
+import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -31,7 +33,7 @@ public class CalendarTextView extends TextView implements Observer {
 	@Override
 	public void update(final Observable observable, final Object data) {
 		// TODO Auto-generated method stub
-		final Calendar current = (Calendar) data;
+		final Calendar current = ((CurrentCalendar) observable).getCalendar();
 		this.setText(new SimpleDateFormat("MMMM yyyy", Locale.CANADA_FRENCH)
 				.format(current.getTime()));
 

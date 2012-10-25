@@ -2,6 +2,7 @@ package ca.etsmtl.applets.etsmobile;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -41,12 +42,16 @@ public class ScheduleActivity extends Activity {
 			switch (msg.what) {
 			case CalendarTask.ON_POST_EXEC:
 				act.navBar.hideLoading();
-				act.currentGridView
-						.setActivities((ArrayList<ActivityCalendar>) msg.obj);
-				act.currentGridView.getCurrentCell().setChanged();
+				
+				
+			
 				act.current
-						.setActivities((ArrayList<ActivityCalendar>) msg.obj);
+					.setActivities((ArrayList<ActivityCalendar>) msg.obj);
 				act.current.setChanged();
+				act.current.notifyObservers((ArrayList<ActivityCalendar>) msg.obj);
+				act.current.deleteObserver(act.currentGridView);
+				
+				System.out.println("handle!");
 				break;
 			default:
 				act.navBar.showLoading();
@@ -79,8 +84,8 @@ public class ScheduleActivity extends Activity {
 			} else {
 				if (cell.getDate().before(current.getCalendar().getTime())) {
 
-					currentGridView.update(null, prevGridView.getCurrent()
-							.clone());
+					currentGridView.update(new CurrentCalendar((Calendar) prevGridView.getCurrent().clone()), 
+							current.getActivities());
 					currentGridView.setCurrentCell(x, y);
 					currentGridView.invalidate();
 
@@ -98,8 +103,9 @@ public class ScheduleActivity extends Activity {
 				} else if (cell.getDate()
 						.after(current.getCalendar().getTime())) {
 
-					currentGridView.update(null, nextGridView.getCurrent()
-							.clone());
+					
+					currentGridView.update(new CurrentCalendar((Calendar) nextGridView.getCurrent().clone()),
+							current.getActivities());
 					currentGridView.setCurrentCell(x, y);
 					currentGridView.invalidate();
 
@@ -151,8 +157,9 @@ public class ScheduleActivity extends Activity {
 			@Override
 			public void onClick(final View v) {
 
-				currentGridView.setActivities(current.getActivities());
-				currentGridView.update(null, prevGridView.getCurrent().clone());
+				//currentGridView.setActivities(current.getActivities());
+				currentGridView.update(new CurrentCalendar((Calendar) prevGridView.getCurrent().clone()), 
+						current.getActivities());
 				currentGridView.setCurrentCell(prevGridView.getCurrentCell());
 				currentGridView.invalidate();
 
@@ -165,8 +172,9 @@ public class ScheduleActivity extends Activity {
 			@Override
 			public void onClick(final View v) {
 
-				currentGridView.setActivities(current.getActivities());
-				currentGridView.update(null, nextGridView.getCurrent().clone());
+				//currentGridView.setActivities(current.getActivities());
+				currentGridView.update(new CurrentCalendar((Calendar) nextGridView.getCurrent().clone()),
+						current.getActivities());
 				currentGridView.setCurrentCell(nextGridView.getCurrentCell());
 				currentGridView.invalidate();
 
@@ -199,7 +207,7 @@ public class ScheduleActivity extends Activity {
 		current.addObserver(txtcalendar_title);
 
 		current.setChanged();
-		current.notifyObservers(current.getCalendar());
+		current.notifyObservers(current.getActivities());
 
 		// Affiche la liste des évènements d'aujourd'hui
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
@@ -210,8 +218,8 @@ public class ScheduleActivity extends Activity {
 
 		currentGridView.setVisibility(View.VISIBLE);
 
-		current.deleteObserver(currentGridView);
-
+		
+		System.out.println("created!");
 	}
 
 	/**

@@ -123,5 +123,7 @@ public class ActivityCalendar {
 	public void setEventColor(int eventColor) {
 		this.eventColor = eventColor;
 	}
+	
+	
 
 }

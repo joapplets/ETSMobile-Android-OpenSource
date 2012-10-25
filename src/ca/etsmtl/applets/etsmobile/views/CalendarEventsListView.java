@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.widget.ListView;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.adapters.CalendarEventsAdapter;
-import ca.etsmtl.applets.etsmobile.models.CalendarEvent;
+import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 
 public class CalendarEventsListView extends ListView implements Observer {
 
@@ -39,7 +39,7 @@ public class CalendarEventsListView extends ListView implements Observer {
 	@SuppressWarnings("unchecked")
 	public void update(final Observable observable, final Object data) {
 		// TODO Auto-generated method stub
-		final List<CalendarEvent> events = (List<CalendarEvent>) data;
+		final List<ActivityCalendar> events = (List<ActivityCalendar>) data;
 
 		setAdapter(new CalendarEventsAdapter(context,
 				R.layout.calendar_event_list_item, events));
