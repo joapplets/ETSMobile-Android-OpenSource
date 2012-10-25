@@ -38,7 +38,7 @@ public class AboutActivity extends Activity {
 						if (scrollView.getScrollY() < scrollView
 								.getMaxScrollAmount() * 9) {
 							scrollView.smoothScrollTo(0,
-									scrollView.getScrollY()+1);
+									scrollView.getScrollY() + 1);
 						} else {
 							scrollView.smoothScrollTo(0, 0);
 						}

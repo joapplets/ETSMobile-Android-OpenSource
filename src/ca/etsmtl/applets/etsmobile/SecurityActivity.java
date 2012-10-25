@@ -105,7 +105,7 @@ public class SecurityActivity extends MapActivity {
 
 			@Override
 			public void onClick(final View v) {
-				Intent callIntent = new Intent(Intent.ACTION_CALL);
+				final Intent callIntent = new Intent(Intent.ACTION_CALL);
 				callIntent.setData(Uri.parse("tel:+"
 						+ phone.getText().toString().trim()));
 				startActivity(callIntent);
