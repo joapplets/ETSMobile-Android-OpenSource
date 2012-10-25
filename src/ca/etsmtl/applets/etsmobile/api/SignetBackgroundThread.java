@@ -37,7 +37,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 	private final Class<E> typeOfClass;
 
 	private final FetchType fetchType;
-	private String liste;
+	private final String liste;
 
 	public SignetBackgroundThread(final String urlStr, final String action,
 			final Object bodyParams, final Class<E> typeOfClass,
@@ -49,6 +49,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 		this.fetchType = fetchType;
 		this.liste = "liste";
 	}
+
 	public SignetBackgroundThread(final String urlStr, final String action,
 			final Object bodyParams, final Class<E> typeOfClass,
 			final FetchType fetchType, final String liste) {

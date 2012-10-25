@@ -8,50 +8,42 @@ import java.util.List;
 import java.util.Observable;
 
 public class CalendarCell extends Observable implements
-		Collection<CalendarEvent> {
+		Collection<ActivityCalendar> {
 
-	List<CalendarEvent> events;
+	List<ActivityCalendar> events;
 	Date date;
 
 	public CalendarCell() {
-		events = new ArrayList<CalendarEvent>();
-
+		events = new ArrayList<ActivityCalendar>();
 	}
 
 	public CalendarCell(final Date date) {
-		events = new ArrayList<CalendarEvent>();
-
+		events = new ArrayList<ActivityCalendar>();
 		this.date = date;
-
 	}
 
 	@Override
-	public boolean add(final CalendarEvent object) {
-		// TODO Auto-generated method stub
+	public boolean add(final ActivityCalendar object) {
 		return events.add(object);
 	}
 
 	@Override
-	public boolean addAll(final Collection<? extends CalendarEvent> arg0) {
-		// TODO Auto-generated method stub
+	public boolean addAll(final Collection<? extends ActivityCalendar> arg0) {
 		return events.addAll(arg0);
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 		events.clear();
 	}
 
 	@Override
 	public boolean contains(final Object object) {
-		// TODO Auto-generated method stub
 		return events.contains(object);
 	}
 
 	@Override
 	public boolean containsAll(final Collection<?> arg0) {
-		// TODO Auto-generated method stub
 		return events.containsAll(arg0);
 	}
 
@@ -61,13 +53,11 @@ public class CalendarCell extends Observable implements
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return events.isEmpty();
 	}
 
 	@Override
-	public Iterator<CalendarEvent> iterator() {
-		// TODO Auto-generated method stub
+	public Iterator<ActivityCalendar> iterator() {
 		return events.iterator();
 	}
 
@@ -78,19 +68,16 @@ public class CalendarCell extends Observable implements
 
 	@Override
 	public boolean remove(final Object object) {
-		// TODO Auto-generated method stub
 		return events.remove(object);
 	}
 
 	@Override
 	public boolean removeAll(final Collection<?> arg0) {
-		// TODO Auto-generated method stub
 		return events.removeAll(arg0);
 	}
 
 	@Override
 	public boolean retainAll(final Collection<?> arg0) {
-		// TODO Auto-generated method stub
 		return events.retainAll(arg0);
 	}
 
@@ -105,19 +92,16 @@ public class CalendarCell extends Observable implements
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
 		return events.size();
 	}
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
 		return events.toArray();
 	}
 
 	@Override
 	public <T> T[] toArray(final T[] array) {
-		// TODO Auto-generated method stub
 		return events.toArray(array);
 	}
 

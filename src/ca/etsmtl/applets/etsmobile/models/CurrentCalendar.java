@@ -1,5 +1,6 @@
 package ca.etsmtl.applets.etsmobile.models;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Observable;
@@ -8,6 +9,7 @@ import java.util.TimeZone;
 public class CurrentCalendar extends Observable {
 
 	Calendar current;
+	private ArrayList<ActivityCalendar> obj = new ArrayList<ActivityCalendar>();
 
 	public CurrentCalendar() {
 		current = Calendar.getInstance(TimeZone.getTimeZone("Canada/Eastern"),
@@ -34,5 +36,13 @@ public class CurrentCalendar extends Observable {
 	@Override
 	public void setChanged() {
 		super.setChanged();
+	}
+
+	public ArrayList<ActivityCalendar> getActivities() {
+		return obj;
+	}
+
+	public void setActivities(ArrayList<ActivityCalendar> obj) {
+		this.obj = obj;
 	}
 }
