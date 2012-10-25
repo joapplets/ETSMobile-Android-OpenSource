@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/base_list_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/search_nav_bar" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:cacheColorHint="@android:color/transparent" 
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:choiceMode="singleChoice"
+        android:divider="@color/list_separator_color"
+        android:dividerHeight="1dip"
+        tools:listitem="@layout/bottin_list_item" >
+
+    </ListView>
+
+</LinearLayout>

@@ -1,30 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.etsmtl.applets.etsmobile"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="4"
+    android:versionName="alpha3" >
 
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="8" />
+    <uses-sdk
+        android:maxSdkVersion="15"
+        android:minSdkVersion="8"
+        android:targetSdkVersion="10" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
+    <!-- Permissions required by Apphance -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- <uses-permission android:name="android.permission.BLUETOOTH" /> -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- <uses-feature -->
+    <!-- android:name="android.hardware.touchscreen" -->
+    <!-- android:required="true" /> -->
 
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
+        <uses-library android:name="com.google.android.maps" />
+
+        <receiver android:name="ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver" />
+
+        <service android:name=".services.NewsService" />
+        <service android:name=".services.BottinService" />
+
+        <provider
+            android:name=".providers.ETSMobileContentProvider"
+            android:authorities="ca.etsmtl.applets.etsmobile.data"
+            android:exported="false" >
+        </provider>
+
         <activity
             android:name=".ETSMobileActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
+
+                <!-- <action android:name="com.apphance.android.LAUNCH" /> -->
+
+
+                <!-- <category android:name="android.intent.category.DEFAULT" /> -->
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".NewsListActivity" />
+        <activity android:name=".preferences.NewsListPreferences" />
+        <activity
+            android:name=".SingleNewsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".BottinListActivity" />
+        <activity android:name=".CourseListActivity" />
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".BottinViewActivity" />
+        <activity android:name=".SecurityActivity" />
+        <activity android:name=".MyCourseSessionActivity" />
+        <activity android:name=".MyCourseListActivity" />
+        <activity android:name=".MyCourseDetailActivity" />
+        <activity android:name=".BibliothequeActivity" />
+        <activity android:name=".UrgenceActivity" />
+        <!-- Apphance activities -->
+        <!-- <activity -->
+        <!-- android:name="com.apphance.android.LauncherActivity" -->
+        <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" > -->
+        <!-- </activity> -->
+        <!-- <activity -->
+        <!-- android:name="com.apphance.android.ui.LoginActivity" -->
+        <!-- android:launchMode="singleInstance" > -->
+        <!-- </activity> -->
+        <!-- <activity -->
+        <!-- android:name="com.apphance.android.ui.TestCycleActivity" -->
+        <!-- android:launchMode="singleInstance" > -->
+        <!-- </activity> -->
+        <!-- <activity -->
+        <!-- android:name="com.apphance.android.ui.ProblemActivity" -->
+        <!-- android:configChanges="orientation" -->
+        <!-- android:launchMode="singleInstance" > -->
+        <!-- </activity> -->
+
+
+        <!-- <activity-alias -->
+        <!-- android:name=".ApphanceLauncherActivity" -->
+        <!-- android:targetActivity="com.apphance.android.LauncherActivity" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity-alias> -->
     </application>
+
+    <!-- Apphance instrumentation -->
+    <!-- <instrumentation -->
+    <!-- android:name="com.apphance.android.ApphanceInstrumentation" -->
+    <!-- android:targetPackage="ca.etsmtl.applets.etsmobile" > -->
+    <!-- </instrumentation> -->
 
 </manifest>

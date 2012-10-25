@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/home_background"
+    android:orientation="vertical" >
+
+    <com.etsmt.applets.etsmobile.views.NavBar
+        android:id="@+id/navBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.etsmt.applets.etsmobile.views.NavBar>
+
+    <LinearLayout
+        android:id="@+id/secu_wrap"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.google.android.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:layout_weight="1"
+            android:apiKey="@string/map_key"
+            android:clickable="true" >
+
+        </com.google.android.maps.MapView>
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="5dip"
+            android:layout_weight="1"
+            android:cacheColorHint="@android:color/transparent" 
+            tools:listitem="@android:layout/simple_list_item_1" >
+
+        </ListView>
+    </LinearLayout>
+
+</LinearLayout>
