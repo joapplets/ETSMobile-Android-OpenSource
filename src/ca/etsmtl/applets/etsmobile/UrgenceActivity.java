@@ -25,6 +25,41 @@ import android.widget.TextView;
 import com.etsmt.applets.etsmobile.views.NavBar;
 
 public class UrgenceActivity extends Activity {
+	private class MyTagHandler implements TagHandler {
+		boolean first = true;
+		String parent = null;
+		int index = 1;
+
+		@Override
+		public void handleTag(final boolean opening, final String tag,
+				final Editable output, final XMLReader xmlReader) {
+
+			if (tag.equals("ul")) {
+				parent = "ul";
+			} else if (tag.equals("ol")) {
+				parent = "ol";
+			}
+			if (tag.equals("li")) {
+				if (parent.equals("ul")) {
+					if (first) {
+						output.append("\n\t•");
+						first = false;
+					} else {
+						first = true;
+					}
+				} else {
+					if (first) {
+						output.append("\n\t" + index + ". ");
+						first = false;
+						index++;
+					} else {
+						first = true;
+					}
+				}
+			}
+		}
+	}
+
 	private static final String APPLICATION_PDF = "application/pdf";
 	private static final String SDCARD = Environment
 			.getExternalStorageDirectory().getPath();
@@ -33,7 +68,49 @@ public class UrgenceActivity extends Activity {
 	private TextView txtView1;
 	private TextView txtView2;
 	private String pdf_raw;
+
 	private String[] urgence;
+
+	private void copyAssets() {
+		final AssetManager assetManager = getAssets();
+		String[] files = null;
+		try {
+			files = assetManager.list("");
+		} catch (final IOException e) {
+			Log.e("tag", e.getMessage());
+		}
+		for (final String filename : files) {
+			InputStream in = null;
+			OutputStream out = null;
+			try {
+
+				final File f = new File(UrgenceActivity.SDCARD + "/" + filename);
+				if (!f.exists()) {
+					in = assetManager.open(filename);
+					out = new FileOutputStream(UrgenceActivity.SDCARD + "/"
+							+ filename);
+					copyFile(in, out);
+					in.close();
+					in = null;
+					out.flush();
+					out.close();
+					out = null;
+				}
+			} catch (final Exception e) {
+				Log.e("tag", e.getMessage());
+			}
+		}
+		openPdf();
+	}
+
+	private void copyFile(final InputStream in, final OutputStream out)
+			throws IOException {
+		final byte[] buffer = new byte[1024];
+		int read;
+		while ((read = in.read(buffer)) != -1) {
+			out.write(buffer, 0, read);
+		}
+	}
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -95,7 +172,7 @@ public class UrgenceActivity extends Activity {
 		}
 
 		txtView1.setText(urgence[id]);
-		String string = getString(text);
+		final String string = getString(text);
 		// http://stackoverflow.com/questions/3150400/html-list-tag-not-working-in-android-textview-what-can-i-do
 		txtView2.setText(Html.fromHtml(string, null, new MyTagHandler()));
 
@@ -112,82 +189,10 @@ public class UrgenceActivity extends Activity {
 
 		final Intent intent = new Intent(Intent.ACTION_VIEW);
 
-		Uri data = Uri.fromFile(new File(SDCARD + "/" + pdf_raw));
-		intent.setDataAndType(data, APPLICATION_PDF);
-		
-		startActivityForResult(intent, RESULT_OK);
-	}
+		final Uri data = Uri.fromFile(new File(UrgenceActivity.SDCARD + "/"
+				+ pdf_raw));
+		intent.setDataAndType(data, UrgenceActivity.APPLICATION_PDF);
 
-	private void copyAssets() {
-		AssetManager assetManager = getAssets();
-		String[] files = null;
-		try {
-			files = assetManager.list("");
-		} catch (IOException e) {
-			Log.e("tag", e.getMessage());
-		}
-		for (String filename : files) {
-			InputStream in = null;
-			OutputStream out = null;
-			try {
-
-				File f = new File(SDCARD + "/" + filename);
-				if (!f.exists()) {
-					in = assetManager.open(filename);
-					out = new FileOutputStream(SDCARD + "/" + filename);
-					copyFile(in, out);
-					in.close();
-					in = null;
-					out.flush();
-					out.close();
-					out = null;
-				}
-			} catch (Exception e) {
-				Log.e("tag", e.getMessage());
-			}
-		}
-		openPdf();
-	}
-
-	private void copyFile(InputStream in, OutputStream out) throws IOException {
-		byte[] buffer = new byte[1024];
-		int read;
-		while ((read = in.read(buffer)) != -1) {
-			out.write(buffer, 0, read);
-		}
-	}
-
-	private class MyTagHandler implements TagHandler {
-		boolean first = true;
-		String parent = null;
-		int index = 1;
-
-		@Override
-		public void handleTag(boolean opening, String tag, Editable output,
-				XMLReader xmlReader) {
-
-			if (tag.equals("ul"))
-				parent = "ul";
-			else if (tag.equals("ol"))
-				parent = "ol";
-			if (tag.equals("li")) {
-				if (parent.equals("ul")) {
-					if (first) {
-						output.append("\n\t•");
-						first = false;
-					} else {
-						first = true;
-					}
-				} else {
-					if (first) {
-						output.append("\n\t" + index + ". ");
-						first = false;
-						index++;
-					} else {
-						first = true;
-					}
-				}
-			}
-		}
+		startActivityForResult(intent, Activity.RESULT_OK);
 	}
 }

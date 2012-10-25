@@ -25,12 +25,11 @@ public class ProfileTask extends
 
 	@Override
 	protected StudentProfile doInBackground(final UserCredentials... params) {
-
+		onPreExecute();
 		final SignetBackgroundThread<StudentProfile, StudentProfile> signets = new SignetBackgroundThread<StudentProfile, StudentProfile>(
 				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
 				"infoEtudiant", params[0], StudentProfile.class,
 				FetchType.OBJECT);
-		onPreExecute();
 
 		signets.execute();
 		StudentProfile profile = null;

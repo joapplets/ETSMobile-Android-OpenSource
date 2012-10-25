@@ -20,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.adapters.ETSMobileAdapter;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
@@ -27,7 +28,6 @@ import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 
 import com.apphance.android.Apphance;
 import com.apphance.android.Log;
-import com.apphance.android.ui.ProblemActivity;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		OnTouchListener, OnClickListener,
@@ -43,9 +43,11 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			switch (msg.what) {
 			case ProfileTask.ON_POST_EXEC:
 				final Bundle data = msg.getData();
-				final StudentProfile profile = (StudentProfile) data
+				final StudentProfile studentProfile = (StudentProfile) data
 						.get(ProfileTask.PROFILE_KEY);
-				if (profile != null) {
+				if (!studentProfile.getSolde().equals("")
+						&& !studentProfile.getNom().equals("")
+						&& !studentProfile.getPrenom().equals("")) {
 					// save credentials to prefs
 					final SharedPreferences prefs = PreferenceManager
 							.getDefaultSharedPreferences(getApplicationContext());
@@ -54,7 +56,12 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 					editor.putString("codeU", credentials.getPassword());
 					editor.commit();
 				} else {
-					showDialog(ETSMobileActivity.LOGIN_ERROR);
+					Toast.makeText(
+							getApplicationContext(),
+							"Erreur d'identification : Vos informations personnelles sont érronée(s)",
+							Toast.LENGTH_LONG).show();
+					// showDialog(ETSMobileActivity.LOGIN_ERROR);
+					showDialog(LOGIN);
 				}
 				break;
 
@@ -71,14 +78,13 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		String codeU;
 		switch (which) {
 		case DialogInterface.BUTTON_POSITIVE:
-			codeP = ((TextView) view.findViewById(R.id.login_dialog_code_perm))
-					.getText().toString();
-			codeU = ((TextView) view
+			codeP = ((TextView) view
 					.findViewById(R.id.login_dialog_code_univesel)).getText()
 					.toString();
+			codeU = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
+					.getText().toString();
 			credentials = new UserCredentials(codeP, codeU);
 			new ProfileTask(handler).execute(credentials);
-			// dialog.dismiss();
 			break;
 
 		default:
@@ -98,8 +104,10 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Apphance.startNewSession(this, getString(R.string.apphence_key),
-				Apphance.Mode.QA);
+		/*
+		 * Apphance.startNewSession(this, getString(R.string.apphence_key),
+		 * Apphance.Mode.QA);
+		 */
 		setContentView(R.layout.main);
 
 		final GridView gridview = (GridView) findViewById(R.id.gridview);
@@ -136,10 +144,12 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 					.setView(view).setPositiveButton("Ok", this).create();
 			break;
 
-		case LOGIN_ERROR:
-			d = new AlertDialog.Builder(this).setTitle("Erreur")
-					.setMessage("Erreur").create();
-			break;
+//		case LOGIN_ERROR:
+//			d = new AlertDialog.Builder(this)
+//					.setTitle("Erreur d'identification")
+//					.setMessage("Vos informations personnelles sont érronée(s)")
+//					.create();
+//			break;
 		}
 		return d;
 	}

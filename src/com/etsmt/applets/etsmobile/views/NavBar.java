@@ -63,8 +63,10 @@ public class NavBar extends RelativeLayout {
 
 			@Override
 			public void onClick(final View v) {
-				getContext().startActivity(
-						new Intent(getContext(), ETSMobileActivity.class));
+				Intent intent = new Intent(getContext(),
+						ETSMobileActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				getContext().startActivity(intent);
 			}
 		});
 	}
