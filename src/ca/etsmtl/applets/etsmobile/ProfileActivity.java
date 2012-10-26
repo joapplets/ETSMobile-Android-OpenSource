@@ -195,12 +195,12 @@ public class ProfileActivity extends Activity implements OnClickListener,
 					.setView(view).setPositiveButton("Ok", this).create();
 			break;
 
-			// default:
-			// d = new AlertDialog.Builder(this)
-			// .setTitle("Erreur d'identification")
-			// .setMessage("Vos informations personnelles sont érronée(s)")
-			// .create();
-//			break;
+		// default:
+		// d = new AlertDialog.Builder(this)
+		// .setTitle("Erreur d'identification")
+		// .setMessage("Vos informations personnelles sont érronée(s)")
+		// .create();
+		// break;
 		}
 		return d;
 	}

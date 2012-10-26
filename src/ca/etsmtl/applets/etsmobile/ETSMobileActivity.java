@@ -33,7 +33,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		OnTouchListener, OnClickListener,
 		android.content.DialogInterface.OnClickListener {
 	private static final int LOGIN = 0;
-	private static final int LOGIN_ERROR = 1;
 	private static final String TAG = "ETSMobileActivity";
 	private View view;
 
@@ -61,7 +60,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 							"Erreur d'identification : Vos informations personnelles sont érronée(s)",
 							Toast.LENGTH_LONG).show();
 					// showDialog(ETSMobileActivity.LOGIN_ERROR);
-					showDialog(LOGIN);
+					showDialog(ETSMobileActivity.LOGIN);
 				}
 				break;
 
@@ -144,12 +143,12 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 					.setView(view).setPositiveButton("Ok", this).create();
 			break;
 
-//		case LOGIN_ERROR:
-//			d = new AlertDialog.Builder(this)
-//					.setTitle("Erreur d'identification")
-//					.setMessage("Vos informations personnelles sont érronée(s)")
-//					.create();
-//			break;
+		// case LOGIN_ERROR:
+		// d = new AlertDialog.Builder(this)
+		// .setTitle("Erreur d'identification")
+		// .setMessage("Vos informations personnelles sont érronée(s)")
+		// .create();
+		// break;
 		}
 		return d;
 	}
