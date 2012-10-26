@@ -1,7 +1,10 @@
 package ca.etsmtl.applets.etsmobile.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 import android.graphics.Color;
@@ -18,7 +21,7 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import com.google.gson.annotations.SerializedName;
 
 public class CalendarTask extends
-		AsyncTask<Object, Void, ArrayList<ActivityCalendar>> {
+		AsyncTask<Object, Void, ArrayList<Session>> {
 	private class ListeHorraireEtProf {
 		@SerializedName("motPasse")
 		private final String password;
@@ -34,7 +37,7 @@ public class CalendarTask extends
 			// TODO Auto-generated constructor stub
 			password = cred.getPassword();
 			username = cred.getUsername();
-			session = currentSession.getLongName();
+			session = currentSession.getShortName();
 		}
 	}
 
@@ -42,29 +45,22 @@ public class CalendarTask extends
 	private static final String TAG = "CalendarTask";
 	private CalendarTaskHandler handler;
 	private int[] colors = new int[] { Color.RED, Color.BLUE, Color.GREEN,
-			Color.YELLOW, Color.CYAN, Color.MAGENTA };
+			Color.YELLOW, Color.CYAN, Color.MAGENTA , Color.BLACK };
 
 	public CalendarTask(CalendarTaskHandler handler) {
 		this.handler = handler;
 	}
 
 	@Override
-	protected ArrayList<ActivityCalendar> doInBackground(Object... params) {
+	protected ArrayList<Session> doInBackground(Object... params) {
 		onPreExecute();
-		ArrayList<Session> session = getSessions((UserCredentials) params[0]);
-		Log.v(TAG, "Nbr session" + session.size());
-//		onProgressUpdate(null);
-		Session currentSession = findAndInitCurrentSession(session);
-		Log.v(TAG, "Current session" + currentSession.getLongName());
-
-		if (currentSession != null) {
-			// Contient les activitées (tp et cours d'un étudiant )
-			ArrayList<ActivityCalendar> arrayActivity = removeDuplicates(getCoursIntervalSession(
-					(UserCredentials) params[0], currentSession));
-			Log.v(TAG, "Nbr d'activité " + arrayActivity.size());
-			return arrayActivity;
-		}
-		return new ArrayList<ActivityCalendar>();
+		ArrayList<Session> sessions = getSessions((UserCredentials) params[0]);
+		
+		for(Session s: sessions)
+			s.setActivities(getCoursIntervalSession(
+					(UserCredentials) params[0], s));	
+			
+		return sessions;
 	}
 
 	/**
@@ -161,13 +157,42 @@ public class CalendarTask extends
 	}
 
 	@Override
-	protected void onPostExecute(ArrayList<ActivityCalendar> result) {
+	protected void onPostExecute(ArrayList<Session> result) {
 		super.onPostExecute(result);
 
-		// set colors before notifying ui
-		for (int i = 0; i < result.size(); i++) {
-			result.get(i).setEventColor(colors[i]);
+		Iterator<Session> it = result.iterator();
+		Session s;
+		
+		
+		ArrayList<String> activites = new ArrayList<String>();
+		
+		while(it.hasNext())
+		{
+			s = it.next();
+			int color_index=0;
+			activites.clear();
+			// set colors before notifying ui
+			for (int i = 0; i < s.getActivities().size(); i++) {
+				
+				if(activites.indexOf(s.getActivities().get(i).getCours()) != -1)
+				{
+					s.getActivities().get(i).setEventColor(
+							s.getActivities().get(
+									activites.indexOf(s.getActivities().get(i).getCours())
+									).getEventColor()
+							);
+				}
+				else
+				{
+					s.getActivities().get(i).setEventColor(colors[color_index]);
+					color_index++;
+					activites.add(s.getActivities().get(i).getCours());
+				}
+			}
 		}
+		
+		Collections.sort(result);
+		
 
 		// Bundle data = new Bundle();
 		Message msg = handler.obtainMessage(ON_POST_EXEC, result);

@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
+import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.CalendarTask;
 import ca.etsmtl.applets.etsmobile.views.CalendarEventsListView;
@@ -45,10 +46,14 @@ public class ScheduleActivity extends Activity {
 				
 				
 			
-				act.current
-					.setActivities((ArrayList<ActivityCalendar>) msg.obj);
+				//act.current
+					//.setActivities((ArrayList<ActivityCalendar>) msg.obj);
+				act.currentGridView.setSessions((ArrayList<Session>) msg.obj);
+				act.nextGridView.setSessions((ArrayList<Session>) msg.obj);
+				act.prevGridView.setSessions((ArrayList<Session>) msg.obj);
+				
 				act.current.setChanged();
-				act.current.notifyObservers((ArrayList<ActivityCalendar>) msg.obj);
+				act.current.notifyObservers(act.current.getCalendar());
 				act.current.deleteObserver(act.currentGridView);
 				
 				System.out.println("handle!");
@@ -84,8 +89,8 @@ public class ScheduleActivity extends Activity {
 			} else {
 				if (cell.getDate().before(current.getCalendar().getTime())) {
 
-					currentGridView.update(new CurrentCalendar((Calendar) prevGridView.getCurrent().clone()), 
-							current.getActivities());
+					currentGridView.update(null, 
+							prevGridView.getCurrent().clone());
 					currentGridView.setCurrentCell(x, y);
 					currentGridView.invalidate();
 
@@ -104,8 +109,8 @@ public class ScheduleActivity extends Activity {
 						.after(current.getCalendar().getTime())) {
 
 					
-					currentGridView.update(new CurrentCalendar((Calendar) nextGridView.getCurrent().clone()),
-							current.getActivities());
+					currentGridView.update(null,
+							nextGridView.getCurrent().clone());
 					currentGridView.setCurrentCell(x, y);
 					currentGridView.invalidate();
 
@@ -158,8 +163,8 @@ public class ScheduleActivity extends Activity {
 			public void onClick(final View v) {
 
 				//currentGridView.setActivities(current.getActivities());
-				currentGridView.update(new CurrentCalendar((Calendar) prevGridView.getCurrent().clone()), 
-						current.getActivities());
+				currentGridView.update(null, 
+						prevGridView.getCurrent().clone());
 				currentGridView.setCurrentCell(prevGridView.getCurrentCell());
 				currentGridView.invalidate();
 
@@ -173,8 +178,8 @@ public class ScheduleActivity extends Activity {
 			public void onClick(final View v) {
 
 				//currentGridView.setActivities(current.getActivities());
-				currentGridView.update(new CurrentCalendar((Calendar) nextGridView.getCurrent().clone()),
-						current.getActivities());
+				currentGridView.update(null,
+						nextGridView.getCurrent().clone());
 				currentGridView.setCurrentCell(nextGridView.getCurrentCell());
 				currentGridView.invalidate();
 
@@ -207,7 +212,7 @@ public class ScheduleActivity extends Activity {
 		current.addObserver(txtcalendar_title);
 
 		current.setChanged();
-		current.notifyObservers(current.getActivities());
+		current.notifyObservers(current.getCalendar());
 
 		// Affiche la liste des évènements d'aujourd'hui
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
