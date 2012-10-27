@@ -121,6 +121,38 @@ public class Session implements Serializable,Comparable<Session> {
 	public void setActivities(final List<ActivityCalendar> activities) {
 		this.activities = activities;
 	}
+	
+	public void removeDuplicates()
+	{
+		List<ActivityCalendar> removed = new ArrayList<ActivityCalendar>();
+		
+		ActivityCalendar activity,anotherActivity;
+				
+		for(int i=0; i < this.activities.size()-1;i++)
+		{
+			activity = this.activities.get(i);
+			anotherActivity = this.activities.get(i+1);
+			
+			if(activity.compareTo(anotherActivity)==0)
+			{
+				if(activity.getStartDate().compareTo(anotherActivity.getStartDate()) == 0 &&
+						activity.getEndDate().compareTo(anotherActivity.getEndDate()) == 0 &&
+						activity.getLocation().compareTo(anotherActivity.getLocation()) != 0)
+				{
+					activity.setLocation(activity.getLocation() + "; " + anotherActivity.getLocation());
+					removed.add(anotherActivity);
+				}
+						
+			}
+			
+		}
+		
+		this.activities.removeAll(removed);
+		
+	}
+	
+	
+	
 
 	@Override
 	public int compareTo(Session s) {

@@ -146,40 +146,21 @@ public class CalendarTask extends
 		return null;
 	}
 
-	private ArrayList<ActivityCalendar> removeDuplicates(
-			final ArrayList<ActivityCalendar> activityList) {
-		for (int i = 0; i < activityList.size(); i++) {
-			for (int j = 0; j < activityList.size(); j++) {
-				if (i == j) {
-				} else if (activityList.get(j).getCours()
-						.equals(activityList.get(i).getCours())
-						&& activityList.get(j).getName()
-								.equals(activityList.get(i).getName())) {
-					activityList.get(i).setLocation(
-							activityList.get(i).getLocation() + "/"
-									+ activityList.get(j).getLocation());
-					activityList.remove(j);
-				}
-			}
-		}
-		return activityList;
-	}
+
 
 	@Override
 	protected void onPostExecute(ArrayList<Session> result) {
 		super.onPostExecute(result);
 
-		Iterator<Session> it = result.iterator();
-		Session s;
-		
-		
 		ArrayList<String> activites = new ArrayList<String>();
 		
-		while(it.hasNext())
+		for(Session s: result)
 		{
-			s = it.next();
 			int color_index=0;
 			activites.clear();
+			s.removeDuplicates();
+			
+			
 			// set colors before notifying ui
 			for (int i = 0; i < s.getActivities().size(); i++) {
 				

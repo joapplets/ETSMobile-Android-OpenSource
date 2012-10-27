@@ -142,7 +142,9 @@ public class ActivityCalendar implements Comparable<ActivityCalendar>{
 	public int compareTo(ActivityCalendar another) {
 		// TODO Auto-generated method stub
 		
-		return (this.cours.compareTo(another.getCours()) == 0 && this.groupe.compareTo(another.getGroupe()) == 0) ? 0: -1;
+		return (this.cours.compareTo(another.getCours()) == 0 && 
+				this.groupe.compareTo(another.getGroupe()) == 0 &&
+				this.jour.compareTo(another.getJour()) == 0) ? 0: -1;
 		
 	}
 

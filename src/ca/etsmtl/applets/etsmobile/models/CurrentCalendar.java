@@ -1,8 +1,6 @@
 package ca.etsmtl.applets.etsmobile.models;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Observable;
 import java.util.TimeZone;

@@ -44,16 +44,21 @@ public class ScheduleActivity extends Activity {
 			case CalendarTask.ON_POST_EXEC:
 				act.navBar.hideLoading();
 				
-				
-			
 				//act.current
 					//.setActivities((ArrayList<ActivityCalendar>) msg.obj);
 				act.currentGridView.setSessions((ArrayList<Session>) msg.obj);
 				act.nextGridView.setSessions((ArrayList<Session>) msg.obj);
 				act.prevGridView.setSessions((ArrayList<Session>) msg.obj);
 				
+				act.currentGridView.setCurrentCell(null);
+				
 				act.current.setChanged();
 				act.current.notifyObservers(act.current.getCalendar());
+				
+				act.currentGridView.getCurrentCell().addObserver(act.lst_cours);
+				act.currentGridView.getCurrentCell().setChanged();
+				act.currentGridView.getCurrentCell().notifyObservers();
+
 				act.current.deleteObserver(act.currentGridView);
 				
 				
@@ -221,6 +226,7 @@ public class ScheduleActivity extends Activity {
 		currentGridView.getCurrentCell().setChanged();
 		currentGridView.getCurrentCell().notifyObservers();
 
+		
 		currentGridView.setVisibility(View.VISIBLE);
 
 		
