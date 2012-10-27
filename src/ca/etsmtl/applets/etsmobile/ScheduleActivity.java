@@ -56,7 +56,7 @@ public class ScheduleActivity extends Activity {
 				act.current.notifyObservers(act.current.getCalendar());
 				act.current.deleteObserver(act.currentGridView);
 				
-				System.out.println("handle!");
+				
 				break;
 			default:
 				act.navBar.showLoading();
@@ -224,7 +224,7 @@ public class ScheduleActivity extends Activity {
 		currentGridView.setVisibility(View.VISIBLE);
 
 		
-		System.out.println("created!");
+	
 	}
 
 	/**

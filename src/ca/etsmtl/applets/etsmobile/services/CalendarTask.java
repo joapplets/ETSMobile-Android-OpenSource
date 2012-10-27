@@ -44,9 +44,18 @@ public class CalendarTask extends
 	public static final int ON_POST_EXEC = 10;
 	private static final String TAG = "CalendarTask";
 	private CalendarTaskHandler handler;
-	private int[] colors = new int[] { Color.RED, Color.BLUE, Color.GREEN,
-			Color.YELLOW, Color.CYAN, Color.MAGENTA , Color.BLACK };
+	private int[] colors = new int[] {
+			Color.RED, 
+			Color.YELLOW, 
+			Color.GREEN,
+			Color.rgb(255, 0, 255), //fushia
+			Color.rgb(0, 255, 255), // aqua
+			Color.rgb(128, 0, 0), // maroon
+			Color.rgb(0, 255, 0), // lime
+			Color.rgb(0, 0, 128) //navy
+			};
 
+	
 	public CalendarTask(CalendarTaskHandler handler) {
 		this.handler = handler;
 	}
@@ -181,6 +190,7 @@ public class CalendarTask extends
 									activites.indexOf(s.getActivities().get(i).getCours())
 									).getEventColor()
 							);
+					activites.add(s.getActivities().get(i).getCours());
 				}
 				else
 				{

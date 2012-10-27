@@ -539,10 +539,7 @@ public class NumGridView extends View implements Observer {
 		{
 			if(!(days.get(0).getTime().after(s.getDateFinCours()) || 
 					days.get(days.size()-1).getTime().before(s.getDateDebut())))
-				{
 					sessions.add(s);
-					System.out.println("added" + s.getLongName());
-				}
 			else if(days.get(0).getTime().after(s.getDateFinCours()))
 				break;
 		}

@@ -65,6 +65,12 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        
+        <activity
+            android:name=".ScheduleDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
         <activity android:name=".AboutActivity" />
         <activity android:name=".BottinViewActivity" />
         <activity android:name=".BibliothequeActivity" />
