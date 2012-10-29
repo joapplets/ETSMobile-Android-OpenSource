@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -22,21 +21,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.fragments.NewsListFragment;
 import ca.etsmtl.applets.etsmobile.listeners.NewsListSelectedItemListener;
 import ca.etsmtl.applets.etsmobile.preferences.NewsListPreferences;
 import ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver;
 import ca.etsmtl.applets.etsmobile.services.NewsService;
 import ca.etsmtl.applets.etsmobile.services.NewsService.NewsFetcherBinder;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class NewsListActivity extends FragmentActivity implements
-		NewsListSelectedItemListener, OnClickListener, AnimationListener {
+		NewsListSelectedItemListener, OnClickListener {
 
 	private class ManualFetcher extends
 			AsyncTask<NewsFetcherBinder, Void, Void> {
@@ -58,22 +54,24 @@ public class NewsListActivity extends FragmentActivity implements
 
 		@Override
 		protected void onPostExecute(final Void result) {
-			try {
-				footer.startAnimation(hideFooter());
-				footerVisible = false;
-				unbindService(connection);
-			} catch (final IllegalArgumentException e) {
-			}
-			super.onPostExecute(result);
+			navBar.hideLoading();
+			// try {
+			// footer.startAnimation(hideFooter());
+			// footerVisible = false;
+			// unbindService(connection);
+			// } catch (final IllegalArgumentException e) {
+			// }
+			// super.onPostExecute(result);
 		}
 
 		@Override
 		protected void onPreExecute() {
-			footer.setVisibility(View.VISIBLE);
-			footer.startAnimation(showFooter());
-			((AnimationDrawable) footer.getCompoundDrawables()[0]).start();
-			footerVisible = true;
-			super.onPreExecute();
+			navBar.showLoading();
+			// footer.setVisibility(View.VISIBLE);
+			// footer.startAnimation(showFooter());
+			// ((AnimationDrawable) footer.getCompoundDrawables()[0]).start();
+			// footerVisible = true;
+			// super.onPreExecute();
 		}
 
 	}
@@ -81,9 +79,7 @@ public class NewsListActivity extends FragmentActivity implements
 	// private final static String TAG
 	// ="ca.etsmtl.applets.etsmobile.NewsListActivityV2";
 	private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.NewsFetcher";
-	private TextView footer;
-
-	private boolean footerVisible = false;
+	// private TextView footer;
 
 	private final ServiceConnection connection = new ServiceConnection() {
 
@@ -97,6 +93,7 @@ public class NewsListActivity extends FragmentActivity implements
 		public void onServiceDisconnected(final ComponentName name) {
 		}
 	};
+	private NavBar navBar;
 
 	private void connectToFetcherService() {
 		final Intent i = new Intent(this, NewsService.class);
@@ -104,31 +101,6 @@ public class NewsListActivity extends FragmentActivity implements
 			startService(i);
 		}
 		bindService(i, connection, Context.BIND_AUTO_CREATE);
-	}
-
-	private Animation hideFooter() {
-		final Animation animation = new TranslateAnimation(0, 0, 0, 40);
-		animation.setDuration(500);
-		animation.setFillEnabled(true);
-		animation.setFillAfter(true);
-		animation.setAnimationListener(this);
-		footerVisible = false;
-		return animation;
-	}
-
-	@Override
-	public void onAnimationEnd(final Animation animation) {
-		if (!footerVisible) {
-			footer.setVisibility(View.GONE);
-		}
-	}
-
-	@Override
-	public void onAnimationRepeat(final Animation animation) {
-	}
-
-	@Override
-	public void onAnimationStart(final Animation animation) {
 	}
 
 	@Override
@@ -158,7 +130,9 @@ public class NewsListActivity extends FragmentActivity implements
 		btnHome.setOnClickListener(this);
 		btnSources.setOnClickListener(this);
 
-		footer = (TextView) findViewById(R.id.listView_loading);
+		navBar = (NavBar) findViewById(R.id.listViewHeader);
+
+		// footer = (TextView) findViewById(R.id.listView_loading);
 
 		setAlarm();
 	}
@@ -268,16 +242,6 @@ public class NewsListActivity extends FragmentActivity implements
 		alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP,
 				updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
 				toDownload);
-	}
-
-	private Animation showFooter() {
-		final Animation animation = new TranslateAnimation(0, 0, 40, 0);
-		animation.setDuration(500);
-		animation.setFillEnabled(true);
-		animation.setFillAfter(true);
-		animation.setAnimationListener(this);
-		footerVisible = true;
-		return animation;
 	}
 
 }

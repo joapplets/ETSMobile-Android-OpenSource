@@ -395,13 +395,12 @@ public class NumGridView extends View implements Observer {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void update( Observable observable,  Object data) {
+	public void update(final Observable observable, final Object data) {
 		// TODO Auto-generated method stub
-		
-		
-		this.current = ((CurrentCalendar) observable).getCalendar();
-		this.activities = (ArrayList<ActivityCalendar>) data;
-		
+
+		current = ((CurrentCalendar) observable).getCalendar();
+		activities = (ArrayList<ActivityCalendar>) data;
+
 		final List<Calendar> days = new ArrayList<Calendar>();
 
 		final Calendar firstdayofmonth = (Calendar) current.clone();
@@ -480,7 +479,7 @@ public class NumGridView extends View implements Observer {
 				mCells[x][y] = new CalendarCell(it.next().getTime());
 
 				// add activity to cell if its the right one
-				for (ActivityCalendar actC : activities) {
+				for (final ActivityCalendar actC : activities) {
 					if (mCells[x][y].getDate().getDay() == Integer
 							.parseInt(actC.getJour())) {
 						mCells[x][y].add(actC);

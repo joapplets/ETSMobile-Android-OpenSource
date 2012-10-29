@@ -28,30 +28,28 @@ import ca.etsmtl.applets.etsmobile.views.NumGridView.OnCellTouchListener;
 public class ScheduleActivity extends Activity {
 
 	public static class CalendarTaskHandler extends Handler {
-		private WeakReference<ScheduleActivity> ref;
+		private final WeakReference<ScheduleActivity> ref;
 
-		public CalendarTaskHandler(ScheduleActivity act) {
+		public CalendarTaskHandler(final ScheduleActivity act) {
 			ref = new WeakReference<ScheduleActivity>(act);
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(final Message msg) {
 			super.handleMessage(msg);
-			ScheduleActivity act = ref.get();
+			final ScheduleActivity act = ref.get();
 			switch (msg.what) {
 			case CalendarTask.ON_POST_EXEC:
 				act.navBar.hideLoading();
-				
-				
-			
+
 				act.current
-					.setActivities((ArrayList<ActivityCalendar>) msg.obj);
+						.setActivities((ArrayList<ActivityCalendar>) msg.obj);
 				act.current.setChanged();
-				act.current.notifyObservers((ArrayList<ActivityCalendar>) msg.obj);
+				act.current.notifyObservers(msg.obj);
 				act.current.deleteObserver(act.currentGridView);
-				
-				System.out.println("handle!");
+				act.currentGridView.getCurrentCell().setChanged();
+				act.currentGridView.getCurrentCell().notifyObservers();
 				break;
 			default:
 				act.navBar.showLoading();
@@ -84,7 +82,8 @@ public class ScheduleActivity extends Activity {
 			} else {
 				if (cell.getDate().before(current.getCalendar().getTime())) {
 
-					currentGridView.update(new CurrentCalendar((Calendar) prevGridView.getCurrent().clone()), 
+					currentGridView.update(new CurrentCalendar(
+							(Calendar) prevGridView.getCurrent().clone()),
 							current.getActivities());
 					currentGridView.setCurrentCell(x, y);
 					currentGridView.invalidate();
@@ -103,8 +102,8 @@ public class ScheduleActivity extends Activity {
 				} else if (cell.getDate()
 						.after(current.getCalendar().getTime())) {
 
-					
-					currentGridView.update(new CurrentCalendar((Calendar) nextGridView.getCurrent().clone()),
+					currentGridView.update(new CurrentCalendar(
+							(Calendar) nextGridView.getCurrent().clone()),
 							current.getActivities());
 					currentGridView.setCurrentCell(x, y);
 					currentGridView.invalidate();
@@ -131,7 +130,7 @@ public class ScheduleActivity extends Activity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calendar_view);
-		// get data
+		// get data async
 		new CalendarTask(new CalendarTaskHandler(this))
 				.execute(new UserCredentials(PreferenceManager
 						.getDefaultSharedPreferences(this)));
@@ -157,9 +156,10 @@ public class ScheduleActivity extends Activity {
 			@Override
 			public void onClick(final View v) {
 
-				//currentGridView.setActivities(current.getActivities());
-				currentGridView.update(new CurrentCalendar((Calendar) prevGridView.getCurrent().clone()), 
-						current.getActivities());
+				// currentGridView.setActivities(current.getActivities());
+				currentGridView.update(new CurrentCalendar(
+						(Calendar) prevGridView.getCurrent().clone()), current
+						.getActivities());
 				currentGridView.setCurrentCell(prevGridView.getCurrentCell());
 				currentGridView.invalidate();
 
@@ -172,9 +172,10 @@ public class ScheduleActivity extends Activity {
 			@Override
 			public void onClick(final View v) {
 
-				//currentGridView.setActivities(current.getActivities());
-				currentGridView.update(new CurrentCalendar((Calendar) nextGridView.getCurrent().clone()),
-						current.getActivities());
+				// currentGridView.setActivities(current.getActivities());
+				currentGridView.update(new CurrentCalendar(
+						(Calendar) nextGridView.getCurrent().clone()), current
+						.getActivities());
 				currentGridView.setCurrentCell(nextGridView.getCurrentCell());
 				currentGridView.invalidate();
 
@@ -218,7 +219,6 @@ public class ScheduleActivity extends Activity {
 
 		currentGridView.setVisibility(View.VISIBLE);
 
-		
 		System.out.println("created!");
 	}
 

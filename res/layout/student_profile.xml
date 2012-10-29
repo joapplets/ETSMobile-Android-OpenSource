@@ -34,7 +34,7 @@
                 android:text="@string/student_profile_lastname"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_lastname"
                 android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:layout_marginLeft="5dip"
                 android:gravity="left"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:textColor="@color/blue_ets" />
 
         </TableRow>
 
@@ -58,7 +58,7 @@
                 android:text="@string/student_profile_name"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_name"
                 android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 android:layout_marginLeft="5dip"
                 android:text=""
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:textColor="@color/blue_ets" />
 
         </TableRow>
 
@@ -80,7 +80,7 @@
                 android:text="@string/student_profile_codePermanent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_codePermanent"
                 android:layout_width="match_parent"
@@ -88,7 +88,8 @@
                 android:layout_column="2"
                 android:layout_marginLeft="5dip"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:textColor="@color/blue_ets"
+                android:textSize="17dp" />
 
         </TableRow>
 
@@ -101,7 +102,7 @@
                 android:text="@string/student_profile_solde"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_solde"
                 android:layout_width="match_parent"
@@ -110,7 +111,7 @@
                 android:layout_marginLeft="5dip"
                 android:text=""
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:textColor="@color/blue_ets" />
 
         </TableRow>
     </TableLayout>

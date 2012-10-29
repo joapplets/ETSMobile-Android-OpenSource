@@ -65,7 +65,7 @@ public class NewsCursorAdapter extends CursorAdapter {
 				.getColumnIndex(NewsTableHelper.NEWS_DESCRIPTION));
 		if (description.length() > 200) {
 			holder.description.setText(Html.fromHtml(description.substring(0,
-					199)));
+					180)));
 		} else {
 			holder.description.setText(Html.fromHtml(description));
 		}

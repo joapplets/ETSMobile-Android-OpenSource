@@ -10,28 +10,7 @@
     <string name="pref_signets_label">Signets</string>
     <string name="pref_code_universel">Code Universel</string>
     <string name="pref_mot_passe_lbl">Mot de passe</string>
-    <string name="info_ets_title">L’ÉTS, le génie avec un +</string>
-    <string name="info_ets_text">L’École de technologie supérieure est une
-		constituante du réseau de l’Université du Québec. Spécialisée dans
-		l’enseignement et la recherche appliqués en génie et le transfert
-		technologique, elle forme des ingénieurs et des chercheurs reconnus
-		pour leur approche pratique et innovatrice. Depuis sa création, elle
-		entretient un partenariat unique avec le milieu des affaires et
-		l’industrie, tant avec les grandes entreprises que les PME.</string>
-    <string name="info_ets_address">Adresses :
-		Pavillon principal (A) : HEAD
-		1100, rue
-		Notre-Dame Ouest (angle Peel au sud)
-		Montréal (Qc) H3C 1K3
-		Téléphone:
-		514 396-8800</string>
     <string name="apphence_key">8d31bdcc179d40b0af806d41a32010ef7f3f0d38</string>
-    <string name="info_applets_title">Applets, Ingénierie mobile</string>
-    <string name="info_applets_text">Good news! After more than a year of work and
-		planning, the club Applets is now officially recognized by the ÉTS as
-		of january 2011! We have a lot of great projects to come and we
-		encourage you to stay aware and to come back often on our website to
-		be aware of them.</string>
     <string name="student_profile_name">Prénom</string>
     <string name="student_profile_lastname">Nom</string>
     <string name="student_profile_solde">Solde</string>
@@ -69,6 +48,7 @@
     <string name="secu_appel_lbl">Appel d\'urgence</string>
     <string name="secu_ext_lbl">À l\'interne</string>
     <string name="secu_ext">Poste 55</string>
+    <string name="secu_title">Sécurité</string>
 
     <string-array name="secu_urgence">
         <item>Appel à la bombe</item>
@@ -79,9 +59,16 @@
         <item>Panne électrique</item>
         <item>Personne armée</item>
         <item>Urgence médicale</item>
+    </string-array>    <string-array name="main_labels">
+        <item>Profil</item>
+        <item>Nouvelles</item>
+        <item>Sécurité</item>
+        <item>Horaire</item>
+        <item>Bottin</item>
+        <item>Mes notes</item>
+        <item>Bibliothèque</item>
     </string-array>
-    
-     <string-array name="day_names">
+    <string-array name="day_names">
         <item>dim.</item>
         <item>lun.</item>
         <item>mar.</item>
@@ -90,12 +77,12 @@
         <item>ven.</item>
         <item>sam.</item>
     </string-array>
+
     <string name="calendar_event_list_item_title">%1$s %2$s</string>
     <string name="calendar_event_list_item_subtitle">%1$s - %2$s</string>
     <string name="indicator_description">Indicateur de couleur correspondant à un évènement</string>
     <string name="btn_next_content_description">Bouton pour accéder au mois suivant du calendrier</string>
     <string name="btn_previous_content_description">Bouton pour accéder au mois précédent du calendrier</string>
-
     <string name="urgence_resum_bombe">&lt;ul&gt;&lt;li&gt;Ne pas mettre fin &amp;#224; la communication t&amp;#233;l&amp;#233;phonique&lt;/li&gt;&lt;li&gt;Tenter d’obtenir le maximum d’informations &lt;/li&gt;&lt;li&gt;Faire r&amp;#233;p&amp;#233;ter ou pr&amp;#233;texter avoir de la difficult&amp;#233; &amp;#224; entendre afin de gagner  du temps.&lt;/li&gt;&lt;li&gt;Dans la mesure du possible et en fonction de la situation, tenter d’obtenir les informations suivantes : &lt;/li&gt;&lt;ul&gt;&lt;li&gt;L’heure &amp;#224; laquelle la bombe explosera &lt;/li&gt;&lt;li&gt;Le type de bombe&lt;/li&gt;&lt;li&gt;Les personnes vis&amp;#233;es et le motif&lt;/li&gt;&lt;li&gt;L’emplacement de la bombe &lt;/li&gt;&lt;li&gt;Son nom et adresse &lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Laisser l’interlocuteur raccrocher en premier &lt;/li&gt;&lt;li&gt;Il est primordial de communiquer IMM&amp;#201;DIATEMENT avec la s&amp;#233;curit&amp;#233; au 514-396-8900 &lt;/li&gt;&lt;/ul&gt;</string>
     <string name="urgence_resum_colis">&lt;ul&gt;&lt;li&gt;Ne jamais toucher, pousser, frapper, soulever ou ouvrir un colis suspect&lt;/li&gt;&lt;li&gt;Ne jamais prendre pour acquis qu’il s’agit du seul colis&lt;/li&gt;
 &lt;li&gt;Quitter le secteur et si possible restreindre l’acc&amp;#232;s en fermant les portes&lt;/li&gt;&lt;li&gt;Aviser les personnes rencontr&amp;#233;es de ne pas entrer dans ce secteur&lt;/li&gt;&lt;li&gt;Une fois &amp;#224; l’ext&amp;#233;rieur du secteur, communiquer avec la s&amp;#233;curit&amp;#233; 514-396- 8900&lt;/li&gt;&lt;li&gt;Ne jamais activer une station manuelle d’incendie (station rouge)&lt;/li&gt;&lt;/ul&gt;</string>

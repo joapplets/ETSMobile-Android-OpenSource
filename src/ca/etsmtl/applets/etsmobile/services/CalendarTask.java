@@ -40,56 +40,32 @@ public class CalendarTask extends
 
 	public static final int ON_POST_EXEC = 10;
 	private static final String TAG = "CalendarTask";
-	private CalendarTaskHandler handler;
-	private int[] colors = new int[] { Color.RED, Color.BLUE, Color.GREEN,
-			Color.YELLOW, Color.CYAN, Color.MAGENTA };
+	private final CalendarTaskHandler handler;
+	private final int[] colors = new int[] { Color.RED, Color.BLUE,
+			Color.GREEN, Color.YELLOW, Color.CYAN, Color.MAGENTA };
 
-	public CalendarTask(CalendarTaskHandler handler) {
+	public CalendarTask(final CalendarTaskHandler handler) {
 		this.handler = handler;
 	}
 
 	@Override
-	protected ArrayList<ActivityCalendar> doInBackground(Object... params) {
+	protected ArrayList<ActivityCalendar> doInBackground(final Object... params) {
 		onPreExecute();
-		ArrayList<Session> session = getSessions((UserCredentials) params[0]);
-		Log.v(TAG, "Nbr session" + session.size());
-//		onProgressUpdate(null);
-		Session currentSession = findAndInitCurrentSession(session);
-		Log.v(TAG, "Current session" + currentSession.getLongName());
+		final ArrayList<Session> session = getSessions((UserCredentials) params[0]);
+		Log.v(CalendarTask.TAG, "Nbr session" + session.size());
+		// onProgressUpdate(null);
+		final Session currentSession = findAndInitCurrentSession(session);
+		Log.v(CalendarTask.TAG,
+				"Current session" + currentSession.getLongName());
 
 		if (currentSession != null) {
 			// Contient les activitées (tp et cours d'un étudiant )
-			ArrayList<ActivityCalendar> arrayActivity = removeDuplicates(getCoursIntervalSession(
+			final ArrayList<ActivityCalendar> arrayActivity = removeDuplicates(getCoursIntervalSession(
 					(UserCredentials) params[0], currentSession));
-			Log.v(TAG, "Nbr d'activité " + arrayActivity.size());
+			Log.v(CalendarTask.TAG, "Nbr d'activité " + arrayActivity.size());
 			return arrayActivity;
 		}
 		return new ArrayList<ActivityCalendar>();
-	}
-
-	/**
-	 * Obtien la liste des sessions acceccibles
-	 * 
-	 * @param creds
-	 */
-	private ArrayList<Session> getSessions(UserCredentials creds) {
-		ArrayList<Session> sessions = new ArrayList<Session>();
-		try {
-
-			final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Session>, Session>(
-					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
-					"listeSessions", creds, Session.class, FetchType.ARRAY);
-
-			signetBackgroundThead.execute();
-
-			sessions = signetBackgroundThead.get();
-		} catch (final InterruptedException e) {
-			e.printStackTrace();
-		} catch (final ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return sessions;
 	}
 
 	/**
@@ -99,7 +75,7 @@ public class CalendarTask extends
 	 * @param sessions
 	 * @return
 	 */
-	private Session findAndInitCurrentSession(ArrayList<Session> sessions) {
+	private Session findAndInitCurrentSession(final ArrayList<Session> sessions) {
 		for (final Session s : sessions) {
 			final Date date = new Date();
 			if (s.getDateDebut().before(date) && s.getDateFin().after(date)) {
@@ -119,7 +95,7 @@ public class CalendarTask extends
 	 * @return
 	 */
 	private ArrayList<ActivityCalendar> getCoursIntervalSession(
-			UserCredentials creds, Session currentSession) {
+			final UserCredentials creds, final Session currentSession) {
 		try {
 			final ListeHorraireEtProf listeHoraireEtProf = new ListeHorraireEtProf(
 					creds, currentSession);
@@ -141,6 +117,54 @@ public class CalendarTask extends
 		return null;
 	}
 
+	/**
+	 * Obtien la liste des sessions acceccibles
+	 * 
+	 * @param creds
+	 */
+	private ArrayList<Session> getSessions(final UserCredentials creds) {
+		ArrayList<Session> sessions = new ArrayList<Session>();
+		try {
+
+			final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Session>, Session>(
+					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
+					"listeSessions", creds, Session.class, FetchType.ARRAY);
+
+			signetBackgroundThead.execute();
+
+			sessions = signetBackgroundThead.get();
+		} catch (final InterruptedException e) {
+			e.printStackTrace();
+		} catch (final ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		return sessions;
+	}
+
+	@Override
+	protected void onPostExecute(final ArrayList<ActivityCalendar> result) {
+		super.onPostExecute(result);
+
+		// set colors before notifying ui
+		for (int i = 0; i < result.size(); i++) {
+			result.get(i).setEventColor(colors[i]);
+		}
+
+		// Bundle data = new Bundle();
+		final Message msg = handler.obtainMessage(CalendarTask.ON_POST_EXEC,
+				result);
+		// msg.setData(data);
+		msg.sendToTarget();
+
+	}
+
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		handler.obtainMessage().sendToTarget();
+	}
+
 	private ArrayList<ActivityCalendar> removeDuplicates(
 			final ArrayList<ActivityCalendar> activityList) {
 		for (int i = 0; i < activityList.size(); i++) {
@@ -158,27 +182,5 @@ public class CalendarTask extends
 			}
 		}
 		return activityList;
-	}
-
-	@Override
-	protected void onPostExecute(ArrayList<ActivityCalendar> result) {
-		super.onPostExecute(result);
-
-		// set colors before notifying ui
-		for (int i = 0; i < result.size(); i++) {
-			result.get(i).setEventColor(colors[i]);
-		}
-
-		// Bundle data = new Bundle();
-		Message msg = handler.obtainMessage(ON_POST_EXEC, result);
-		// msg.setData(data);
-		msg.sendToTarget();
-
-	}
-
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		handler.obtainMessage().sendToTarget();
 	}
 }

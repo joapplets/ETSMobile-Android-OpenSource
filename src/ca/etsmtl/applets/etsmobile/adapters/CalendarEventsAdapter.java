@@ -1,8 +1,6 @@
 package ca.etsmtl.applets.etsmobile.adapters;
 
-
 import java.util.List;
-
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -46,9 +44,8 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 		TextView textView = (TextView) rowView.findViewById(R.id.txt_title);
 
 		textView.setText(String.format(res
-				.getString(R.string.calendar_event_list_item_title),
-				 events.get(position).getStartDate(), events
-						.get(position).getCours()));
+				.getString(R.string.calendar_event_list_item_title), events
+				.get(position).getStartDate(), events.get(position).getCours()));
 
 		// set subtitle
 		textView = (TextView) rowView.findViewById(R.id.txt_subtitle);

@@ -36,6 +36,10 @@ public class ActivityCalendar {
 		return endDate;
 	}
 
+	public int getEventColor() {
+		return eventColor;
+	}
+
 	/**
 	 * # du jours Lundi = 1
 	 * 
@@ -92,6 +96,10 @@ public class ActivityCalendar {
 		this.endDate = endDate;
 	}
 
+	public void setEventColor(final int eventColor) {
+		this.eventColor = eventColor;
+	}
+
 	public void setJour(final String jour) {
 		this.jour = jour;
 	}
@@ -115,15 +123,5 @@ public class ActivityCalendar {
 	public void setTitreCours(final String titreCours) {
 		this.titreCours = titreCours;
 	}
-
-	public int getEventColor() {
-		return eventColor;
-	}
-
-	public void setEventColor(int eventColor) {
-		this.eventColor = eventColor;
-	}
-	
-	
 
 }
