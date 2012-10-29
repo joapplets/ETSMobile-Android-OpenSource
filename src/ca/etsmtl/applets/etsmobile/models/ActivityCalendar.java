@@ -2,7 +2,7 @@ package ca.etsmtl.applets.etsmobile.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ActivityCalendar {
+public class ActivityCalendar implements Comparable<ActivityCalendar>{
 
 	@SerializedName("heureDebut")
 	private String startDate;
@@ -22,6 +22,20 @@ public class ActivityCalendar {
 	private String cours;
 	@SerializedName("titreCours")
 	private String titreCours;
+	
+	@SerializedName("groupe")
+	private String groupe;
+
+	
+	
+	public String getGroupe() {
+		return groupe;
+	}
+
+	public void setGroupe(final String groupe) {
+		this.groupe = groupe;
+	}
+
 	private int eventColor;
 
 	public String getCodeActivite() {
@@ -123,5 +137,24 @@ public class ActivityCalendar {
 	public void setTitreCours(final String titreCours) {
 		this.titreCours = titreCours;
 	}
+
+}
+
+	public void setEventColor(int eventColor) {
+		this.eventColor = eventColor;
+	}
+
+	@Override
+	public int compareTo(ActivityCalendar another) {
+		// TODO Auto-generated method stub
+		
+		return (this.cours.compareTo(another.getCours()) == 0 && 
+				this.groupe.compareTo(another.getGroupe()) == 0 &&
+				this.jour.compareTo(another.getJour()) == 0) ? 0: -1;
+		
+	}
+
+	
+
 
 }

@@ -17,7 +17,8 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <uses-library android:name="com.google.android.maps" />
-        <receiver android:name="ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver" />
+
+        <receiver android:name="ca.etsmtl.applets.etsmobile.receivers.NewsAlarmReceiver" />
 
         <service android:name=".services.NewsService" />
         <service android:name=".services.BottinService" />
@@ -56,6 +57,12 @@
         <activity
             android:name=".ScheduleActivity"
             android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
+            android:name=".ScheduleDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity android:name=".AboutActivity" />
         <activity android:name=".BottinViewActivity" />
