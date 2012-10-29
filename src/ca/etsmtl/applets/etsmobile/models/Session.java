@@ -4,13 +4,12 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Session implements Serializable,Comparable<Session> {
+public class Session implements Serializable, Comparable<Session> {
 
 	private static final long serialVersionUID = -632822145233952231L;
 
@@ -28,18 +27,18 @@ public class Session implements Serializable,Comparable<Session> {
 
 	@SerializedName("dateFinCours")
 	private String dateFinCoursString;
-	
-	
-	private List<ActivityCalendar> activities;
-	
-	
 
-	public String getDateFinCoursString() {
-		return dateFinCoursString;
+	private List<ActivityCalendar> activities;
+
+	@Override
+	public int compareTo(final Session s) {
+		// TODO Auto-generated method stu
+
+		return s.getDateDebut().compareTo(s.getDateFin());
 	}
 
-	public void setDateFinCoursString(String dateFinCoursString) {
-		this.dateFinCoursString = dateFinCoursString;
+	public List<ActivityCalendar> getActivities() {
+		return activities;
 	}
 
 	public Date getDateDebut() {
@@ -71,7 +70,7 @@ public class Session implements Serializable,Comparable<Session> {
 
 		return date;
 	}
-	
+
 	public Date getDateFinCours() {
 		SimpleDateFormat formatter;
 		Date date;
@@ -83,6 +82,10 @@ public class Session implements Serializable,Comparable<Session> {
 		}
 
 		return date;
+	}
+
+	public String getDateFinCoursString() {
+		return dateFinCoursString;
 	}
 
 	public String getDateFinString() {
@@ -97,8 +100,45 @@ public class Session implements Serializable,Comparable<Session> {
 		return shortName;
 	}
 
+	public void removeDuplicates() {
+		final List<ActivityCalendar> removed = new ArrayList<ActivityCalendar>();
+
+		ActivityCalendar activity, anotherActivity;
+
+		for (int i = 0; i < activities.size() - 1; i++) {
+			activity = activities.get(i);
+			anotherActivity = activities.get(i + 1);
+
+			if (activity.compareTo(anotherActivity) == 0) {
+				if (activity.getStartDate().compareTo(
+						anotherActivity.getStartDate()) == 0
+						&& activity.getEndDate().compareTo(
+								anotherActivity.getEndDate()) == 0
+						&& activity.getLocation().compareTo(
+								anotherActivity.getLocation()) != 0) {
+					activity.setLocation(activity.getLocation() + "; "
+							+ anotherActivity.getLocation());
+					removed.add(anotherActivity);
+				}
+
+			}
+
+		}
+
+		activities.removeAll(removed);
+
+	}
+
+	public void setActivities(final List<ActivityCalendar> activities) {
+		this.activities = activities;
+	}
+
 	public void setDateDebutString(final String dateDebutString) {
 		this.dateDebutString = dateDebutString;
+	}
+
+	public void setDateFinCoursString(final String dateFinCoursString) {
+		this.dateFinCoursString = dateFinCoursString;
 	}
 
 	public void setLongName(final String longName) {
@@ -112,52 +152,5 @@ public class Session implements Serializable,Comparable<Session> {
 	@Override
 	public String toString() {
 		return getLongName();
-	}
-
-	public List<ActivityCalendar> getActivities() {
-		return activities;
-	}
-
-	public void setActivities(final List<ActivityCalendar> activities) {
-		this.activities = activities;
-	}
-	
-	public void removeDuplicates()
-	{
-		List<ActivityCalendar> removed = new ArrayList<ActivityCalendar>();
-		
-		ActivityCalendar activity,anotherActivity;
-				
-		for(int i=0; i < this.activities.size()-1;i++)
-		{
-			activity = this.activities.get(i);
-			anotherActivity = this.activities.get(i+1);
-			
-			if(activity.compareTo(anotherActivity)==0)
-			{
-				if(activity.getStartDate().compareTo(anotherActivity.getStartDate()) == 0 &&
-						activity.getEndDate().compareTo(anotherActivity.getEndDate()) == 0 &&
-						activity.getLocation().compareTo(anotherActivity.getLocation()) != 0)
-				{
-					activity.setLocation(activity.getLocation() + "; " + anotherActivity.getLocation());
-					removed.add(anotherActivity);
-				}
-						
-			}
-			
-		}
-		
-		this.activities.removeAll(removed);
-		
-	}
-	
-	
-	
-
-	@Override
-	public int compareTo(Session s) {
-		// TODO Auto-generated method stu
-		
-		return s.getDateDebut().compareTo(s.getDateFin());
 	}
 }

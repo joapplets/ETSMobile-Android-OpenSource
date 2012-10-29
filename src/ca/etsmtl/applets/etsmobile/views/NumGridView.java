@@ -90,6 +90,8 @@ public class NumGridView extends View implements Observer {
 
 	private ArrayList<Session> sessions = new ArrayList<Session>();
 
+	private ArrayList<ActivityCalendar> activities = new ArrayList<ActivityCalendar>();
+
 	/**
 	 * The constructor as called by the XML inflater.
 	 * 
@@ -207,6 +209,22 @@ public class NumGridView extends View implements Observer {
 
 	public int getmCellCountY() {
 		return mCellCountY;
+	}
+
+	private List<Session> getSessions(final List<Calendar> days) {
+
+		final List<Session> sessions = new ArrayList<Session>();
+
+		for (final Session s : this.sessions) {
+			if (!(days.get(0).getTime().after(s.getDateFinCours()) || days
+					.get(days.size() - 1).getTime().before(s.getDateDebut()))) {
+				sessions.add(s);
+			} else if (days.get(0).getTime().after(s.getDateFinCours())) {
+				break;
+			}
+		}
+
+		return sessions;
 	}
 
 	/**
@@ -394,6 +412,12 @@ public class NumGridView extends View implements Observer {
 		mOnCellTouchListener = listener;
 	}
 
+	public void setSessions(final ArrayList<Session> obj) {
+
+		sessions = obj;
+
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(final Observable observable, final Object data) {
@@ -402,10 +426,9 @@ public class NumGridView extends View implements Observer {
 		current = ((CurrentCalendar) observable).getCalendar();
 		activities = (ArrayList<ActivityCalendar>) data;
 
-		this.current = ((Calendar) data);
-		//this.activities = (ArrayList<ActivityCalendar>) data;
-		
-		
+		current = (Calendar) data;
+		// this.activities = (ArrayList<ActivityCalendar>) data;
+
 		final List<Calendar> days = new ArrayList<Calendar>();
 
 		final Calendar firstdayofmonth = (Calendar) current.clone();
@@ -479,34 +502,27 @@ public class NumGridView extends View implements Observer {
 					Locale.CANADA_FRENCH).getTime();
 		}
 
-		
-
-		List<Session> sessions = getSessions(days);
+		final List<Session> sessions = getSessions(days);
 
 		for (int y = 0; y < mCellCountY; y++) {
 			for (int x = 0; x < mCellCountX; x++) {
 				mCells[x][y] = new CalendarCell(it.next().getTime());
 
-				
-				for(Session s: sessions)
-				{
-					
-					if(mCells[x][y].getDate().after(s.getDateDebut()) && 
-							mCells[x][y].getDate().before(s.getDateFinCours()))
-					{
-				// add activity to cell if its the right one
-						for (ActivityCalendar actC : s.getActivities()) {
-					if (mCells[x][y].getDate().getDay() == Integer
-							.parseInt(actC.getJour())) {
-						mCells[x][y].add(actC);
-					}
-				}
+				for (final Session s : sessions) {
+
+					if (mCells[x][y].getDate().after(s.getDateDebut())
+							&& mCells[x][y].getDate().before(
+									s.getDateFinCours())) {
+						// add activity to cell if its the right one
+						for (final ActivityCalendar actC : s.getActivities()) {
+							if (mCells[x][y].getDate().getDay() == Integer
+									.parseInt(actC.getJour())) {
+								mCells[x][y].add(actC);
+							}
+						}
 					}
 
-					
 				}
-				
-				
 
 				if (currentCell == null) {
 					if (mCells[x][y].getDate().getMonth() == now.getMonth()
@@ -520,35 +536,6 @@ public class NumGridView extends View implements Observer {
 
 		this.invalidate();
 
-		
-
 	}
-
-	
-	
-	public void setSessions(ArrayList<Session> obj) {
-	 	 	
-		this.sessions = obj;
-	 	 	
-}
-	
-	private List<Session> getSessions(List<Calendar> days)
-	{
-		
-		List<Session> sessions = new ArrayList<Session>();
-		
-		for(Session s: this.sessions)
-		{
-			if(!(days.get(0).getTime().after(s.getDateFinCours()) || 
-					days.get(days.size()-1).getTime().before(s.getDateDebut())))
-					sessions.add(s);
-			else if(days.get(0).getTime().after(s.getDateFinCours()))
-				break;
-		}
-		
-		return sessions;
-	}
-	
-
 
 }

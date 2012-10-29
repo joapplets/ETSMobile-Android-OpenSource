@@ -52,8 +52,7 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 
 		textView.setText(String.format(res
 				.getString(R.string.calendar_event_list_item_subtitle), events
-				.get(position).getName(), events.get(position)
-				.getLocation()));
+				.get(position).getName(), events.get(position).getLocation()));
 
 		// set indicator
 		final ShapeDrawable indicator = new ShapeDrawable(new OvalShape());

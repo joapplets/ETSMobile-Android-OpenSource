@@ -1,16 +1,12 @@
 package ca.etsmtl.applets.etsmobile.services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Message;
-import android.util.Log;
 import ca.etsmtl.applets.etsmobile.ScheduleActivity.CalendarTaskHandler;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
@@ -20,8 +16,7 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CalendarTask extends
-		AsyncTask<Object, Void, ArrayList<Session>> {
+public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	private class ListeHorraireEtProf {
 		@SerializedName("motPasse")
 		private final String password;
@@ -42,52 +37,30 @@ public class CalendarTask extends
 	}
 
 	public static final int ON_POST_EXEC = 10;
-	private static final String TAG = "CalendarTask";
-	private CalendarTaskHandler handler;
-	private int[] colors = new int[] {
-			Color.RED, 
-			Color.YELLOW, 
-			Color.GREEN,
-			Color.rgb(255, 0, 255), //fushia
+	private final CalendarTaskHandler handler;
+	private final int[] colors = new int[] { Color.RED, Color.YELLOW,
+			Color.GREEN, Color.rgb(255, 0, 255), // fushia
 			Color.rgb(0, 255, 255), // aqua
 			Color.rgb(128, 0, 0), // maroon
 			Color.rgb(0, 255, 0), // lime
-			Color.rgb(0, 0, 128) //navy
-			};
+			Color.rgb(0, 0, 128) // navy
+	};
 
-	
-	public CalendarTask(CalendarTaskHandler handler) {
+	public CalendarTask(final CalendarTaskHandler handler) {
 		this.handler = handler;
 	}
 
 	@Override
-	protected ArrayList<Session> doInBackground(Object... params) {
+	protected ArrayList<Session> doInBackground(final Object... params) {
 		onPreExecute();
-		ArrayList<Session> sessions = getSessions((UserCredentials) params[0]);
+		final ArrayList<Session> sessions = getSessions((UserCredentials) params[0]);
 
-		for(Session s: sessions)
-			s.setActivities(getCoursIntervalSession(
-					(UserCredentials) params[0], s));	
-			
-		return sessions;
-		}
-
-	/**
-	 * Trouve la session en cours parmis les sessions accessibles, initialise
-	 * les paramêtre d'affichage de session
-	 * 
-	 * @param sessions
-	 * @return
-	 */
-	private Session findAndInitCurrentSession(final ArrayList<Session> sessions) {
 		for (final Session s : sessions) {
-			final Date date = new Date();
-			if (s.getDateDebut().before(date) && s.getDateFin().after(date)) {
-				// Update UI with Dots for Debut Fin Session
-				return s;
-			}
+			s.setActivities(getCoursIntervalSession(
+					(UserCredentials) params[0], s));
 		}
-		return null;
+
+		return sessions;
 	}
 
 	/**
@@ -121,35 +94,56 @@ public class CalendarTask extends
 		return null;
 	}
 
+	/**
+	 * Obtien la liste des sessions acceccibles
+	 * 
+	 * @param creds
+	 */
+	private ArrayList<Session> getSessions(final UserCredentials creds) {
+		ArrayList<Session> sessions = new ArrayList<Session>();
+		try {
 
+			final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Session>, Session>(
+					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
+					"listeSessions", creds, Session.class, FetchType.ARRAY);
+
+			signetBackgroundThead.execute();
+
+			sessions = signetBackgroundThead.get();
+		} catch (final InterruptedException e) {
+			e.printStackTrace();
+		} catch (final ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		return sessions;
+	}
 
 	@Override
-	protected void onPostExecute(ArrayList<Session> result) {
+	protected void onPostExecute(final ArrayList<Session> result) {
 		super.onPostExecute(result);
 
-		ArrayList<String> activites = new ArrayList<String>();
-		
-		for(Session s: result)
-		{
-			int color_index=0;
+		final ArrayList<String> activites = new ArrayList<String>();
+
+		for (final Session s : result) {
+			int color_index = 0;
 			activites.clear();
 			s.removeDuplicates();
-			
-			
-		// set colors before notifying ui
+
+			// set colors before notifying ui
 			for (int i = 0; i < s.getActivities().size(); i++) {
-				
-				if(activites.indexOf(s.getActivities().get(i).getCours()) != -1)
-				{
-					s.getActivities().get(i).setEventColor(
-							s.getActivities().get(
-									activites.indexOf(s.getActivities().get(i).getCours())
-									).getEventColor()
-							);
+
+				if (activites.indexOf(s.getActivities().get(i).getCours()) != -1) {
+					s.getActivities()
+							.get(i)
+							.setEventColor(
+									s.getActivities()
+											.get(activites.indexOf(s
+													.getActivities().get(i)
+													.getCours()))
+											.getEventColor());
 					activites.add(s.getActivities().get(i).getCours());
-		}
-				else
-				{
+				} else {
 					s.getActivities().get(i).setEventColor(colors[color_index]);
 					color_index++;
 					activites.add(s.getActivities().get(i).getCours());
@@ -158,7 +152,6 @@ public class CalendarTask extends
 		}
 
 		Collections.sort(result);
-		
 
 		// Bundle data = new Bundle();
 		final Message msg = handler.obtainMessage(CalendarTask.ON_POST_EXEC,
@@ -172,24 +165,5 @@ public class CalendarTask extends
 	protected void onPreExecute() {
 		super.onPreExecute();
 		handler.obtainMessage().sendToTarget();
-	}
-
-	private ArrayList<ActivityCalendar> removeDuplicates(
-			final ArrayList<ActivityCalendar> activityList) {
-		for (int i = 0; i < activityList.size(); i++) {
-			for (int j = 0; j < activityList.size(); j++) {
-				if (i == j) {
-				} else if (activityList.get(j).getCours()
-						.equals(activityList.get(i).getCours())
-						&& activityList.get(j).getName()
-								.equals(activityList.get(i).getName())) {
-					activityList.get(i).setLocation(
-							activityList.get(i).getLocation() + "/"
-									+ activityList.get(j).getLocation());
-					activityList.remove(j);
-				}
-			}
-		}
-		return activityList;
 	}
 }

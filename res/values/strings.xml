@@ -59,7 +59,8 @@
         <item>Panne électrique</item>
         <item>Personne armée</item>
         <item>Urgence médicale</item>
-    </string-array>    <string-array name="main_labels">
+    </string-array>
+    <string-array name="main_labels">
         <item>Profil</item>
         <item>Nouvelles</item>
         <item>Sécurité</item>
@@ -84,7 +85,6 @@
     <string name="btn_next_content_description">Bouton pour accéder au mois suivant du calendrier</string>
     <string name="btn_previous_content_description">Bouton pour accéder au mois précédent du calendrier</string>
     <string name="calendar_event_detail_hours">de %1$s à %2$s</string>
-
     <string name="urgence_resum_bombe">&lt;ul&gt;&lt;li&gt;Ne pas mettre fin &amp;#224; la communication t&amp;#233;l&amp;#233;phonique&lt;/li&gt;&lt;li&gt;Tenter d’obtenir le maximum d’informations &lt;/li&gt;&lt;li&gt;Faire r&amp;#233;p&amp;#233;ter ou pr&amp;#233;texter avoir de la difficult&amp;#233; &amp;#224; entendre afin de gagner  du temps.&lt;/li&gt;&lt;li&gt;Dans la mesure du possible et en fonction de la situation, tenter d’obtenir les informations suivantes : &lt;/li&gt;&lt;ul&gt;&lt;li&gt;L’heure &amp;#224; laquelle la bombe explosera &lt;/li&gt;&lt;li&gt;Le type de bombe&lt;/li&gt;&lt;li&gt;Les personnes vis&amp;#233;es et le motif&lt;/li&gt;&lt;li&gt;L’emplacement de la bombe &lt;/li&gt;&lt;li&gt;Son nom et adresse &lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Laisser l’interlocuteur raccrocher en premier &lt;/li&gt;&lt;li&gt;Il est primordial de communiquer IMM&amp;#201;DIATEMENT avec la s&amp;#233;curit&amp;#233; au 514-396-8900 &lt;/li&gt;&lt;/ul&gt;</string>
     <string name="urgence_resum_colis">&lt;ul&gt;&lt;li&gt;Ne jamais toucher, pousser, frapper, soulever ou ouvrir un colis suspect&lt;/li&gt;&lt;li&gt;Ne jamais prendre pour acquis qu’il s’agit du seul colis&lt;/li&gt;
 &lt;li&gt;Quitter le secteur et si possible restreindre l’acc&amp;#232;s en fermant les portes&lt;/li&gt;&lt;li&gt;Aviser les personnes rencontr&amp;#233;es de ne pas entrer dans ce secteur&lt;/li&gt;&lt;li&gt;Une fois &amp;#224; l’ext&amp;#233;rieur du secteur, communiquer avec la s&amp;#233;curit&amp;#233; 514-396- 8900&lt;/li&gt;&lt;li&gt;Ne jamais activer une station manuelle d’incendie (station rouge)&lt;/li&gt;&lt;/ul&gt;</string>

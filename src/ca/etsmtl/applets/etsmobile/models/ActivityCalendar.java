@@ -2,7 +2,7 @@ package ca.etsmtl.applets.etsmobile.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ActivityCalendar implements Comparable<ActivityCalendar>{
+public class ActivityCalendar implements Comparable<ActivityCalendar> {
 
 	@SerializedName("heureDebut")
 	private String startDate;
@@ -22,21 +22,20 @@ public class ActivityCalendar implements Comparable<ActivityCalendar>{
 	private String cours;
 	@SerializedName("titreCours")
 	private String titreCours;
-	
+
 	@SerializedName("groupe")
 	private String groupe;
 
-	
-	
-	public String getGroupe() {
-		return groupe;
-	}
-
-	public void setGroupe(final String groupe) {
-		this.groupe = groupe;
-	}
-
 	private int eventColor;
+
+	@Override
+	public int compareTo(final ActivityCalendar another) {
+		// TODO Auto-generated method stub
+
+		return cours.compareTo(another.getCours()) == 0
+				&& groupe.compareTo(another.getGroupe()) == 0
+				&& jour.compareTo(another.getJour()) == 0 ? 0 : -1;
+	}
 
 	public String getCodeActivite() {
 		return codeActivite;
@@ -52,6 +51,10 @@ public class ActivityCalendar implements Comparable<ActivityCalendar>{
 
 	public int getEventColor() {
 		return eventColor;
+	}
+
+	public String getGroupe() {
+		return groupe;
 	}
 
 	/**
@@ -114,6 +117,10 @@ public class ActivityCalendar implements Comparable<ActivityCalendar>{
 		this.eventColor = eventColor;
 	}
 
+	public void setGroupe(final String groupe) {
+		this.groupe = groupe;
+	}
+
 	public void setJour(final String jour) {
 		this.jour = jour;
 	}
@@ -137,24 +144,4 @@ public class ActivityCalendar implements Comparable<ActivityCalendar>{
 	public void setTitreCours(final String titreCours) {
 		this.titreCours = titreCours;
 	}
-
-}
-
-	public void setEventColor(int eventColor) {
-		this.eventColor = eventColor;
-	}
-
-	@Override
-	public int compareTo(ActivityCalendar another) {
-		// TODO Auto-generated method stub
-		
-		return (this.cours.compareTo(another.getCours()) == 0 && 
-				this.groupe.compareTo(another.getGroupe()) == 0 &&
-				this.jour.compareTo(another.getJour()) == 0) ? 0: -1;
-		
-	}
-
-	
-
-
 }

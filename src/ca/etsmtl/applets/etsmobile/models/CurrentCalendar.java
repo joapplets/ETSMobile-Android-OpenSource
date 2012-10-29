@@ -18,10 +18,6 @@ public class CurrentCalendar extends Observable {
 		this.current = current;
 	}
 
-	public ArrayList<ActivityCalendar> getActivities() {
-		return obj;
-	}
-
 	public Calendar getCalendar() {
 		return current;
 	}
@@ -37,11 +33,6 @@ public class CurrentCalendar extends Observable {
 		current.add(Calendar.MONTH, -1);
 		super.setChanged();
 		super.notifyObservers(current);
-	}
-
-	public void setActivities(final ArrayList<ActivityCalendar> obj) {
-
-		this.obj = obj;
 	}
 
 	@Override
