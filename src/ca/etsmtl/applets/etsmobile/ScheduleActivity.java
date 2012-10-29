@@ -42,8 +42,6 @@ public class ScheduleActivity extends Activity {
 			case CalendarTask.ON_POST_EXEC:
 				act.navBar.hideLoading();
 
-				// act.current
-				// .setActivities((ArrayList<ActivityCalendar>) msg.obj);
 				act.currentGridView.setSessions((ArrayList<Session>) msg.obj);
 				act.nextGridView.setSessions((ArrayList<Session>) msg.obj);
 				act.prevGridView.setSessions((ArrayList<Session>) msg.obj);
@@ -51,13 +49,13 @@ public class ScheduleActivity extends Activity {
 				act.currentGridView.setCurrentCell(null);
 
 				act.current.setChanged();
+				act.current.notifyObservers(act.current.getCalendar());
 
 				act.currentGridView.getCurrentCell().addObserver(act.lst_cours);
 				act.currentGridView.getCurrentCell().setChanged();
 				act.currentGridView.getCurrentCell().notifyObservers();
-				act.current.deleteObserver(act.currentGridView);
 
-				act.currentGridView.getCurrentCell().notifyObservers();
+				act.current.deleteObserver(act.currentGridView);
 
 				break;
 			default:
@@ -213,7 +211,7 @@ public class ScheduleActivity extends Activity {
 		current.setChanged();
 		current.notifyObservers(current.getCalendar());
 
-		// Affiche la liste des Ã©vÃ¨nements d'aujourd'hui
+		// Affiche la liste des évènements d'aujourd'hui
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 		currentGridView.getCurrentCell().addObserver(lst_cours);
 
@@ -261,7 +259,7 @@ public class ScheduleActivity extends Activity {
 		prevGridView.clearAnimation();
 		prevGridView.setVisibility(View.GONE);
 
-		// Ã©viter d'avoir le OnCellTouchListener de la grille1 par dessus la
+		// éviter d'avoir le OnCellTouchListener de la grille1 par dessus la
 		// grille 3 (superposition)
 		prevGridView.layout(prevGridView.getLeft(), prevGridView.getTop()
 				- prevGridView.getHeight(), prevGridView.getRight(),

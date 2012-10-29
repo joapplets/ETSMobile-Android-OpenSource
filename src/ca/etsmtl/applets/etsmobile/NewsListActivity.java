@@ -130,7 +130,7 @@ public class NewsListActivity extends FragmentActivity implements
 		btnHome.setOnClickListener(this);
 		btnSources.setOnClickListener(this);
 
-		navBar = (NavBar) findViewById(R.id.listViewHeader);
+		navBar = (NavBar) findViewById(R.id.news_nav_bar);
 
 		// footer = (TextView) findViewById(R.id.listView_loading);
 

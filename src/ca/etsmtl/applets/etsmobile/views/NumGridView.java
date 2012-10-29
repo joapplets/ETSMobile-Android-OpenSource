@@ -418,16 +418,10 @@ public class NumGridView extends View implements Observer {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void update(final Observable observable, final Object data) {
-		// TODO Auto-generated method stub
 
-		current = ((CurrentCalendar) observable).getCalendar();
-		activities = (ArrayList<ActivityCalendar>) data;
-
-		current = (Calendar) data;
-		// this.activities = (ArrayList<ActivityCalendar>) data;
+		current = ((Calendar) data);
 
 		final List<Calendar> days = new ArrayList<Calendar>();
 
@@ -537,5 +531,4 @@ public class NumGridView extends View implements Observer {
 		this.invalidate();
 
 	}
-
 }
