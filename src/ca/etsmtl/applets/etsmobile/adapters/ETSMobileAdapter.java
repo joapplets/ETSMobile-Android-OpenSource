@@ -19,17 +19,15 @@ public class ETSMobileAdapter extends BaseAdapter {
 	private final Context context;
 
 	private final Integer[] icons = { R.drawable.icon_profile,
-			R.drawable.icon_biblio, R.drawable.icon_news,
-			R.drawable.icon_emergency, R.drawable.icon_schedule,
-			R.drawable.icon_addressbook, R.drawable.icon_courses,
-			R.drawable.icon_comments };
-
-	private final String[] iconsLabels = { "Profil", "Bibliothèque",
-			"Nouvelles", "Sécurité", "Horaire", "Bottin", "Mes notes",
-			"Commentaires" };
+			R.drawable.icon_news, R.drawable.icon_emergency,
+			R.drawable.icon_schedule, R.drawable.icon_addressbook,
+			R.drawable.icon_courses, R.drawable.icon_biblio };
+	private final String[] iconsLabels;
 
 	public ETSMobileAdapter(final Context context) {
 		this.context = context;
+		iconsLabels = context.getResources()
+				.getStringArray(R.array.main_labels);
 	}
 
 	@Override

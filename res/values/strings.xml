@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
     <string name="app_name">ÉTS Mobile</string>
@@ -10,28 +11,7 @@
     <string name="pref_signets_label">Signets</string>
     <string name="pref_code_universel">Code Universel</string>
     <string name="pref_mot_passe_lbl">Mot de passe</string>
-    <string name="info_ets_title">L’ÉTS, le génie avec un +</string>
-    <string name="info_ets_text">L’École de technologie supérieure est une
-		constituante du réseau de l’Université du Québec. Spécialisée dans
-		l’enseignement et la recherche appliqués en génie et le transfert
-		technologique, elle forme des ingénieurs et des chercheurs reconnus
-		pour leur approche pratique et innovatrice. Depuis sa création, elle
-		entretient un partenariat unique avec le milieu des affaires et
-		l’industrie, tant avec les grandes entreprises que les PME.</string>
-    <string name="info_ets_address">Adresses :
-		Pavillon principal (A) : HEAD
-		1100, rue
-		Notre-Dame Ouest (angle Peel au sud)
-		Montréal (Qc) H3C 1K3
-		Téléphone:
-		514 396-8800</string>
     <string name="apphence_key">8d31bdcc179d40b0af806d41a32010ef7f3f0d38</string>
-    <string name="info_applets_title">Applets, Ingénierie mobile</string>
-    <string name="info_applets_text">Good news! After more than a year of work and
-		planning, the club Applets is now officially recognized by the ÉTS as
-		of january 2011! We have a lot of great projects to come and we
-		encourage you to stay aware and to come back often on our website to
-		be aware of them.</string>
     <string name="student_profile_name">Prénom</string>
     <string name="student_profile_lastname">Nom</string>
     <string name="student_profile_solde">Solde</string>
@@ -58,17 +38,18 @@
     <string name="mediane">Médiane</string>
     <string name="rangCentille">Rang centille</string>
     <string name="nodata">Aucune donnée.</string>
-    <string name="about_team_android"><b>Réalisation - Équipe Android</b>\n Philippe David\nRodrigo Manyari\nVincent Séguin\nMicheal Bernier</string>
+    <string name="about_team_android"><b>Réalisation - Équipe Android</b>\n Philippe David\nRodrigo Manyari\nVincent Séguin\nMicheal Bernier\nFrancis Gauthier</string>
     <string name="about_team_ti_ets"><b>Intégration avec les Systèmes d’entreprise (TI - ÉTS)</b>\nRobert Gervais\nOlivier Lacasse</string>
     <string name="about_team_applets"><b>Responsables du club</b>\nAntoine Lamy (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
     <string name="about_partenaires"><b>Partenaires 2012–2013</b></string>
     <string name="about_particuliers"><b>Remerciements Particuliers</b>\nFrançois Coallier (DDTSA)\nIdrissa Konkobo (Systèmes d\'entreprise)\nObed José (Icônes)\nBruno Côté (Sécurité)\nCarl-Olivier Perras-Beaulieu (Communications)</string>
     <string name="secu_title1">Joindre la sécurité</string>
-    <string name="secu_phone_lbl">514–396–8900</string>
+    <string name="secu_phone_lbl">541–396–8900</string>
     <string name="secu_title2">Procédures d\'urgence</string>
     <string name="secu_appel_lbl">Appel d\'urgence</string>
     <string name="secu_ext_lbl">À l\'interne</string>
     <string name="secu_ext">Poste 55</string>
+    <string name="secu_title">Sécurité</string>
 
     <string-array name="secu_urgence">
         <item>Appel à la bombe</item>
@@ -79,6 +60,24 @@
         <item>Panne électrique</item>
         <item>Personne armée</item>
         <item>Urgence médicale</item>
+    </string-array>
+    <string-array name="main_labels">
+        <item>Profil</item>
+        <item>Nouvelles</item>
+        <item>Sécurité</item>
+        <item>Horaire</item>
+        <item>Bottin</item>
+        <item>Mes notes</item>
+        <item>Bibliothèque</item>
+    </string-array>
+    <string-array name="day_names">
+        <item>dim.</item>
+        <item>lun.</item>
+        <item>mar.</item>
+        <item>mer.</item>
+        <item>jeu.</item>
+        <item>ven.</item>
+        <item>sam.</item>
     </string-array>
 
     <string name="urgence_resum_bombe"><![CDATA[<ul><li>Ne pas mettre fin à la communication téléphonique</li><li>Tenter d’obtenir le maximum d’informations </li><li>Faire répéter ou prétexter avoir de la difficulté à entendre afin de gagner du temps.</li><li>Dans la mesure du possible et en fonction de la situation, tenter d’obtenir les informations suivantes : </li><ul><li>L’heure à laquelle la bombe explosera </li><li>Le type de bombe</li><li>Les personnes visées et le motif</li><li>L’emplacement de la bombe </li><li>Son nom et adresse </li></ul><li>Laisser l’interlocuteur raccrocher en premier </li><li>Il est primordial de communiquer IMMÉDIATEMENT avec la sécurité au 514-396-8900 </li></ul>]]></string>
@@ -103,7 +102,8 @@ armée</li><ul><li>Sexe</li><li>Taille</li><li>Àge</li><li>Nombre de personnes<
 communication téléphonique</li></ul><li>À moins que vous n’ayez de nouvelles informations à fournir, ne pas communiquer avec la sécurité afin d’éviter de surcharger le réseau téléphonique (par exemple : les contacter pour l’informer du déroulement de l’opération policière)</li><li>Se rappeler la règle du 1+1 : il y a une personne mena&amp;#231;ante présente. Il peut y en avoir une autre.</li><li>Avisez les gens que vous rencontrez de quitter les lieux immédiatement o <ul><li>Emprunter la sortie de secours la plus près</li><li>Ne jamais utiliser les ascenseurs</li><li>Montrer visiblement les mains</li></ul></li></ul>]]>
     </string>
     <string name="urgence_resum_medic">
-<![CDATA[<ul><li>Demeurer calme</li><li>Demander à la personne les renseignements suivants :</li><ul><li>Son nom</li><li>Les détails de l’incident</li><li>Ses blessures</li><li>Présence d’allergies ou autres conditions médicales</li></ul><li>Communiquer avec la sécurité : 514-396-8900 ou 55 sur le système téléphonique de l’ÉTS</li><ul><li>Préciser le type d’urgence</li><li>Mentionner son nom</li><li>Indiquer la localisation de la victime</li><li>Mentionner toutes les informations obtenues auprès de la victime<li>Attendre que le répartiteur du service de sécurité confirme qu’il a
+<![CDATA[<ul><li>Demeurer calme</li><li>Demander à la personne les renseignements suivants :</li><ul><li>Son nom</li><li>Les détails de l’incident</li><li>Ses blessures</li><li>Présence d’allergies ou autres conditions médicales</li></ul><li>Communiquer avec la sécurité : 514-396-8900 ou 55 sur le système téléphonique de l’ÉTS</li><ul><li>Préciser le type d’urgence</li><li>Mentionner son nom</li><li>Indiquer la localisation de la victime</li><li>Mentionner toutes les informations obtenues auprès de la victime
+<li>Attendre que le répartiteur du service de sécurité confirme qu’il a
 toutes les informations requises avant de raccrocher .</li></li></ul><li>Prodiguer les premiers soins seulement si vous avez reçu la formation appropriée</li><li>S’informer aux personnes autours si une personne sur l’étage est
 secouriste ou d’en trouver un.</li><li>Demeurer sur place pour assister le secouriste ou pour donner un complément d’informations.</li><li>S’il y a des personnes autour, leur demander de l’aide en attendant les secours</li><li>Si les gens sont trop près de la victime, exiger qu’ils se déplacent afin de laisser de la place à la victime et de faciliter les soins</li><li>Ne jamais déplacer la victime sauf si la situation représente un danger pour la personne</li><li>Ne pas donner de nourriture ou de liquide à la victime même si elle l’exige</li><li>Si possible ou nécessaire, demeurer en communication avec la sécurité et suivre les instructions données</li><li>Si l’état d’une personne se détériore, aviser à nouveau la sécurité</li><li>Demeurer sur les lieux jusqu’à ce que les secours arrivent</li></ul>]]>
     </string>

@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
-import android.text.util.Linkify;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -18,10 +16,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+import ca.etsmtl.applets.etsmobile.views.MyMapMarker;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-import com.etsmt.applets.etsmobile.views.MyMapMarker;
-import com.etsmt.applets.etsmobile.views.NavBar;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -54,7 +51,6 @@ public class SecurityActivity extends MapActivity {
 	private ListView listView;
 
 	private MapView mapView;
-	private TextView phone;
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -68,6 +64,8 @@ public class SecurityActivity extends MapActivity {
 		setContentView(R.layout.security);
 
 		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.setTitle(getString(R.string.secu_title));
+		navBar.hideLoading();
 		navBar.hideRightButton();
 
 		navBar.setHomeAction(new OnClickListener() {
@@ -99,20 +97,14 @@ public class SecurityActivity extends MapActivity {
 				android.R.layout.simple_list_item_1, getResources()
 						.getStringArray(R.array.secu_urgence)));
 
-		phone = (TextView) viewGroup.findViewById(R.id.secu_list_header_phone);
+		viewGroup.findViewById(R.id.secu_list_header_phone).setOnClickListener(
+				new OnClickListener() {
 
-		phone.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(final View v) {
 
-			@Override
-			public void onClick(final View v) {
-				final Intent callIntent = new Intent(Intent.ACTION_CALL);
-				callIntent.setData(Uri.parse("tel:+"
-						+ phone.getText().toString().trim()));
-				startActivity(callIntent);
-			}
-		});
-
-		Linkify.addLinks(phone, Linkify.PHONE_NUMBERS);
+					}
+				});
 
 		mapView = (MapView) findViewById(R.id.mapview);
 

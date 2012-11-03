@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 import com.etsmt.applets.etsmobile.views.NavBar;
 
