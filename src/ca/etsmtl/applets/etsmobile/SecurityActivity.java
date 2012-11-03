@@ -65,6 +65,7 @@ public class SecurityActivity extends MapActivity {
 
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(getString(R.string.secu_title));
+		navBar.hideLoading();
 		navBar.hideRightButton();
 
 		navBar.setHomeAction(new OnClickListener() {

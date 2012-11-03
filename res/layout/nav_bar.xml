@@ -6,7 +6,7 @@
     android:background="@drawable/navbar_bg"
     android:orientation="horizontal"
     android:padding="5dip" >
-
+
     <ImageView
         android:id="@+id/base_bar_img_title"
         android:layout_width="wrap_content"
@@ -18,7 +18,8 @@
         android:paddingLeft="25dip"
         android:paddingRight="13dip"
         android:paddingTop="5dip"
-        android:src="@drawable/navbar_news_title" />
+        android:src="@drawable/navbar_news_title"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/base_bar_source_btn"
@@ -45,14 +46,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" />
-
+
     <TextView
         android:id="@+id/base_bar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:text="ÉTS"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="29dp"
+        android:textStyle="bold"
         android:visibility="invisible" />
 
 </RelativeLayout>

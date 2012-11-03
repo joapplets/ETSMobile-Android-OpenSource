@@ -24,6 +24,7 @@ import ca.etsmtl.applets.etsmobile.adapters.ETSMobileAdapter;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 import com.apphance.android.Log;
 
@@ -62,6 +63,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		}
 	};
 	private UserCredentials credentials;
+	private NavBar navBar;
 
 	@Override
 	public void onClick(final DialogInterface dialog, final int which) {
@@ -99,7 +101,11 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		// Apphance.startNewSession(this, getString(R.string.apphence_key),
 		// Apphance.Mode.QA);
 		setContentView(R.layout.main);
-
+		navBar = (NavBar)findViewById(R.id.navBar1);
+		navBar.setTitle(R.drawable.navbar_title);
+		navBar.hideLoading();
+		navBar.hideRightButton();
+		navBar.hideHome();
 		final GridView gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(new ETSMobileAdapter(getApplicationContext()));
 

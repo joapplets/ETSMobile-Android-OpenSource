@@ -21,8 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import ca.etsmtl.applets.etsmobile.fragments.NewsListFragment;
 import ca.etsmtl.applets.etsmobile.listeners.NewsListSelectedItemListener;
 import ca.etsmtl.applets.etsmobile.preferences.NewsListPreferences;
@@ -123,16 +121,8 @@ public class NewsListActivity extends FragmentActivity implements
 	protected void onCreate(final Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.news_list_fragment);
-
-		final ImageButton btnHome = (ImageButton) findViewById(R.id.base_list_home_btn);
-		final Button btnSources = (Button) findViewById(R.id.base_list_source_btn);
-
-		btnHome.setOnClickListener(this);
-		btnSources.setOnClickListener(this);
-
-		navBar = (NavBar) findViewById(R.id.news_nav_bar);
-
-		// footer = (TextView) findViewById(R.id.listView_loading);
+		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.setTitle(R.drawable.navbar_news_title);
 
 		setAlarm();
 	}

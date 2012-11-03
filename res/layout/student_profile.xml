@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/home_background"
     android:orientation="vertical" >
@@ -12,19 +12,19 @@
         layout="@layout/nav_bar" >
 
     </ca.etsmtl.applets.etsmobile.views.NavBar>
-
+
     <TableLayout
         android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dip"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:background="@drawable/bkg_white_round_corners"
         android:padding="10dip"
         android:stretchColumns="2" >
-
+
         <TableRow
             android:layout_width="match_parent"
-            android:layout_margin="2dip"
             android:orientation="horizontal" >
 
             <TextView
@@ -34,22 +34,19 @@
                 android:text="@string/student_profile_lastname"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:layout_marginLeft="5dip"
-                android:gravity="left"
+                android:gravity="right"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue_ets" />
 
         </TableRow>
-
-        <TableRow
-            android:layout_margin="2dip"
-            android:orientation="horizontal" >
+
+        <TableRow android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,20 +55,19 @@
                 android:text="@string/student_profile_name"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:layout_marginLeft="5dip"
-                android:text=""
+                android:gravity="right"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue_ets" />
 
         </TableRow>
-
-        <TableRow android:layout_margin="2dip" >
+
+        <TableRow>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -80,20 +76,20 @@
                 android:text="@string/student_profile_codePermanent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_codePermanent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:layout_marginLeft="5dip"
+                android:gravity="right"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue_ets"
                 android:textSize="17dp" />
 
         </TableRow>
-
-        <TableRow android:layout_margin="2dip" >
+
+        <TableRow>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -102,14 +98,13 @@
                 android:text="@string/student_profile_solde"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
-
+
             <TextView
                 android:id="@+id/student_profile_solde"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:layout_marginLeft="5dip"
-                android:text=""
+                android:gravity="right"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue_ets" />
 
