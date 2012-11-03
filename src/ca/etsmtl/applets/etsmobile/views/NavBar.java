@@ -41,6 +41,10 @@ public class NavBar extends RelativeLayout {
 		}
 	}
 
+	public void hideHome() {
+		homeBtn.setVisibility(View.INVISIBLE);
+	}
+
 	public void hideLoading() {
 		loading.setVisibility(View.GONE);
 	}
@@ -88,10 +92,6 @@ public class NavBar extends RelativeLayout {
 
 	public void showLoading() {
 		loading.setVisibility(View.VISIBLE);
-	}
-
-	public void hideHome() {
-		homeBtn.setVisibility(INVISIBLE);
 	}
 
 }

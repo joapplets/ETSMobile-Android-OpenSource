@@ -17,13 +17,13 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
-import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 import ca.etsmtl.applets.etsmobile.models.Session;
 
 /**
@@ -89,8 +89,6 @@ public class NumGridView extends View implements Observer {
 	protected OnCellTouchListener mOnCellTouchListener;
 
 	private ArrayList<Session> sessions = new ArrayList<Session>();
-
-	private ArrayList<ActivityCalendar> activities = new ArrayList<ActivityCalendar>();
 
 	/**
 	 * The constructor as called by the XML inflater.
@@ -307,7 +305,14 @@ public class NumGridView extends View implements Observer {
 
 				while (it.hasNext()) {
 					event = it.next();
-					mPaintCourseIndicator.setColor(event.getEventColor());
+
+					final Drawable d = getResources().getDrawable(
+							event.getDrawableResId());
+					d.setBounds((int) (startpos + 3 * i * radius), 0, (int) (dy
+							+ mCellHeight - 4 * radius), 0);
+					d.draw(canvas);
+
+					mPaintCourseIndicator.setColor(event.getDrawableResId());
 					canvas.drawCircle(startpos + 3 * i * radius, dy
 							+ mCellHeight - 4 * radius, radius,
 							mPaintCourseIndicator);
@@ -421,7 +426,7 @@ public class NumGridView extends View implements Observer {
 	@Override
 	public void update(final Observable observable, final Object data) {
 
-		current = ((Calendar) data);
+		current = (Calendar) data;
 
 		final List<Calendar> days = new ArrayList<Calendar>();
 

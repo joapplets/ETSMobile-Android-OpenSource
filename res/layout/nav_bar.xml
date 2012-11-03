@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/navbar_bg"
+    android:contentDescription="@string/app_name"
     android:orientation="horizontal"
     android:padding="5dip" >
 
@@ -13,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_weight="1"
         android:contentDescription="@string/news_list_view_image"
         android:paddingLeft="25dip"
         android:paddingRight="13dip"
@@ -29,7 +29,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/news_list_view_btnSources" />
-
+
     <ImageButton
         android:id="@+id/base_bar_home_btn"
         style="@style/btnHome"
@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/icon_home" />
 
     <ProgressBar
@@ -46,14 +47,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" />
-
+
     <TextView
         android:id="@+id/base_bar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="ÉTS"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="29dp"
         android:textStyle="bold"

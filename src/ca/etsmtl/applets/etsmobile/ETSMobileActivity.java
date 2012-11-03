@@ -101,7 +101,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		// Apphance.startNewSession(this, getString(R.string.apphence_key),
 		// Apphance.Mode.QA);
 		setContentView(R.layout.main);
-		navBar = (NavBar)findViewById(R.id.navBar1);
+		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_title);
 		navBar.hideLoading();
 		navBar.hideRightButton();

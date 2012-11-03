@@ -73,6 +73,7 @@ public class Session implements Serializable, Comparable<Session> {
 
 	/**
 	 * yyyy-MM-dd
+	 * 
 	 * @return formated string
 	 */
 	public Date getDateFinCours() {

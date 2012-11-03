@@ -26,7 +26,7 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 	@SerializedName("groupe")
 	private String groupe;
 
-	private int eventColor;
+	private int eventDrawableResId;
 
 	@Override
 	public int compareTo(final ActivityCalendar another) {
@@ -45,12 +45,12 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 		return cours;
 	}
 
-	public String getEndDate() {
-		return endDate;
+	public int getDrawableResId() {
+		return eventDrawableResId;
 	}
 
-	public int getEventColor() {
-		return eventColor;
+	public String getEndDate() {
+		return endDate;
 	}
 
 	public String getGroupe() {
@@ -109,12 +109,12 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 		this.cours = cours;
 	}
 
-	public void setEndDate(final String endDate) {
-		this.endDate = endDate;
+	public void setDrawableResId(final int resID) {
+		eventDrawableResId = resID;
 	}
 
-	public void setEventColor(final int eventColor) {
-		this.eventColor = eventColor;
+	public void setEndDate(final String endDate) {
+		this.endDate = endDate;
 	}
 
 	public void setGroupe(final String groupe) {

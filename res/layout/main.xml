@@ -11,26 +11,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
     </ca.etsmtl.applets.etsmobile.views.NavBar>
-
-    <ImageButton
-        android:id="@+id/imgBtnabout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@null"
-        android:src="@drawable/info_icon" />
-
+
     <GridView
         android:id="@+id/gridview"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/navBar1"
-        android:layout_weight="1"
         android:background="@null"
         android:columnWidth="93dp"
+        android:contentDescription="@string/app_name"
         android:gravity="center"
         android:horizontalSpacing="6dp"
         android:numColumns="auto_fit"
@@ -38,5 +29,15 @@
         android:verticalSpacing="6dp" >
 
     </GridView>
+
+    <ImageButton
+        android:id="@+id/imgBtnabout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/info_icon" />
 
 </RelativeLayout>

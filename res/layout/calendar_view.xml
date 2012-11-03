@@ -24,14 +24,13 @@
             android:background="@null"
             android:contentDescription="@string/btn_previous_content_description"
             android:src="@drawable/ic_previous_item" />
-
+
         <ca.etsmtl.applets.etsmobile.views.CalendarTextView
             android:id="@+id/calendar_title"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="0.19"
             android:gravity="center"
-            android:text="Septembre"
             android:textSize="30dp" />
 
         <ImageButton

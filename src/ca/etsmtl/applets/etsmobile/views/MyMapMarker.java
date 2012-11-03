@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class MyMapMarker extends ItemizedOverlay {
+public class MyMapMarker extends ItemizedOverlay<OverlayItem> {
 
 	private final ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 
