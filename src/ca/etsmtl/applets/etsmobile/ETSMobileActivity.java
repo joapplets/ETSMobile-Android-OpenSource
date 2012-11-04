@@ -25,8 +25,8 @@ import ca.etsmtl.applets.etsmobile.adapters.ETSMobileAdapter;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-import com.apphance.android.Apphance;
 import com.apphance.android.Log;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener,
@@ -54,6 +54,9 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 					editor.putString("codeP", credentials.getUsername());
 					editor.putString("codeU", credentials.getPassword());
 					editor.commit();
+					Toast.makeText(getApplicationContext(),
+							getString(R.string.welcome), Toast.LENGTH_LONG)
+							.show();
 				} else {
 					Toast.makeText(
 							getApplicationContext(),
@@ -70,6 +73,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		}
 	};
 	private UserCredentials credentials;
+	private NavBar navBar;
 
 	@Override
 	public void onClick(final DialogInterface dialog, final int which) {
@@ -108,7 +112,11 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		 * Apphance.Mode.QA);
 		 */
 		setContentView(R.layout.main);
-
+		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.setTitle(R.drawable.navbar_title);
+		navBar.hideLoading();
+		navBar.hideRightButton();
+		navBar.hideHome();
 		final GridView gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(new ETSMobileAdapter(getApplicationContext()));
 
@@ -142,13 +150,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 					.setTitle(getString(R.string.login_dialog_title))
 					.setView(view).setPositiveButton("Ok", this).create();
 			break;
-
-		// case LOGIN_ERROR:
-		// d = new AlertDialog.Builder(this)
-		// .setTitle("Erreur d'identification")
-		// .setMessage("Vos informations personnelles sont érronée(s)")
-		// .create();
-		// break;
 		}
 		return d;
 	}
@@ -165,26 +166,26 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 			intent = new Intent(this, ProfileActivity.class);
 			break;
 		case 1:
-			intent = new Intent(this, BibliothequeActivity.class);
-			break;
-		case 2:
 			intent = new Intent(this, NewsListActivity.class);
 			break;
-		case 3:
+		case 2:
 			intent = new Intent(this, SecurityActivity.class);
 			break;
-		case 4:
-			// intent = new Intent(this, ScheduleActivity.class);
+		case 3:
+			intent = new Intent(this, ScheduleActivity.class);
 			break;
-		case 5:
+		case 4:
 			intent = new Intent(this, BottinListActivity.class);
 			break;
-		case 6:
+		case 5:
 			intent = new Intent(this, MyCourseSessionActivity.class);
 			break;
-		case 7:
-			Apphance.problem();
+		case 6:
+			intent = new Intent(this, BibliothequeActivity.class);
 			break;
+		// case 7:
+		// Apphance.problem();
+		// break;
 
 		default:
 			break;

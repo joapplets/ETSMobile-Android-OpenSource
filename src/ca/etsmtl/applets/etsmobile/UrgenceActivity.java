@@ -127,6 +127,7 @@ public class UrgenceActivity extends Activity {
 		});
 		navBar.hideRightButton();
 		navBar.hideTitle();
+		navBar.hideLoading();
 
 		txtView1 = (TextView) findViewById(R.id.urgence_title);
 		txtView2 = (TextView) findViewById(R.id.urgence_txt);

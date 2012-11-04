@@ -54,19 +54,13 @@
         </activity>
         <activity android:name=".CourseListActivity" />
         <activity android:name=".CoopActivity" />
-        <activity
-            android:name=".ScheduleActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".ScheduleDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
+        <activity android:name=".ScheduleActivity" />
+        <activity android:name=".ScheduleDetailActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".BottinViewActivity" />
         <activity android:name=".BibliothequeActivity" />
         <activity android:name=".SecurityActivity" />
+        <activity android:name=".UrgenceActivity" />
         <activity android:name=".MyCourseSessionActivity" />
         <activity android:name=".MyCourseActivity" />
         <activity android:name=".MyCourseDetailActivity" />

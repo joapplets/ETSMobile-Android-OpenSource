@@ -41,10 +41,10 @@ public class NewsListActivity extends FragmentActivity implements
 			if (binder != null) {
 				binder.startFetching();
 				while (binder.isWorking()) {
-					try {
-						Thread.sleep(1000);
-					} catch (final InterruptedException e) {
-					}
+//					try {
+////						Thread.sleep(1000);
+//					} catch (final InterruptedException e) {
+//					}
 				}
 			}
 			return null;
@@ -53,23 +53,11 @@ public class NewsListActivity extends FragmentActivity implements
 		@Override
 		protected void onPostExecute(final Void result) {
 			navBar.hideLoading();
-			// try {
-			// footer.startAnimation(hideFooter());
-			// footerVisible = false;
-			// unbindService(connection);
-			// } catch (final IllegalArgumentException e) {
-			// }
-			// super.onPostExecute(result);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			navBar.showLoading();
-			// footer.setVisibility(View.VISIBLE);
-			// footer.startAnimation(showFooter());
-			// ((AnimationDrawable) footer.getCompoundDrawables()[0]).start();
-			// footerVisible = true;
-			// super.onPreExecute();
 		}
 
 	}

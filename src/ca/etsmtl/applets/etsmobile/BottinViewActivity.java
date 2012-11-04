@@ -60,6 +60,7 @@ public class BottinViewActivity extends Activity {
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_phonebook_title);
 		navBar.hideRightButton();
+		navBar.hideLoading();
 
 	}
 }
