@@ -1,22 +1,115 @@
 package ca.etsmtl.applets.etsmobile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.xml.sax.XMLReader;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.Editable;
 import android.text.Html;
+import android.text.Html.TagHandler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class UrgenceActivity extends Activity {
+	private class MyTagHandler implements TagHandler {
+		boolean first = true;
+		String parent = null;
+		int index = 1;
+
+		@Override
+		public void handleTag(final boolean opening, final String tag,
+				final Editable output, final XMLReader xmlReader) {
+
+			if (tag.equals("ul")) {
+				parent = "ul";
+			} else if (tag.equals("ol")) {
+				parent = "ol";
+			}
+			if (tag.equals("li")) {
+				if (parent.equals("ul")) {
+					if (first) {
+						output.append("\n\t•");
+						first = false;
+					} else {
+						first = true;
+					}
+				} else {
+					if (first) {
+						output.append("\n\t" + index + ". ");
+						first = false;
+						index++;
+					} else {
+						first = true;
+					}
+				}
+			}
+		}
+	}
+
+	private static final String APPLICATION_PDF = "application/pdf";
+	private static final String SDCARD = Environment
+			.getExternalStorageDirectory().getPath();
 	private int id;
 	private NavBar navBar;
 	private TextView txtView1;
 	private TextView txtView2;
-	private int pdf_raw;
+	private String pdf_raw;
+
 	private String[] urgence;
+
+	private void copyAssets() {
+		final AssetManager assetManager = getAssets();
+		String[] files = null;
+		try {
+			files = assetManager.list("");
+		} catch (final IOException e) {
+			Log.e("tag", e.getMessage());
+		}
+		for (final String filename : files) {
+			InputStream in = null;
+			OutputStream out = null;
+			try {
+
+				final File f = new File(UrgenceActivity.SDCARD + "/" + filename);
+				if (!f.exists()) {
+					in = assetManager.open(filename);
+					out = new FileOutputStream(UrgenceActivity.SDCARD + "/"
+							+ filename);
+					copyFile(in, out);
+					in.close();
+					in = null;
+					out.flush();
+					out.close();
+					out = null;
+				}
+			} catch (final Exception e) {
+				Log.e("tag", e.getMessage());
+			}
+		}
+		openPdf();
+	}
+
+	private void copyFile(final InputStream in, final OutputStream out)
+			throws IOException {
+		final byte[] buffer = new byte[1024];
+		int read;
+		while ((read = in.read(buffer)) != -1) {
+			out.write(buffer, 0, read);
+		}
+	}
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -40,61 +133,65 @@ public class UrgenceActivity extends Activity {
 
 		urgence = getResources().getStringArray(R.array.secu_urgence);
 
-		pdf_raw = 0;
 		int text = 0;
-		switch (id) {
-		case 1:
+		switch (--id) {
+		case 0:
 			text = R.string.urgence_resum_bombe;
-			pdf_raw = R.raw.appel_a_la_bombe_2009_04_01;
+			pdf_raw = "appel_a_la_bombe_2009_04_01.pdf";
+			break;
+		case 1:
+			text = R.string.urgence_resum_colis;
+			pdf_raw = "colis_suspect_et_nrbc_2009_04_01.pdf";
 			break;
 		case 2:
-			text = R.string.urgence_resum_colis;
-			pdf_raw = R.raw.colis_suspect_et_nrbc_2009_04_01;
-			break;
-		case 3:
 			text = R.string.urgence_resum_feu;
-			pdf_raw = R.raw.incendie_evacuation_urgence;
-		case 4:
+			pdf_raw = "incendie_evacuation_urgence.pdf";
+		case 3:
 			text = R.string.urgence_resum_odeur;
-			pdf_raw = R.raw.odeur_suspecte_et_fuite_gaz_2009_04_01;
+			pdf_raw = "odeur_suspecte_et_fuite_gaz_2009_04_01.pdf";
+			break;
+		case 4:
+			text = R.string.urgence_resum_pane_asc;
+			pdf_raw = "panne_assenceur_2009_04_01.pdf";
 			break;
 		case 5:
-			text = R.string.urgence_resum_pane_asc;
-			pdf_raw = R.raw.panne_assenceur_2009_04_01;
+			text = R.string.urgence_resum_panne_elec;
+			pdf_raw = "panne_electrique_2009_04_01.pdf";
 			break;
 		case 6:
-			text = R.string.urgence_resum_panne_elec;
-			pdf_raw = R.raw.panne_electrique_2009_04_01;
+			text = R.string.urgence_resum_pers_arm;
+			pdf_raw = "personne_armee_2009_04_01.pdf";
 			break;
 		case 7:
-			text = R.string.urgence_resum_pers_arm;
-			pdf_raw = R.raw.personne_armee_2009_04_01;
-			break;
-		case 8:
 			text = R.string.urgence_resum_medic;
-			pdf_raw = R.raw.urgence_cedicale_2009_04_01;
+			pdf_raw = "urgence_cedicale_2009_04_01.pdf";
 			break;
 		default:
 			break;
 		}
 
 		txtView1.setText(urgence[id]);
-		txtView2.setText(Html.fromHtml(getString(text)));
+		final String string = getString(text);
+		// http://stackoverflow.com/questions/3150400/html-list-tag-not-working-in-android-textview-what-can-i-do
+		txtView2.setText(Html.fromHtml(string, null, new MyTagHandler()));
+
 		findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(final View v) {
-				openPdf();
+				copyAssets();
 			}
 		});
 	}
 
 	private void openPdf() {
 
-		final Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse("android.resource://" + getPackageName() + "/"
-						+ getString(pdf_raw)));
-		intent.setType("application/pdf");
-		startActivity(intent);
+		final Intent intent = new Intent(Intent.ACTION_VIEW);
+
+		final Uri data = Uri.fromFile(new File(UrgenceActivity.SDCARD + "/"
+				+ pdf_raw));
+		intent.setDataAndType(data, UrgenceActivity.APPLICATION_PDF);
+
+		startActivityForResult(intent, Activity.RESULT_OK);
 	}
 }

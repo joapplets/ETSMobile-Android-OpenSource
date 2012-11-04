@@ -9,8 +9,6 @@ import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-import com.etsmt.applets.etsmobile.views.NavBar;
-
 public class BottinViewActivity extends Activity {
 
 	private TextView nomView;
