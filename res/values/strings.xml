@@ -37,9 +37,9 @@
     <string name="mediane">Médiane</string>
     <string name="rangCentille">Rang centille</string>
     <string name="nodata">Aucune donnée.</string>
-    <string name="about_team_android"><b>Réalisation - Équipe Android</b>\n Philippe David\nRodrigo Manyari\nVincent Séguin\nMicheal Bernier\nFrancis Gauthier</string>
+    <string name="about_team_android"><b>Réalisation - Équipe Android</b>\n Philippe David\nRodrigo Manyari\nVincent Séguin\nMicheal Bernier\nFrancis Gauthier\nLaurence de Villers\nDomenico Leopardi</string>
     <string name="about_team_ti_ets"><b>Intégration avec les Systèmes d’entreprise (TI - ÉTS)</b>\nRobert Gervais\nOlivier Lacasse</string>
-    <string name="about_team_applets"><b>Responsables du club</b>\nAntoine Lamy (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
+    <string name="about_team_applets"><b>Responsables du club</b>\nVincent Seguin (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
     <string name="about_partenaires"><b>Partenaires 2012–2013</b></string>
     <string name="about_particuliers"><b>Remerciements Particuliers</b>\nFrançois Coallier (DDTSA)\nIdrissa Konkobo (Systèmes d\'entreprise)\nObed José (Icônes)\nBruno Côté (Sécurité)\nCarl-Olivier Perras-Beaulieu (Communications)</string>
     <string name="secu_title1">Joindre la sécurité</string>
@@ -49,7 +49,8 @@
     <string name="secu_ext_lbl">À l\'interne</string>
     <string name="secu_ext">Poste 55</string>
     <string name="secu_title">Sécurité</string>
-	<string name="welcome">Bienvenue!</string>
+    <string name="welcome">Bienvenue!</string>
+
     <string-array name="secu_urgence">
         <item>Appel à la bombe</item>
         <item>Colis suspect</item>
@@ -85,7 +86,7 @@
     <string name="btn_next_content_description">Bouton pour accéder au mois suivant du calendrier</string>
     <string name="btn_previous_content_description">Bouton pour accéder au mois précédent du calendrier</string>
     <string name="calendar_event_detail_hours">de %1$s à %2$s</string>
-    
+
     <!-- urgence txt -->
     <string name="urgence_resum_bombe"><![CDATA[<ul><li>Ne pas mettre fin à la communication téléphonique</li><li>Tenter d’obtenir le maximum d’informations </li><li>Faire répéter ou prétexter avoir de la difficulté à entendre afin de gagner du temps.</li><li>Dans la mesure du possible et en fonction de la situation, tenter d’obtenir les informations suivantes : </li><ul><li>L’heure à laquelle la bombe explosera </li><li>Le type de bombe</li><li>Les personnes visées et le motif</li><li>L’emplacement de la bombe </li><li>Son nom et adresse </li></ul><li>Laisser l’interlocuteur raccrocher en premier </li><li>Il est primordial de communiquer IMMÉDIATEMENT avec la sécurité au 514-396-8900 </li></ul>]]></string>
     <string name="urgence_resum_colis"><![CDATA[<ul><li>Ne jamais toucher, pousser, frapper, soulever ou ouvrir un colis suspect</li><li>Ne jamais prendre pour acquis qu’il s’agit du seul colis</li><li>Quitter le secteur et si possible restreindre l’accès en fermant les portes</li><li>Aviser les personnes rencontrées de ne pas entrer dans ce secteur</li><li>Une fois à l’extérieur du secteur, communiquer avec la sécurité 514-396- 8900</li><li>Ne jamais activer une station manuelle d’incendie (station rouge)</li></ul>]]></string>

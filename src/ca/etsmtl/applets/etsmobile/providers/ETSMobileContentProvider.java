@@ -264,7 +264,7 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			cursor = queryBuilder.query(db, columns, selection, selectionArgs,
 					null, null, sortOrder);
 			cursor.setNotificationUri(getContext().getContentResolver(), uri);
-		} catch (SQLiteMisuseException e) {
+		} catch (final SQLiteMisuseException e) {
 			e.printStackTrace();
 			return cursor;
 		}

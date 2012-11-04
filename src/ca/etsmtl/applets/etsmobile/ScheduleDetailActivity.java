@@ -6,7 +6,7 @@ import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ScheduleDetailActivity extends Activity {
-	
+
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

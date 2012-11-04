@@ -170,8 +170,8 @@ public class UrgenceActivity extends Activity {
 		default:
 			break;
 		}
-
-		txtView1.setText(urgence[id]);
+		navBar.setTitle(urgence[id]);
+		// txtView1.setText();
 		final String string = getString(text);
 		// http://stackoverflow.com/questions/3150400/html-list-tag-not-working-in-android-textview-what-can-i-do
 		txtView2.setText(Html.fromHtml(string, null, new MyTagHandler()));

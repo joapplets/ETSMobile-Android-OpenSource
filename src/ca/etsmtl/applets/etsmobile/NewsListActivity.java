@@ -41,10 +41,10 @@ public class NewsListActivity extends FragmentActivity implements
 			if (binder != null) {
 				binder.startFetching();
 				while (binder.isWorking()) {
-//					try {
-////						Thread.sleep(1000);
-//					} catch (final InterruptedException e) {
-//					}
+					// try {
+					// // Thread.sleep(1000);
+					// } catch (final InterruptedException e) {
+					// }
 				}
 			}
 			return null;

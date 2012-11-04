@@ -88,6 +88,7 @@ public class NavBar extends RelativeLayout {
 	public void setTitle(final String title) {
 		imageTitle.setVisibility(View.INVISIBLE);
 		txtTitle.setText(title);
+		txtTitle.setVisibility(View.VISIBLE);
 	}
 
 	public void showLoading() {
