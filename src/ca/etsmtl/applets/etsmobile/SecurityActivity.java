@@ -51,6 +51,8 @@ public class SecurityActivity extends MapActivity {
 	private ListView listView;
 
 	private MapView mapView;
+	private MyMapMarker markers;
+	private MapController controller;
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -109,9 +111,9 @@ public class SecurityActivity extends MapActivity {
 		mapView = (MapView) findViewById(R.id.mapview);
 
 		final Drawable drawable = getResources().getDrawable(R.drawable.icon);
-		final MyMapMarker markers = new MyMapMarker(drawable, this);
+		markers = new MyMapMarker(drawable, this);
 
-		final MapController controller = mapView.getController();
+		controller = mapView.getController();
 
 		final Address adress = SecurityActivity.searchLocationByName(this,
 				"École de Technologie Supérieure");
@@ -131,5 +133,28 @@ public class SecurityActivity extends MapActivity {
 			controller.setZoom(18);
 			controller.animateTo(geo);
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		final Address adress = SecurityActivity.searchLocationByName(this,
+				"École de Technologie Supérieure");
+		if (adress != null) {
+
+			final GeoPoint geo = new GeoPoint(
+					(int) (adress.getLatitude() * 1E6),
+					(int) (adress.getLongitude() * 1E6));
+
+			final OverlayItem items = new OverlayItem(geo,
+					"École de Technologie SUpérieur", "");
+			markers.addOverlay(items);
+
+			mapView.getOverlays().add(markers);
+
+			controller.setCenter(geo);
+			controller.setZoom(18);
+			controller.animateTo(geo);
+		}
+		super.onResume();
 	}
 }

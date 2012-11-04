@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteMisuseException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
@@ -99,7 +100,7 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			where += columns[i] + " like ? OR ";
 		}
 		where += columns[columns.length - 1] + " like ? ";
-		queryBuilder.appendWhere(where);
+		// queryBuilder.appendWhere(where);
 
 		// if (selectionArgs == null) {
 		// selectionArgs = new String[columns.length];
@@ -257,10 +258,16 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
 
-		final SQLiteDatabase db = helper.getWritableDatabase();
-		final Cursor cursor = queryBuilder.query(db, columns, selection,
-				selectionArgs, null, null, sortOrder);
-		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		Cursor cursor = null;
+		try {
+			final SQLiteDatabase db = helper.getWritableDatabase();
+			cursor = queryBuilder.query(db, columns, selection, selectionArgs,
+					null, null, sortOrder);
+			cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		} catch (SQLiteMisuseException e) {
+			e.printStackTrace();
+			return cursor;
+		}
 		return cursor;
 	}
 

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
 
     <string name="app_name">ÉTS Mobile</string>
@@ -50,7 +49,7 @@
     <string name="secu_ext_lbl">À l\'interne</string>
     <string name="secu_ext">Poste 55</string>
     <string name="secu_title">Sécurité</string>
-
+	<string name="welcome">Bienvenue!</string>
     <string-array name="secu_urgence">
         <item>Appel à la bombe</item>
         <item>Colis suspect</item>
@@ -80,6 +79,14 @@
         <item>sam.</item>
     </string-array>
 
+    <string name="calendar_event_list_item_title">%1$s %2$s</string>
+    <string name="calendar_event_list_item_subtitle">%1$s - %2$s</string>
+    <string name="indicator_description">Indicateur de couleur correspondant à un évènement</string>
+    <string name="btn_next_content_description">Bouton pour accéder au mois suivant du calendrier</string>
+    <string name="btn_previous_content_description">Bouton pour accéder au mois précédent du calendrier</string>
+    <string name="calendar_event_detail_hours">de %1$s à %2$s</string>
+    
+    <!-- urgence txt -->
     <string name="urgence_resum_bombe"><![CDATA[<ul><li>Ne pas mettre fin à la communication téléphonique</li><li>Tenter d’obtenir le maximum d’informations </li><li>Faire répéter ou prétexter avoir de la difficulté à entendre afin de gagner du temps.</li><li>Dans la mesure du possible et en fonction de la situation, tenter d’obtenir les informations suivantes : </li><ul><li>L’heure à laquelle la bombe explosera </li><li>Le type de bombe</li><li>Les personnes visées et le motif</li><li>L’emplacement de la bombe </li><li>Son nom et adresse </li></ul><li>Laisser l’interlocuteur raccrocher en premier </li><li>Il est primordial de communiquer IMMÉDIATEMENT avec la sécurité au 514-396-8900 </li></ul>]]></string>
     <string name="urgence_resum_colis"><![CDATA[<ul><li>Ne jamais toucher, pousser, frapper, soulever ou ouvrir un colis suspect</li><li>Ne jamais prendre pour acquis qu’il s’agit du seul colis</li><li>Quitter le secteur et si possible restreindre l’accès en fermant les portes</li><li>Aviser les personnes rencontrées de ne pas entrer dans ce secteur</li><li>Une fois à l’extérieur du secteur, communiquer avec la sécurité 514-396- 8900</li><li>Ne jamais activer une station manuelle d’incendie (station rouge)</li></ul>]]></string>
     <string name="urgence_resum_feu"><![CDATA[<p>Si vous découvrez un foyer d’incendie :</p><ul><li>Quittez les lieux immédiatement et aidez à évacuer quiconque se trouvant en danger immédiat sans mettre votre vie en danger.</li><li>Déclenchez l’alarme incendie en tirant un poste manuel d’incendie situé près des issues de secours.</li><li>Utilisez les escaliers pour sortir du bâtiment.</li><li>Fermer toutes les portes derrières vous pour éviter que l’incendie ne se propage.</li><li>Alerter le service de la prévention des incendies de Montréal en composant le «911» d’un endroit sécuritaire.</li></ul><p>Lorsque retentit le signal d’alarme du réseau avertisseur d’incendie</p><ul><li>Quittez votre local immédiatement et aidez à évacuer quiconque se trouve en danger immédiat sans mettre votre vie en danger.</li><li>Utilisez les escaliers pour sortir du bâtiment.</li><li>Fermez toutes les portes derrières vous pour éviter que l’incendie ne se propage.</li><li>S’éloigner des lieux à une distance de cent (100) mètres afin de permettre à ceux qui suivent de sortir et de ne pas nuire aux pompiers dans leur lutte contre l’incendie.</li></ul>]]></string>

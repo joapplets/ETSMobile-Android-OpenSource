@@ -6,6 +6,7 @@ import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ScheduleDetailActivity extends Activity {
+	
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -14,6 +15,7 @@ public class ScheduleDetailActivity extends Activity {
 		final NavBar navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_horaire_title);
 		navBar.hideRightButton();
+		navBar.hideLoading();
 
 		TextView txt = (TextView) findViewById(R.id.txt_cours);
 

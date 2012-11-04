@@ -9,8 +9,6 @@ import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-import com.etsmt.applets.etsmobile.views.NavBar;
-
 public class BottinViewActivity extends Activity {
 
 	private TextView nomView;
@@ -62,6 +60,7 @@ public class BottinViewActivity extends Activity {
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_phonebook_title);
 		navBar.hideRightButton();
+		navBar.hideLoading();
 
 	}
 }
