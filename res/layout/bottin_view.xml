@@ -3,10 +3,11 @@
     android:id="@+id/wrap"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_background"
     android:orientation="vertical" >
 
-    <com.etsmt.applets.etsmobile.views.NavBar
+
+
+    <ca.etsmtl.applets.etsmobile.views.NavBar
         android:id="@+id/navBar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,18 +16,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
         android:padding="5dp" >
+
 
         <LinearLayout
             android:id="@+id/layout_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="5dip"
-            android:background="@drawable/bkg_white_round_corners"
-            android:padding="5dip" >
-
+            android:layout_height="wrap_content" >
+
             <TextView
                 android:id="@+id/bottin_view_prenom"
                 android:layout_width="wrap_content"
@@ -34,9 +33,9 @@
                 android:text="prenom"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/black"
-                android:textSize="15dip"
                 android:width="100dp" />
-
+
+
             <TextView
                 android:id="@+id/bottin_view_nom"
                 android:layout_width="wrap_content"
@@ -44,163 +43,64 @@
                 android:layout_gravity="fill"
                 android:text="nom"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/black"
-                android:textSize="15dip" />
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/bottin_viewtitre"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/bottin_view_titre"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="5dip"
-            android:background="@drawable/bkg_white_round_corners"
-            android:orientation="vertical"
-            android:padding="5dip" >
+            android:text="titre"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black" />
 
-            <LinearLayout
-                android:id="@+id/bottin_viewtitre2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Titre"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/bottin_view_titre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/black"
-                    android:textSize="15dip" />
+        <TextView
+            android:id="@+id/bottin_view_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="service"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/bottin_viewservice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Service"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/bottin_view_service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/black"
-                    android:textSize="15dip" />
-
-            </LinearLayout>
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="5dip"
-            android:background="@drawable/bkg_white_round_corners"
-            android:orientation="vertical"
-            android:padding="5dip" >
+            android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:id="@+id/bottin_viewlocal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Local"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/bottin_view_empl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/black"
-                    android:textSize="15dip" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/bottin_viewphone"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/bottin_view_empl"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Téléphone"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/bottin_view_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:autoLink="phone"
-                    android:gravity="right"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/black"
-                    android:textSize="15dip" />
+                android:paddingRight="50dp"
+                android:text="emplacement"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/black" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/bottin_viewcourriel"
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/bottin_view_phone"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Courriel"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/bottin_view_courriel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:autoLink="email"
-                    android:gravity="right"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/black"
-                    android:textSize="15dip" />
+                android:autoLink="phone"
+                android:text="phone"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/black" />
 
-            </LinearLayout>
         </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/bottin_view_courriel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="email"
+            android:text="courriel"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black" />
+
     </LinearLayout>
 
 </LinearLayout>

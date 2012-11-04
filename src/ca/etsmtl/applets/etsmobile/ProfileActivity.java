@@ -21,8 +21,7 @@ import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
-
-import com.etsmt.applets.etsmobile.views.NavBar;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ProfileActivity extends Activity implements OnClickListener,
 		OnDismissListener, DialogInterface.OnClickListener {

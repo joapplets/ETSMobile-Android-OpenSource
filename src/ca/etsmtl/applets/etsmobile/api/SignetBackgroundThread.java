@@ -18,6 +18,14 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 
+/**
+ * Use this class to make async JSON GET/POST to signETS
+ * 
+ * @author Vincent Seguin
+ * 
+ * @param <T>
+ * @param <E>
+ */
 public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 	public enum FetchType {
 		ARRAY, OBJECT
@@ -29,6 +37,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 	private final Class<E> typeOfClass;
 
 	private final FetchType fetchType;
+	private final String liste;
 
 	public SignetBackgroundThread(final String urlStr, final String action,
 			final Object bodyParams, final Class<E> typeOfClass,
@@ -38,6 +47,18 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 		this.bodyParams = bodyParams;
 		this.typeOfClass = typeOfClass;
 		this.fetchType = fetchType;
+		this.liste = "liste";
+	}
+
+	public SignetBackgroundThread(final String urlStr, final String action,
+			final Object bodyParams, final Class<E> typeOfClass,
+			final FetchType fetchType, final String liste) {
+		this.urlStr = urlStr;
+		this.action = action;
+		this.bodyParams = bodyParams;
+		this.typeOfClass = typeOfClass;
+		this.fetchType = fetchType;
+		this.liste = liste;
 	}
 
 	@Override
@@ -90,7 +111,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 			jsonObject = new JSONObject(jsonString);
 
 			JSONArray jsonRootArray;
-			jsonRootArray = jsonObject.getJSONObject("d").getJSONArray("liste");
+			jsonRootArray = jsonObject.getJSONObject("d").getJSONArray(liste);
 
 			for (int i = 0; i < jsonRootArray.length(); i++) {
 				objectList.add(gson.fromJson(jsonRootArray.getJSONObject(i)
@@ -124,8 +145,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 			final URLConnection conn = url.openConnection();
 			conn.addRequestProperty("Content-Type",
 					"application/json; charset=UTF-8");
-			conn.setReadTimeout(3000);
-			conn.setConnectTimeout(3000);
+
 			conn.setDoOutput(true);
 			final OutputStreamWriter wr = new OutputStreamWriter(
 					conn.getOutputStream());
@@ -146,6 +166,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 			JSONObject jsonRootArray;
 			jsonRootArray = jsonObject.getJSONObject("d");
 			object = (T) gson.fromJson(jsonRootArray.toString(), typeOfClass);
+			android.util.Log.d("JSON", jsonRootArray.toString());
 		} catch (final MalformedURLException e) {
 			e.printStackTrace();
 		} catch (final IOException e) {

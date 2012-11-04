@@ -23,7 +23,7 @@ public class NewsTableHelper {
 			+ NewsTableHelper.NEWS_DESCRIPTION + " TEXT NOT NULL, "
 			+ NewsTableHelper.NEWS_GUID + " TEXT NOT NULL, "
 			+ NewsTableHelper.NEWS_LINK + " TEXT , "
-			+ NewsTableHelper.NEWS_SOURCE + " TEXT NOT NULL);";
+			+ NewsTableHelper.NEWS_SOURCE + " TEXT NOT NULL, UNIQUE (title) ON CONFLICT REPLACE);";
 	public static final String DROP_TABLE = "DROP TABLE IF EXISTS "
 			+ NewsTableHelper.TABLE_NAME;
 

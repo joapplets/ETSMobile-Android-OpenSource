@@ -1,41 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/base_bar"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/navbar_bg"
+    android:contentDescription="@string/app_name"
     android:orientation="horizontal"
     android:padding="5dip" >
+
+    <ImageView
+        android:id="@+id/base_bar_img_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/news_list_view_image"
+        android:paddingLeft="25dip"
+        android:paddingRight="13dip"
+        android:paddingTop="5dip"
+        android:src="@drawable/navbar_news_title"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/base_bar_source_btn"
+        style="@style/etsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/news_list_view_btnSources" />
 
     <ImageButton
         android:id="@+id/base_bar_home_btn"
         style="@style/btnHome"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/icon_home" />
 
-    <ImageView
-        android:id="@+id/base_bar_img_title"
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:contentDescription="@string/news_list_view_image"
-        android:paddingLeft="25dip"
-        android:paddingRight="13dip"
-        android:paddingTop="5dip"
-        android:src="@drawable/navbar_news_title" />
-
     <ProgressBar
         android:id="@+id/base_bar_loading"
+        style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible" />
-
-    <Button
-        android:id="@+id/base_bar_source_btn"
-        style="@style/etsBtn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/base_bar_title"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="@string/news_list_view_btnSources" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="29dp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
-</LinearLayout>
+</RelativeLayout>

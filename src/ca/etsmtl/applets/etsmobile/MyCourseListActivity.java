@@ -3,6 +3,7 @@ package ca.etsmtl.applets.etsmobile;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -22,14 +23,14 @@ import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.adapters.MyCourseAdapter;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
+import ca.etsmtl.applets.etsmobile.dialogs.LoginDialog;
 import ca.etsmtl.applets.etsmobile.models.Course;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-import com.etsmt.applets.etsmobile.dialogs.LoginDialog;
-import com.etsmt.applets.etsmobile.views.NavBar;
-
+@SuppressLint({ "HandlerLeak", "HandlerLeak" })
 public class MyCourseListActivity extends ListActivity implements
 		OnDismissListener {
 
@@ -38,6 +39,7 @@ public class MyCourseListActivity extends ListActivity implements
 	private ArrayList<Course> courseActivities;
 	private MyCourseAdapter myCoursesAdapter;
 
+	// should be static
 	private final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(final Message msg) {
@@ -110,9 +112,6 @@ public class MyCourseListActivity extends ListActivity implements
 
 			signetBackgroundThead.execute();
 
-			// final ProgressDialog progress = new ProgressDialog(this);
-			// progress.setMessage(getString(R.string.loading));
-			// progress.show();
 			navBar.showLoading();
 
 			new Thread(new Runnable() {
@@ -174,8 +173,11 @@ public class MyCourseListActivity extends ListActivity implements
 
 			@Override
 			public void onClick(final View v) {
-
-				finish();
+				final Intent intent = new Intent(v.getContext(),
+						ETSMobileActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
 			}
 		});
 

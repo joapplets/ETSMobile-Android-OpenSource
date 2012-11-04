@@ -1,4 +1,4 @@
-package com.etsmt.applets.etsmobile.views;
+package ca.etsmtl.applets.etsmobile.views;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.ETSMobileActivity;
 import ca.etsmtl.applets.etsmobile.R;
 
@@ -20,6 +21,7 @@ public class NavBar extends RelativeLayout {
 	private ImageView imageTitle;
 	private Button rightBtn;
 	private ProgressBar loading;
+	private TextView txtTitle;
 
 	public NavBar(final Context context) {
 		super(context);
@@ -37,6 +39,10 @@ public class NavBar extends RelativeLayout {
 		if (!isInEditMode()) {
 			init();
 		}
+	}
+
+	public void hideHome() {
+		homeBtn.setVisibility(View.INVISIBLE);
 	}
 
 	public void hideLoading() {
@@ -57,16 +63,15 @@ public class NavBar extends RelativeLayout {
 		imageTitle = (ImageView) root_layout
 				.findViewById(R.id.base_bar_img_title);
 		imageTitle.setVisibility(View.INVISIBLE);
+		txtTitle = (TextView) root_layout.findViewById(R.id.base_bar_title);
 		rightBtn = (Button) root_layout.findViewById(R.id.base_bar_source_btn);
 		loading = (ProgressBar) root_layout.findViewById(R.id.base_bar_loading);
 		homeBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(final View v) {
-				final Intent intent = new Intent(getContext(),
-						ETSMobileActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				getContext().startActivity(intent);
+				getContext().startActivity(
+						new Intent(getContext(), ETSMobileActivity.class));
 			}
 		});
 	}
@@ -78,6 +83,11 @@ public class NavBar extends RelativeLayout {
 	public void setTitle(final int resId) {
 		imageTitle.setVisibility(View.VISIBLE);
 		imageTitle.setImageResource(resId);
+	}
+
+	public void setTitle(final String title) {
+		imageTitle.setVisibility(View.INVISIBLE);
+		txtTitle.setText(title);
 	}
 
 	public void showLoading() {

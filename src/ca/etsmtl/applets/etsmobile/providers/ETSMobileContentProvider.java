@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteMisuseException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
@@ -89,8 +90,8 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 
 	private ETSMobileOpenHelper helper;
 
-	private void buildBottinQueryAll(final String[] columns,
-			String[] selectionArgs, final SQLiteQueryBuilder queryBuilder) {
+	private String buildBottinQueryAll(final String[] columns,
+			final String[] selectionArgs, final SQLiteQueryBuilder queryBuilder) {
 		// String where =
 		// " nom like ? OR prenom like ? OR service like ? or emplacement like ? or courriel like ? or titre like ?";
 		String where = "";
@@ -99,21 +100,22 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			where += columns[i] + " like ? OR ";
 		}
 		where += columns[columns.length - 1] + " like ? ";
-		queryBuilder.appendWhere(where);
+		// queryBuilder.appendWhere(where);
 
-		if (selectionArgs == null) {
-			selectionArgs = new String[columns.length];
-			for (int i = 0; i < columns.length; i++) {
-				selectionArgs[i] = "%";
-			}
-		} else if (selectionArgs.length == 1) {
-			final String sel = selectionArgs[0];
-			selectionArgs = new String[columns.length];
-			for (int i = 0; i < columns.length; i++) {
-				selectionArgs[i] = "%" + sel + "%";
-			}
-
-		}
+		// if (selectionArgs == null) {
+		// selectionArgs = new String[columns.length];
+		// for (int i = 0; i < columns.length; i++) {
+		// selectionArgs[i] = "%";
+		// }
+		// } else if (selectionArgs.length == 1) {
+		// final String sel = selectionArgs[0];
+		// selectionArgs = new String[columns.length];
+		// for (int i = 0; i < columns.length; i++) {
+		// selectionArgs[i] = "%" + sel + "%";
+		// }
+		//
+		// }
+		return where;
 	}
 
 	private void buildBottinQuerySingle(final Uri uri,
@@ -225,7 +227,7 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 
 	@Override
 	public Cursor query(final Uri uri, final String[] columns,
-			final String selection, final String[] selectionArgs,
+			String selection, final String[] selectionArgs,
 			final String sortOrder) {
 
 		final int requestType = ETSMobileContentProvider.sURIMatcher.match(uri);
@@ -245,7 +247,8 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			break;
 		case ALL_BOTTIN:
 			queryBuilder.setTables(BottinTableHelper.TABLE_NAME);
-			buildBottinQueryAll(columns, selectionArgs, queryBuilder);
+			selection = buildBottinQueryAll(columns, selectionArgs,
+					queryBuilder);
 			break;
 		case SINGLE_BOTTIN:
 			queryBuilder.setTables(BottinTableHelper.TABLE_NAME);
@@ -255,10 +258,16 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
 
-		final SQLiteDatabase db = helper.getWritableDatabase();
-		final Cursor cursor = queryBuilder.query(db, columns, selection,
-				selectionArgs, null, null, sortOrder);
-		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		Cursor cursor = null;
+		try {
+			final SQLiteDatabase db = helper.getWritableDatabase();
+			cursor = queryBuilder.query(db, columns, selection, selectionArgs,
+					null, null, sortOrder);
+			cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		} catch (SQLiteMisuseException e) {
+			e.printStackTrace();
+			return cursor;
+		}
 		return cursor;
 	}
 

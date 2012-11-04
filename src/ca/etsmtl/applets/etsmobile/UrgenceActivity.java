@@ -21,8 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-
-import com.etsmt.applets.etsmobile.views.NavBar;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class UrgenceActivity extends Activity {
 	private class MyTagHandler implements TagHandler {
@@ -128,6 +127,7 @@ public class UrgenceActivity extends Activity {
 		});
 		navBar.hideRightButton();
 		navBar.hideTitle();
+		navBar.hideLoading();
 
 		txtView1 = (TextView) findViewById(R.id.urgence_title);
 		txtView2 = (TextView) findViewById(R.id.urgence_txt);

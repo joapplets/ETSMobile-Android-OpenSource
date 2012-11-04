@@ -1,14 +1,16 @@
 package ca.etsmtl.applets.etsmobile;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Picture;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebView.PictureListener;
+import android.webkit.WebViewClient;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-import com.etsmt.applets.etsmobile.views.NavBar;
-
+@SuppressLint("SetJavaScriptEnabled")
 public class BibliothequeActivity extends Activity {
 
 	private WebView webView;
@@ -36,5 +38,19 @@ public class BibliothequeActivity extends Activity {
 		navBar.setTitle(R.drawable.navbar_biblio_title);
 		navBar.hideRightButton();
 		navBar.showLoading();
+		// Android WebView, how to handle redirects in app instead of opening a
+		// browser
+		webView.setWebViewClient(new WebViewClient() {
+			@Override
+			public boolean shouldOverrideUrlLoading(final WebView view,
+					final String url) {
+				// do your handling codes here, which url is the requested url
+				// probably you need to open that url rather than redirect:
+				view.loadUrl(url);
+				navBar.showLoading();
+				return false; // then it is not handled by default action
+			}
+		});
+
 	}
 }
