@@ -308,14 +308,14 @@ public class NumGridView extends View implements Observer {
 
 					final Drawable d = getResources().getDrawable(
 							event.getDrawableResId());
-					d.setBounds((int) (startpos + 3 * i * radius), 0, (int) (dy
-							+ mCellHeight - 4 * radius), 0);
-					d.draw(canvas);
+					d.setBounds((int) (startpos + 3 * i * radius), (int) (dy
+							+ mCellHeight - 4 * radius),0, 0);
 
-					mPaintCourseIndicator.setColor(event.getDrawableResId());
-					canvas.drawCircle(startpos + 3 * i * radius, dy
-							+ mCellHeight - 4 * radius, radius,
-							mPaintCourseIndicator);
+
+					// mPaintCourseIndicator.setColor(event.getDrawableResId());
+					// canvas.drawCircle(startpos + 3 * i * radius, dy
+					// + mCellHeight - 4 * radius, radius,
+					// mPaintCourseIndicator);
 					i++;
 				}
 			}
