@@ -25,7 +25,6 @@ import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.Session;
-import ca.etsmtl.applets.etsmobile.services.CalendarTask;
 
 /**
  * NumGridView is view that renders a grid, where each cell contains a number.
@@ -56,12 +55,6 @@ public class NumGridView extends View implements Observer {
 		 */
 		void onCellTouch(NumGridView v, int x, int y);
 	}
-
-	public static final int[] dots = new int[] { R.drawable.kal_marker_aqua,
-			R.drawable.kal_marker_black, R.drawable.kal_marker_fuchsia,
-			R.drawable.kal_marker_green, R.drawable.kal_marker_lime,
-			R.drawable.kal_marker_maroon, R.drawable.kal_marker_navy,
-			R.drawable.kal_marker_red, R.drawable.kal_marker_yellow };
 
 	final int nbCellulesY = 6; // on va générer toujours un grilles 7 x 6
 
@@ -96,8 +89,6 @@ public class NumGridView extends View implements Observer {
 	protected OnCellTouchListener mOnCellTouchListener;
 
 	private ArrayList<Session> sessions = new ArrayList<Session>();
-
-	private Drawable[] drawables;
 
 	/**
 	 * The constructor as called by the XML inflater.
@@ -146,11 +137,6 @@ public class NumGridView extends View implements Observer {
 		mCellCountY = a.getInt(R.styleable.NumGridView_cellCountY, 6);
 		a.recycle();
 
-		// init dot drawables
-		drawables = new Drawable[dots.length];
-		for (int i = 0; i < dots.length; i++) {
-			drawables[i] = getResources().getDrawable(dots[i]);
-		}
 		// Setup the grid cells
 
 	}
@@ -319,11 +305,12 @@ public class NumGridView extends View implements Observer {
 
 				while (it.hasNext()) {
 					event = it.next();
-					final Drawable d = drawables[event.getDrawableId()];
-					
-					// top left right bottom
+
+					final Drawable d = getResources().getDrawable(
+							event.getDrawableResId());
 					d.setBounds((int) (startpos + 3 * i * radius), (int) (dy
-							+ mCellHeight - 4 * radius), 0, 0);
+							+ mCellHeight - 4 * radius),0, 0);
+
 
 					// mPaintCourseIndicator.setColor(event.getDrawableResId());
 					// canvas.drawCircle(startpos + 3 * i * radius, dy

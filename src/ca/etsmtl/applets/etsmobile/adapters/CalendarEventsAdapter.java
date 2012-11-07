@@ -56,7 +56,7 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 
 		// set indicator
 		final ShapeDrawable indicator = new ShapeDrawable(new OvalShape());
-		indicator.getPaint().setColor(events.get(position).getDrawableId());
+		indicator.getPaint().setColor(events.get(position).getDrawableResId());
 		indicator.getPaint().setStyle(Style.FILL);
 
 		final ImageView img = (ImageView) rowView
