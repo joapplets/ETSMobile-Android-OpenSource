@@ -45,7 +45,7 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 		return cours;
 	}
 
-	public int getDrawableResId() {
+	public int getDrawableId() {
 		return eventDrawableResId;
 	}
 
@@ -109,7 +109,7 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 		this.cours = cours;
 	}
 
-	public void setDrawableResId(final int resID) {
+	public void setDrawableId(final int resID) {
 		eventDrawableResId = resID;
 	}
 
