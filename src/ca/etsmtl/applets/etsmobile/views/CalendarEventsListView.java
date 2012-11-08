@@ -31,8 +31,6 @@ public class CalendarEventsListView extends ListView implements Observer {
 		super(context);
 
 		this.context = context;
-		// TODO Auto-generated constructor stub
-
 	}
 
 	public CalendarEventsListView(final Context context,
@@ -50,7 +48,6 @@ public class CalendarEventsListView extends ListView implements Observer {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void update(final Observable observable, final Object data) {
-		// TODO Auto-generated method stub
 		final List<ActivityCalendar> events = (List<ActivityCalendar>) data;
 		date = ((CalendarCell) observable).getDate();
 

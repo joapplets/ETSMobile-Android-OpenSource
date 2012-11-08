@@ -40,23 +40,27 @@ public class ScheduleActivity extends Activity {
 			final ScheduleActivity act = ref.get();
 			switch (msg.what) {
 			case CalendarTask.ON_POST_EXEC:
-				act.navBar.hideLoading();
+				if (act != null) {
+					if (act.navBar != null)
+						act.navBar.hideLoading();
 
-				act.currentGridView.setSessions((ArrayList<Session>) msg.obj);
-				act.nextGridView.setSessions((ArrayList<Session>) msg.obj);
-				act.prevGridView.setSessions((ArrayList<Session>) msg.obj);
+					act.currentGridView
+							.setSessions((ArrayList<Session>) msg.obj);
+					act.nextGridView.setSessions((ArrayList<Session>) msg.obj);
+					act.prevGridView.setSessions((ArrayList<Session>) msg.obj);
 
-				act.currentGridView.setCurrentCell(null);
+					act.currentGridView.setCurrentCell(null);
 
-				act.current.setChanged();
-				act.current.notifyObservers(act.current.getCalendar());
+					act.current.setChanged();
+					act.current.notifyObservers(act.current.getCalendar());
 
-				act.currentGridView.getCurrentCell().addObserver(act.lst_cours);
-				act.currentGridView.getCurrentCell().setChanged();
-				act.currentGridView.getCurrentCell().notifyObservers();
+					act.currentGridView.getCurrentCell().addObserver(
+							act.lst_cours);
+					act.currentGridView.getCurrentCell().setChanged();
+					act.currentGridView.getCurrentCell().notifyObservers();
 
-				act.current.deleteObserver(act.currentGridView);
-
+					act.current.deleteObserver(act.currentGridView);
+				}
 				break;
 			default:
 				act.navBar.showLoading();

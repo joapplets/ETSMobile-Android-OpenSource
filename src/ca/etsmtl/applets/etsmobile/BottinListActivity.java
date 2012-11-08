@@ -169,10 +169,16 @@ public class BottinListActivity extends ListActivity implements
 			public Cursor runQuery(final CharSequence constraint) {
 				Log.d(BottinListActivity.LOG_TAG, "filter input  :"
 						+ constraint);
-				return managedQuery(
+
+				String[] args = new String[SELECTION_ARGS.length];
+				for (int i = 0; i < SELECTION_ARGS.length; i++) {
+					args[i] = "%" + constraint + "%";
+				}
+
+				return getContentResolver().query(
 						ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-						BottinListActivity.DB_COLS, null,
-						new String[] { (String) constraint }, "nom ASC");
+						PROJECTION, "where nom=? or prenom=?",
+						args, "nom ASC");
 			}
 		});
 		setListAdapter(simpleCursor);
@@ -273,8 +279,6 @@ public class BottinListActivity extends ListActivity implements
 	@Override
 	public void onTextChanged(final CharSequence s, final int start,
 			final int before, final int count) {
-		Log.d(BottinListActivity.LOG_TAG, s + " - " + start + " - " + before
-				+ " - " + count + "");
 		if (simpleCursor != null) {
 			simpleCursor.getFilter().filter(s);
 		}

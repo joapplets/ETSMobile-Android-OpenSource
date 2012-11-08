@@ -7,7 +7,7 @@
     android:contentDescription="@string/app_name"
     android:orientation="horizontal"
     android:padding="5dip" >
-
+
     <ImageView
         android:id="@+id/base_bar_img_title"
         android:layout_width="wrap_content"
@@ -17,7 +17,7 @@
         android:layout_toRightOf="@+id/base_bar_home_btn"
         android:contentDescription="@string/news_list_view_image"
         android:paddingLeft="25dip"
-        android:src="@drawable/navbar_news_title"
+        android:src="@drawable/navbar_title"
         android:visibility="invisible" />
 
     <Button
@@ -28,7 +28,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/news_list_view_btnSources" />
-
+
     <ImageButton
         android:id="@+id/base_bar_home_btn"
         style="@style/btnHome"
@@ -37,7 +37,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/icon_home" />
+        android:src="@drawable/icon_home"
+        android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/base_bar_loading"
@@ -46,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" />
-
+
     <TextView
         android:id="@+id/base_bar_title"
         android:layout_width="wrap_content"
@@ -54,6 +55,7 @@
         android:layout_alignLeft="@+id/base_bar_img_title"
         android:layout_alignRight="@+id/base_bar_source_btn"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="20dp"

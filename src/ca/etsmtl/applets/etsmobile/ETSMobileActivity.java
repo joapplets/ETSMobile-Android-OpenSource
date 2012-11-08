@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,8 +27,6 @@ import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
-
-import com.apphance.android.Log;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		OnTouchListener, OnClickListener,

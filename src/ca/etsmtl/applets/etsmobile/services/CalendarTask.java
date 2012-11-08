@@ -6,7 +6,6 @@ import java.util.concurrent.ExecutionException;
 
 import android.os.AsyncTask;
 import android.os.Message;
-import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.ScheduleActivity.CalendarTaskHandler;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
@@ -38,19 +37,6 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 
 	public static final int ON_POST_EXEC = 10;
 	private final CalendarTaskHandler handler;
-	// private final int[] colors = new int[] { Color.RED, Color.YELLOW,
-	// Color.GREEN, Color.rgb(255, 0, 255), // fushia
-	// Color.rgb(0, 255, 255), // aqua
-	// Color.rgb(128, 0, 0), // maroon
-	// Color.rgb(0, 255, 0), // lime
-	// Color.rgb(0, 0, 128) // navy
-	// };
-
-	private final int[] dots = new int[] { R.drawable.kal_marker_aqua,
-			R.drawable.kal_marker_black, R.drawable.kal_marker_fuchsia,
-			R.drawable.kal_marker_green, R.drawable.kal_marker_lime,
-			R.drawable.kal_marker_maroon, R.drawable.kal_marker_navy,
-			R.drawable.kal_marker_red, R.drawable.kal_marker_yellow };
 
 	public CalendarTask(final CalendarTaskHandler handler) {
 		this.handler = handler;
@@ -151,9 +137,7 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 											.getDrawableResId());
 					activites.add(s.getActivities().get(i).getCours());
 				} else {
-					s.getActivities().get(i)
-							.setDrawableResId(dots[color_index]);
-					color_index++;
+					s.getActivities().get(i).setDrawableResId(color_index++);
 					activites.add(s.getActivities().get(i).getCours());
 				}
 			}

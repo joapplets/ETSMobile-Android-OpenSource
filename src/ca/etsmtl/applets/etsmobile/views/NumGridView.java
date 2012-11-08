@@ -90,6 +90,16 @@ public class NumGridView extends View implements Observer {
 
 	private ArrayList<Session> sessions = new ArrayList<Session>();
 
+	private final static int[] dots = new int[] {
+			R.drawable.kal_marker_red_small,
+			R.drawable.kal_marker_fuchsia_small,
+			R.drawable.kal_marker_green_small,
+			R.drawable.kal_marker_lime_small,
+			R.drawable.kal_marker_maroon_small,
+			R.drawable.kal_marker_navy_small, R.drawable.kal_marker_aqua_small,
+			R.drawable.kal_marker_yellow_small,
+			R.drawable.kal_marker_black_small };
+
 	/**
 	 * The constructor as called by the XML inflater.
 	 * 
@@ -294,29 +304,25 @@ public class NumGridView extends View implements Observer {
 				canvas.drawText("" + v, dx + tx, dy + ty, mPaintFg);
 
 				final Iterator<ActivityCalendar> it = cell.iterator();
-				ActivityCalendar event;
 
 				int i = 0;
 
-				final float radius = mCellWidth / (3 * maxIndicators + 1);
+				final float radius = mCellWidth / (15 * maxIndicators + 1);
 				final float startpos = dx
 						+ tx
 						- ((2 * cell.size() + cell.size() - 1) * radius / 2 - radius);
 
+				ActivityCalendar event;
 				while (it.hasNext()) {
 					event = it.next();
 
-					final Drawable d = getResources().getDrawable(
-							event.getDrawableResId());
-					d.setBounds((int) (startpos + 3 * i * radius), (int) (dy
-							+ mCellHeight - 4 * radius),0, 0);
-
-
-					// mPaintCourseIndicator.setColor(event.getDrawableResId());
-					// canvas.drawCircle(startpos + 3 * i * radius, dy
-					// + mCellHeight - 4 * radius, radius,
-					// mPaintCourseIndicator);
-					i++;
+					int resid = event.getDrawableResId();
+					final Drawable d = getResources().getDrawable(dots[resid]);
+					int left = (int) (startpos + 3 * i++ * radius);
+					int top = (int) (dy + mCellHeight * radius);
+					d.setBounds(left + 10, top + 5, left + d.getMinimumWidth()
+							+ 10, top + d.getMinimumHeight() + 5);
+					d.draw(canvas);
 				}
 			}
 		}

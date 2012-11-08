@@ -135,12 +135,12 @@ public class BottinService extends Service implements Observer {
 	public void update(final Observable observable, final Object object) {
 		if (object instanceof ContentValues[]) {
 			final long start = System.currentTimeMillis();
-			Log.d(BottinService.TAG, "");
+//			Log.d(BottinService.TAG, "");
 			getContentResolver().bulkInsert(
 					ETSMobileContentProvider.CONTENT_URI_BOTTIN,
 					(ContentValues[]) object);
 			final long stop = System.currentTimeMillis();
-			Log.d(BottinService.TAG, "end insert : " + (stop - start) + "ms");
+//			Log.d(BottinService.TAG, "end insert : " + (stop - start) + "ms");
 		}
 	}
 
