@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.etsmtl.applets.etsmobile"
-    android:versionCode="1"
+    android:versionCode="2"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -42,30 +42,75 @@
         </activity>
         <activity
             android:name=".NewsListActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".preferences.NewsListPreferences"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".SingleNewsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".BottinListActivity" >
+        <activity
+            android:name=".ProfileActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BottinListActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".CourseListActivity" />
-        <activity android:name=".CoopActivity" />
+        <activity
+            android:name=".CourseListActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CoopActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         <activity android:name=".ScheduleActivity" />
-        <activity android:name=".ScheduleDetailActivity" />
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".BottinViewActivity" />
-        <activity android:name=".BibliothequeActivity" />
-        <activity android:name=".SecurityActivity" />
-        <activity android:name=".UrgenceActivity" />
-        <activity android:name=".MyCourseSessionActivity" />
-        <activity android:name=".MyCourseActivity" />
-        <activity android:name=".MyCourseDetailActivity" />
-        <activity android:name=".MyCourseListActivity" />
+        <activity
+            android:name=".ScheduleDetailActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AboutActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BottinViewActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BibliothequeActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SecurityActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UrgenceActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyCourseSessionActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyCourseActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyCourseDetailActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyCourseListActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

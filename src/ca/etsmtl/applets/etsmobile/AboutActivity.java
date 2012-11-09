@@ -6,10 +6,8 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.ScrollView;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class AboutActivity extends Activity {
 
@@ -23,7 +21,11 @@ public class AboutActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.about);
-
+		final NavBar navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.setTitle(R.drawable.navbar_title);
+		navBar.hideLoading();
+		navBar.hideRightButton();
+		navBar.hideHome();
 		scrollView = (ScrollView) findViewById(R.id.scrollView1);
 		handler = new Handler();
 		final TimerTask scrollerSchedule = new TimerTask() {
@@ -49,14 +51,5 @@ public class AboutActivity extends Activity {
 		final Timer t = new Timer();
 		t.schedule(scrollerSchedule, 1000, 100);
 
-		// home btn
-		((ImageButton) findViewById(R.id.empty_nav_bar_home_btn))
-				.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(final View view) {
-						finish();
-					}
-				});
 	}
 }

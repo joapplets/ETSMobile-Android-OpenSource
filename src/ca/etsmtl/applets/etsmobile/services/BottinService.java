@@ -106,8 +106,6 @@ public class BottinService extends Service implements Observer {
 		}
 	}
 
-	private static final String TAG = "BottinService";
-
 	// private ContentValues[] values = new ContentValues[500];
 	private ObservableBundle bundle;
 	private boolean working;
@@ -134,13 +132,12 @@ public class BottinService extends Service implements Observer {
 	@Override
 	public void update(final Observable observable, final Object object) {
 		if (object instanceof ContentValues[]) {
-			final long start = System.currentTimeMillis();
-//			Log.d(BottinService.TAG, "");
+			System.currentTimeMillis();
+			// Log.d(BottinService.TAG, "");
 			getContentResolver().bulkInsert(
 					ETSMobileContentProvider.CONTENT_URI_BOTTIN,
 					(ContentValues[]) object);
-			final long stop = System.currentTimeMillis();
-//			Log.d(BottinService.TAG, "end insert : " + (stop - start) + "ms");
+			System.currentTimeMillis();
 		}
 	}
 

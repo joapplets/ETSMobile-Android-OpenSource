@@ -160,6 +160,7 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			writable.endTransaction();
 			getContext().getContentResolver().notifyChange(uri, null);
 		}
+		writable.close();
 		return numInserted;
 	}
 
@@ -259,13 +260,17 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		}
 
 		Cursor cursor = null;
+
 		try {
 			final SQLiteDatabase db = helper.getWritableDatabase();
-			cursor = queryBuilder.query(db, columns, selection, selectionArgs,
-					null, null, sortOrder);
-			cursor.setNotificationUri(getContext().getContentResolver(), uri);
+			if (db.isOpen()) {
+				cursor = queryBuilder.query(db, columns, selection,
+						selectionArgs, null, null, sortOrder);
+				cursor.setNotificationUri(getContext().getContentResolver(),
+						uri);
+			}
 		} catch (final SQLiteMisuseException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			return cursor;
 		}
 		return cursor;

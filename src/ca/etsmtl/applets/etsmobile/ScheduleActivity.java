@@ -4,6 +4,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,8 +43,9 @@ public class ScheduleActivity extends Activity {
 			switch (msg.what) {
 			case CalendarTask.ON_POST_EXEC:
 				if (act != null) {
-					if (act.navBar != null)
+					if (act.navBar != null) {
 						act.navBar.hideLoading();
+					}
 
 					act.currentGridView
 							.setSessions((ArrayList<Session>) msg.obj);
@@ -53,12 +56,13 @@ public class ScheduleActivity extends Activity {
 
 					act.current.setChanged();
 					act.current.notifyObservers(act.current.getCalendar());
-
-					act.currentGridView.getCurrentCell().addObserver(
-							act.lst_cours);
-					act.currentGridView.getCurrentCell().setChanged();
-					act.currentGridView.getCurrentCell().notifyObservers();
-
+					if (act.currentGridView != null
+							&& act.currentGridView.getCurrentCell() != null) {
+						act.currentGridView.getCurrentCell().addObserver(
+								act.lst_cours);
+						act.currentGridView.getCurrentCell().setChanged();
+						act.currentGridView.getCurrentCell().notifyObservers();
+					}
 					act.current.deleteObserver(act.currentGridView);
 				}
 				break;
@@ -77,70 +81,73 @@ public class ScheduleActivity extends Activity {
 	private final OnCellTouchListener mNumGridView_OnCellTouchListener = new OnCellTouchListener() {
 		@Override
 		public void onCellTouch(final NumGridView v, final int x, final int y) {
-			CalendarCell cell = v.getCell(x, y);
-			cell.deleteObservers();
+			if (task.getStatus() != Status.RUNNING) {
+				CalendarCell cell = v.getCell(x, y);
+				cell.deleteObservers();
 
-			if (cell.getDate().getMonth() == current.getCalendar().getTime()
-					.getMonth()
-					&& cell.getDate().getYear() == current.getCalendar()
-							.getTime().getYear()) {
-
-				cell.addObserver(lst_cours);
-				cell.setChanged();
-				cell.notifyObservers();
-				v.setCurrentCell(cell);
-
-			} else {
-				if (cell.getDate().before(current.getCalendar().getTime())) {
-
-					currentGridView.update(null, prevGridView.getCurrent()
-							.clone());
-					currentGridView.setCurrentCell(x, y);
-					currentGridView.invalidate();
-
-					current.previousMonth();
-					slideDown();
-
-					cell = prevGridView.getCell(x,
-							prevGridView.getmCellCountY() - 1);
+				if (cell.getDate().getMonth() == current.getCalendar()
+						.getTime().getMonth()
+						&& cell.getDate().getYear() == current.getCalendar()
+								.getTime().getYear()) {
 
 					cell.addObserver(lst_cours);
 					cell.setChanged();
 					cell.notifyObservers();
-					prevGridView.setCurrentCell(cell);
+					v.setCurrentCell(cell);
 
-				} else if (cell.getDate()
-						.after(current.getCalendar().getTime())) {
+				} else {
+					if (cell.getDate().before(current.getCalendar().getTime())) {
 
-					currentGridView.update(null, nextGridView.getCurrent()
-							.clone());
-					currentGridView.setCurrentCell(x, y);
-					currentGridView.invalidate();
+						currentGridView.update(null, prevGridView.getCurrent()
+								.clone());
+						currentGridView.setCurrentCell(x, y);
+						currentGridView.invalidate();
 
-					current.nextMonth();
-					slideUp();
+						current.previousMonth();
+						slideDown();
 
-					cell = nextGridView.getCell(x, 0);
+						cell = prevGridView.getCell(x,
+								prevGridView.getmCellCountY() - 1);
 
-					cell.addObserver(lst_cours);
-					cell.setChanged();
-					cell.notifyObservers();
-					nextGridView.setCurrentCell(cell);
+						cell.addObserver(lst_cours);
+						cell.setChanged();
+						cell.notifyObservers();
+						prevGridView.setCurrentCell(cell);
 
+					} else if (cell.getDate().after(
+							current.getCalendar().getTime())) {
+
+						currentGridView.update(null, nextGridView.getCurrent()
+								.clone());
+						currentGridView.setCurrentCell(x, y);
+						currentGridView.invalidate();
+
+						current.nextMonth();
+						slideUp();
+
+						cell = nextGridView.getCell(x, 0);
+
+						cell.addObserver(lst_cours);
+						cell.setChanged();
+						cell.notifyObservers();
+						nextGridView.setCurrentCell(cell);
+
+					}
 				}
+
+				v.invalidate();
 			}
-
-			v.invalidate();
-
 		}
 	};
+
+	private AsyncTask<Object, Void, ArrayList<Session>> task;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calendar_view);
 		// get data async
-		new CalendarTask(new CalendarTaskHandler(this))
+		task = new CalendarTask(new CalendarTaskHandler(this))
 				.execute(new UserCredentials(PreferenceManager
 						.getDefaultSharedPreferences(this)));
 

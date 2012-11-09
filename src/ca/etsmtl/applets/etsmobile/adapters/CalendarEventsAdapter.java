@@ -32,7 +32,7 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 			R.drawable.kal_marker_lime, R.drawable.kal_marker_maroon,
 			R.drawable.kal_marker_navy, R.drawable.kal_marker_aqua,
 			R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
-	
+
 	public CalendarEventsAdapter(final Context context,
 			final int textViewResourceId, final List<ActivityCalendar> objects) {
 		super(context, textViewResourceId, objects);
@@ -72,9 +72,10 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 		holder.text2.setText(String.format(
 				res.getString(R.string.calendar_event_list_item_subtitle),
 				event.getName(), event.getLocation()));
-		
+
 		final int resid = event.getDrawableResId();
-		holder.img.setImageDrawable(res.getDrawable(dots[resid]));
+		holder.img.setImageDrawable(res
+				.getDrawable(CalendarEventsAdapter.dots[resid]));
 		return convertView;
 	}
 

@@ -32,7 +32,7 @@
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:visibility="gone" />
-
+
             <TextView
                 android:id="@+id/urgence_txt"
                 android:layout_width="match_parent"
@@ -40,7 +40,6 @@
                 android:layout_marginTop="15dip"
                 android:fadingEdge="vertical"
                 android:gravity="center|left"
-                android:text="&lt;![CDATA[&lt;ul>&lt;li>Demeurer calme&lt;/li>&lt;li>Communiquer avec la sécurité à l’aide du bouton d’appel d’urgence ou du téléphone d’urgence en cabine&lt;/li>&lt;ul>&lt;li>Dans l’éventualité où; le dispositif pour communiquer avec la sécurité est"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </LinearLayout>

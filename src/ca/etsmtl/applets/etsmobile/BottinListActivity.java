@@ -170,15 +170,18 @@ public class BottinListActivity extends ListActivity implements
 				Log.d(BottinListActivity.LOG_TAG, "filter input  :"
 						+ constraint);
 
-				String[] args = new String[SELECTION_ARGS.length];
-				for (int i = 0; i < SELECTION_ARGS.length; i++) {
+				final String[] args = new String[BottinListActivity.PROJECTION.length];
+				for (int i = 0; i < args.length; i++) {
 					args[i] = "%" + constraint + "%";
+//					Log.d("Args", args[i]);
 				}
 
 				return getContentResolver().query(
 						ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-						PROJECTION, "where nom=? or prenom=?",
-						args, "nom ASC");
+						new String[] { BottinTableHelper.BOTTIN__ID,
+								BottinTableHelper.BOTTIN_NOM,
+								BottinTableHelper.BOTTIN_PRENOM },
+						"nom=? or prenom=?", args, "nom ASC");
 			}
 		});
 		setListAdapter(simpleCursor);
