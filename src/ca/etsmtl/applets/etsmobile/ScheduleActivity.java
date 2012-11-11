@@ -49,8 +49,6 @@ public class ScheduleActivity extends Activity {
 
 					act.currentGridView
 							.setSessions((ArrayList<Session>) msg.obj);
-					act.nextGridView.setSessions((ArrayList<Session>) msg.obj);
-					act.prevGridView.setSessions((ArrayList<Session>) msg.obj);
 
 					act.currentGridView.setCurrentCell(null);
 
@@ -63,7 +61,7 @@ public class ScheduleActivity extends Activity {
 						act.currentGridView.getCurrentCell().setChanged();
 						act.currentGridView.getCurrentCell().notifyObservers();
 					}
-					act.current.deleteObserver(act.currentGridView);
+				
 				}
 				break;
 			default:
@@ -74,7 +72,7 @@ public class ScheduleActivity extends Activity {
 	}
 
 	private CurrentCalendar current;
-	private NumGridView prevGridView, currentGridView, nextGridView;
+	private NumGridView currentGridView;
 	private CalendarEventsListView lst_cours;
 	private NavBar navBar;
 
@@ -98,39 +96,26 @@ public class ScheduleActivity extends Activity {
 				} else {
 					if (cell.getDate().before(current.getCalendar().getTime())) {
 
-						currentGridView.update(null, prevGridView.getCurrent()
-								.clone());
-						currentGridView.setCurrentCell(x, y);
-						currentGridView.invalidate();
 
 						current.previousMonth();
-						slideDown();
-
-						cell = prevGridView.getCell(x,
-								prevGridView.getmCellCountY() - 1);
-
+						cell = v.getCell(x, v.getmCellCountY()-1);
 						cell.addObserver(lst_cours);
 						cell.setChanged();
 						cell.notifyObservers();
-						prevGridView.setCurrentCell(cell);
+						v.setCurrentCell(cell);
+			
 
 					} else if (cell.getDate().after(
 							current.getCalendar().getTime())) {
 
-						currentGridView.update(null, nextGridView.getCurrent()
-								.clone());
-						currentGridView.setCurrentCell(x, y);
-						currentGridView.invalidate();
-
+						
 						current.nextMonth();
-						slideUp();
-
-						cell = nextGridView.getCell(x, 0);
-
+						cell = v.getCell( x, 0);
 						cell.addObserver(lst_cours);
 						cell.setChanged();
 						cell.notifyObservers();
-						nextGridView.setCurrentCell(cell);
+						v.setCurrentCell(cell);
+					
 
 					}
 				}
@@ -154,7 +139,7 @@ public class ScheduleActivity extends Activity {
 		// set the navigation bar
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_horaire_title);
-		navBar.hideRightButton();
+
 
 		// set the gridview containing the day names
 		final String[] day_names = getResources().getStringArray(
@@ -171,42 +156,22 @@ public class ScheduleActivity extends Activity {
 		btn_previous.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-
-				// currentGridView.setActivities(current.getActivities());
-				currentGridView.update(null, prevGridView.getCurrent().clone());
-				currentGridView.setCurrentCell(prevGridView.getCurrentCell());
-				currentGridView.invalidate();
-
 				current.previousMonth();
-				slideDown();
-
 			}
 		});
 		btn_next.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-
-				// currentGridView.setActivities(current.getActivities());
-				currentGridView.update(null, nextGridView.getCurrent().clone());
-				currentGridView.setCurrentCell(nextGridView.getCurrentCell());
-				currentGridView.invalidate();
-
 				current.nextMonth();
-				slideUp();
-
 			}
 		});
 
 		// set the calendar view
-		prevGridView = (NumGridView) findViewById(R.id.numgridview1);
-		prevGridView.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
-		currentGridView = (NumGridView) findViewById(R.id.numgridview2);
+		currentGridView = (NumGridView) findViewById(R.id.calendar_view);
 		currentGridView
 				.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
-		nextGridView = (NumGridView) findViewById(R.id.numgridview3);
-		nextGridView.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
 		// Affiche le mois courant
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
@@ -214,9 +179,9 @@ public class ScheduleActivity extends Activity {
 		current = new CurrentCalendar();
 		// initialisation des observers
 
-		current.addObserver(prevGridView);
+	
 		current.addObserver(currentGridView);
-		current.addObserver(nextGridView);
+
 		current.addObserver(txtcalendar_title);
 
 		current.setChanged();
@@ -228,71 +193,24 @@ public class ScheduleActivity extends Activity {
 
 		currentGridView.getCurrentCell().setChanged();
 		currentGridView.getCurrentCell().notifyObservers();
+		
+		navBar.setRightButtonText("Ajd.");
+		navBar.showRightButton();
+		navBar.setRightButtonAction(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				currentGridView.getCurrentCell().deleteObservers();
+				currentGridView.setCurrentCell(null);
+				
+				current.setToday();
+				
+				currentGridView.getCurrentCell().addObserver(lst_cours);
+				currentGridView.getCurrentCell().setChanged();
+				currentGridView.getCurrentCell().notifyObservers();
+			}
+		});
 
-		currentGridView.setVisibility(View.VISIBLE);
-
-	}
-
-	/**
-	 * Prev Month animation
-	 */
-	public void slideDown() {
-		currentGridView.setOnCellTouchListener(null);
-
-		nextGridView.clearAnimation();
-		nextGridView.setVisibility(View.GONE);
-		TranslateAnimation slide;
-
-		slide = new TranslateAnimation(0, 0, prevGridView.getHeight() * -1.0f,
-				0);
-		slide.setDuration(1000);
-		slide.setFillAfter(true);
-		prevGridView.startAnimation(slide);
-		prevGridView.setVisibility(View.VISIBLE);
-
-		slide = new TranslateAnimation(0, 0, 0, currentGridView.getHeight()
-				+ currentGridView.getCellHeight());
-		slide.setDuration(1000);
-		slide.setFillAfter(true);
-
-		currentGridView.startAnimation(slide);
-
-		currentGridView.setVisibility(View.GONE);
 
 	}
 
-	/**
-	 * Next Month animation
-	 */
-	public void slideUp() {
-		currentGridView.setOnCellTouchListener(null);
-
-		prevGridView.clearAnimation();
-		prevGridView.setVisibility(View.GONE);
-
-		// éviter d'avoir le OnCellTouchListener de la grille1 par dessus la
-		// grille 3 (superposition)
-		prevGridView.layout(prevGridView.getLeft(), prevGridView.getTop()
-				- prevGridView.getHeight(), prevGridView.getRight(),
-				prevGridView.getBottom() - prevGridView.getHeight());
-
-		TranslateAnimation slide = new TranslateAnimation(0, 0,
-				currentGridView.getHeight() + currentGridView.getCellHeight(),
-				0);
-		slide.setDuration(1000);
-		slide.setFillAfter(true);
-		nextGridView.startAnimation(slide);
-
-		nextGridView.setVisibility(View.VISIBLE);
-
-		slide = new TranslateAnimation(0, 0, 0, currentGridView.getHeight()
-				* -1.0f);
-		slide.setDuration(1000);
-		slide.setFillAfter(true);
-
-		currentGridView.startAnimation(slide);
-
-		currentGridView.setVisibility(View.GONE);
-
-	}
 }

@@ -64,6 +64,9 @@ public class Session implements Serializable, Comparable<Session> {
 		formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			date = formatter.parse(getDateFinString());
+			date.setHours(23);
+			date.setMinutes(59);
+			date.setSeconds(59);
 		} catch (final ParseException e) {
 			date = null;
 		}
@@ -82,6 +85,9 @@ public class Session implements Serializable, Comparable<Session> {
 		formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			date = formatter.parse(getDateFinCoursString());
+			date.setHours(23);
+			date.setMinutes(59);
+			date.setSeconds(59);
 		} catch (final ParseException e) {
 			date = null;
 		}

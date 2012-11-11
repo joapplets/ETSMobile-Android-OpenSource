@@ -60,32 +60,15 @@
         android:layout_weight="0.52"
         android:orientation="vertical" >
 
+
         <ca.etsmtl.applets.etsmobile.views.NumGridView
-            android:id="@+id/numgridview1"
+            android:id="@+id/calendar_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollHorizontally="true"
-            android:visibility="gone"
             numgrid:cellCountX="7"
             numgrid:cellCountY="6" />
 
-        <ca.etsmtl.applets.etsmobile.views.NumGridView
-            android:id="@+id/numgridview2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollHorizontally="true"
-            android:visibility="gone"
-            numgrid:cellCountX="7"
-            numgrid:cellCountY="6" />
-
-        <ca.etsmtl.applets.etsmobile.views.NumGridView
-            android:id="@+id/numgridview3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollHorizontally="true"
-            android:visibility="gone"
-            numgrid:cellCountX="7"
-            numgrid:cellCountY="6" />
     </LinearLayout>
 
     <ca.etsmtl.applets.etsmobile.views.CalendarEventsListView
