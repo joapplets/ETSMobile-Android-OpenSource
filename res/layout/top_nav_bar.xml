@@ -33,6 +33,7 @@
         style="@style/etsBtn"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@drawable/nav_right_button_selector"
         android:text="@string/news_list_view_btnSources" />
 
 </LinearLayout>

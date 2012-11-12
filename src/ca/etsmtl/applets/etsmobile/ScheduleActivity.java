@@ -148,6 +148,8 @@ public class ScheduleActivity extends Activity {
 		final GridView grid = (GridView) findViewById(R.id.gridDayNames);
 		grid.setAdapter(new ArrayAdapter<String>(this, R.layout.day_name,
 				day_names));
+		
+	
 
 		// set next and previous buttons
 		final ImageButton btn_previous = (ImageButton) findViewById(R.id.btn_previous);
