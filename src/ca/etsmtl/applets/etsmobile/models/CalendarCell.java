@@ -11,6 +11,8 @@ public class CalendarCell extends Observable implements
 		Collection<ActivityCalendar> {
 
 	List<ActivityCalendar> events;
+
+
 	Date date;
 
 	public CalendarCell() {
@@ -21,6 +23,16 @@ public class CalendarCell extends Observable implements
 		events = new ArrayList<ActivityCalendar>();
 		this.date = date;
 	}
+	
+	
+	public List<ActivityCalendar> getEvents() {
+		return events;
+	}
+
+	public void setEvents(final List<ActivityCalendar> events) {
+		this.events = events;
+	}
+	
 
 	@Override
 	public boolean add(final ActivityCalendar object) {

@@ -27,6 +27,7 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 	private String groupe;
 
 	private int eventDrawableResId;
+	
 
 	@Override
 	public int compareTo(final ActivityCalendar another) {

@@ -29,6 +29,8 @@ public class Session implements Serializable, Comparable<Session> {
 	private String dateFinCoursString;
 
 	private List<ActivityCalendar> activities;
+	
+	private List<JoursRemplaces> joursRemplaces;
 
 	@Override
 	public int compareTo(final Session s) {
@@ -163,5 +165,13 @@ public class Session implements Serializable, Comparable<Session> {
 	@Override
 	public String toString() {
 		return getLongName();
+	}
+
+	public List<JoursRemplaces> getJoursRemplaces() {
+		return joursRemplaces;
+	}
+
+	public void setJoursRemplaces(List<JoursRemplaces> joursRemplaces) {
+		this.joursRemplaces = joursRemplaces;
 	}
 }

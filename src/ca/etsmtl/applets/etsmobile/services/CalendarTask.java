@@ -10,6 +10,7 @@ import ca.etsmtl.applets.etsmobile.ScheduleActivity.CalendarTaskHandler;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
+import ca.etsmtl.applets.etsmobile.models.JoursRemplaces;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
@@ -34,6 +35,17 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 			session = currentSession.getShortName();
 		}
 	}
+	
+	private class LireJoursRemplaces {
+
+		@SerializedName("pSession")
+		private final String session;
+
+		public LireJoursRemplaces(final Session currentSession) {
+			// TODO Auto-generated constructor stub
+			session = currentSession.getShortName();
+		}
+	}
 
 	public static final int ON_POST_EXEC = 10;
 	private final CalendarTaskHandler handler;
@@ -51,6 +63,8 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 		for (final Session s : sessions) {
 			s.setActivities(getCoursIntervalSession(
 					(UserCredentials) params[0], s));
+			
+			s.setJoursRemplaces(getJoursRemplacesSession(s));
 		}
 
 		return sessions;
@@ -84,6 +98,39 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
+	}
+	
+	/**
+	 * Donne la liste des jours remplaces dans une session
+	 * 
+	 * @param creds
+	 * @param currentSession
+	 * 
+	 * @return
+	 */
+	private ArrayList<JoursRemplaces> getJoursRemplacesSession(
+			 final Session currentSession) {
+		
+		
+		try {
+			final LireJoursRemplaces listeJoursRemplaces = new LireJoursRemplaces(currentSession);
+			final SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces> signetBackgroundThead = new SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces>(
+					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
+					"lireJoursRemplaces", listeJoursRemplaces,
+					JoursRemplaces.class, FetchType.ARRAY, "listeJours");
+
+			signetBackgroundThead.execute();
+
+			return signetBackgroundThead.get();
+		} catch (final InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (final ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
