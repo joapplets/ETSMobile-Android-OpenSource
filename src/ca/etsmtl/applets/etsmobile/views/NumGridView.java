@@ -437,17 +437,6 @@ public class NumGridView extends View implements Observer {
 	public void setSessions(final ArrayList<Session> obj) {
 
 		sessions = obj;
-		
-		for(Session s : obj)
-		{
-			System.out.println(s.getShortName());
-			for(JoursRemplaces j: s.getJoursRemplaces())
-			{
-				System.out.println(j.getDateOrigine());
-				System.out.println(j.getDateRemplacement());
-				System.out.println(j.getDescription());
-			}
-		}
 
 	}
 
