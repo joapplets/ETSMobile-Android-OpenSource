@@ -194,7 +194,7 @@ public class ScheduleActivity extends Activity {
 		currentGridView.getCurrentCell().setChanged();
 		currentGridView.getCurrentCell().notifyObservers();
 		
-		navBar.setRightButtonText("Ajd.");
+		navBar.setRightButtonText(R.string.Ajourdhui);
 		navBar.showRightButton();
 		navBar.setRightButtonAction(new View.OnClickListener() {
 			@Override

@@ -22,12 +22,13 @@
     <Button
         android:id="@+id/base_bar_source_btn"
         style="@style/etsBtn"
+        android:background="@drawable/nav_right_button_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/news_list_view_btnSources" />
-
+
     <ImageButton
         android:id="@+id/base_bar_home_btn"
         style="@style/btnHome"

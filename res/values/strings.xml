@@ -50,7 +50,9 @@
     <string name="secu_ext">Poste 55</string>
     <string name="secu_title">Sécurité</string>
     <string name="welcome">Bienvenue!</string>
-
+	<string name="Ajourdhui">Ajd.</string>
+	
+	
     <string-array name="secu_urgence">
         <item>Appel à la bombe</item>
         <item>Colis suspect</item>
