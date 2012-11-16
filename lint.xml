@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="BackButton" severity="warning" />
+    <issue id="FieldGetter" severity="warning" />
+    <issue id="IconExpectedSize" severity="warning" />
     <issue id="ParserError">
         <ignore path="src\ca\etsmtl\applets\etsmobile\SingleNewsActivity.java" />
         <ignore path="src\ca\etsmtl\applets\etsmobile\tools\db\BottinDBAdapter.java" />
     </issue>
+    <issue id="TypographyQuotes" severity="warning" />
+    <issue id="UnusedIds" severity="warning" />
 </lint>
