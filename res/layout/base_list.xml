@@ -6,22 +6,21 @@
     android:layout_height="fill_parent"
     android:background="@color/white"
     android:orientation="vertical" >
-
+
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/search_nav_bar" />
-
+
     <ListView
         android:id="@android:id/list"
-        android:cacheColorHint="@android:color/transparent" 
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:cacheColorHint="@android:color/transparent"
         android:choiceMode="singleChoice"
-        android:divider="@color/list_separator_color"
+        android:divider="@drawable/divider_horizontal_dark_opaque"
         android:dividerHeight="1dip"
         tools:listitem="@layout/bottin_list_item" >
-
     </ListView>
 
 </LinearLayout>

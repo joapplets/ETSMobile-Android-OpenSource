@@ -44,7 +44,8 @@ public class ProfileActivity extends Activity implements OnClickListener,
 				final StudentProfile studentProfile = (StudentProfile) data
 						.get(ProfileTask.PROFILE_KEY);
 
-				if (studentProfile.getSolde().equals("")
+				if (studentProfile != null
+						&& studentProfile.getSolde().equals("")
 						&& studentProfile.getNom().equals("")
 						&& studentProfile.getPrenom().equals("")) {
 					Toast.makeText(
@@ -102,6 +103,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 			navBar.showLoading();
 			new ProfileTask(handler).execute(creds);
 		} else {
+			showDialog(SHOW_LOGIN);
 			text = getString(R.string.login);
 			tag = false;
 		}
@@ -175,6 +177,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_profil_title);
 		navBar.hideRightButton();
+		navBar.hideLoading();
 
 		name = (TextView) findViewById(R.id.student_profile_name);
 		lastname = (TextView) findViewById(R.id.student_profile_lastname);

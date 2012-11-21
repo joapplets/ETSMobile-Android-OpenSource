@@ -170,9 +170,9 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		return 0;
 	}
 
-	private String getRequestedTable(final String path) {
+	private String getRequestedTable(final String path) { 
 		String tableName = "";
-		if (path.contains(ETSMobileContentProvider.NEWS_PATH)) {
+	 	if (path.contains(ETSMobileContentProvider.NEWS_PATH)) {
 			tableName = NewsTableHelper.TABLE_NAME;
 		} else {
 			tableName = BottinTableHelper.TABLE_NAME;
@@ -212,7 +212,7 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			} catch (final IllegalStateException e) {
 			} finally {
 				writable.endTransaction();
-				writable.close();
+				// writable.close();
 				getContext().getContentResolver().notifyChange(uri, null);
 			}
 			return uri;
@@ -270,7 +270,7 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 						uri);
 			}
 		} catch (final SQLiteMisuseException e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 			return cursor;
 		}
 		return cursor;

@@ -11,10 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/empty_nav_bar" />
-
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="@color/white" >
 
         <ImageButton
             android:id="@+id/btn_previous"
@@ -24,13 +25,14 @@
             android:background="@null"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_previous_item" />
-
+
         <ca.etsmtl.applets.etsmobile.views.CalendarTextView
             android:id="@+id/calendar_title"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="0.19"
             android:gravity="center"
+            android:textColor="@color/black"
             android:textSize="30dp" />
 
         <ImageButton
@@ -43,22 +45,25 @@
             android:gravity="right"
             android:src="@drawable/ic_next_item" />
     </LinearLayout>
-
+
     <GridView
         android:id="@+id/gridDayNames"
         android:listSelector="#00000000"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_gravity="center"
+        android:background="@color/white"
         android:gravity="center_horizontal"
         android:numColumns="7" >
-    </GridView>
 
+    </GridView>
+
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.52"
+        android:background="@color/white"
         android:orientation="vertical" >
 
 
@@ -71,12 +76,14 @@
             numgrid:cellCountY="6" />
 
     </LinearLayout>
-
+
     <ca.etsmtl.applets.etsmobile.views.CalendarEventsListView
         android:id="@+id/lst_cours"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.23"
-        android:cacheColorHint="@android:color/transparent" />
+        android:background="@color/white"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@drawable/divider_horizontal_dark_opaque" />
 
 </LinearLayout>
