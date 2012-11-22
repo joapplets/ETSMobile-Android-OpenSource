@@ -1,5 +1,8 @@
 package ca.etsmtl.applets.etsmobile.adapters;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
 
 import android.content.Context;
@@ -19,6 +22,7 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 	private static final int ITEM_VIEW_TYPE_SEPARATOR = 1;
 	private static final int ITEM_VIEW_TYPE_COUNT = 2;
 	private final CourseEvaluation courseEvaluation;
+	private int total;
 
 	public MyCourseDetailAdapter(final Context context,
 			final int textViewResourceId,
@@ -26,6 +30,14 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 			final CourseEvaluation courseEvaluation) {
 		super(context, textViewResourceId, objects);
 		this.courseEvaluation = courseEvaluation;
+
+		for (EvaluationElement evaluationElement : courseEvaluation
+				.getEvaluationElements()) {
+			if (evaluationElement.getEcartType() != null
+					&& !evaluationElement.getEcartType().equals("")) {
+				total += Integer.parseInt(evaluationElement.getPonderation());
+			}
+		}
 	}
 
 	@Override
@@ -81,6 +93,7 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 						.setText(R.string.mesNotes);
 			}
 		} else {
+			NumberFormat nf = new DecimalFormat("##,#");
 			switch (position) {
 			case 1:
 				((TextView) view.findViewById(R.id.textView))
@@ -97,8 +110,15 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 			case 3:
 				((TextView) view.findViewById(R.id.textView))
 						.setText(getContext().getString(R.string.moyenne));
-				((TextView) view.findViewById(R.id.value))
-						.setText(courseEvaluation.getMoyenneClasse());
+				String m = courseEvaluation.getMoyenneClasse();
+				try {
+					double n = nf.parse(m).doubleValue();
+					double moy = (n / total);
+					((TextView) view.findViewById(R.id.value)).setText(""
+							+ nf.format(moy));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				break;
 			case 4:
 				((TextView) view.findViewById(R.id.textView))
@@ -109,8 +129,15 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 			case 5:
 				((TextView) view.findViewById(R.id.textView))
 						.setText(getContext().getString(R.string.mediane));
-				((TextView) view.findViewById(R.id.value))
-						.setText(courseEvaluation.getMedianeClasse());
+				String n = courseEvaluation.getMedianeClasse();
+				try {
+					double med = (nf.parse(n).doubleValue() / total);
+					((TextView) view.findViewById(R.id.value)).setText(""
+							+ nf.format(med));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			case 6:
 				((TextView) view.findViewById(R.id.textView))
