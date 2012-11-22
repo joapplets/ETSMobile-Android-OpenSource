@@ -3,6 +3,7 @@ package ca.etsmtl.applets.etsmobile.tools.xml;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -50,7 +51,7 @@ public class XMLNewsParser extends XMLAbstractHandler {
 	private News news;
 
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"EEE, d MMM yyyy HH:mm:ss z");
+			"EEE, d MMM yyyy HH:mm:ss z", Locale.getDefault());
 
 	public XMLNewsParser(final String source, final ArrayList<String> guids,
 			final ObservableBundle bundle) {
