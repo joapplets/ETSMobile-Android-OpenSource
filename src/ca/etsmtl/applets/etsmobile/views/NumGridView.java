@@ -19,7 +19,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import ca.etsmtl.applets.etsmobile.R;
@@ -309,28 +308,19 @@ public class NumGridView extends View implements Observer {
 
 				int i = 0;
 
-				final float radius = (float) ((float) mCellWidth / (75F * (float) maxIndicators));
-				// Log.d("RADIUS", ""+radius);
-				final float startpos = dx
-						+ tx
-						- ((2 * cell.size() + cell.size() - 1) * radius / 2 - radius);
-
+				final float radius = mCellWidth / (75F * maxIndicators);
 				ActivityCalendar event;
 				while (it.hasNext()) {
 					event = it.next();
 
-					int resid = event.getDrawableResId();
-					final Drawable d = getResources().getDrawable(dots[resid]);
+					final int resid = event.getDrawableResId();
+					final Drawable d = getResources().getDrawable(
+							NumGridView.dots[resid]);
 
-					// int left = (int) (startpos * i++ * radius)+30;
-					// int top = (int) (dy + mCellHeight * radius);
-					// int right = left + d.getMinimumWidth();
-					// int bottom = top + d.getMinimumHeight();
-
-					int left = dx + (15 * i++) + 15;
-					int top = (int) (dy + tx + 15);
-					int right = left + d.getMinimumWidth();
-					int bottom = top + d.getMinimumHeight();
+					final int left = dx + 20 * i++ +5;
+					final int top = dy + tx + 15;
+					final int right = left + d.getMinimumWidth();
+					final int bottom = top + d.getMinimumHeight();
 
 					d.setBounds(left, top, right, bottom);
 					d.draw(canvas);

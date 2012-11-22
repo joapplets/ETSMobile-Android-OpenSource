@@ -18,12 +18,14 @@ import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AlphabetIndexer;
 import android.widget.FilterQueryProvider;
-import android.widget.ImageButton;
+import android.widget.SectionIndexer;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
@@ -31,8 +33,8 @@ import ca.etsmtl.applets.etsmobile.services.BottinService;
 import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
-public class BottinListActivity extends ListActivity implements
-		OnClickListener, TextWatcher, OnItemClickListener {
+public class BottinListActivity extends ListActivity implements TextWatcher,
+		OnItemClickListener {
 	private class ManualFetcher extends AsyncTask<BottinBinder, Void, Void> {
 
 		@Override
@@ -53,8 +55,6 @@ public class BottinListActivity extends ListActivity implements
 		@Override
 		protected void onPostExecute(final Void result) {
 			try {
-				// footer.startAnimation(hideFooter());
-				// footerVisible = false;
 				dismissDialog(BottinListActivity.ALERT_LOADING);
 				unbindService(connection);
 			} catch (final IllegalArgumentException e) {
@@ -64,11 +64,77 @@ public class BottinListActivity extends ListActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			// footer.setVisibility(View.VISIBLE);
-			// footer.startAnimation(showFooter());
-			// footerVisible = true;
 			showDialog(BottinListActivity.ALERT_LOADING);
 			super.onPreExecute();
+		}
+
+	}
+
+	private class MyCursorAdapter extends SimpleCursorAdapter implements
+			SectionIndexer {
+
+		private AlphabetIndexer mAlphabetIndexer;
+
+		public MyCursorAdapter(Context context, Cursor cursor,
+				String[] strings, int[] is) {
+			super(context, R.layout.bottin_list_item, cursor, strings, is);
+
+			mAlphabetIndexer = new AlphabetIndexer(cursor,
+					cursor.getColumnIndex("nom"), "ABCDEFGHIJKLMNOPQRTSUVWXYZ");
+			mAlphabetIndexer.setCursor(cursor);// Sets a new cursor as the data
+												// set and resets the cache of
+												// indices.
+
+		}
+
+		/**
+		 * Performs a binary search or cache lookup to find the first row that
+		 * matches a given section's starting letter.
+		 */
+		@Override
+		public int getPositionForSection(int sectionIndex) {
+			return mAlphabetIndexer.getPositionForSection(sectionIndex);
+		}
+
+		/**
+		 * Returns the section index for a given position in the list by
+		 * querying the item and comparing it with all items in the section
+		 * array.
+		 */
+		@Override
+		public int getSectionForPosition(int position) {
+			return mAlphabetIndexer.getSectionForPosition(position);
+		}
+
+		/**
+		 * Returns the section array constructed from the alphabet provided in
+		 * the constructor.
+		 */
+		@Override
+		public Object[] getSections() {
+			return mAlphabetIndexer.getSections();
+		}
+
+		/**
+		 * Bind an existing view to the data pointed to by cursor
+		 */
+		@Override
+		public void bindView(View view, Context context, Cursor cursor) {
+			TextView txtView = (TextView) view.findViewById(android.R.id.text1);
+			String nom = cursor.getString(cursor.getColumnIndex("nom"));
+			String prenom = cursor.getString(cursor.getColumnIndex("prenom"));
+			txtView.setText(nom + ", " + prenom);
+		}
+
+		/**
+		 * Makes a new view to hold the data pointed to by cursor.
+		 */
+		@Override
+		public View newView(Context context, Cursor cursor, ViewGroup parent) {
+			LayoutInflater inflater = LayoutInflater.from(context);
+			View newView = inflater.inflate(
+					android.R.layout.simple_list_item_1, parent, false);
+			return newView;
 		}
 
 	}
@@ -138,61 +204,11 @@ public class BottinListActivity extends ListActivity implements
 	}
 
 	@Override
-	public void onClick(final View v) {
-		switch (v.getId()) {
-		case R.id.search_nav_bar_home_btn:
-			finish();
-			break;
-		default:
-			break;
-		}
-	}
-
-	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base_list);
 
-		// uiHandler = new Handler();
-		allEntryCursor = managedQuery(
-				ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-				BottinListActivity.DB_COLS, null,
-				BottinListActivity.SELECTION_ARGS, "nom ASC");
-		// cursor adapter is faster
-		simpleCursor = new SimpleCursorAdapter(this, R.layout.bottin_list_item,
-				allEntryCursor, BottinListActivity.PROJECTION,
-				BottinListActivity.TXT_VIEWS);
-
-		simpleCursor.setFilterQueryProvider(new FilterQueryProvider() {
-
-			@Override
-			public Cursor runQuery(final CharSequence constraint) {
-				Log.d(BottinListActivity.LOG_TAG, "filter input  :"
-						+ constraint);
-
-				final String[] args = new String[BottinListActivity.PROJECTION.length];
-				for (int i = 0; i < args.length; i++) {
-					args[i] = "%" + constraint + "%";
-//					Log.d("Args", args[i]);
-				}
-
-				return getContentResolver().query(
-						ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-						new String[] { BottinTableHelper.BOTTIN__ID,
-								BottinTableHelper.BOTTIN_NOM,
-								BottinTableHelper.BOTTIN_PRENOM },
-						"nom=? or prenom=?", args, "nom ASC");
-			}
-		});
-		setListAdapter(simpleCursor);
 		getListView().setOnItemClickListener(this);
-
-		/**
-		 * SEARCH NAV BAR TODO: Create custom View -> SearchBar
-		 * */
-		// home btn
-		((ImageButton) findViewById(R.id.search_nav_bar_home_btn))
-				.setOnClickListener(this);
 
 		// init textview with filter options
 		txtView = (TextView) findViewById(R.id.search_nav_bar_autotxt);
@@ -265,24 +281,53 @@ public class BottinListActivity extends ListActivity implements
 	protected void onResume() {
 		allEntryCursor = managedQuery(
 				ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-				BottinListActivity.DB_COLS, null,
-				BottinListActivity.SELECTION_ARGS, "nom ASC");
+				BottinListActivity.DB_COLS, null, null, "nom ASC");
 		if (allEntryCursor.getCount() == 0) {
 			showDialog(BottinListActivity.ALERT_INIT_BOTTIN);
-			// connectToFetcherService();
 		} else {
-			allEntryCursor = managedQuery(
-					ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-					BottinListActivity.DB_COLS, null, null, "nom ASC");
-			simpleCursor.notifyDataSetChanged();
+
+			// cursor adapter is faster
+			simpleCursor = new MyCursorAdapter(this, allEntryCursor,
+					PROJECTION, TXT_VIEWS);
+
+			simpleCursor.setFilterQueryProvider(new FilterQueryProvider() {
+
+				@Override
+				public Cursor runQuery(final CharSequence constraint) {
+					Log.d(BottinListActivity.LOG_TAG, "filter input  :"
+							+ constraint);
+
+					String where = null;
+					String[] args = new String[BottinListActivity.PROJECTION.length];
+					if (constraint != "") {
+						for (int i = 0; i < args.length; i++) {
+							args[i] = "%" + (String) constraint + "%";
+							Log.d("Args", args[i]);
+						}
+						where = "nom LIKE ? OR prenom LIKE ?";
+					} else {
+						args = null;
+					}
+
+					return getContentResolver().query(
+							ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+							new String[] { BottinTableHelper.BOTTIN__ID,
+									BottinTableHelper.BOTTIN_NOM,
+									BottinTableHelper.BOTTIN_PRENOM }, where,
+							args, null);
+				}
+			});
+			setListAdapter(simpleCursor);
 		}
 		super.onResume();
 	}
 
 	@Override
-	public void onTextChanged(final CharSequence s, final int start,
+	public void onTextChanged(CharSequence s, final int start,
 			final int before, final int count) {
 		if (simpleCursor != null) {
+			if (s == "")
+				s = "%";
 			simpleCursor.getFilter().filter(s);
 		}
 	}

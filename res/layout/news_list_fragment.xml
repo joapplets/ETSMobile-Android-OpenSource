@@ -7,28 +7,27 @@
     android:background="#FFFFFF"
     android:orientation="vertical"
     tools:context=".NewsListActivity" >
-    
+
     <TextView
         android:id="@+id/listView_loading"
-        android:background="@drawable/loading_border"
         android:layout_width="fill_parent"
         android:layout_height="25dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/loading_border"
         android:drawableLeft="@drawable/loading_icon"
         android:gravity="center_horizontal"
         android:paddingLeft="5dip"
         android:paddingTop="2dip"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:text="@string/loading">
+        android:text="@string/loading"
+        android:visibility="gone" >
     </TextView>
-
+
     <ca.etsmtl.applets.etsmobile.views.NavBar
         android:id="@+id/navBar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" >
-
     </ca.etsmtl.applets.etsmobile.views.NavBar>
 
     <fragment
@@ -38,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/navBar1" />
-    
+        android:layout_below="@+id/navBar1"
+        android:divider="@drawable/divider_horizontal_dark_opaque" />
+
 </RelativeLayout>

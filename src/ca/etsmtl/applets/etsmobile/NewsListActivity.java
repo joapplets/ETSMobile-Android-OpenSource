@@ -173,8 +173,9 @@ public class NewsListActivity extends FragmentActivity implements
 		final NewsListFragment frag = (NewsListFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.newsList_fragment);
 
-		frag.getListView().setVerticalFadingEdgeEnabled(true);
-		frag.getListView().setFadingEdgeLength(12);
+//		frag.getListView().setVerticalFadingEdgeEnabled(true);
+//		frag.getListView().setFadingEdgeLength(12);
+//		frag.getListView().setDivider(getResources().)
 		frag.getLoaderManager().restartLoader(NewsListFragment.ID, null, frag);
 
 		final SharedPreferences prefs = getSharedPreferences("dbpref",

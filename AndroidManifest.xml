@@ -60,8 +60,7 @@
         <activity
             android:name=".BottinListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CourseListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
@@ -70,7 +69,10 @@
             android:name=".CoopActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        <activity android:name=".ScheduleActivity" />
+        <activity
+            android:name=".ScheduleActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ScheduleDetailActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
