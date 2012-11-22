@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteMisuseException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
@@ -95,26 +96,12 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		// String where =
 		// " nom like ? OR prenom like ? OR service like ? or emplacement like ? or courriel like ? or titre like ?";
 		String where = "";
-
 		for (int i = 0; i < columns.length - 1; i++) {
-			where += columns[i] + " like ? OR ";
+			if (columns[i] != "_id") {
+				where += columns[i] + " like ? OR ";
+			}
 		}
 		where += columns[columns.length - 1] + " like ? ";
-		// queryBuilder.appendWhere(where);
-
-		// if (selectionArgs == null) {
-		// selectionArgs = new String[columns.length];
-		// for (int i = 0; i < columns.length; i++) {
-		// selectionArgs[i] = "%";
-		// }
-		// } else if (selectionArgs.length == 1) {
-		// final String sel = selectionArgs[0];
-		// selectionArgs = new String[columns.length];
-		// for (int i = 0; i < columns.length; i++) {
-		// selectionArgs[i] = "%" + sel + "%";
-		// }
-		//
-		// }
 		return where;
 	}
 
@@ -170,9 +157,9 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		return 0;
 	}
 
-	private String getRequestedTable(final String path) { 
+	private String getRequestedTable(final String path) {
 		String tableName = "";
-	 	if (path.contains(ETSMobileContentProvider.NEWS_PATH)) {
+		if (path.contains(ETSMobileContentProvider.NEWS_PATH)) {
 			tableName = NewsTableHelper.TABLE_NAME;
 		} else {
 			tableName = BottinTableHelper.TABLE_NAME;
@@ -248,8 +235,6 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			break;
 		case ALL_BOTTIN:
 			queryBuilder.setTables(BottinTableHelper.TABLE_NAME);
-			selection = buildBottinQueryAll(columns, selectionArgs,
-					queryBuilder);
 			break;
 		case SINGLE_BOTTIN:
 			queryBuilder.setTables(BottinTableHelper.TABLE_NAME);

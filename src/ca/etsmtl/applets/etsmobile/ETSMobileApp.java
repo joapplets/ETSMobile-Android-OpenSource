@@ -10,7 +10,7 @@ public class ETSMobileApp extends Application {
 
 	@Override
 	public void onCreate() {
-		ACRA.init(this);
+//		ACRA.init(this);
 		super.onCreate();
 	}
 }

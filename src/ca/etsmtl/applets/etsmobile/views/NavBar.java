@@ -23,21 +23,16 @@ public class NavBar extends RelativeLayout {
 	private ProgressBar loading;
 	private TextView txtTitle;
 
-	public NavBar(final Context context) {
-		super(context);
-
-	}
-
 	public NavBar(final Context context, final AttributeSet attrs) {
 		super(context, attrs);
 
-		final LayoutInflater layoutInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		root_layout = (RelativeLayout) layoutInflater.inflate(R.layout.nav_bar,
-				this, true);
-
 		if (!isInEditMode()) {
+			final LayoutInflater layoutInflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			root_layout = (RelativeLayout) layoutInflater.inflate(
+					R.layout.nav_bar, this, true);
 			init();
+
 		}
 	}
 
@@ -52,11 +47,11 @@ public class NavBar extends RelativeLayout {
 	public void hideRightButton() {
 		rightBtn.setVisibility(View.INVISIBLE);
 	}
-	
+
 	public void showRightButton() {
 		rightBtn.setVisibility(View.VISIBLE);
 	}
-	
+
 	public void setRightButtonText(String text) {
 		rightBtn.setText(text);
 	}
@@ -64,7 +59,6 @@ public class NavBar extends RelativeLayout {
 	public void setRightButtonText(int resid) {
 		rightBtn.setText(resid);
 	}
-	
 
 	public void hideTitle() {
 		imageTitle.setVisibility(View.INVISIBLE);
@@ -92,7 +86,7 @@ public class NavBar extends RelativeLayout {
 	public void setHomeAction(final OnClickListener l) {
 		homeBtn.setOnClickListener(l);
 	}
-	
+
 	public void setRightButtonAction(final OnClickListener l) {
 		rightBtn.setOnClickListener(l);
 	}
