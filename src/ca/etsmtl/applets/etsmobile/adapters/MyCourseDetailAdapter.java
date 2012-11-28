@@ -23,7 +23,7 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 	private static final int ITEM_VIEW_TYPE_SEPARATOR = 1;
 	private static final int ITEM_VIEW_TYPE_COUNT = 2;
 	private final CourseEvaluation courseEvaluation;
-	private int total;
+	private double total;
 
 	public MyCourseDetailAdapter(final Context context,
 			final int textViewResourceId,
@@ -31,11 +31,17 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 			final CourseEvaluation courseEvaluation) {
 		super(context, textViewResourceId, objects);
 		this.courseEvaluation = courseEvaluation;
+		NumberFormat nf = new DecimalFormat("##,#");
 		for (EvaluationElement evaluationElement : courseEvaluation
 				.getEvaluationElements()) {
 			if (evaluationElement.getEcartType() != null
 					&& !evaluationElement.getEcartType().equals("")) {
-				total += Integer.parseInt(evaluationElement.getPonderation());
+				try {
+					total += nf.parse(evaluationElement.getPonderation()).doubleValue();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					Log.e("MyCourseDetailAdapter Parse Error","MyCourseDetailAdapter Parse Error "+ e.getMessage());
+				}
 			}
 		}
 	}
