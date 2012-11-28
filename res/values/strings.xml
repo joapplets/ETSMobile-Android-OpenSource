@@ -50,9 +50,8 @@
     <string name="secu_ext">Poste 55</string>
     <string name="secu_title">Sécurité</string>
     <string name="welcome">Bienvenue!</string>
-	<string name="Ajourdhui">Ajd.</string>
-	
-	
+    <string name="Ajourdhui">Ajd.</string>
+
     <string-array name="secu_urgence">
         <item>Appel à la bombe</item>
         <item>Colis suspect</item>
@@ -99,7 +98,7 @@ utiliser l’ascenseur</li><li>Aider, si nécessaire, les personnes à quitter l
     </string>
     <string name="urgence_resum_pane_asc">
 <![CDATA[<ul><li>Demeurer calme</li><li>Communiquer avec la sécurité à l’aide du bouton d’appel d’urgence ou du téléphone d’urgence en cabine</li><ul><li>Dans l’éventualité où le dispositif pour communiquer avec la sécurité est
-défectueux :</li><li>Utiliser un cellulaire pour joindre la sécurité 514-396-8900</li><li>Frapper sur la porte à l’aide d’un soulier ou tout ordre objet pouvant faire du bruit afin de signaler votre présence</li><li>Criez à l’aide régulièrement jusqu’à ce qu’une personne vienne en aide</li></ul><li>Ne jamais tenter d’ouvrir les portes ou de sortir par la trappe d’accès du plafond</li><li>Dans l’éventualité où; un personne a un malaise ou nécessite une attention médicale appeler immédiatement la sécurité par cellulaire ou si elle ne peut être jointe, composer le 911.</li><li>Si l’état d’une personne se détériore, communiquer à nouveau avec la sécurité ou le 911</li></ul>]]>
+défectueux :</li><li>Utiliser un cellulaire pour joindre la sécurité 514-396-8900</li><li>Frapper sur la porte à l’aide d’un soulier ou tout ordre objet pouvant faire du bruit afin de signaler votre présence</li><li>Criez à l’aide régulièrement jusqu’à ce qu’une personne vienne en aide</li></ul><li>Ne jamais tenter d’ouvrir les portes ou de sortir par la trappe d’accès du plafond</li><li>Dans l’éventualité où un personne a un malaise ou nécessite une attention médicale appeler immédiatement la sécurité par cellulaire ou si elle ne peut être jointe, composer le 911.</li><li>Si l’état d’une personne se détériore, communiquer à nouveau avec la sécurité ou le 911</li></ul>]]>
     </string>
     <string name="urgence_resum_panne_elec">
 <![CDATA[<p>Dès que survient la panne électrique</p><ul><li>Demeurer calme et à son poste de travail.</li><li>Dans l’éventualité où une personne est dans un local sans éclairage, se diriger lentement et avec précautions vers un local avec éclairage naturel en attendant que la situation se rétablisse</li><li>Aller chercher les personnes qui pourraient se trouver dans des locaux
