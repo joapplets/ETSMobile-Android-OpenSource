@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.util.Log;
@@ -101,7 +102,7 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 						.setText(R.string.mesNotes);
 			}
 		} else {
-			NumberFormat nf = new DecimalFormat("##,#");
+			NumberFormat nf = DecimalFormat.getInstance(Locale.CANADA_FRENCH);
 			NumberFormat nfs = new DecimalFormat("##.#");
 			switch (position) {
 			case 1:
