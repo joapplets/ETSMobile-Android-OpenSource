@@ -110,7 +110,7 @@ public class SingleNewsActivity extends Activity {
 			if (source.equals(NewsService.RSS_ETS)) {
 				final Document doc = Jsoup.parse(content);
 				doc.head()
-						.append("<meta name=\"viewport\" content=\"width=device-width; target-densityDpi=device-dpi\">");
+						.append("<meta name=\"viewport\" content=\"width=device-width, target-densityDpi=device-dpi\">");
 				doc.head()
 						.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/rssets.css\">");
 				html = doc.html();
