@@ -32,6 +32,7 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 		super(context, textViewResourceId, objects);
 		this.courseEvaluation = courseEvaluation;
 		NumberFormat nf = new DecimalFormat("##,#");
+		NumberFormat nfs = new DecimalFormat("##.#");
 		for (EvaluationElement evaluationElement : courseEvaluation
 				.getEvaluationElements()) {
 			if (evaluationElement.getEcartType() != null
@@ -44,6 +45,7 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 				}
 			}
 		}
+		total= ((int)(total*100)) /100.0;
 	}
 
 	@Override
@@ -111,8 +113,17 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 			case 2:
 				((TextView) view.findViewById(R.id.textView))
 						.setText(getContext().getString(R.string.noteACejour));
-				((TextView) view.findViewById(R.id.value))
-						.setText(courseEvaluation.getNoteACeJour());
+				String note = courseEvaluation.getNoteACeJour();
+				try {
+					double notes = nf.parse(note).doubleValue();
+					double vraiNote = (notes *total)/100.0;
+					Log.v("Notes", "Notes"+notes+" "+vraiNote);
+					((TextView) view.findViewById(R.id.value))
+					.setText(""+nfs.format(vraiNote)+"/"+nfs.format(total)+" ("+note+"%)");
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				break;
 			case 3:
 				((TextView) view.findViewById(R.id.textView))
@@ -120,9 +131,9 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 				String m = courseEvaluation.getMoyenneClasse();
 				try {
 					double n = nf.parse(m).doubleValue();
-					double moy = (n / total)*100;
+					//double moy = (n / total)*100;
 					((TextView) view.findViewById(R.id.value)).setText(""
-							+ nfs.format(moy));
+							+ nfs.format(n)+"/"+nfs.format(total));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -138,13 +149,14 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 						.setText(getContext().getString(R.string.mediane));
 				String n = courseEvaluation.getMedianeClasse();
 				try {
-					double med = (nf.parse(n).doubleValue() / total)*100;
+					double med = nf.parse(n).doubleValue() ;
 					((TextView) view.findViewById(R.id.value)).setText(""
-							+ nfs.format(med));
+							+ nfs.format(med)+"/"+nfs.format(total));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				break;
 			case 6:
 				((TextView) view.findViewById(R.id.textView))
@@ -154,10 +166,17 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 				break;
 			default:
 				final EvaluationElement element = getItem(position);
-				((TextView) view.findViewById(R.id.textView)).setText(element
-						.getNom());
-				((TextView) view.findViewById(R.id.value)).setText(element
-						.getNote() + "/" + element.getCorrigeSur());
+				try {
+					double sur100 = ((nf.parse(element.getNote()).doubleValue())/nf.parse(element.getCorrigeSur()).doubleValue())*100;
+					
+					((TextView) view.findViewById(R.id.textView)).setText(element.getNom());
+					((TextView) view.findViewById(R.id.value)).setText(element
+							.getNote() + "/" + element.getCorrigeSur()+" ("+nfs.format(sur100)+"%)");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				break;
 			}
 		}
