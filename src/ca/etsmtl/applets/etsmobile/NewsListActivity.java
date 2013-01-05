@@ -41,10 +41,10 @@ public class NewsListActivity extends FragmentActivity implements
 			if (binder != null) {
 				binder.startFetching();
 				while (binder.isWorking()) {
-					// try {
-					// // Thread.sleep(1000);
-					// } catch (final InterruptedException e) {
-					// }
+					try {
+						Thread.sleep(1000);
+					} catch (final InterruptedException e) {
+					}
 				}
 			}
 			return null;
@@ -65,7 +65,6 @@ public class NewsListActivity extends FragmentActivity implements
 	// private final static String TAG
 	// ="ca.etsmtl.applets.etsmobile.NewsListActivityV2";
 	private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.NewsFetcher";
-	// private TextView footer;
 
 	private final ServiceConnection connection = new ServiceConnection() {
 
@@ -92,9 +91,6 @@ public class NewsListActivity extends FragmentActivity implements
 	@Override
 	public void onClick(final View v) {
 		switch (v.getId()) {
-		case R.id.base_list_home_btn:
-			finish();
-			break;
 		case R.id.base_list_source_btn:
 			final Intent intent = new Intent(getApplicationContext(),
 					NewsListPreferences.class);
@@ -111,6 +107,7 @@ public class NewsListActivity extends FragmentActivity implements
 		setContentView(R.layout.news_list_fragment);
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_news_title);
+		navBar.setRightButtonAction(this);
 
 		setAlarm();
 	}
@@ -173,9 +170,6 @@ public class NewsListActivity extends FragmentActivity implements
 		final NewsListFragment frag = (NewsListFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.newsList_fragment);
 
-//		frag.getListView().setVerticalFadingEdgeEnabled(true);
-//		frag.getListView().setFadingEdgeLength(12);
-//		frag.getListView().setDivider(getResources().)
 		frag.getLoaderManager().restartLoader(NewsListFragment.ID, null, frag);
 
 		final SharedPreferences prefs = getSharedPreferences("dbpref",

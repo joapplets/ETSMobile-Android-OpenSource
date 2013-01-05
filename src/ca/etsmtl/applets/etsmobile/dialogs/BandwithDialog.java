@@ -11,17 +11,15 @@ import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
-public class LoginDialog extends AlertDialog {
+public class BandwithDialog extends AlertDialog {
+	private TextView txtRez;
+	private TextView txtAppt;
 
-
-	private TextView codeP;
-	private TextView codeU;
-
-	public LoginDialog(final Context context) {
+	public BandwithDialog(final Context context) {
 		super(context);
 	}
 
-	protected LoginDialog(final Context context, final boolean cancelable,
+	protected BandwithDialog(final Context context, final boolean cancelable,
 			final OnCancelListener cancelListener) {
 		super(context, cancelable, cancelListener);
 
@@ -31,8 +29,13 @@ public class LoginDialog extends AlertDialog {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_dialog);
-		codeP = (TextView) findViewById(R.id.login_dialog_mot_passe);
-		codeU = (TextView) findViewById(R.id.login_dialog_code_univesel);
+		txtRez = (TextView) findViewById(R.id.login_dialog_mot_passe);
+		txtAppt = (TextView) findViewById(R.id.login_dialog_code_univesel);
+
+		final TextView labelRez = (TextView) findViewById(R.id.textView1);
+		final TextView labelAppt = (TextView) findViewById(R.id.textView2);
+		labelRez.setText(R.string.bandwith_dialog_rez);
+		labelAppt.setText(R.string.bandwith_dialog_appt);
 
 		setTitle(R.string.login_dialog_title);
 		setButton("Ok", new OnClickListener() {
@@ -42,8 +45,8 @@ public class LoginDialog extends AlertDialog {
 				final SharedPreferences prefs = PreferenceManager
 						.getDefaultSharedPreferences(getContext());
 				final Editor edit = prefs.edit();
-				edit.putString(UserCredentials.CODE_P, (String) codeP.getText());
-				edit.putString(UserCredentials.CODE_U, (String) codeU.getText());
+				edit.putString(UserCredentials.REZ, (String) txtRez.getText());
+				edit.putString(UserCredentials.APPT, (String) txtAppt.getText());
 				edit.commit();
 				dismiss();
 			}
@@ -53,8 +56,8 @@ public class LoginDialog extends AlertDialog {
 
 			@Override
 			public void onClick(final DialogInterface dialog, final int which) {
-				codeP.setText("");
-				codeU.setText("");
+				txtRez.setText("");
+				txtAppt.setText("");
 
 				cancel();
 

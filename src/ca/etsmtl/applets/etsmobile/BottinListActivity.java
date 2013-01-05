@@ -56,6 +56,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		protected void onPostExecute(final Void result) {
 			try {
 				dismissDialog(BottinListActivity.ALERT_LOADING);
+				simpleCursor.notifyDataSetChanged();
 				unbindService(connection);
 			} catch (final IllegalArgumentException e) {
 			}

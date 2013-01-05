@@ -24,6 +24,9 @@
     <string name="login_dialog_code_perm">Code Permanent</string>
     <string name="login_dialog_code_uni">Code Universel</string>
     <string name="logout">Logout</string>
+    <string name="bandwith_dialog_title">Informations personelle</string>
+    <string name="bandwith_dialog_rez">Résidences phase:</string>
+    <string name="bandwith_dialog_appt">Appartement:</string>
     <string name="viewholderidtag">ID_TAG</string>
     <string name="viewholdercontenttag">Content_TAG</string>
     <string name="usernamePasswordRequired">Vous devez vous enregistrer sous la section Profil.</string>
@@ -116,5 +119,6 @@ communication téléphonique</li></ul><li>À moins que vous n’ayez de nouvelle
 toutes les informations requises avant de raccrocher .</li></li></ul><li>Prodiguer les premiers soins seulement si vous avez reçu la formation appropriée</li><li>S’informer aux personnes autours si une personne sur l’étage est
 secouriste ou d’en trouver un.</li><li>Demeurer sur place pour assister le secouriste ou pour donner un complément d’informations.</li><li>S’il y a des personnes autour, leur demander de l’aide en attendant les secours</li><li>Si les gens sont trop près de la victime, exiger qu’ils se déplacent afin de laisser de la place à la victime et de faciliter les soins</li><li>Ne jamais déplacer la victime sauf si la situation représente un danger pour la personne</li><li>Ne pas donner de nourriture ou de liquide à la victime même si elle l’exige</li><li>Si possible ou nécessaire, demeurer en communication avec la sécurité et suivre les instructions données</li><li>Si l’état d’une personne se détériore, aviser à nouveau la sécurité</li><li>Demeurer sur les lieux jusqu’à ce que les secours arrivent</li></ul>]]>
     </string>
+    <string name="label_conso_rez">Consomation Bande Passante</string>
 
 </resources>

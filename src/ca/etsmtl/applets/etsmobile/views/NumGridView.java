@@ -317,8 +317,8 @@ public class NumGridView extends View implements Observer {
 					final Drawable d = getResources().getDrawable(
 							NumGridView.dots[resid]);
 
-					final int left = dx + 20 * i++ +5;
-					final int top = dy + tx + 15;
+					final int left = dx + (20 * i++) + 15;
+					final int top = dy + tx + 20;
 					final int right = left + d.getMinimumWidth();
 					final int bottom = top + d.getMinimumHeight();
 

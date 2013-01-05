@@ -10,6 +10,10 @@ public class UserCredentials {
 
 	public static final String CODE_P = "codeP";
 
+	public static final String APPT = "appt";
+
+	public static final String REZ = "rez";
+
 	@SerializedName("motPasse")
 	private String password;
 

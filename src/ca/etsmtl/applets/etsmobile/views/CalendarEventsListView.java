@@ -53,7 +53,7 @@ public class CalendarEventsListView extends ListView implements Observer {
 
 		adapter = new CalendarEventsAdapter(context,
 				R.layout.calendar_event_list_item, events);
-
+		this.setDivider(getResources().getDrawable(R.drawable.divider_horizontal_light_opaque));
 		setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

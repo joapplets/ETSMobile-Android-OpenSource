@@ -106,10 +106,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/*
-		 * Apphance.startNewSession(this, getString(R.string.apphence_key),
-		 * Apphance.Mode.QA);
-		 */
+
 		setContentView(R.layout.main);
 		navBar = (NavBar) findViewById(R.id.navBarMain);
 		navBar.setTitle(R.drawable.navbar_title);
@@ -120,7 +117,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		gridview.setAdapter(new ETSMobileAdapter(getApplicationContext()));
 
 		// test Login
-
 		view = getLayoutInflater().inflate(R.layout.login_dialog, null, true);
 		final UserCredentials creds = new UserCredentials(
 				PreferenceManager.getDefaultSharedPreferences(this));

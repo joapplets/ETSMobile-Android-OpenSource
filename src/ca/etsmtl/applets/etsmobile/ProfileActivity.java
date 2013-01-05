@@ -1,14 +1,25 @@
 package ca.etsmtl.applets.etsmobile;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.net.URI;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.R.color;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.etsmtl.applets.etsmobile.dialogs.BandwithDialog;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
@@ -91,6 +103,9 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	private TextView solde;
 	private TextView codeP;
 	private Handler handler;
+	private TextView btnBandwith;
+	private String appt;
+	private String rez;
 
 	private void doLogin() {
 		creds = new UserCredentials(
@@ -102,10 +117,16 @@ public class ProfileActivity extends Activity implements OnClickListener,
 			tag = true;
 			navBar.showLoading();
 			new ProfileTask(handler).execute(creds);
+			btnLogin.setTextColor(color.white);
+			btnLogin.getBackground().setColorFilter(0xFFFF0000,
+					PorterDuff.Mode.MULTIPLY);
 		} else {
 			showDialog(SHOW_LOGIN);
 			text = getString(R.string.login);
 			tag = false;
+			btnLogin.setTextColor(color.black);
+			btnLogin.getBackground().setColorFilter(0x00,
+					PorterDuff.Mode.MULTIPLY);
 		}
 		btnLogin.setText(text);
 		btnLogin.setTag(tag);
@@ -128,7 +149,6 @@ public class ProfileActivity extends Activity implements OnClickListener,
 			final UserCredentials credentials = new UserCredentials(codeP,
 					codeU);
 			new ProfileTask(handler).execute(credentials);
-			// dialog.dismiss();
 			break;
 
 		default:
@@ -142,15 +162,18 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	@Override
 	public void onClick(final View view) {
 		if (!(Boolean) btnLogin.getTag()) {
+			// login
 			showDialog(ProfileActivity.SHOW_LOGIN);
 		} else {
+			// logout
 			// remove credentials
 			final Editor editor = PreferenceManager
 					.getDefaultSharedPreferences(this).edit();
-			editor.putString("codeP", "");
-			editor.putString("codeU", "");
+			editor.putString(UserCredentials.CODE_P, "");
+			editor.putString(UserCredentials.CODE_U, "");
 
 			editor.commit();
+			creds = null;
 
 			name.setText("");
 			lastname.setText("");
@@ -159,6 +182,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 
 			btnLogin.setTag(false);
 			btnLogin.setText(getString(R.string.login));
+			finish();
 
 		}
 	}
@@ -184,6 +208,29 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		solde = (TextView) findViewById(R.id.student_profile_solde);
 		codeP = (TextView) findViewById(R.id.student_profile_codePermanent);
 
+		btnBandwith = (TextView) findViewById(R.id.btn_bandwith);
+		btnBandwith.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				showDialog(0);
+				// startActivity(new Intent(v.getContext(),
+				// BandwithActivity.class));
+			}
+		});
+
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		appt = prefs.getString(UserCredentials.APPT, "");
+		rez = prefs.getString(UserCredentials.REZ, "");
+
+		if (appt.equals("") || rez.equals("")) {
+			new BandwithDialog(this).show();
+		} else {
+			getBandwith();
+		}
+
 		doLogin();
 	}
 
@@ -197,12 +244,13 @@ public class ProfileActivity extends Activity implements OnClickListener,
 					.setView(view).setPositiveButton("Ok", this).create();
 			break;
 
-		// default:
-		// d = new AlertDialog.Builder(this)
-		// .setTitle("Erreur d'identification")
-		// .setMessage("Vos informations personnelles sont érronée(s)")
-		// .create();
-		// break;
+		case 2:
+			String result = args.getString("result");
+			d = new AlertDialog.Builder(this).setMessage(
+					"Phase: " + rez + "Appt: " + appt + " il vous reste :"
+							+ result).create();
+			break;
+
 		}
 		return d;
 	}
@@ -212,4 +260,41 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		doLogin();
 	}
 
+	private void getBandwith() {
+		new AsyncTask<String, Void, String>() {
+
+			@Override
+			protected String doInBackground(String... params) {
+
+				String ent = null;
+				try {
+
+					final StringBuilder sb = new StringBuilder();
+					sb.append("http://etsmtl.me/py/usage/");
+					sb.append(params[0]);
+					sb.append(params[1]);
+
+					HttpGet get = new HttpGet(URI.create(sb.toString()));
+					HttpClient client = new DefaultHttpClient();
+					HttpResponse re = client.execute(get);
+					ent = re.getEntity().toString();
+
+					// array = objectList;
+				} catch (final IOException e) {
+					e.printStackTrace();
+				}
+
+				return ent;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				Bundle args = new Bundle();
+				args.putString("result", result);
+				showDialog(2, args);
+				super.onPostExecute(result);
+			}
+
+		}.execute(rez, appt);
+	}
 }

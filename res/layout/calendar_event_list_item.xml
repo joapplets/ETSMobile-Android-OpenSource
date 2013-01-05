@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="top"
-    android:background="@color/white"
     android:orientation="horizontal" >
-
+
     <LinearLayout
         android:id="@+id/linearlayout1"
         android:layout_width="match_parent"
@@ -16,7 +15,7 @@
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/img_indicator"
         android:orientation="vertical" >
-
+
         <TextView
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
@@ -24,18 +23,15 @@
             android:layout_alignParentTop="false"
             android:layout_centerVertical="false"
             android:layout_toRightOf="@+id/img_indicator"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
-
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <TextView
             android:id="@+id/txt_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/txt_title"
             android:layout_below="@+id/txt_title"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
-
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <ImageView
