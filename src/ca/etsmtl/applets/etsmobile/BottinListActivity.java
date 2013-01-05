@@ -212,7 +212,14 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		// init textview with filter options
 		txtView = (TextView) findViewById(R.id.search_nav_bar_autotxt);
 		txtView.addTextChangedListener(this);
-
+		allEntryCursor = managedQuery(
+				ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+				BottinListActivity.DB_COLS, null, null, "nom ASC");
+		// cursor adapter is faster
+		if (simpleCursor == null) {
+			simpleCursor = new MyCursorAdapter(this, allEntryCursor,
+					PROJECTION, TXT_VIEWS);
+		}
 	}
 
 	@Override
@@ -278,17 +285,16 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 
 	@Override
 	protected void onResume() {
-		allEntryCursor = managedQuery(
-				ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-				BottinListActivity.DB_COLS, null, null, "nom ASC");
+
 		if (allEntryCursor.getCount() == 0) {
 			showDialog(BottinListActivity.ALERT_INIT_BOTTIN);
 		} else {
 
 			// cursor adapter is faster
-			simpleCursor = new MyCursorAdapter(this, allEntryCursor,
-					PROJECTION, TXT_VIEWS);
-
+			if (simpleCursor == null) {
+				simpleCursor = new MyCursorAdapter(this, allEntryCursor,
+						PROJECTION, TXT_VIEWS);
+			}
 			simpleCursor.setFilterQueryProvider(new FilterQueryProvider() {
 
 				@Override

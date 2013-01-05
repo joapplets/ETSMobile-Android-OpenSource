@@ -29,8 +29,8 @@ public class SecurityActivity extends FragmentActivity {
 
 	private MyMapMarker markers;
 	private MapController controller;
-	double lat = 45.495278;
-	double lng = -73.562104;
+	double lat = 45.494498;
+	double lng = -73.563124;
 
 	@Override
 	protected void onCreate(final android.os.Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class SecurityActivity extends FragmentActivity {
 				.findFragmentById(R.id.map)).getMap();
 		mapView.getUiSettings().setZoomControlsEnabled(false);
 		mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,
-				lng), 18));
+				lng), 17));
 
 		MarkerOptions etsMarker = new MarkerOptions();
 		etsMarker.position(new LatLng(lat, lng));
