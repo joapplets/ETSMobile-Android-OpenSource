@@ -89,6 +89,17 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		}
 
 		/**
+		 * Bind an existing view to the data pointed to by cursor
+		 */
+		@Override
+		public void bindView(View view, Context context, Cursor cursor) {
+			TextView txtView = (TextView) view.findViewById(android.R.id.text1);
+			String nom = cursor.getString(cursor.getColumnIndex("nom"));
+			String prenom = cursor.getString(cursor.getColumnIndex("prenom"));
+			txtView.setText(nom + ", " + prenom);
+		}
+
+		/**
 		 * Performs a binary search or cache lookup to find the first row that
 		 * matches a given section's starting letter.
 		 */
@@ -114,17 +125,6 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		@Override
 		public Object[] getSections() {
 			return mAlphabetIndexer.getSections();
-		}
-
-		/**
-		 * Bind an existing view to the data pointed to by cursor
-		 */
-		@Override
-		public void bindView(View view, Context context, Cursor cursor) {
-			TextView txtView = (TextView) view.findViewById(android.R.id.text1);
-			String nom = cursor.getString(cursor.getColumnIndex("nom"));
-			String prenom = cursor.getString(cursor.getColumnIndex("prenom"));
-			txtView.setText(nom + ", " + prenom);
 		}
 
 		/**
@@ -162,8 +162,6 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 	private static final String[] DB_COLS = new String[] {
 			BottinTableHelper.BOTTIN__ID, BottinTableHelper.BOTTIN_NOM,
 			BottinTableHelper.BOTTIN_PRENOM };
-
-	private static final String[] SELECTION_ARGS = new String[] { "%", "%", "%" };
 
 	private Cursor allEntryCursor;
 	// Handler uiHandler;

@@ -17,6 +17,17 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import com.google.gson.annotations.SerializedName;
 
 public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
+	private class LireJoursRemplaces {
+
+		@SerializedName("pSession")
+		private final String session;
+
+		public LireJoursRemplaces(final Session currentSession) {
+			// TODO Auto-generated constructor stub
+			session = currentSession.getShortName();
+		}
+	}
+
 	private class ListeHorraireEtProf {
 		@SerializedName("motPasse")
 		private final String password;
@@ -32,17 +43,6 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 			// TODO Auto-generated constructor stub
 			password = cred.getPassword();
 			username = cred.getUsername();
-			session = currentSession.getShortName();
-		}
-	}
-	
-	private class LireJoursRemplaces {
-
-		@SerializedName("pSession")
-		private final String session;
-
-		public LireJoursRemplaces(final Session currentSession) {
-			// TODO Auto-generated constructor stub
 			session = currentSession.getShortName();
 		}
 	}
@@ -63,7 +63,7 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 		for (final Session s : sessions) {
 			s.setActivities(getCoursIntervalSession(
 					(UserCredentials) params[0], s));
-			
+
 			s.setJoursRemplaces(getJoursRemplacesSession(s));
 		}
 
@@ -100,7 +100,7 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Donne la liste des jours remplaces dans une session
 	 * 
@@ -110,11 +110,11 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	 * @return
 	 */
 	private ArrayList<JoursRemplaces> getJoursRemplacesSession(
-			 final Session currentSession) {
-		
-		
+			final Session currentSession) {
+
 		try {
-			final LireJoursRemplaces listeJoursRemplaces = new LireJoursRemplaces(currentSession);
+			final LireJoursRemplaces listeJoursRemplaces = new LireJoursRemplaces(
+					currentSession);
 			final SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces> signetBackgroundThead = new SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces>(
 					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
 					"lireJoursRemplaces", listeJoursRemplaces,
@@ -130,7 +130,7 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 

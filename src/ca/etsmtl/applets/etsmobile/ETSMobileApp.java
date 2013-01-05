@@ -1,6 +1,5 @@
 package ca.etsmtl.applets.etsmobile;
 
-import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
 import android.app.Application;
@@ -10,7 +9,7 @@ public class ETSMobileApp extends Application {
 
 	@Override
 	public void onCreate() {
-//		ACRA.init(this);
+		// ACRA.init(this);
 		super.onCreate();
 	}
 }

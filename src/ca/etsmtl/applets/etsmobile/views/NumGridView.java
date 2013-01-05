@@ -24,7 +24,6 @@ import android.view.View;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
-import ca.etsmtl.applets.etsmobile.models.JoursRemplaces;
 import ca.etsmtl.applets.etsmobile.models.Session;
 
 /**
@@ -308,7 +307,6 @@ public class NumGridView extends View implements Observer {
 
 				int i = 0;
 
-				final float radius = mCellWidth / (75F * maxIndicators);
 				ActivityCalendar event;
 				while (it.hasNext()) {
 					event = it.next();
@@ -508,7 +506,7 @@ public class NumGridView extends View implements Observer {
 					Locale.CANADA_FRENCH).getTime();
 		}
 
-		//Possibilité d'avoir 2 sessions dans 1 mois
+		// Possibilité d'avoir 2 sessions dans 1 mois
 		final List<Session> sessions = getSessions(days);
 
 		for (int y = 0; y < mCellCountY; y++) {
@@ -520,8 +518,7 @@ public class NumGridView extends View implements Observer {
 					if (mCells[x][y].getDate().after(s.getDateDebut())
 							&& mCells[x][y].getDate().before(
 									s.getDateFinCours())) {
-						
-					
+
 						// add activity to cell if its the right one
 						for (final ActivityCalendar actC : s.getActivities()) {
 

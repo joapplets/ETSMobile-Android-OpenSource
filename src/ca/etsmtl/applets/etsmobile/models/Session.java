@@ -29,7 +29,7 @@ public class Session implements Serializable, Comparable<Session> {
 	private String dateFinCoursString;
 
 	private List<ActivityCalendar> activities;
-	
+
 	private List<JoursRemplaces> joursRemplaces;
 
 	@Override
@@ -105,6 +105,10 @@ public class Session implements Serializable, Comparable<Session> {
 		return dateFinString;
 	}
 
+	public List<JoursRemplaces> getJoursRemplaces() {
+		return joursRemplaces;
+	}
+
 	public String getLongName() {
 		return longName;
 	}
@@ -154,6 +158,10 @@ public class Session implements Serializable, Comparable<Session> {
 		this.dateFinCoursString = dateFinCoursString;
 	}
 
+	public void setJoursRemplaces(List<JoursRemplaces> joursRemplaces) {
+		this.joursRemplaces = joursRemplaces;
+	}
+
 	public void setLongName(final String longName) {
 		this.longName = longName;
 	}
@@ -165,13 +173,5 @@ public class Session implements Serializable, Comparable<Session> {
 	@Override
 	public String toString() {
 		return getLongName();
-	}
-
-	public List<JoursRemplaces> getJoursRemplaces() {
-		return joursRemplaces;
-	}
-
-	public void setJoursRemplaces(List<JoursRemplaces> joursRemplaces) {
-		this.joursRemplaces = joursRemplaces;
 	}
 }

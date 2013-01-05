@@ -14,7 +14,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -130,6 +129,44 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		}
 		btnLogin.setText(text);
 		btnLogin.setTag(tag);
+	}
+
+	private void getBandwith() {
+		new AsyncTask<String, Void, String>() {
+
+			@Override
+			protected String doInBackground(String... params) {
+
+				String ent = null;
+				try {
+
+					final StringBuilder sb = new StringBuilder();
+					sb.append("http://etsmtl.me/py/usage/");
+					sb.append(params[0]);
+					sb.append(params[1]);
+
+					HttpGet get = new HttpGet(URI.create(sb.toString()));
+					HttpClient client = new DefaultHttpClient();
+					HttpResponse re = client.execute(get);
+					ent = re.getEntity().toString();
+
+					// array = objectList;
+				} catch (final IOException e) {
+					e.printStackTrace();
+				}
+
+				return ent;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				Bundle args = new Bundle();
+				args.putString("result", result);
+				showDialog(2, args);
+				super.onPostExecute(result);
+			}
+
+		}.execute(rez, appt);
 	}
 
 	/**
@@ -258,43 +295,5 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	@Override
 	public void onDismiss(final DialogInterface dialog) {
 		doLogin();
-	}
-
-	private void getBandwith() {
-		new AsyncTask<String, Void, String>() {
-
-			@Override
-			protected String doInBackground(String... params) {
-
-				String ent = null;
-				try {
-
-					final StringBuilder sb = new StringBuilder();
-					sb.append("http://etsmtl.me/py/usage/");
-					sb.append(params[0]);
-					sb.append(params[1]);
-
-					HttpGet get = new HttpGet(URI.create(sb.toString()));
-					HttpClient client = new DefaultHttpClient();
-					HttpResponse re = client.execute(get);
-					ent = re.getEntity().toString();
-
-					// array = objectList;
-				} catch (final IOException e) {
-					e.printStackTrace();
-				}
-
-				return ent;
-			}
-
-			@Override
-			protected void onPostExecute(String result) {
-				Bundle args = new Bundle();
-				args.putString("result", result);
-				showDialog(2, args);
-				super.onPostExecute(result);
-			}
-
-		}.execute(rez, appt);
 	}
 }

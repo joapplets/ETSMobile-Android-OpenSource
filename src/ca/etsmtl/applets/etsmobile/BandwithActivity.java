@@ -16,30 +16,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import ca.etsmtl.applets.etsmobile.dialogs.BandwithDialog;
-import ca.etsmtl.applets.etsmobile.dialogs.LoginDialog;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
 public class BandwithActivity extends Activity {
 
 	private String appt;
 	private String rez;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-
-		appt = prefs.getString(UserCredentials.APPT, "");
-		rez = prefs.getString(UserCredentials.REZ, "");
-
-		if (appt.equals("") || rez.equals("")) {
-			showDialog(1);
-		} else {
-			getBandwith();
-		}
-	}
 
 	private void getBandwith() {
 		new AsyncTask<String, Void, String>() {
@@ -77,6 +59,23 @@ public class BandwithActivity extends Activity {
 			}
 
 		}.execute(rez, appt);
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		appt = prefs.getString(UserCredentials.APPT, "");
+		rez = prefs.getString(UserCredentials.REZ, "");
+
+		if (appt.equals("") || rez.equals("")) {
+			showDialog(1);
+		} else {
+			getBandwith();
+		}
 	}
 
 	@Override

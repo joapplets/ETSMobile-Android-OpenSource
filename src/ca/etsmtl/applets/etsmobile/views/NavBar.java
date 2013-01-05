@@ -48,18 +48,6 @@ public class NavBar extends RelativeLayout {
 		rightBtn.setVisibility(View.INVISIBLE);
 	}
 
-	public void showRightButton() {
-		rightBtn.setVisibility(View.VISIBLE);
-	}
-
-	public void setRightButtonText(String text) {
-		rightBtn.setText(text);
-	}
-
-	public void setRightButtonText(int resid) {
-		rightBtn.setText(resid);
-	}
-
 	public void hideTitle() {
 		imageTitle.setVisibility(View.INVISIBLE);
 	}
@@ -91,6 +79,14 @@ public class NavBar extends RelativeLayout {
 		rightBtn.setOnClickListener(l);
 	}
 
+	public void setRightButtonText(int resid) {
+		rightBtn.setText(resid);
+	}
+
+	public void setRightButtonText(String text) {
+		rightBtn.setText(text);
+	}
+
 	public void setTitle(final int resId) {
 		imageTitle.setVisibility(View.VISIBLE);
 		imageTitle.setImageResource(resId);
@@ -104,6 +100,10 @@ public class NavBar extends RelativeLayout {
 
 	public void showLoading() {
 		loading.setVisibility(View.VISIBLE);
+	}
+
+	public void showRightButton() {
+		rightBtn.setVisibility(View.VISIBLE);
 	}
 
 }

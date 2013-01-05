@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteMisuseException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
@@ -90,20 +89,6 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	}
 
 	private ETSMobileOpenHelper helper;
-
-	private String buildBottinQueryAll(final String[] columns,
-			final String[] selectionArgs, final SQLiteQueryBuilder queryBuilder) {
-		// String where =
-		// " nom like ? OR prenom like ? OR service like ? or emplacement like ? or courriel like ? or titre like ?";
-		String where = "";
-		for (int i = 0; i < columns.length - 1; i++) {
-			if (columns[i] != "_id") {
-				where += columns[i] + " like ? OR ";
-			}
-		}
-		where += columns[columns.length - 1] + " like ? ";
-		return where;
-	}
 
 	private void buildBottinQuerySingle(final Uri uri,
 			final SQLiteQueryBuilder queryBuilder) {
