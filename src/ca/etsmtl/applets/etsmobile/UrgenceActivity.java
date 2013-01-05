@@ -147,6 +147,7 @@ public class UrgenceActivity extends Activity {
 		case 2:
 			text = R.string.urgence_resum_feu;
 			pdf_raw = "incendie_evacuation_urgence.pdf";
+			break;
 		case 3:
 			text = R.string.urgence_resum_odeur;
 			pdf_raw = "odeur_suspecte_et_fuite_gaz_2009_04_01.pdf";
@@ -176,7 +177,7 @@ public class UrgenceActivity extends Activity {
 		// http://stackoverflow.com/questions/3150400/html-list-tag-not-working-in-android-textview-what-can-i-do
 		txtView2.setText(Html.fromHtml(string, null, new MyTagHandler()));
 
-		findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.voirPDF_button).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(final View v) {
