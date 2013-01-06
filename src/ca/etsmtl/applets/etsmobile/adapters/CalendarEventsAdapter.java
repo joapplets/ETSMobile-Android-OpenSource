@@ -27,11 +27,13 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 	int layoutResourceId;
 	List<ActivityCalendar> events;
 
+	/*
 	private final static int[] dots = new int[] { R.drawable.kal_marker_red,
 			R.drawable.kal_marker_fuchsia, R.drawable.kal_marker_green,
 			R.drawable.kal_marker_lime, R.drawable.kal_marker_maroon,
 			R.drawable.kal_marker_navy, R.drawable.kal_marker_aqua,
 			R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
+	*/
 
 	public CalendarEventsAdapter(final Context context,
 			final int textViewResourceId, final List<ActivityCalendar> objects) {
@@ -75,7 +77,7 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 
 		final int resid = event.getDrawableResId();
 		holder.img.setImageDrawable(res
-				.getDrawable(CalendarEventsAdapter.dots[resid]));
+				.getDrawable(events.get(position).getDrawableResId()));
 		return convertView;
 	}
 

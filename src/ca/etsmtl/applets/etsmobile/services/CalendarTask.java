@@ -2,10 +2,14 @@ package ca.etsmtl.applets.etsmobile.services;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
 import android.os.AsyncTask;
 import android.os.Message;
+import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.ScheduleActivity.CalendarTaskHandler;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
@@ -49,6 +53,16 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 
 	public static final int ON_POST_EXEC = 10;
 	private final CalendarTaskHandler handler;
+	
+	private final static int[] dots = new int[] {
+		R.drawable.kal_marker_red_small,
+		R.drawable.kal_marker_fuchsia_small,
+		R.drawable.kal_marker_green_small,
+		R.drawable.kal_marker_lime_small,
+		R.drawable.kal_marker_maroon_small,
+		R.drawable.kal_marker_navy_small, R.drawable.kal_marker_aqua_small,
+		R.drawable.kal_marker_yellow_small,
+		R.drawable.kal_marker_black_small };
 
 	public CalendarTask(final CalendarTaskHandler handler) {
 		this.handler = handler;
@@ -59,15 +73,95 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	protected ArrayList<Session> doInBackground(final Object... params) {
 		onPreExecute();
 		final ArrayList<Session> sessions = getSessions((UserCredentials) params[0]);
-
+		List<ActivityCalendar> activities;
+		
 		for (final Session s : sessions) {
-			s.setActivities(getCoursIntervalSession(
+			activities = removeDuplicates(getCoursIntervalSession(
 					(UserCredentials) params[0], s));
+			
+			setColors(activities);
+			
+			
+			if(!activities.isEmpty())
+			{
+				String jour = activities.get(0).getCours();
+				int start =0, end = 0;
+				for(final ActivityCalendar a: activities)
+				{
+					
+					if(!jour.equals(a.getJour()))
+					{
+						s.setActivities(jour, activities.subList(start, end));
+						jour = a.getJour();
+						start = end;
+					}
+					end++;
+				}
+				s.setActivities(jour, activities.subList(start, end));
+			}
+			
 			
 			s.setJoursRemplaces(getJoursRemplacesSession(s));
 		}
 
 		return sessions;
+	}
+	
+	public List<ActivityCalendar> removeDuplicates(List<ActivityCalendar> activities) {
+		final List<ActivityCalendar> removed = new ArrayList<ActivityCalendar>();
+
+		ActivityCalendar activity, anotherActivity;
+
+		for (int i = 0; i < activities.size() - 1; i++) {
+			activity = activities.get(i);
+			anotherActivity = activities.get(i + 1);
+
+			if (activity.compareTo(anotherActivity) == 0) {
+				if (activity.getStartDate().compareTo(
+						anotherActivity.getStartDate()) == 0
+						&& activity.getEndDate().compareTo(
+								anotherActivity.getEndDate()) == 0
+						&& activity.getLocation().compareTo(
+								anotherActivity.getLocation()) != 0) {
+					activity.setLocation(activity.getLocation() + "; "
+							+ anotherActivity.getLocation());
+					removed.add(anotherActivity);
+				}
+
+			}
+
+		}
+
+		activities.removeAll(removed);
+		return activities;
+
+	}
+	
+	public void setColors(List<ActivityCalendar> session_activites)
+	{
+		final ArrayList<String> activites = new ArrayList<String>();
+		int color_index = 0;
+			
+
+			// set colors before notifying ui
+			for (int i = 0; i < session_activites.size(); i++) {
+
+				if (activites.contains(session_activites.get(i).getCours())) {
+					session_activites
+							.get(i)
+							.setDrawableResId(
+									session_activites
+											.get(activites.indexOf(session_activites.get(i)
+													.getCours()))
+											.getDrawableResId());
+					activites.add(session_activites.get(i).getCours());
+				} else {
+					session_activites.get(i)
+							.setDrawableResId(dots[color_index]);
+					color_index++;
+					activites.add(session_activites.get(i).getCours());
+				}
+			}
 	}
 
 	/**
@@ -163,34 +257,10 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	protected void onPostExecute(final ArrayList<Session> result) {
 		super.onPostExecute(result);
 
-		final ArrayList<String> activites = new ArrayList<String>();
-
-		for (final Session s : result) {
-			int color_index = 0;
-			activites.clear();
-			s.removeDuplicates();
-
-			// set colors before notifying ui
-			for (int i = 0; i < s.getActivities().size(); i++) {
-
-				if (activites.indexOf(s.getActivities().get(i).getCours()) != -1) {
-					s.getActivities()
-							.get(i)
-							.setDrawableResId(
-									s.getActivities()
-											.get(activites.indexOf(s
-													.getActivities().get(i)
-													.getCours()))
-											.getDrawableResId());
-					activites.add(s.getActivities().get(i).getCours());
-				} else {
-					s.getActivities().get(i).setDrawableResId(color_index++);
-					activites.add(s.getActivities().get(i).getCours());
-				}
-			}
-		}
 
 		Collections.sort(result);
+		
+		
 
 		// Bundle data = new Bundle();
 		final Message msg = handler.obtainMessage(CalendarTask.ON_POST_EXEC,

@@ -91,15 +91,7 @@ public class NumGridView extends View implements Observer {
 
 	private ArrayList<Session> sessions = new ArrayList<Session>();
 
-	private final static int[] dots = new int[] {
-			R.drawable.kal_marker_red_small,
-			R.drawable.kal_marker_fuchsia_small,
-			R.drawable.kal_marker_green_small,
-			R.drawable.kal_marker_lime_small,
-			R.drawable.kal_marker_maroon_small,
-			R.drawable.kal_marker_navy_small, R.drawable.kal_marker_aqua_small,
-			R.drawable.kal_marker_yellow_small,
-			R.drawable.kal_marker_black_small };
+
 
 	/**
 	 * The constructor as called by the XML inflater.
@@ -309,13 +301,13 @@ public class NumGridView extends View implements Observer {
 				int i = 0;
 
 				final float radius = mCellWidth / (75F * maxIndicators);
+				
 				ActivityCalendar event;
 				while (it.hasNext()) {
 					event = it.next();
 
-					final int resid = event.getDrawableResId();
-					final Drawable d = getResources().getDrawable(
-							NumGridView.dots[resid]);
+					//final int resid = event.getDrawableResId();
+					final Drawable d = getResources().getDrawable(event.getDrawableResId());
 
 					final int left = dx + (20 * i++) + 15;
 					final int top = dy + tx + 20;
@@ -325,6 +317,7 @@ public class NumGridView extends View implements Observer {
 					d.setBounds(left, top, right, bottom);
 					d.draw(canvas);
 				}
+				
 			}
 		}
 	}
@@ -433,6 +426,9 @@ public class NumGridView extends View implements Observer {
 	@Override
 	public void update(final Observable observable, final Object data) {
 
+		 long start = new Date().getTime();
+	    
+	      
 		current = (Calendar) data;
 
 		final List<Calendar> days = new ArrayList<Calendar>();
@@ -515,21 +511,48 @@ public class NumGridView extends View implements Observer {
 			for (int x = 0; x < mCellCountX; x++) {
 				mCells[x][y] = new CalendarCell(it.next().getTime());
 
+				
 				for (final Session s : sessions) {
-
+					
 					if (mCells[x][y].getDate().after(s.getDateDebut())
 							&& mCells[x][y].getDate().before(
 									s.getDateFinCours())) {
 						
-					
-						// add activity to cell if its the right one
-						for (final ActivityCalendar actC : s.getActivities()) {
-
-							if (mCells[x][y].getDate().getDay() == Integer
-									.parseInt(actC.getJour())) {
-								mCells[x][y].add(actC);
+							boolean isRemplacee = false;
+						
+							for(JoursRemplaces j: s.getJoursRemplaces())
+							{
+								
+								if(mCells[x][y].getDate().getDate()  == j.getDateRemplacement().getDate() &&
+										mCells[x][y].getDate().getMonth()  == j.getDateRemplacement().getMonth() &&
+										mCells[x][y].getDate().getYear()  == j.getDateRemplacement().getYear())
+								{
+									if(s.getActivities(String.valueOf(j.getDateOrigine().getDay())) != null)
+										mCells[x][y].setEvents(s.getActivities(String.valueOf(j.getDateOrigine().getDay())));
+									else
+										mCells[x][y].clear();
+									
+									isRemplacee = true;
+									break;
+								}
+								
+								if(mCells[x][y].getDate().getDate()  == j.getDateOrigine().getDate() &&
+										mCells[x][y].getDate().getMonth()  == j.getDateOrigine().getMonth() &&
+										mCells[x][y].getDate().getYear()  == j.getDateOrigine().getYear())
+								{
+									mCells[x][y].clear();
+									mCells[x][y].add(new ActivityCalendar(j.getDescription(),"","",j.getDescription(),"","","","","","",R.drawable.kal_marker_black_small));
+									
+									isRemplacee = true;
+									break;
+								}
 							}
-						}
+							
+							if(!isRemplacee && s.getActivities(String.valueOf(mCells[x][y].getDate().getDay())) !=null)
+								mCells[x][y].setEvents(s.getActivities(String.valueOf(mCells[x][y].getDate().getDay())));
+						
+						
+						
 					}
 
 				}
@@ -545,6 +568,9 @@ public class NumGridView extends View implements Observer {
 		}
 
 		this.invalidate();
+		
+		 long stop = new Date().getTime();
+	     System.out.println("updated in milliseconds: " + (stop - start));
 
 	}
 }

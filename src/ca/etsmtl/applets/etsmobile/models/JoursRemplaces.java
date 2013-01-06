@@ -68,7 +68,10 @@ public class JoursRemplaces {
 
 		return date;
 	}
-
-
+	
+	public void print()
+	{
+		System.out.println("switch: " + this.dateOrigineString + " to " + this.dateRemplacementString + " , reason: " + this.description);
+	}
 
 }

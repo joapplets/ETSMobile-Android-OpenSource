@@ -1,5 +1,7 @@
 package ca.etsmtl.applets.etsmobile.models;
 
+import ca.etsmtl.applets.etsmobile.R;
+
 import com.google.gson.annotations.SerializedName;
 
 public class ActivityCalendar implements Comparable<ActivityCalendar> {
@@ -27,6 +29,34 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 	private String groupe;
 
 	private int eventDrawableResId;
+	
+	
+	public ActivityCalendar(String cours,
+			String startDate, 
+			String endDate, 
+			String titreCours,
+			String name,
+			String groupe,
+			String codeActivite,
+			String jour,
+			String journee,
+			String location,
+			int eventDrawableResId)
+	{
+		this.cours = cours;
+		this.startDate = startDate;
+		this.endDate =endDate;
+		this.titreCours =titreCours;
+		this.name =name;
+		this.groupe =groupe;
+		this.codeActivite = codeActivite;
+		this.jour = jour;
+		this.journee= journee;
+		this.location= location;
+		this.eventDrawableResId = eventDrawableResId;
+		
+	}
+	
 	
 
 	@Override
@@ -144,5 +174,10 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 
 	public void setTitreCours(final String titreCours) {
 		this.titreCours = titreCours;
+	}
+	
+	public void print()
+	{
+		System.out.println(this.cours + " " + this.journee);
 	}
 }
