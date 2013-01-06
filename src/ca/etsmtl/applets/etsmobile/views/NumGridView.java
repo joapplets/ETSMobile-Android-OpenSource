@@ -426,9 +426,6 @@ public class NumGridView extends View implements Observer {
 	@Override
 	public void update(final Observable observable, final Object data) {
 
-		 long start = new Date().getTime();
-	    
-	      
 		current = (Calendar) data;
 
 		final List<Calendar> days = new ArrayList<Calendar>();
@@ -535,8 +532,7 @@ public class NumGridView extends View implements Observer {
 									isRemplacee = true;
 									break;
 								}
-								
-								if(mCells[x][y].getDate().getDate()  == j.getDateOrigine().getDate() &&
+								else if(mCells[x][y].getDate().getDate()  == j.getDateOrigine().getDate() &&
 										mCells[x][y].getDate().getMonth()  == j.getDateOrigine().getMonth() &&
 										mCells[x][y].getDate().getYear()  == j.getDateOrigine().getYear())
 								{
@@ -568,9 +564,6 @@ public class NumGridView extends View implements Observer {
 		}
 
 		this.invalidate();
-		
-		 long stop = new Date().getTime();
-	     System.out.println("updated in milliseconds: " + (stop - start));
 
 	}
 }
