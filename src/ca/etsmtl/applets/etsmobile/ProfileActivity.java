@@ -10,7 +10,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import android.R.color;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,7 +17,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.PorterDuff;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -112,24 +111,21 @@ public class ProfileActivity extends Activity implements OnClickListener,
 				PreferenceManager.getDefaultSharedPreferences(this));
 		CharSequence text = "";
 		boolean tag = false;
+		int mColor = Color.RED;
 		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
 			text = getString(R.string.logout);
 			tag = true;
 			navBar.showLoading();
 			new ProfileTask(handler).execute(creds);
-			btnLogin.setTextColor(color.white);
-			btnLogin.getBackground().setColorFilter(0xFFFF0000,
-					PorterDuff.Mode.MULTIPLY);
 		} else {
 			showDialog(SHOW_LOGIN);
 			text = getString(R.string.login);
 			tag = false;
-			btnLogin.setTextColor(color.black);
-			btnLogin.getBackground().setColorFilter(0x00,
-					PorterDuff.Mode.MULTIPLY);
+			mColor = Color.GRAY;
 		}
 		btnLogin.setText(text);
 		btnLogin.setTag(tag);
+		btnLogin.setBackgroundColor(mColor);
 	}
 
 	private void getBandwith() {
@@ -152,7 +148,6 @@ public class ProfileActivity extends Activity implements OnClickListener,
 					HttpResponse re = client.execute(get);
 					ent = EntityUtils.toString(re.getEntity());
 
-					// array = objectList;
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}

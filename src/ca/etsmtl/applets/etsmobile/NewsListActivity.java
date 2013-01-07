@@ -40,12 +40,6 @@ public class NewsListActivity extends FragmentActivity implements
 			final NewsFetcherBinder binder = params[0];
 			if (binder != null) {
 				binder.startFetching();
-				while (binder.isWorking()) {
-					try {
-						Thread.sleep(1000);
-					} catch (final InterruptedException e) {
-					}
-				}
 			}
 			return null;
 		}
@@ -62,8 +56,6 @@ public class NewsListActivity extends FragmentActivity implements
 
 	}
 
-	// private final static String TAG
-	// ="ca.etsmtl.applets.etsmobile.NewsListActivityV2";
 	private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.NewsFetcher";
 
 	private final ServiceConnection connection = new ServiceConnection() {
@@ -80,6 +72,8 @@ public class NewsListActivity extends FragmentActivity implements
 	};
 	private NavBar navBar;
 
+	private SharedPreferences prefs;
+
 	private void connectToFetcherService() {
 		final Intent i = new Intent(this, NewsService.class);
 		if (!serviceIsRunning()) {
@@ -91,7 +85,7 @@ public class NewsListActivity extends FragmentActivity implements
 	@Override
 	public void onClick(final View v) {
 		switch (v.getId()) {
-		case R.id.base_list_source_btn:
+		case R.id.base_bar_source_btn:
 			final Intent intent = new Intent(getApplicationContext(),
 					NewsListPreferences.class);
 			startActivity(intent);
@@ -107,8 +101,9 @@ public class NewsListActivity extends FragmentActivity implements
 		setContentView(R.layout.news_list_fragment);
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_news_title);
+		navBar.showRightButton();
 		navBar.setRightButtonAction(this);
-
+		prefs = getSharedPreferences("dbpref", Context.MODE_PRIVATE);
 		setAlarm();
 	}
 
@@ -172,8 +167,6 @@ public class NewsListActivity extends FragmentActivity implements
 
 		frag.getLoaderManager().restartLoader(NewsListFragment.ID, null, frag);
 
-		final SharedPreferences prefs = getSharedPreferences("dbpref",
-				Context.MODE_PRIVATE);
 		if (prefs.getBoolean("isEmpty", true)) {
 			connectToFetcherService();
 		}
