@@ -20,91 +20,86 @@ import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.services.NewsService;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
 
-public class NewsListFragment extends ListFragment implements
-		LoaderManager.LoaderCallbacks<Cursor> {
+public class NewsListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-	// private final static String TAG =
-	// "ca.etsmtl.applets.etsmobile.fragments.NewsListFragment";
-	private NewsListSelectedItemListener selectedItemListener;
-	private NewsCursorAdapter adapter;
+    // private final static String TAG =
+    // "ca.etsmtl.applets.etsmobile.fragments.NewsListFragment";
+    private NewsListSelectedItemListener selectedItemListener;
+    private NewsCursorAdapter adapter;
 
-	public static final int ID = 1;
+    public static final int ID = 1;
 
-	@Override
-	public void onAttach(final Activity activity) {
-		super.onAttach(activity);
-		try {
-			selectedItemListener = (NewsListSelectedItemListener) activity;
-		} catch (final ClassCastException e) {
-			throw new ClassCastException(
-					activity.toString()
-							+ "l'activité doit implémenter l'interface NewsListSelectedItemListener");
-		}
+    @Override
+    public void onAttach(final Activity activity) {
+	super.onAttach(activity);
+	try {
+	    selectedItemListener = (NewsListSelectedItemListener) activity;
+	} catch (final ClassCastException e) {
+	    throw new ClassCastException(activity.toString()
+		    + "l'activité doit implémenter l'interface NewsListSelectedItemListener");
+	}
+    }
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	getLoaderManager().initLoader(NewsListFragment.ID, null, this);
+	adapter = new NewsCursorAdapter(getActivity().getApplicationContext(), null,
+		CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+	setListAdapter(adapter);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(final int id, final Bundle bundle) {
+	final String[] projection = { NewsTableHelper.NEWS_ID, NewsTableHelper.NEWS_GUID,
+		NewsTableHelper.NEWS_TITLE, NewsTableHelper.NEWS_DATE,
+		NewsTableHelper.NEWS_DESCRIPTION, NewsTableHelper.NEWS_SOURCE };
+
+	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity()
+		.getApplicationContext());
+	final ArrayList<String> source = new ArrayList<String>();
+	if (prefs.getBoolean("rssETS", true)) {
+	    source.add(NewsService.RSS_ETS);
+	}
+	if (prefs.getBoolean("facebook", true)) {
+	    source.add(NewsService.FACEBOOK);
+	}
+	if (prefs.getBoolean("twitter", true)) {
+	    source.add(NewsService.TWITTER);
 	}
 
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		getLoaderManager().initLoader(NewsListFragment.ID, null, this);
-		adapter = new NewsCursorAdapter(getActivity().getApplicationContext(),
-				null, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-		setListAdapter(adapter);
+	final String[] s = new String[source.size()];
+	for (int i = 0; i < source.size(); i++) {
+	    s[i] = source.get(i);
 	}
 
-	@Override
-	public Loader<Cursor> onCreateLoader(final int id, final Bundle bundle) {
-		final String[] projection = { NewsTableHelper.NEWS_ID,
-				NewsTableHelper.NEWS_GUID, NewsTableHelper.NEWS_TITLE,
-				NewsTableHelper.NEWS_DATE, NewsTableHelper.NEWS_DESCRIPTION,
-				NewsTableHelper.NEWS_SOURCE };
+	final CursorLoader cursorLoader = new CursorLoader(
 
-		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getActivity()
-						.getApplicationContext());
-		final ArrayList<String> source = new ArrayList<String>();
-		if (prefs.getBoolean("rssETS", true)) {
-			source.add(NewsService.RSS_ETS);
-		}
-		if (prefs.getBoolean("facebook", true)) {
-			source.add(NewsService.FACEBOOK);
-		}
-		if (prefs.getBoolean("twitter", true)) {
-			source.add(NewsService.TWITTER);
-		}
+	getActivity(), ETSMobileContentProvider.CONTENT_URI_NEWS, projection, null, s,
+		NewsTableHelper.NEWS_DATE + " DESC");
 
-		final String[] s = new String[source.size()];
-		for (int i = 0; i < source.size(); i++) {
-			s[i] = source.get(i);
-		}
+	return cursorLoader;
+    }
 
-		final CursorLoader cursorLoader = new CursorLoader(
+    @Override
+    public void onDestroy() {
+	getLoaderManager().destroyLoader(NewsListFragment.ID);
+	super.onDestroy();
+    }
 
-		getActivity(), ETSMobileContentProvider.CONTENT_URI_NEWS, projection,
-				null, s, NewsTableHelper.NEWS_DATE + " DESC");
+    @Override
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
+	selectedItemListener.onItemClick(v);
+    }
 
-		return cursorLoader;
-	}
+    @Override
+    public void onLoaderReset(final Loader<Cursor> loader) {
+	adapter.swapCursor(null);
+    }
 
-	@Override
-	public void onDestroy() {
-		getLoaderManager().destroyLoader(NewsListFragment.ID);
-		super.onDestroy();
-	}
-
-	@Override
-	public void onListItemClick(final ListView l, final View v,
-			final int position, final long id) {
-		selectedItemListener.onItemClick(v);
-	}
-
-	@Override
-	public void onLoaderReset(final Loader<Cursor> loader) {
-		adapter.swapCursor(null);
-	}
-
-	@Override
-	public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
-		adapter.swapCursor(cursor);
-	}
+    @Override
+    public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
+	adapter.swapCursor(cursor);
+    }
 
 }

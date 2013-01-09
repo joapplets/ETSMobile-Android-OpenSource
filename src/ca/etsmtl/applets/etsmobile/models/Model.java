@@ -6,24 +6,24 @@ import android.os.Parcelable;
 
 abstract public class Model implements Parcelable {
 
-	protected ContentValues values;
+    protected ContentValues values;
 
-	public Model() {
-		// TODO Auto-generated constructor stub
-	}
+    public Model() {
+	// TODO Auto-generated constructor stub
+    }
 
-	protected Model(final Parcel in) {
+    protected Model(final Parcel in) {
 
-	}
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    @Override
+    public int describeContents() {
+	return 0;
+    }
 
-	public ContentValues getContentValues() {
-		values = new ContentValues();
-		return values;
-	}
+    public ContentValues getContentValues() {
+	values = new ContentValues();
+	return values;
+    }
 
 }

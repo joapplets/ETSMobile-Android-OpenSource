@@ -11,7 +11,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import ca.etsmtl.applets.etsmobile.views.MyMapMarker;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,81 +19,73 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.maps.MapController;
 
 public class SecurityActivity extends FragmentActivity {
 
-	private NavBar navBar;
-	private ListView listView;
+    private NavBar navBar;
+    private ListView listView;
 
-	private MyMapMarker markers;
-	private MapController controller;
-	double lat = 45.494498;
-	double lng = -73.563124;
+    double lat = 45.494498;
+    double lng = -73.563124;
 
-	@Override
-	protected void onCreate(final android.os.Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(final android.os.Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.security);
+	setContentView(R.layout.security);
 
-		navBar = (NavBar) findViewById(R.id.navBar1);
-		navBar.setTitle(getString(R.string.secu_title));
-		navBar.hideLoading();
-		navBar.hideRightButton();
+	navBar = (NavBar) findViewById(R.id.navBar1);
+	navBar.setTitle(getString(R.string.secu_title));
+	navBar.hideLoading();
+	navBar.hideRightButton();
 
-		navBar.setHomeAction(new OnClickListener() {
+	navBar.setHomeAction(new OnClickListener() {
 
-			@Override
-			public void onClick(final View arg0) {
-				finish();
-			}
+	    @Override
+	    public void onClick(final View arg0) {
+		finish();
+	    }
+	});
+	listView = (ListView) findViewById(android.R.id.list);
+
+	final ViewGroup viewGroup = (ViewGroup) getLayoutInflater().inflate(
+		R.layout.secu_list_header, (ViewGroup) findViewById(R.id.secu_list_header_layout));
+	listView.addHeaderView(viewGroup, null, false);
+
+	listView.setOnItemClickListener(new OnItemClickListener() {
+	    @Override
+	    public void onItemClick(final AdapterView<?> arg0, final View arg1, final int arg2,
+		    final long arg3) {
+		final Intent intent = new Intent(getApplicationContext(), UrgenceActivity.class);
+		intent.putExtra("id", arg2);
+		startActivity(intent);
+
+	    }
+	});
+	listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+		getResources().getStringArray(R.array.secu_urgence)));
+
+	viewGroup.findViewById(R.id.secu_list_header_phone).setOnClickListener(
+		new OnClickListener() {
+
+		    @Override
+		    public void onClick(final View v) {
+			final String phoneNumber = ((TextView) v).getText().toString();
+			final String uri = "tel:" + phoneNumber.trim();
+			final Intent intent = new Intent(Intent.ACTION_DIAL);
+			intent.setData(Uri.parse(uri));
+			startActivity(intent);
+		    }
 		});
-		listView = (ListView) findViewById(android.R.id.list);
 
-		final ViewGroup viewGroup = (ViewGroup) getLayoutInflater().inflate(
-				R.layout.secu_list_header,
-				(ViewGroup) findViewById(R.id.secu_list_header_layout));
-		listView.addHeaderView(viewGroup, null, false);
+	final GoogleMap mapView = ((SupportMapFragment) getSupportFragmentManager()
+		.findFragmentById(R.id.map)).getMap();
+	mapView.getUiSettings().setZoomControlsEnabled(false);
+	mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 17));
 
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(final AdapterView<?> arg0, final View arg1,
-					final int arg2, final long arg3) {
-				final Intent intent = new Intent(getApplicationContext(),
-						UrgenceActivity.class);
-				intent.putExtra("id", arg2);
-				startActivity(intent);
-
-			}
-		});
-		listView.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, getResources()
-						.getStringArray(R.array.secu_urgence)));
-
-		viewGroup.findViewById(R.id.secu_list_header_phone).setOnClickListener(
-				new OnClickListener() {
-
-					@Override
-					public void onClick(final View v) {
-						String phoneNumber = ((TextView) v).getText()
-								.toString();
-						String uri = "tel:" + phoneNumber.trim();
-						Intent intent = new Intent(Intent.ACTION_DIAL);
-						intent.setData(Uri.parse(uri));
-						startActivity(intent);
-					}
-				});
-
-		GoogleMap mapView = ((SupportMapFragment) getSupportFragmentManager()
-				.findFragmentById(R.id.map)).getMap();
-		mapView.getUiSettings().setZoomControlsEnabled(false);
-		mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,
-				lng), 17));
-
-		MarkerOptions etsMarker = new MarkerOptions();
-		etsMarker.position(new LatLng(lat, lng));
-		etsMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon));
-		mapView.addMarker(etsMarker);
-	}
+	final MarkerOptions etsMarker = new MarkerOptions();
+	etsMarker.position(new LatLng(lat, lng));
+	etsMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon));
+	mapView.addMarker(etsMarker);
+    }
 }

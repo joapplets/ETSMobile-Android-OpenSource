@@ -7,20 +7,19 @@ import ca.etsmtl.applets.etsmobile.models.ObservableBundle;
 
 public abstract class XMLAbstractHandler extends DefaultHandler {
 
-	protected ObservableBundle bundle;
-	protected StringBuffer buffer;
+    protected ObservableBundle bundle;
+    protected StringBuffer buffer;
 
-	public XMLAbstractHandler(final ObservableBundle b) {
-		bundle = b;
-	}
+    public XMLAbstractHandler(final ObservableBundle b) {
+	bundle = b;
+    }
 
-	@Override
-	public void characters(final char[] ch, final int start, final int length)
-			throws SAXException {
-		final String lecture = new String(ch, start, length);
-		if (buffer != null) {
-			buffer.append(lecture);
-		}
+    @Override
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
+	final String lecture = new String(ch, start, length);
+	if (buffer != null) {
+	    buffer.append(lecture);
 	}
+    }
 
 }
