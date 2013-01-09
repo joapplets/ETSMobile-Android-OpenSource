@@ -8,5 +8,9 @@
 # project structure.
 
 # Project target.
+<<<<<<< HEAD
 target=Google Inc.:Google APIs:8
 android.library.reference.1=../android-sdk/extras/google/google_play_services/libproject/google-play-services_lib
+=======
+target=Google Inc.:Google APIs:10
+>>>>>>> dev

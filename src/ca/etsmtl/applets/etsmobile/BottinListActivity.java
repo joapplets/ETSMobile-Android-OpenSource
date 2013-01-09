@@ -89,6 +89,17 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		}
 
 		/**
+		 * Bind an existing view to the data pointed to by cursor
+		 */
+		@Override
+		public void bindView(View view, Context context, Cursor cursor) {
+			TextView txtView = (TextView) view.findViewById(android.R.id.text1);
+			String nom = cursor.getString(cursor.getColumnIndex("nom"));
+			String prenom = cursor.getString(cursor.getColumnIndex("prenom"));
+			txtView.setText(nom + ", " + prenom);
+		}
+
+		/**
 		 * Performs a binary search or cache lookup to find the first row that
 		 * matches a given section's starting letter.
 		 */
@@ -114,17 +125,6 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		@Override
 		public Object[] getSections() {
 			return mAlphabetIndexer.getSections();
-		}
-
-		/**
-		 * Bind an existing view to the data pointed to by cursor
-		 */
-		@Override
-		public void bindView(View view, Context context, Cursor cursor) {
-			TextView txtView = (TextView) view.findViewById(android.R.id.text1);
-			String nom = cursor.getString(cursor.getColumnIndex("nom"));
-			String prenom = cursor.getString(cursor.getColumnIndex("prenom"));
-			txtView.setText(nom + ", " + prenom);
 		}
 
 		/**
@@ -162,8 +162,6 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 	private static final String[] DB_COLS = new String[] {
 			BottinTableHelper.BOTTIN__ID, BottinTableHelper.BOTTIN_NOM,
 			BottinTableHelper.BOTTIN_PRENOM };
-
-	private static final String[] SELECTION_ARGS = new String[] { "%", "%", "%" };
 
 	private Cursor allEntryCursor;
 	// Handler uiHandler;
@@ -214,7 +212,14 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		// init textview with filter options
 		txtView = (TextView) findViewById(R.id.search_nav_bar_autotxt);
 		txtView.addTextChangedListener(this);
-
+		allEntryCursor = managedQuery(
+				ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+				BottinListActivity.DB_COLS, null, null, "nom ASC");
+		// cursor adapter is faster
+		if (simpleCursor == null) {
+			simpleCursor = new MyCursorAdapter(this, allEntryCursor,
+					PROJECTION, TXT_VIEWS);
+		}
 	}
 
 	@Override
@@ -280,17 +285,16 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 
 	@Override
 	protected void onResume() {
-		allEntryCursor = managedQuery(
-				ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-				BottinListActivity.DB_COLS, null, null, "nom ASC");
+
 		if (allEntryCursor.getCount() == 0) {
 			showDialog(BottinListActivity.ALERT_INIT_BOTTIN);
 		} else {
 
 			// cursor adapter is faster
-			simpleCursor = new MyCursorAdapter(this, allEntryCursor,
-					PROJECTION, TXT_VIEWS);
-
+			if (simpleCursor == null) {
+				simpleCursor = new MyCursorAdapter(this, allEntryCursor,
+						PROJECTION, TXT_VIEWS);
+			}
 			simpleCursor.setFilterQueryProvider(new FilterQueryProvider() {
 
 				@Override

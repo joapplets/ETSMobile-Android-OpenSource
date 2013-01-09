@@ -22,15 +22,6 @@ public class CurrentCalendar extends Observable {
 		return current;
 	}
 
-	public void setToday() {
-		current = Calendar.getInstance(TimeZone.getTimeZone("Canada/Eastern"),
-				Locale.CANADA_FRENCH);
-
-		super.setChanged();
-		this.notifyObservers(current);
-	}
-	
-	
 	public void nextMonth() {
 		current.add(Calendar.MONTH, 1);
 
@@ -47,6 +38,14 @@ public class CurrentCalendar extends Observable {
 	@Override
 	public void setChanged() {
 		super.setChanged();
+	}
+
+	public void setToday() {
+		current = Calendar.getInstance(TimeZone.getTimeZone("Canada/Eastern"),
+				Locale.CANADA_FRENCH);
+
+		super.setChanged();
+		this.notifyObservers(current);
 	}
 
 }

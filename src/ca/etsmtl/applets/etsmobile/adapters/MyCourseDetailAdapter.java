@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.CourseEvaluation;
@@ -38,7 +37,7 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 		this.courseEvaluation = courseEvaluation;
 
 		NumberFormat nf = new DecimalFormat("##,#");
-		NumberFormat nfs = new DecimalFormat("##.#");
+		new DecimalFormat("##.#");
 		for (EvaluationElement evaluationElement : courseEvaluation
 				.getEvaluationElements()) {
 			if (evaluationElement.getEcartType() != null

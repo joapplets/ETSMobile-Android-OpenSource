@@ -24,7 +24,6 @@ import android.view.View;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
-import ca.etsmtl.applets.etsmobile.models.JoursRemplaces;
 import ca.etsmtl.applets.etsmobile.models.Session;
 
 /**
@@ -59,10 +58,7 @@ public class NumGridView extends View implements Observer {
 
 	final int nbCellulesY = 6; // on va générer toujours un grilles 7 x 6
 
-	//nombre d'indicateurs minimums
-	int maxIndicators = 3;
-	
-	
+	final int maxIndicators = 8;
 	// Member variables
 	protected Paint mPaintBg; // Holds the style for painting the cell
 								// background
@@ -94,7 +90,15 @@ public class NumGridView extends View implements Observer {
 
 	private ArrayList<Session> sessions = new ArrayList<Session>();
 
-
+	private final static int[] dots = new int[] {
+			R.drawable.kal_marker_red_small,
+			R.drawable.kal_marker_fuchsia_small,
+			R.drawable.kal_marker_green_small,
+			R.drawable.kal_marker_lime_small,
+			R.drawable.kal_marker_maroon_small,
+			R.drawable.kal_marker_navy_small, R.drawable.kal_marker_aqua_small,
+			R.drawable.kal_marker_yellow_small,
+			R.drawable.kal_marker_black_small };
 
 	/**
 	 * The constructor as called by the XML inflater.
@@ -214,20 +218,6 @@ public class NumGridView extends View implements Observer {
 	public int getmCellCountY() {
 		return mCellCountY;
 	}
-	
-	public void setSessions(final ArrayList<Session> obj) {
-
-		sessions = obj;
-		
-		for(Session s: sessions)
-		{
-			if(this.maxIndicators < s.getMaxActivities())
-				this.maxIndicators = s.getMaxActivities();
-		}
-		
-
-	}
-
 
 	private List<Session> getSessions(final List<Calendar> days) {
 
@@ -316,32 +306,23 @@ public class NumGridView extends View implements Observer {
 				final Iterator<ActivityCalendar> it = cell.iterator();
 
 				int i = 0;
-				
-				final float  radius = mCellWidth / (3 * maxIndicators + 1);
-					
-				float startpos = dx + tx - ((2 * cell.size() + cell.size() - 1) * radius / 2 - radius);
 
 				ActivityCalendar event;
 				while (it.hasNext()) {
 					event = it.next();
 
-					final Drawable d = getResources().getDrawable(event.getDrawableResId());
-			
-					final int left = (int) (startpos + 3 * i * radius - radius) ;
-					
-					final int right =  (int) (left + (radius * 2));
-					
-					final int bottom = (int) dy + mCellHeight - ty/ 4 + 2;
-					
-					final int top = (int) (bottom - (2 * radius));
-					
-					d.setBounds(left, top, right,bottom);
-					
+					final int resid = event.getDrawableResId();
+					final Drawable d = getResources().getDrawable(
+							NumGridView.dots[resid]);
+
+					final int left = dx + (20 * i++) + 15;
+					final int top = dy + tx + 20;
+					final int right = left + d.getMinimumWidth();
+					final int bottom = top + d.getMinimumHeight();
+
+					d.setBounds(left, top, right, bottom);
 					d.draw(canvas);
-					
-					i++;
 				}
-				
 			}
 		}
 	}
@@ -441,6 +422,11 @@ public class NumGridView extends View implements Observer {
 		mOnCellTouchListener = listener;
 	}
 
+	public void setSessions(final ArrayList<Session> obj) {
+
+		sessions = obj;
+
+	}
 
 	@Override
 	public void update(final Observable observable, final Object data) {
@@ -520,59 +506,27 @@ public class NumGridView extends View implements Observer {
 					Locale.CANADA_FRENCH).getTime();
 		}
 
-		//PossibilitŽ d'avoir 2 sessions dans 1 mois
+		// PossibilitŽ d'avoir 2 sessions dans 1 mois
 		final List<Session> sessions = getSessions(days);
 
 		for (int y = 0; y < mCellCountY; y++) {
 			for (int x = 0; x < mCellCountX; x++) {
 				mCells[x][y] = new CalendarCell(it.next().getTime());
 
-				
 				for (final Session s : sessions) {
-					
+
 					if (mCells[x][y].getDate().after(s.getDateDebut())
 							&& mCells[x][y].getDate().before(
 									s.getDateFinCours())) {
-						
-							boolean isRemplacee = false;
-						
-							for(JoursRemplaces j: s.getJoursRemplaces())
-							{
-								
-								if(mCells[x][y].getDate().getDate()  == j.getDateRemplacement().getDate() &&
-										mCells[x][y].getDate().getMonth()  == j.getDateRemplacement().getMonth() &&
-										mCells[x][y].getDate().getYear()  == j.getDateRemplacement().getYear())
-								{
-									if(s.getActivities(String.valueOf(j.getDateOrigine().getDay())) != null)
-										mCells[x][y].setEvents(s.getActivities(String.valueOf(j.getDateOrigine().getDay())));
-									else
-										mCells[x][y].clear();
-									
-									isRemplacee = true;
-									break;
-								}
-								else if(mCells[x][y].getDate().getDate()  == j.getDateOrigine().getDate() &&
-										mCells[x][y].getDate().getMonth()  == j.getDateOrigine().getMonth() &&
-										mCells[x][y].getDate().getYear()  == j.getDateOrigine().getYear())
-								{
-									mCells[x][y].clear();
-									
-									final ActivityCalendar activity = new ActivityCalendar();
-									
-									activity.setCours(j.getDescription().trim());
-									activity.setDrawableResId(R.drawable.kal_marker_black);
-									
-									mCells[x][y].add(activity);
-									isRemplacee = true;
-									break;
-								}
+
+						// add activity to cell if its the right one
+						for (final ActivityCalendar actC : s.getActivities()) {
+
+							if (mCells[x][y].getDate().getDay() == Integer
+									.parseInt(actC.getJour())) {
+								mCells[x][y].add(actC);
 							}
-							
-							if(!isRemplacee && s.getActivities(String.valueOf(mCells[x][y].getDate().getDay())) !=null)
-								mCells[x][y].setEvents(s.getActivities(String.valueOf(mCells[x][y].getDate().getDay())));
-						
-						
-						
+						}
 					}
 
 				}

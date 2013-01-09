@@ -46,6 +46,12 @@ public class JoursRemplaces {
 
 		return date;
 	}
+<<<<<<< HEAD
+	
+	public void print()
+	{
+		System.out.println("switch: " + this.dateOrigineString + " to " + this.dateRemplacementString + " , reason: " + this.description);
+=======
 
 	public String getDateRemplacementString() {
 		return dateRemplacementString;
@@ -65,6 +71,7 @@ public class JoursRemplaces {
 
 	public void setDescription(String description) {
 		this.description = description;
+>>>>>>> dev
 	}
 
 }

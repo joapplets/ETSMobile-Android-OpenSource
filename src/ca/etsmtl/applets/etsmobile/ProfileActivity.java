@@ -8,17 +8,16 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
-import android.R.color;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.PorterDuff;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,7 +28,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import ca.etsmtl.applets.etsmobile.dialogs.BandwithDialog;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
@@ -106,30 +104,66 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	private TextView btnBandwith;
 	private String appt;
 	private String rez;
+	private SharedPreferences prefs;
 
 	private void doLogin() {
 		creds = new UserCredentials(
 				PreferenceManager.getDefaultSharedPreferences(this));
 		CharSequence text = "";
 		boolean tag = false;
+		int mColor = Color.RED;
 		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
 			text = getString(R.string.logout);
 			tag = true;
 			navBar.showLoading();
 			new ProfileTask(handler).execute(creds);
-			btnLogin.setTextColor(color.white);
-			btnLogin.getBackground().setColorFilter(0xFFFF0000,
-					PorterDuff.Mode.MULTIPLY);
 		} else {
 			showDialog(SHOW_LOGIN);
 			text = getString(R.string.login);
 			tag = false;
-			btnLogin.setTextColor(color.black);
-			btnLogin.getBackground().setColorFilter(0x00,
-					PorterDuff.Mode.MULTIPLY);
+			mColor = Color.GRAY;
 		}
 		btnLogin.setText(text);
 		btnLogin.setTag(tag);
+		btnLogin.setBackgroundColor(mColor);
+	}
+
+	private void getBandwith() {
+		new AsyncTask<String, Void, String>() {
+
+			@Override
+			protected String doInBackground(String... params) {
+
+				String ent = null;
+				try {
+
+					final StringBuilder sb = new StringBuilder();
+					sb.append("http://etsmtl.me/py/usage/");
+					sb.append(params[0]);
+					sb.append("/");
+					sb.append(params[1]);
+
+					HttpGet get = new HttpGet(URI.create(sb.toString()));
+					HttpClient client = new DefaultHttpClient();
+					HttpResponse re = client.execute(get);
+					ent = EntityUtils.toString(re.getEntity());
+
+				} catch (final IOException e) {
+					e.printStackTrace();
+				}
+
+				return ent;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				Bundle args = new Bundle();
+				args.putString("result", result);
+				showDialog(2, args);
+				super.onPostExecute(result);
+			}
+
+		}.execute(rez, appt);
 	}
 
 	/**
@@ -213,23 +247,11 @@ public class ProfileActivity extends Activity implements OnClickListener,
 
 			@Override
 			public void onClick(View v) {
-				showDialog(0);
-				// startActivity(new Intent(v.getContext(),
-				// BandwithActivity.class));
+				showDialog(3);
 			}
 		});
 
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-
-		appt = prefs.getString(UserCredentials.APPT, "");
-		rez = prefs.getString(UserCredentials.REZ, "");
-
-		if (appt.equals("") || rez.equals("")) {
-			new BandwithDialog(this).show();
-		} else {
-			getBandwith();
-		}
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		doLogin();
 	}
@@ -247,10 +269,40 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		case 2:
 			String result = args.getString("result");
 			d = new AlertDialog.Builder(this).setMessage(
-					"Phase: " + rez + "Appt: " + appt + " il vous reste :"
+					"Phase: " + rez + " Appt: " + appt + " \nIl vous reste : "
 							+ result).create();
 			break;
+		case 3:
+			((TextView) view.findViewById(R.id.textView1))
+					.setText(R.string.bandwith_dialog_rez);
+			((TextView) view.findViewById(R.id.textView2))
+					.setText(R.string.bandwith_dialog_appt);
 
+			d = new AlertDialog.Builder(this)
+					.setTitle("Votre lieux de résidence")
+					.setView(view)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									final Editor edit = prefs.edit();
+									rez = ((TextView) view
+											.findViewById(R.id.login_dialog_code_univesel))
+											.getText().toString();
+									appt = ((TextView) view
+											.findViewById(R.id.login_dialog_mot_passe))
+											.getText().toString();
+									edit.putString(UserCredentials.REZ, rez);
+
+									edit.putString(UserCredentials.APPT, appt);
+									edit.commit();
+
+									getBandwith();
+								}
+							}).create();
+			break;
 		}
 		return d;
 	}
@@ -258,43 +310,5 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	@Override
 	public void onDismiss(final DialogInterface dialog) {
 		doLogin();
-	}
-
-	private void getBandwith() {
-		new AsyncTask<String, Void, String>() {
-
-			@Override
-			protected String doInBackground(String... params) {
-
-				String ent = null;
-				try {
-
-					final StringBuilder sb = new StringBuilder();
-					sb.append("http://etsmtl.me/py/usage/");
-					sb.append(params[0]);
-					sb.append(params[1]);
-
-					HttpGet get = new HttpGet(URI.create(sb.toString()));
-					HttpClient client = new DefaultHttpClient();
-					HttpResponse re = client.execute(get);
-					ent = re.getEntity().toString();
-
-					// array = objectList;
-				} catch (final IOException e) {
-					e.printStackTrace();
-				}
-
-				return ent;
-			}
-
-			@Override
-			protected void onPostExecute(String result) {
-				Bundle args = new Bundle();
-				args.putString("result", result);
-				showDialog(2, args);
-				super.onPostExecute(result);
-			}
-
-		}.execute(rez, appt);
 	}
 }

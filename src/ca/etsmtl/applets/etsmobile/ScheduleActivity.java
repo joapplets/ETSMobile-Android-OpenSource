@@ -61,7 +61,7 @@ public class ScheduleActivity extends Activity {
 						act.currentGridView.getCurrentCell().setChanged();
 						act.currentGridView.getCurrentCell().notifyObservers();
 					}
-				
+
 				}
 				break;
 			default:
@@ -97,26 +97,22 @@ public class ScheduleActivity extends Activity {
 				} else {
 					if (cell.getDate().before(current.getCalendar().getTime())) {
 
-
 						current.previousMonth();
-						cell = v.getCell(x, v.getmCellCountY()-1);
+						cell = v.getCell(x, v.getmCellCountY() - 1);
 						cell.addObserver(lst_cours);
 						cell.setChanged();
 						cell.notifyObservers();
 						v.setCurrentCell(cell);
-			
 
 					} else if (cell.getDate().after(
 							current.getCalendar().getTime())) {
 
-						
 						current.nextMonth();
-						cell = v.getCell( x, 0);
+						cell = v.getCell(x, 0);
 						cell.addObserver(lst_cours);
 						cell.setChanged();
 						cell.notifyObservers();
 						v.setCurrentCell(cell);
-					
 
 					}
 				}
@@ -141,7 +137,6 @@ public class ScheduleActivity extends Activity {
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle(R.drawable.navbar_horaire_title);
 
-
 		// set the gridview containing the day names
 		final String[] day_names = getResources().getStringArray(
 				R.array.day_names);
@@ -149,8 +144,6 @@ public class ScheduleActivity extends Activity {
 		final GridView grid = (GridView) findViewById(R.id.gridDayNames);
 		grid.setAdapter(new ArrayAdapter<String>(this, R.layout.day_name,
 				day_names));
-		
-	
 
 		// set next and previous buttons
 		final ImageButton btn_previous = (ImageButton) findViewById(R.id.btn_previous);
@@ -175,14 +168,12 @@ public class ScheduleActivity extends Activity {
 		currentGridView
 				.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
-
 		// Affiche le mois courant
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
 
 		current = new CurrentCalendar();
 		// initialisation des observers
 
-	
 		current.addObserver(currentGridView);
 
 		current.addObserver(txtcalendar_title);
@@ -196,7 +187,7 @@ public class ScheduleActivity extends Activity {
 
 		currentGridView.getCurrentCell().setChanged();
 		currentGridView.getCurrentCell().notifyObservers();
-		
+
 		navBar.setRightButtonText(R.string.Ajourdhui);
 		navBar.showRightButton();
 		navBar.setRightButtonAction(new View.OnClickListener() {
@@ -204,15 +195,14 @@ public class ScheduleActivity extends Activity {
 			public void onClick(final View v) {
 				currentGridView.getCurrentCell().deleteObservers();
 				currentGridView.setCurrentCell(null);
-				
+
 				current.setToday();
-				
+
 				currentGridView.getCurrentCell().addObserver(lst_cours);
 				currentGridView.getCurrentCell().setChanged();
 				currentGridView.getCurrentCell().notifyObservers();
 			}
 		});
-
 
 	}
 

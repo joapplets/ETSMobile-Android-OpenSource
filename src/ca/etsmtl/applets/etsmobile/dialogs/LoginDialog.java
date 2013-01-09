@@ -13,7 +13,6 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
 public class LoginDialog extends AlertDialog {
 
-
 	private TextView codeP;
 	private TextView codeU;
 
