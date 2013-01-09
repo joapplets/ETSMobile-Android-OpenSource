@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Message;
 import ca.etsmtl.applets.etsmobile.R;
@@ -54,15 +55,17 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	public static final int ON_POST_EXEC = 10;
 	private final CalendarTaskHandler handler;
 	
+	
 	private final static int[] dots = new int[] {
-		R.drawable.kal_marker_red_small,
-		R.drawable.kal_marker_fuchsia_small,
-		R.drawable.kal_marker_green_small,
-		R.drawable.kal_marker_lime_small,
-		R.drawable.kal_marker_maroon_small,
-		R.drawable.kal_marker_navy_small, R.drawable.kal_marker_aqua_small,
-		R.drawable.kal_marker_yellow_small,
-		R.drawable.kal_marker_black_small };
+		R.drawable.kal_marker_red,
+		R.drawable.kal_marker_fuchsia,
+		R.drawable.kal_marker_green,
+		R.drawable.kal_marker_lime,
+		R.drawable.kal_marker_maroon,
+		R.drawable.kal_marker_navy, 
+		R.drawable.kal_marker_aqua,
+		R.drawable.kal_marker_yellow,
+		R.drawable.kal_marker_black };
 
 	public CalendarTask(final CalendarTaskHandler handler) {
 		this.handler = handler;
@@ -91,16 +94,24 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 					
 					if(!jour.equals(a.getJour()))
 					{
+						if(s.getMaxActivities() <  activities.subList(start, end).size())
+							s.setMaxActivities(activities.subList(start, end).size());
+						
 						s.setActivities(jour, activities.subList(start, end));
 						jour = a.getJour();
 						start = end;
+						
+						
 					}
 					end++;
 				}
+				if(s.getMaxActivities() <  activities.subList(start, end).size())
+					s.setMaxActivities(activities.subList(start, end).size());
+				
 				s.setActivities(jour, activities.subList(start, end));
+		
 			}
-			
-			
+	
 			s.setJoursRemplaces(getJoursRemplacesSession(s));
 		}
 

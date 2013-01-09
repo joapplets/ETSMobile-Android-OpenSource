@@ -46,6 +46,7 @@ public class ScheduleActivity extends Activity {
 					if (act.navBar != null) {
 						act.navBar.hideLoading();
 					}
+				
 
 					act.currentGridView
 							.setSessions((ArrayList<Session>) msg.obj);
@@ -75,6 +76,7 @@ public class ScheduleActivity extends Activity {
 	private NumGridView currentGridView;
 	private CalendarEventsListView lst_cours;
 	private NavBar navBar;
+	
 
 	private final OnCellTouchListener mNumGridView_OnCellTouchListener = new OnCellTouchListener() {
 		@Override

@@ -37,6 +37,8 @@ public class Session implements Serializable, Comparable<Session> {
 
 
 	private LinkedHashMap<String,List<ActivityCalendar>> activities;
+	
+	private int maxActivities=0;
 
 	@Override
 	public int compareTo(final Session s) {
@@ -170,5 +172,13 @@ public class Session implements Serializable, Comparable<Session> {
 		while(it.hasNext())
 			it.next().print();
 		
+	}
+
+	public int getMaxActivities() {
+		return maxActivities;
+	}
+
+	public void setMaxActivities(int maxActivities) {
+		this.maxActivities = maxActivities;
 	}
 }

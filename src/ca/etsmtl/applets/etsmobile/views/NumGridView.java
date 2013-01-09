@@ -14,10 +14,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.FontMetrics;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,7 +62,10 @@ public class NumGridView extends View implements Observer {
 
 	final int nbCellulesY = 6; // on va générer toujours un grilles 7 x 6
 
-	final int maxIndicators = 8;
+	//nombre d'indicateurs minimums
+	int maxIndicators = 3;
+	
+	
 	// Member variables
 	protected Paint mPaintBg; // Holds the style for painting the cell
 								// background
@@ -211,6 +217,20 @@ public class NumGridView extends View implements Observer {
 	public int getmCellCountY() {
 		return mCellCountY;
 	}
+	
+	public void setSessions(final ArrayList<Session> obj) {
+
+		sessions = obj;
+		
+		for(Session s: sessions)
+		{
+			if(this.maxIndicators < s.getMaxActivities())
+				this.maxIndicators = s.getMaxActivities();
+		}
+		
+
+	}
+
 
 	private List<Session> getSessions(final List<Calendar> days) {
 
@@ -299,23 +319,30 @@ public class NumGridView extends View implements Observer {
 				final Iterator<ActivityCalendar> it = cell.iterator();
 
 				int i = 0;
-
-				final float radius = mCellWidth / (75F * maxIndicators);
 				
+				final float  radius = mCellWidth / (3 * maxIndicators + 1);
+					
+				float startpos = dx + tx - ((2 * cell.size() + cell.size() - 1) * radius / 2 - radius);
+
 				ActivityCalendar event;
 				while (it.hasNext()) {
 					event = it.next();
 
-					//final int resid = event.getDrawableResId();
 					final Drawable d = getResources().getDrawable(event.getDrawableResId());
-
-					final int left = dx + (20 * i++) + 15;
-					final int top = dy + tx + 20;
-					final int right = left + d.getMinimumWidth();
-					final int bottom = top + d.getMinimumHeight();
-
-					d.setBounds(left, top, right, bottom);
+			
+					final int left = (int) (startpos + 3 * i * radius - radius) ;
+					
+					final int right =  (int) (left + (radius * 2));
+					
+					final int bottom = (int) dy + mCellHeight - ty/ 4 + 2;
+					
+					final int top = (int) (bottom - (2 * radius));
+					
+					d.setBounds(left, top, right,bottom);
+					
 					d.draw(canvas);
+					
+					i++;
 				}
 				
 			}
@@ -417,11 +444,6 @@ public class NumGridView extends View implements Observer {
 		mOnCellTouchListener = listener;
 	}
 
-	public void setSessions(final ArrayList<Session> obj) {
-
-		sessions = obj;
-
-	}
 
 	@Override
 	public void update(final Observable observable, final Object data) {
@@ -537,8 +559,13 @@ public class NumGridView extends View implements Observer {
 										mCells[x][y].getDate().getYear()  == j.getDateOrigine().getYear())
 								{
 									mCells[x][y].clear();
-									mCells[x][y].add(new ActivityCalendar(j.getDescription(),"","",j.getDescription(),"","","","","","",R.drawable.kal_marker_black_small));
 									
+									final ActivityCalendar activity = new ActivityCalendar();
+									
+									activity.setCours(j.getDescription().trim());
+									activity.setDrawableResId(R.drawable.kal_marker_black);
+									
+									mCells[x][y].add(activity);
 									isRemplacee = true;
 									break;
 								}
