@@ -2,12 +2,9 @@ package ca.etsmtl.applets.etsmobile.services;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Message;
 import ca.etsmtl.applets.etsmobile.R;

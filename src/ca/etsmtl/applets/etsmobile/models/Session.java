@@ -3,7 +3,6 @@ package ca.etsmtl.applets.etsmobile.models;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -154,7 +153,7 @@ public class Session implements Serializable, Comparable<Session> {
 
 	@Override
 	public String toString() {
-		return getLongName();
+		return this.longName;
 	}
 
 	public List<JoursRemplaces> getJoursRemplaces() {
@@ -165,14 +164,7 @@ public class Session implements Serializable, Comparable<Session> {
 		this.joursRemplaces = joursRemplaces;
 	}
 	
-	public void print()
-	{
-		Iterator<JoursRemplaces> it = this.joursRemplaces.iterator();
-		
-		while(it.hasNext())
-			it.next().print();
-		
-	}
+	
 
 	public int getMaxActivities() {
 		return maxActivities;

@@ -1,6 +1,5 @@
 package ca.etsmtl.applets.etsmobile.models;
 
-import ca.etsmtl.applets.etsmobile.R;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -150,8 +149,4 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 		this.titreCours = titreCours;
 	}
 	
-	public void print()
-	{
-		System.out.println(this.cours + " " + this.journee);
-	}
 }
