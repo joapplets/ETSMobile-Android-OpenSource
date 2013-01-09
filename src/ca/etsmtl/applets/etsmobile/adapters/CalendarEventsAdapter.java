@@ -4,6 +4,11 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Paint.Style;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +31,6 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 	Context context;
 	int layoutResourceId;
 	List<ActivityCalendar> events;
-
-	private final static int[] dots = new int[] { R.drawable.kal_marker_red,
-			R.drawable.kal_marker_fuchsia, R.drawable.kal_marker_green,
-			R.drawable.kal_marker_lime, R.drawable.kal_marker_maroon,
-			R.drawable.kal_marker_navy, R.drawable.kal_marker_aqua,
-			R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
 
 	public CalendarEventsAdapter(final Context context,
 			final int textViewResourceId, final List<ActivityCalendar> objects) {
@@ -66,16 +65,25 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 			holder = (Holder) convertView.getTag();
 		}
 
+		if(	event.getStartDate() !=null)
 		holder.text1.setText(String.format(
 				res.getString(R.string.calendar_event_list_item_title),
 				event.getStartDate(), event.getCours()));
-		holder.text2.setText(String.format(
-				res.getString(R.string.calendar_event_list_item_subtitle),
-				event.getName(), event.getLocation()));
+		else
+			holder.text1.setText(event.getCours());
+		
+		
+		if(event.getName() !=null && event.getLocation() !=null)
+			holder.text2.setText(String.format(
+					res.getString(R.string.calendar_event_list_item_subtitle),
+					event.getName(), event.getLocation()));
+		else
+			holder.text2.setVisibility(View.GONE);
 
-		final int resid = event.getDrawableResId();
+		
 		holder.img.setImageDrawable(res
-				.getDrawable(CalendarEventsAdapter.dots[resid]));
+				.getDrawable(events.get(position).getDrawableResId()));
+		
 		return convertView;
 	}
 

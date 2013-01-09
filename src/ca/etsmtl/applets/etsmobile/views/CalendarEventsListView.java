@@ -67,17 +67,20 @@ public class CalendarEventsListView extends ListView implements Observer {
 				final Bundle b = new Bundle();
 				b.putString("cours", adapter.getItem(position).getCours());
 
-				b.putString("local", adapter.getItem(position).getLocation());
+				if(adapter.getItem(position).getLocation() !=null)
+					b.putString("local", adapter.getItem(position).getLocation());
 
 				b.putString("date", new SimpleDateFormat("EEEE dd MMMM yyyy",
 						Locale.CANADA_FRENCH).format(date));
 
-				b.putString("hours", String.format(res
-						.getString(R.string.calendar_event_detail_hours),
-						adapter.getItem(position).getStartDate(), adapter
-								.getItem(position).getEndDate()));
+				if(adapter.getItem(position).getStartDate() !=null && adapter.getItem(position).getEndDate() !=null)
+					b.putString("hours", String.format(res
+							.getString(R.string.calendar_event_detail_hours),
+							adapter.getItem(position).getStartDate(), adapter
+							.getItem(position).getEndDate()));
 
-				b.putString("name", adapter.getItem(position).getName());
+				if(adapter.getItem(position).getName() !=null)
+					b.putString("name", adapter.getItem(position).getName());
 
 				final Intent nextActivity = new Intent(context,
 						ScheduleDetailActivity.class);

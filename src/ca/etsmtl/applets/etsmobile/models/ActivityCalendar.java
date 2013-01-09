@@ -1,5 +1,6 @@
 package ca.etsmtl.applets.etsmobile.models;
 
+
 import com.google.gson.annotations.SerializedName;
 
 public class ActivityCalendar implements Comparable<ActivityCalendar> {
@@ -27,6 +28,9 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 	private String groupe;
 
 	private int eventDrawableResId;
+	
+	
+	
 
 	@Override
 	public int compareTo(final ActivityCalendar another) {
@@ -144,4 +148,5 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 	public void setTitreCours(final String titreCours) {
 		this.titreCours = titreCours;
 	}
+	
 }

@@ -2,6 +2,7 @@ package ca.etsmtl.applets.etsmobile;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
@@ -23,19 +24,29 @@ public class ScheduleDetailActivity extends Activity {
 
 		txt = (TextView) findViewById(R.id.txt_local);
 
-		txt.setText(getIntent().getExtras().getString("local"));
+		if(getIntent().getExtras().getString("local")!=null)
+			txt.setText(getIntent().getExtras().getString("local"));
+		else
+			txt.setVisibility(View.GONE);
 
 		txt = (TextView) findViewById(R.id.txt_date);
 
 		txt.setText(getIntent().getExtras().getString("date"));
 
+		
 		txt = (TextView) findViewById(R.id.txt_hours);
-
-		txt.setText(getIntent().getExtras().getString("hours"));
+		
+		if(getIntent().getExtras().getString("hours")!=null)
+			txt.setText(getIntent().getExtras().getString("hours"));
+		else
+			txt.setVisibility(View.GONE);;
 
 		txt = (TextView) findViewById(R.id.txt_name);
-
-		txt.setText(getIntent().getExtras().getString("name"));
+		
+		if(getIntent().getExtras().getString("name")!=null)
+			txt.setText(getIntent().getExtras().getString("name"));
+		else
+			txt.setVisibility(View.GONE);;
 
 	}
 }
