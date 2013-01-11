@@ -53,7 +53,7 @@ public class XMLNewsParser extends XMLAbstractHandler {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z",
 	    Locale.CANADA);
 
-    public XMLNewsParser(final String source, final ArrayList<String> guids,
+	public XMLNewsParser(final String source, final ArrayList<String> guids,
 	    final ObservableBundle bundle) {
 	super(bundle);
 	this.source = source;

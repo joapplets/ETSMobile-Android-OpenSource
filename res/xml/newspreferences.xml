@@ -19,6 +19,11 @@
             android:key="twitter"
             android:summary="Afficher les nouvelles provenant de Twitter ÉTS"
             android:title="Twitter ÉTS" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="interface"
+            android:summary="Afficher les nouvelles provenant de l'Interface"
+            android:title="Interface ÉTS" />
     </PreferenceCategory>
 
 </PreferenceScreen>
