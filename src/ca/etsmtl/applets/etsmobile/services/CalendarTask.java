@@ -30,7 +30,6 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	private final String session;
 
 	public ListeHorraireEtProf(final UserCredentials cred, final Session currentSession) {
-	    // TODO Auto-generated constructor stub
 	    password = cred.getPassword();
 	    username = cred.getUsername();
 	    session = currentSession.getShortName();
@@ -43,7 +42,6 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	private final String session;
 
 	public LireJoursRemplaces(final Session currentSession) {
-	    // TODO Auto-generated constructor stub
 	    session = currentSession.getShortName();
 	}
     }
@@ -237,7 +235,6 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 
 	// Bundle data = new Bundle();
 	final Message msg = handler.obtainMessage(CalendarTask.ON_POST_EXEC, result);
-	// msg.setData(data);
 	msg.sendToTarget();
 
     }

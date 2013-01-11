@@ -42,7 +42,8 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		final Bundle data = msg.getData();
 		final StudentProfile studentProfile = (StudentProfile) data
 			.get(ProfileTask.PROFILE_KEY);
-		if (!studentProfile.getSolde().equals("") && !studentProfile.getNom().equals("")
+		if (studentProfile != null && !studentProfile.getSolde().equals("")
+			&& !studentProfile.getNom().equals("")
 			&& !studentProfile.getPrenom().equals("")) {
 		    // save credentials to prefs
 		    final SharedPreferences prefs = PreferenceManager

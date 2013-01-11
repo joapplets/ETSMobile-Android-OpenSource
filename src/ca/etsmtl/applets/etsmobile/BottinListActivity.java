@@ -41,12 +41,6 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	    final BottinBinder binder = params[0];
 	    if (binder != null) {
 		binder.startFetching();
-		while (binder.isWorking()) {
-		    try {
-			Thread.sleep(1000);
-		    } catch (final InterruptedException e) {
-		    }
-		}
 	    }
 	    return null;
 	}
@@ -55,8 +49,11 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	protected void onPostExecute(final Void result) {
 	    try {
 		dismissDialog(BottinListActivity.ALERT_LOADING);
-		simpleCursor.notifyDataSetChanged();
-		unbindService(connection);
+		managedQuery(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+			BottinListActivity.DB_COLS, null, null, "nom ASC");
+		simpleCursor = new MyCursorAdapter(BottinListActivity.this, allEntryCursor,
+			PROJECTION, TXT_VIEWS);
+		setListAdapter(simpleCursor);
 	    } catch (final IllegalArgumentException e) {
 	    }
 	    super.onPostExecute(result);
@@ -162,7 +159,6 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
     private Cursor allEntryCursor;
     // Handler uiHandler;
     private SimpleCursorAdapter simpleCursor;
-
     private TextView txtView;
 
     /**
@@ -209,6 +205,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	txtView.addTextChangedListener(this);
 	allEntryCursor = managedQuery(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
 		BottinListActivity.DB_COLS, null, null, "nom ASC");
+
 	// cursor adapter is faster
 	if (simpleCursor == null) {
 	    simpleCursor = new MyCursorAdapter(this, allEntryCursor, PROJECTION, TXT_VIEWS);

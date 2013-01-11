@@ -15,6 +15,7 @@ public class ProfileTask extends AsyncTask<UserCredentials, String, StudentProfi
 
     public static final String PROFILE_KEY = "profile";
     public static final int ON_POST_EXEC = 0;
+    public static final int ON_PRE_EXEC = 1;
     private final Handler handler;
 
     public ProfileTask(final Handler handler) {
@@ -41,6 +42,11 @@ public class ProfileTask extends AsyncTask<UserCredentials, String, StudentProfi
 	    e.printStackTrace();
 	}
 	return profile;
+    }
+    @Override
+    protected void onPreExecute() {
+	super.onPreExecute();
+	handler.obtainMessage(ON_PRE_EXEC).sendToTarget();
     }
 
     @Override

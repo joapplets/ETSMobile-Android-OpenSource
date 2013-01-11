@@ -36,6 +36,8 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 public class ProfileActivity extends Activity implements OnClickListener, OnDismissListener,
 	DialogInterface.OnClickListener {
 
+    public String bandwith;
+
     private static class ProfileHandler extends Handler {
 	private final WeakReference<ProfileActivity> ref;
 
@@ -61,7 +63,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 			    act,
 			    "Erreur d'identification : Vos informations personnelles sont érronée(s)",
 			    Toast.LENGTH_LONG).show();
-		    act.showDialog(ProfileActivity.SHOW_LOGIN, null);
+		    act.showDialog(ProfileActivity.SHOW_LOGIN);
 		} else {
 
 		    act.name.setText(studentProfile.getPrenom());
@@ -70,9 +72,8 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		    act.codeP.setText(studentProfile.getCodePerm());
 
 		    // save credentials to prefs
-		    final SharedPreferences prefs = PreferenceManager
-			    .getDefaultSharedPreferences(act);
-		    final Editor editor = prefs.edit();
+
+		    final Editor editor = act.prefs.edit();
 		    editor.putString("codeP", act.creds.getUsername());
 		    editor.putString("codeU", act.creds.getPassword());
 		    editor.commit();
@@ -81,8 +82,13 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		    act.btnLogin.setText(act.getString(R.string.logout));
 		}
 		break;
-
+	    case ProfileTask.ON_PRE_EXEC:
+		act.navBar.showLoading();
+		break;
 	    default:
+		act.navBar.hideLoading();
+		act.bandwith = (String) msg.obj;
+		act.showDialog(2);
 		break;
 	    }
 	}
@@ -106,7 +112,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
     private SharedPreferences prefs;
 
     private void doLogin() {
-	creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
+	creds = new UserCredentials(prefs);
 	CharSequence text = "";
 	boolean tag = false;
 	int mColor = Color.RED;
@@ -146,6 +152,9 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		    final HttpResponse re = client.execute(get);
 		    ent = EntityUtils.toString(re.getEntity());
 
+		    if (ent.contains("<")) {
+			return "Une erreure c'est produite.";
+		    }
 		} catch (final IOException e) {
 		    e.printStackTrace();
 		}
@@ -155,9 +164,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 	    @Override
 	    protected void onPostExecute(String result) {
-		final Bundle args = new Bundle();
-		args.putString("result", result);
-		showDialog(2, args);
+		handler.obtainMessage(2, result).sendToTarget();
 		super.onPostExecute(result);
 	    }
 
@@ -177,13 +184,11 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		    .toString();
 	    codeU = ((TextView) view.findViewById(R.id.login_dialog_mot_passe)).getText()
 		    .toString();
-	    final UserCredentials credentials = new UserCredentials(codeP, codeU);
-	    new ProfileTask(handler).execute(credentials);
-	default:
-	    dialog.cancel();
-	    dialog.dismiss();
+	    creds = new UserCredentials(codeP, codeU);
+	    new ProfileTask(handler).execute(creds);
 	    break;
 	}
+	dialog.dismiss();
     }
 
     /**
@@ -193,7 +198,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
     public void onClick(final View view) {
 	if (!(Boolean) btnLogin.getTag()) {
 	    // login
-	    showDialog(ProfileActivity.SHOW_LOGIN, null);
+	    showDialog(ProfileActivity.SHOW_LOGIN);
 	} else {
 	    // logout
 	    // remove credentials
@@ -224,7 +229,6 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 	btnLogin = (Button) findViewById(R.id.profile_login_btn);
 	btnLogin.setOnClickListener(this);
-	view = getLayoutInflater().inflate(R.layout.login_dialog, null);
 
 	// nav bar
 	navBar = (NavBar) findViewById(R.id.navBar1);
@@ -252,20 +256,27 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
     }
 
     @Override
-    protected Dialog onCreateDialog(final int id, final Bundle args) {
-	Dialog d = super.onCreateDialog(id, args);
+    protected Dialog onCreateDialog(final int id) {
+	super.onCreateDialog(id);
+	Dialog d = null;
 	switch (id) {
 	case 1:
+	    view = getLayoutInflater().inflate(R.layout.login_dialog, null);
 	    d = new AlertDialog.Builder(this).setTitle(getString(R.string.login_dialog_title))
 		    .setView(view).setPositiveButton("Ok", this).create();
 	    break;
 
 	case 2:
-	    final String result = args.getString("result");
 	    d = new AlertDialog.Builder(this).setMessage(
-		    "Phase: " + rez + " Appt: " + appt + " \nIl vous reste : " + result).create();
+		    "Phase: " + rez + " Appt: " + appt + " \nIl vous reste : " + bandwith).create();
 	    break;
+
 	case 3:
+	    view = getLayoutInflater().inflate(R.layout.login_dialog, null);
+	    ((TextView) view.findViewById(R.id.textView1))
+		    .setText(getString(R.string.bandwith_dialog_rez));
+	    ((TextView) view.findViewById(R.id.textView2))
+		    .setText(getString(R.string.bandwith_dialog_appt));
 	    d = new AlertDialog.Builder(this).setTitle("Votre lieux de résidence").setView(view)
 		    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
@@ -285,7 +296,9 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 				edit.putString(UserCredentials.APPT, appt);
 				edit.commit();
+
 				getBandwith();
+				dialog.dismiss();
 			    }
 			}
 		    }).create();

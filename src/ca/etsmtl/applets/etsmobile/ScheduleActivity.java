@@ -1,9 +1,18 @@
 package ca.etsmtl.applets.etsmobile;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Set;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
@@ -27,6 +36,8 @@ import ca.etsmtl.applets.etsmobile.views.NumGridView.OnCellTouchListener;
 
 public class ScheduleActivity extends Activity {
 
+    public ArrayList<Session> sessions;
+
     public static class CalendarTaskHandler extends Handler {
 	private final WeakReference<ScheduleActivity> ref;
 
@@ -46,7 +57,9 @@ public class ScheduleActivity extends Activity {
 			act.navBar.hideLoading();
 		    }
 
-		    act.currentGridView.setSessions((ArrayList<Session>) msg.obj);
+		    ArrayList<Session> obj = (ArrayList<Session>) msg.obj;
+		    act.sessions = obj;
+		    act.currentGridView.setSessions(obj);
 
 		    act.currentGridView.setCurrentCell(null);
 
@@ -115,15 +128,22 @@ public class ScheduleActivity extends Activity {
     };
 
     private AsyncTask<Object, Void, ArrayList<Session>> task;
+    private UserCredentials userCredentials;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.calendar_view);
-	// get data async
-	task = new CalendarTask(new CalendarTaskHandler(this)).execute(new UserCredentials(
-		PreferenceManager.getDefaultSharedPreferences(this)));
 
+	userCredentials = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
+	sessions = new ArrayList<Session>();
+
+	if (savedInstanceState != null) {
+	    onRestoreInstanceState(savedInstanceState);
+	} else {
+	    // get data async
+	    task = new CalendarTask(new CalendarTaskHandler(this)).execute(userCredentials);
+	}
 	// set the navigation bar
 	navBar = (NavBar) findViewById(R.id.navBar1);
 	navBar.setTitle(R.drawable.navbar_horaire_title);
@@ -152,7 +172,6 @@ public class ScheduleActivity extends Activity {
 	});
 
 	// set the calendar view
-
 	currentGridView = (NumGridView) findViewById(R.id.calendar_view);
 	currentGridView.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
@@ -194,4 +213,52 @@ public class ScheduleActivity extends Activity {
 
     }
 
+    // @Override
+    // protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    // super.onRestoreInstanceState(savedInstanceState);
+    // Set<String> keys = savedInstanceState.keySet();
+    // for (String string : keys) {
+    // Session serializable = (Session)
+    // savedInstanceState.getSerializable(string);
+    // sessions.add(serializable);
+    // }
+    // saveSessionToFile();
+    // }
+
+    // private void saveSessionToFile() {
+    // try {
+    // FileOutputStream fos = openFileOutput(userCredentials.getUsername(),
+    // Context.MODE_PRIVATE);
+    // ObjectOutputStream os = new ObjectOutputStream(fos);
+    // for (Session s : sessions) {
+    // os.writeObject(s);
+    // }
+    // os.close();
+    // } catch (FileNotFoundException e) {
+    // e.printStackTrace();
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // }
+
+    // private void getFromFile() {
+    // try {
+    // FileInputStream fis = openFileInput(userCredentials.getUsername());
+    // ObjectInputStream is = new ObjectInputStream(fis);
+    // Session session = null;
+    // while ((session = (Session) is.readObject()) != null) {
+    // sessions.add(session);
+    // }
+    // is.close();
+    // } catch (StreamCorruptedException e) {
+    // e.printStackTrace();
+    // } catch (FileNotFoundException e) {
+    // e.printStackTrace();
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // } catch (ClassNotFoundException e) {
+    // e.printStackTrace();
+    // }
+    //
+    // }
 }
