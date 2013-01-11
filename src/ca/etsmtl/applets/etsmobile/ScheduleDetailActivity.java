@@ -41,7 +41,7 @@ public class ScheduleDetailActivity extends Activity {
 	} else {
 	    txt.setVisibility(View.GONE);
 	}
-	;
+	
 
 	txt = (TextView) findViewById(R.id.txt_name);
 
@@ -50,7 +50,7 @@ public class ScheduleDetailActivity extends Activity {
 	} else {
 	    txt.setVisibility(View.GONE);
 	}
-	;
+	
 
     }
 }

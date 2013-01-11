@@ -45,7 +45,11 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 
     }
 
-    @Override
+    public ActivityCalendar() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
     public int compareTo(final ActivityCalendar another) {
 	// TODO Auto-generated method stub
 
