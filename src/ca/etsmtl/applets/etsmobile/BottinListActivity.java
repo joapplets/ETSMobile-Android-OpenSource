@@ -32,8 +32,10 @@ import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.services.BottinService;
 import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
+import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
 
 public class BottinListActivity extends ListActivity implements TextWatcher, OnItemClickListener {
+
     private class ManualFetcher extends AsyncTask<BottinBinder, Void, Void> {
 
 	@Override
@@ -49,8 +51,9 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	protected void onPostExecute(final Void result) {
 	    try {
 		dismissDialog(BottinListActivity.ALERT_LOADING);
-		// managedQuery(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-		// BottinListActivity.DB_COLS, null, null, "nom ASC");
+		allEntryCursor = new ETSMobileOpenHelper(getApplicationContext())
+			.getReadableDatabase().query(BottinTableHelper.TABLE_NAME, null, null,
+				null, null, null, null);
 		simpleCursor = new MyCursorAdapter(BottinListActivity.this, allEntryCursor,
 			PROJECTION, TXT_VIEWS);
 		setListAdapter(simpleCursor);

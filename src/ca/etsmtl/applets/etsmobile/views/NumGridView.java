@@ -204,19 +204,16 @@ public class NumGridView extends View implements Observer {
 
     public void setSessions(final ArrayList<Session> obj) {
 
-		sessions = obj;
+	sessions = obj;
 
-		for(Session s: sessions)
-		{
-			if(this.maxIndicators < s.getMaxActivities())
-				this.maxIndicators = s.getMaxActivities();
-		}
-
-
+	for (final Session s : sessions) {
+	    if (this.maxIndicators < s.getMaxActivities()) {
+		this.maxIndicators = s.getMaxActivities();
+	    }
 	}
-    
-    
-    
+
+    }
+
     private List<Session> getSessions(final List<Calendar> days) {
 
 	final List<Session> sessions = new ArrayList<Session>();
@@ -303,29 +300,30 @@ public class NumGridView extends View implements Observer {
 
 		int i = 0;
 
-		final float  radius = mCellWidth / (3 * maxIndicators + 1);
+		final float radius = mCellWidth / (3 * maxIndicators + 1);
 
-		float startpos = dx + tx - ((2 * cell.size() + cell.size() - 1) * radius / 2 - radius);
+		final float startpos = dx + tx
+			- ((2 * cell.size() + cell.size() - 1) * radius / 2 - radius);
 
 		ActivityCalendar event;
 		while (it.hasNext()) {
-			event = it.next();
+		    event = it.next();
 
-			final Drawable d = getResources().getDrawable(event.getDrawableResId());
+		    final Drawable d = getResources().getDrawable(event.getDrawableResId());
 
-			final int left = (int) (startpos + 3 * i * radius - radius) ;
+		    final int left = (int) (startpos + 3 * i * radius - radius);
 
-			final int right =  (int) (left + (radius * 2));
+		    final int right = (int) (left + (radius * 2));
 
-			final int bottom = (int) dy + mCellHeight - ty/ 4 + 2;
+		    final int bottom = dy + mCellHeight - ty / 4 + 2;
 
-			final int top = (int) (bottom - (2 * radius));
+		    final int top = (int) (bottom - (2 * radius));
 
-			d.setBounds(left, top, right,bottom);
+		    d.setBounds(left, top, right, bottom);
 
-			d.draw(canvas);
+		    d.draw(canvas);
 
-			i++;
+		    i++;
 		}
 
 	    }
@@ -423,8 +421,6 @@ public class NumGridView extends View implements Observer {
     public void setOnCellTouchListener(final OnCellTouchListener listener) {
 	mOnCellTouchListener = listener;
     }
-
-   
 
     @Override
     public void update(final Observable observable, final Object data) {
@@ -544,7 +540,7 @@ public class NumGridView extends View implements Observer {
 				    && mCells[x][y].getDate().getYear() == j.getDateOrigine()
 					    .getYear()) {
 				mCells[x][y].clear();
-				
+
 				final ActivityCalendar activity = new ActivityCalendar();
 
 				activity.setCours(j.getDescription().trim());

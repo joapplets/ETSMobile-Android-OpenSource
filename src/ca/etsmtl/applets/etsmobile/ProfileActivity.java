@@ -10,8 +10,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import com.google.android.gms.internal.c;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;

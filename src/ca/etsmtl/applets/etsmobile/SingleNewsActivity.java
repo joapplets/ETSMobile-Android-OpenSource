@@ -90,7 +90,8 @@ public class SingleNewsActivity extends Activity {
 	    settings.setSupportZoom(false);
 	    settings.setDomStorageEnabled(true);
 
-	    if (source.equals(NewsService.FACEBOOK) || source.equals(NewsService.TWITTER)) {
+	    if (source.equals(NewsService.FACEBOOK) || source.equals(NewsService.TWITTER)
+		    || source.equals(NewsService.INTERFACE)) {
 		webView.setWebViewClient(new WebViewClient() {
 
 		    @Override

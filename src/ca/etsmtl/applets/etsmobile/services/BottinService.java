@@ -123,8 +123,6 @@ public class BottinService extends Service implements Observer {
     @Override
     public void update(final Observable observable, final Object object) {
 	if (object instanceof ContentValues[]) {
-	    System.currentTimeMillis();
-	    // Log.d(BottinService.TAG, "");
 	    getContentResolver().bulkInsert(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
 		    (ContentValues[]) object);
 	    System.currentTimeMillis();

@@ -34,7 +34,7 @@ public class NewsCursorAdapter extends CursorAdapter {
 	facebookLogo = context.getResources().getDrawable(R.drawable.news_background_facebookets);
 	twitterLogo = context.getResources().getDrawable(R.drawable.news_background_twitterets);
 
-	interfaceLogo = context.getResources().getDrawable(R.drawable.news_background_twitterets);
+	interfaceLogo = context.getResources().getDrawable(R.drawable.news_background_interfaceets);
     }
 
     @Override

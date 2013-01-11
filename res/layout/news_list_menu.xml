@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
- 
-<item android:id="@+id/newsListMenuUpdate" 
-      android:title="Update"/>
- 
-<item android:id="@+id/newsListMenuPreferences" 
-     android:title="Preferences"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <item
+        android:id="@+id/newsListMenuUpdate"
+        android:title="Update"/>
+
+    <item
+        android:id="@+id/newsListMenuPreferences"
+        android:title="Preferences"/>
 
 </menu>

@@ -5,14 +5,13 @@
     android:layout_height="fill_parent"
     android:background="@drawable/home_background"
     android:orientation="vertical" >
-
+
     <ca.etsmtl.applets.etsmobile.views.NavBar
         android:id="@+id/navBarMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
     </ca.etsmtl.applets.etsmobile.views.NavBar>
-
+
     <GridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
@@ -28,9 +27,8 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
         android:verticalSpacing="6dp" >
-
     </GridView>
-
+
     <ImageButton
         android:id="@+id/imgBtnabout"
         android:layout_width="wrap_content"
