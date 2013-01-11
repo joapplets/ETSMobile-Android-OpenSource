@@ -28,7 +28,7 @@ public class Session implements Serializable, Comparable<Session> {
     @SerializedName("dateFinCours")
     private String dateFinCoursString;
 
-    // private List<ActivityCalendar> activities;
+    private int maxActivities=0;
 
     private List<JoursRemplaces> joursRemplaces;
 
@@ -155,4 +155,12 @@ public class Session implements Serializable, Comparable<Session> {
     public String toString() {
 	return this.longName;
     }
+
+	public int getMaxActivities() {
+		return maxActivities;
+	}
+
+	public void setMaxActivities(int maxActivities) {
+		this.maxActivities = maxActivities;
+	}
 }

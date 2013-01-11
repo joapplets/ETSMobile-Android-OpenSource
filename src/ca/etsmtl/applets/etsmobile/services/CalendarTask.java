@@ -49,11 +49,11 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
     public static final int ON_POST_EXEC = 10;
     private final CalendarTaskHandler handler;
 
-    private final static int[] dots = new int[] { R.drawable.kal_marker_red_small,
-	    R.drawable.kal_marker_fuchsia_small, R.drawable.kal_marker_green_small,
-	    R.drawable.kal_marker_lime_small, R.drawable.kal_marker_maroon_small,
-	    R.drawable.kal_marker_navy_small, R.drawable.kal_marker_aqua_small,
-	    R.drawable.kal_marker_yellow_small, R.drawable.kal_marker_black_small };
+    private final static int[] dots = new int[] { R.drawable.kal_marker_red,
+	    R.drawable.kal_marker_fuchsia, R.drawable.kal_marker_green,
+	    R.drawable.kal_marker_lime, R.drawable.kal_marker_maroon,
+	    R.drawable.kal_marker_navy, R.drawable.kal_marker_aqua,
+	    R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
 
     public CalendarTask(final CalendarTaskHandler handler) {
 	this.handler = handler;
@@ -72,18 +72,29 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	    setColors(activities);
 
 	    if (!activities.isEmpty()) {
-		String jour = activities.get(0).getCours();
-		int start = 0, end = 0;
-		for (final ActivityCalendar a : activities) {
+	    	String jour = activities.get(0).getCours();
+	    	int start = 0, end = 0;
+	    	for (final ActivityCalendar a : activities) {
 
-		    if (!jour.equals(a.getJour())) {
-			s.setActivities(jour, activities.subList(start, end));
-			jour = a.getJour();
-			start = end;
-		    }
-		    end++;
-		}
-		s.setActivities(jour, activities.subList(start, end));
+	    		if (!jour.equals(a.getJour())) {
+		    	
+	    			if(s.getMaxActivities() <  activities.subList(start, end).size())
+	    			{
+	    				s.setMaxActivities(activities.subList(start, end).size());
+	    			}
+		    	
+	    			s.setActivities(jour, activities.subList(start, end));
+	    			jour = a.getJour();
+	    			start = end;
+	    		}
+	    		end++;
+	    	}
+	    	
+	    	if(s.getMaxActivities() <  activities.subList(start, end).size())
+	    	{
+				s.setMaxActivities(activities.subList(start, end).size());
+	    	}
+	    	s.setActivities(jour, activities.subList(start, end));
 	    }
 
 	    s.setJoursRemplaces(getJoursRemplacesSession(s));
