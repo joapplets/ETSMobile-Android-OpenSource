@@ -49,8 +49,8 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	protected void onPostExecute(final Void result) {
 	    try {
 		dismissDialog(BottinListActivity.ALERT_LOADING);
-		managedQuery(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-			BottinListActivity.DB_COLS, null, null, "nom ASC");
+		// managedQuery(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+		// BottinListActivity.DB_COLS, null, null, "nom ASC");
 		simpleCursor = new MyCursorAdapter(BottinListActivity.this, allEntryCursor,
 			PROJECTION, TXT_VIEWS);
 		setListAdapter(simpleCursor);
@@ -238,7 +238,9 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	    break;
 
 	case ALERT_LOADING:
-	    d = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+	    d = new ProgressDialog(this);
+	    d.setTitle(R.string.loading);
+	    d.setCancelable(true);
 	    break;
 	default:
 	    d = null;
