@@ -34,8 +34,6 @@ import ca.etsmtl.applets.etsmobile.tools.xml.XMLNewsParser;
 
 public class NewsService extends Service implements Observer {
 
-    public static final String INTERFACE = "interface";
-
     private class Fetcher extends AsyncTask<Void, Void, Void> {
 
 	@Override

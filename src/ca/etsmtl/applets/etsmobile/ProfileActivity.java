@@ -281,8 +281,6 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	    ((TextView) view.findViewById(R.id.textView2))
 		    .setText(getString(R.string.bandwith_dialog_appt));
 	    ((TextView) view.findViewById(R.id.login_dialog_code_univesel)).setHint(null);
-	    d = new AlertDialog.Builder(this).setTitle("Votre lieux de résidence").setView(view)
-		    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
 	    d = new AlertDialog.Builder(this).setTitle("Votre lieux de résidence").setView(view)
 		    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
