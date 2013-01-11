@@ -33,8 +33,7 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-public class ProfileActivity extends Activity implements OnClickListener, OnDismissListener,
-	DialogInterface.OnClickListener {
+public class ProfileActivity extends Activity implements OnClickListener, OnDismissListener {
 
     public String bandwith;
 
@@ -170,30 +169,6 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
     }
 
     /**
-     * Login dialog onClick
-     */
-    @Override
-    public void onClick(final DialogInterface dialog, final int which) {
-	String codeP;
-	String codeU;
-	switch (which) {
-	case DialogInterface.BUTTON_POSITIVE:
-	    codeP = ((TextView) view.findViewById(R.id.login_dialog_code_univesel)).getText()
-		    .toString();
-	    codeU = ((TextView) view.findViewById(R.id.login_dialog_mot_passe)).getText()
-		    .toString();
-	    final UserCredentials credentials = new UserCredentials(codeP, codeU);
-	    new ProfileTask(handler).execute(credentials);
-	    break;
-
-	default:
-	    dialog.cancel();
-	    dialog.dismiss();
-	    break;
-	}
-    }
-
-    /**
      * Login btn
      */
     @Override
@@ -231,7 +206,6 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 	btnLogin = (Button) findViewById(R.id.profile_login_btn);
 	btnLogin.setOnClickListener(this);
-	view = getLayoutInflater().inflate(R.layout.login_dialog, null);
 
 	// nav bar
 	navBar = (NavBar) findViewById(R.id.navBar1);
@@ -249,7 +223,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 	    @Override
 	    public void onClick(View v) {
-		showDialog(3, null);
+		showDialog(3);
 	    }
 	});
 
@@ -262,10 +236,37 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
     @Override
     protected Dialog onCreateDialog(final int id) {
 	Dialog d = super.onCreateDialog(id);
+	view = getLayoutInflater().inflate(R.layout.login_dialog, null);
 	switch (id) {
 	case SHOW_LOGIN:
 	    d = new AlertDialog.Builder(this).setTitle(getString(R.string.login_dialog_title))
-		    .setView(view).setPositiveButton("Ok", this).create();
+		    .setView(view).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+			/**
+			 * Login dialog onClick
+			 */
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+			    String codeP;
+			    String codeU;
+			    switch (which) {
+			    case DialogInterface.BUTTON_POSITIVE:
+				codeP = ((TextView) view
+					.findViewById(R.id.login_dialog_code_univesel)).getText()
+					.toString();
+				codeU = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
+					.getText().toString();
+				creds = new UserCredentials(codeP, codeU);
+				new ProfileTask(handler).execute(creds);
+				break;
+
+			    default:
+				dialog.cancel();
+				dialog.dismiss();
+				break;
+			    }
+			}
+		    }).create();
 	    break;
 
 	case SHOW_BAND_RESULT:
