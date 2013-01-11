@@ -25,6 +25,11 @@ public class SecurityActivity extends FragmentActivity {
     private NavBar navBar;
     private ListView listView;
 
+<<<<<<< HEAD
+    private MyMapMarker markers;
+    private MapController controller;
+=======
+>>>>>>> dev
     double lat = 45.494498;
     double lng = -73.563124;
 
@@ -70,20 +75,35 @@ public class SecurityActivity extends FragmentActivity {
 
 		    @Override
 		    public void onClick(final View v) {
+<<<<<<< HEAD
+			String phoneNumber = ((TextView) v).getText().toString();
+			String uri = "tel:" + phoneNumber.trim();
+			Intent intent = new Intent(Intent.ACTION_DIAL);
+=======
 			final String phoneNumber = ((TextView) v).getText().toString();
 			final String uri = "tel:" + phoneNumber.trim();
 			final Intent intent = new Intent(Intent.ACTION_DIAL);
+>>>>>>> dev
 			intent.setData(Uri.parse(uri));
 			startActivity(intent);
 		    }
 		});
 
+<<<<<<< HEAD
+	GoogleMap mapView = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(
+		R.id.map)).getMap();
+	mapView.getUiSettings().setZoomControlsEnabled(false);
+	mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 17));
+
+	MarkerOptions etsMarker = new MarkerOptions();
+=======
 	final GoogleMap mapView = ((SupportMapFragment) getSupportFragmentManager()
 		.findFragmentById(R.id.map)).getMap();
 	mapView.getUiSettings().setZoomControlsEnabled(false);
 	mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 17));
 
 	final MarkerOptions etsMarker = new MarkerOptions();
+>>>>>>> dev
 	etsMarker.position(new LatLng(lat, lng));
 	etsMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon));
 	mapView.addMarker(etsMarker);
