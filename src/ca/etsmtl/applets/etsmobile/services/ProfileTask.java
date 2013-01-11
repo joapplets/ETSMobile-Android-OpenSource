@@ -43,6 +43,7 @@ public class ProfileTask extends AsyncTask<UserCredentials, String, StudentProfi
 	}
 	return profile;
     }
+
     @Override
     protected void onPreExecute() {
 	super.onPreExecute();
