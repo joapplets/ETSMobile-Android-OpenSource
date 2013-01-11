@@ -14,7 +14,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="top" >
-
     </ca.etsmtl.applets.etsmobile.views.NavBar>
 
     <ScrollView
@@ -66,24 +65,23 @@
         android:gravity="bottom"
         android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_margin="5dp"
-                android:layout_marginTop="8dp"
-                android:text="Button" />
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_margin="5dp"
+            android:layout_marginTop="8dp"
+            android:text="Button" />
 
-            <Button
-                android:id="@+id/voirPDF_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:layout_margin="5dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/voirPDF" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/voirPDF_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:layout_margin="5dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/voirPDF" />
+    </LinearLayout>
 
 </RelativeLayout>
