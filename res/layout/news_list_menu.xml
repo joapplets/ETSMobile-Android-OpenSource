@@ -5,10 +5,14 @@
 
     <item
         android:id="@+id/newsListMenuUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:title="Update"/>
 
     <item
         android:id="@+id/newsListMenuPreferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:title="Preferences"/>
 
 </menu>
