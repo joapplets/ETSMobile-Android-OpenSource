@@ -6,57 +6,48 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.ScrollView;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class AboutActivity extends Activity {
 
-	private ScrollView scrollView;
+    private ScrollView scrollView;
 
-	private Handler handler;
+    private Handler handler;
 
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
+	super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.about);
+	setContentView(R.layout.about);
+	final NavBar navBar = (NavBar) findViewById(R.id.navBar1);
+	navBar.setTitle(R.drawable.navbar_title);
+	navBar.hideLoading();
+	navBar.hideRightButton();
+	navBar.hideHome();
+	scrollView = (ScrollView) findViewById(R.id.scrollView1);
+	handler = new Handler();
+	final TimerTask scrollerSchedule = new TimerTask() {
 
-		scrollView = (ScrollView) findViewById(R.id.scrollView1);
-		handler = new Handler();
-		final TimerTask scrollerSchedule = new TimerTask() {
+	    @Override
+	    public void run() {
 
-			@Override
-			public void run() {
+		handler.post(new Runnable() {
 
-				handler.post(new Runnable() {
-
-					@Override
-					public void run() {
-						if (scrollView.getScrollY() < scrollView
-								.getMaxScrollAmount() * 9) {
-							scrollView.smoothScrollTo(0,
-									scrollView.getScrollY() + 2);
-						} else {
-							scrollView.smoothScrollTo(0, 0);
-						}
-					}
-				});
+		    @Override
+		    public void run() {
+			if (scrollView.getScrollY() < scrollView.getMaxScrollAmount() * 9) {
+			    scrollView.smoothScrollTo(0, scrollView.getScrollY() + 2);
+			} else {
+			    scrollView.smoothScrollTo(0, 0);
 			}
-		};
-		final Timer t = new Timer();
-		t.schedule(scrollerSchedule, 1000, 100);
+		    }
+		});
+	    }
+	};
+	final Timer t = new Timer();
+	t.schedule(scrollerSchedule, 1000, 100);
 
-		// home btn
-		((ImageButton) findViewById(R.id.empty_nav_bar_home_btn))
-				.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(final View view) {
-						finish();
-					}
-				});
-	}
+    }
 }

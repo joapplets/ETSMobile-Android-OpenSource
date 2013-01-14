@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -14,11 +14,13 @@
         android:id="@+id/login_dialog_code_univesel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" >
+        android:ems="10"
+        android:hint="xx00000"
+        android:lines="1" >
 
         <requestFocus />
     </EditText>
-
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -30,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:lines="1" />
 
 </LinearLayout>

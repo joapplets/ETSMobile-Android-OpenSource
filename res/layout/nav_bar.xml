@@ -7,19 +7,18 @@
     android:contentDescription="@string/app_name"
     android:orientation="horizontal"
     android:padding="5dip" >
-
+
     <ImageView
         android:id="@+id/base_bar_img_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignRight="@+id/base_bar_source_btn"
         android:contentDescription="@string/news_list_view_image"
-        android:paddingLeft="25dip"
-        android:paddingRight="13dip"
-        android:paddingTop="5dip"
-        android:src="@drawable/navbar_news_title"
-        android:visibility="invisible" />
+        android:scaleType="center"
+        android:src="@drawable/navbar_title"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/base_bar_source_btn"
@@ -28,8 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:background="@drawable/nav_right_button_selector"
         android:text="@string/news_list_view_btnSources" />
-
+
     <ImageButton
         android:id="@+id/base_bar_home_btn"
         style="@style/btnHome"
@@ -38,8 +38,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/icon_home" />
-
+        android:src="@drawable/icon_home"
+        android:visibility="gone" />
+
     <ProgressBar
         android:id="@+id/base_bar_loading"
         style="?android:attr/progressBarStyleSmall"
@@ -47,15 +48,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" />
-
+
     <TextView
         android:id="@+id/base_bar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@+id/base_bar_img_title"
+        android:layout_alignRight="@+id/base_bar_source_btn"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:text="ASDASDASD"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="29dp"
+        android:textSize="20dp"
         android:textStyle="bold"
         android:visibility="invisible" />
 

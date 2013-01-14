@@ -3,9 +3,8 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:orientation="vertical" >
-
+
     <TextView
         android:id="@+id/bottin_list_item_nom"
         android:layout_width="wrap_content"
@@ -13,11 +12,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:padding="5dip"
-        android:text="Nom"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/black"
         android:textStyle="bold" />
-
+
     <TextView
         android:id="@+id/bottin_list_item_prenom"
         android:layout_width="wrap_content"
@@ -25,8 +22,6 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/bottin_list_item_nom"
         android:paddingTop="9dip"
-        android:text="Prenom"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/black" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

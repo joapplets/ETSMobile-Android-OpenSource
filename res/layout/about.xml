@@ -6,10 +6,11 @@
     android:background="@drawable/home_background"
     android:orientation="vertical" >
 
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/empty_nav_bar" />
+    <ca.etsmtl.applets.etsmobile.views.NavBar
+        android:id="@+id/navBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ca.etsmtl.applets.etsmobile.views.NavBar>
 
     <ImageView
         android:id="@+id/imageView1"
@@ -17,23 +18,24 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:src="@drawable/credits_tag" />
-
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" >
-
+
         <LinearLayout
             android:id="@+id/wrap1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
+
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="20dip"
                 android:gravity="center"
                 android:text="@string/about_team_android"
@@ -43,6 +45,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:text="@string/about_team_applets"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -51,6 +54,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:autoLink="all"
                 android:gravity="center"
                 android:text="@string/about_team_ti_ets"
@@ -60,6 +64,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:gravity="center_horizontal"
                 android:text="@string/about_particuliers"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -68,6 +73,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:text="@string/about_partenaires"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -79,7 +85,6 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/partenaires2012" />
         </LinearLayout>
-
     </ScrollView>
 
 </LinearLayout>

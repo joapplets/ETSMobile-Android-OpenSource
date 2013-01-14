@@ -7,102 +7,110 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
-public class CalendarCell extends Observable implements
-		Collection<ActivityCalendar> {
+public class CalendarCell extends Observable implements Collection<ActivityCalendar> {
 
-	List<ActivityCalendar> events;
-	Date date;
+    List<ActivityCalendar> events;
 
-	public CalendarCell() {
-		events = new ArrayList<ActivityCalendar>();
-	}
+    Date date;
 
-	public CalendarCell(final Date date) {
-		events = new ArrayList<ActivityCalendar>();
-		this.date = date;
-	}
+    public CalendarCell() {
+	events = new ArrayList<ActivityCalendar>();
+    }
 
-	@Override
-	public boolean add(final ActivityCalendar object) {
-		return events.add(object);
-	}
+    public CalendarCell(final Date date) {
+	events = new ArrayList<ActivityCalendar>();
+	this.date = date;
+    }
 
-	@Override
-	public boolean addAll(final Collection<? extends ActivityCalendar> arg0) {
-		return events.addAll(arg0);
-	}
+    @Override
+    public boolean add(final ActivityCalendar object) {
+	return events.add(object);
+    }
 
-	@Override
-	public void clear() {
-		events.clear();
-	}
+    @Override
+    public boolean addAll(final Collection<? extends ActivityCalendar> arg0) {
+	return events.addAll(arg0);
+    }
 
-	@Override
-	public boolean contains(final Object object) {
-		return events.contains(object);
-	}
+    @Override
+    public void clear() {
+	events.clear();
+    }
 
-	@Override
-	public boolean containsAll(final Collection<?> arg0) {
-		return events.containsAll(arg0);
-	}
+    @Override
+    public boolean contains(final Object object) {
+	return events.contains(object);
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    @Override
+    public boolean containsAll(final Collection<?> arg0) {
+	return events.containsAll(arg0);
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return events.isEmpty();
-	}
+    public Date getDate() {
+	return date;
+    }
 
-	@Override
-	public Iterator<ActivityCalendar> iterator() {
-		return events.iterator();
-	}
+    public List<ActivityCalendar> getEvents() {
+	return events;
+    }
 
-	@Override
-	public void notifyObservers() {
-		this.notifyObservers(events);
-	}
+    @Override
+    public boolean isEmpty() {
+	return events.isEmpty();
+    }
 
-	@Override
-	public boolean remove(final Object object) {
-		return events.remove(object);
-	}
+    @Override
+    public Iterator<ActivityCalendar> iterator() {
+	return events.iterator();
+    }
 
-	@Override
-	public boolean removeAll(final Collection<?> arg0) {
-		return events.removeAll(arg0);
-	}
+    @Override
+    public void notifyObservers() {
+	this.notifyObservers(events);
+    }
 
-	@Override
-	public boolean retainAll(final Collection<?> arg0) {
-		return events.retainAll(arg0);
-	}
+    @Override
+    public boolean remove(final Object object) {
+	return events.remove(object);
+    }
 
-	@Override
-	public void setChanged() {
-		super.setChanged();
-	}
+    @Override
+    public boolean removeAll(final Collection<?> arg0) {
+	return events.removeAll(arg0);
+    }
 
-	public void setDate(final Date date) {
-		this.date = date;
-	}
+    @Override
+    public boolean retainAll(final Collection<?> arg0) {
+	return events.retainAll(arg0);
+    }
 
-	@Override
-	public int size() {
-		return events.size();
-	}
+    @Override
+    public void setChanged() {
+	super.setChanged();
+    }
 
-	@Override
-	public Object[] toArray() {
-		return events.toArray();
-	}
+    public void setDate(final Date date) {
+	this.date = date;
+    }
 
-	@Override
-	public <T> T[] toArray(final T[] array) {
-		return events.toArray(array);
-	}
+    public void setEvents(final List<ActivityCalendar> events) {
+	this.events = events;
+    }
+
+    @Override
+    public int size() {
+	return events.size();
+    }
+
+    @Override
+    public Object[] toArray() {
+	return events.toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(final T[] array) {
+	return events.toArray(array);
+    }
 
 }

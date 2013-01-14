@@ -1,14 +1,8 @@
 package ca.etsmtl.applets.etsmobile;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
+import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -16,145 +10,82 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import ca.etsmtl.applets.etsmobile.views.MyMapMarker;
+import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class SecurityActivity extends MapActivity {
+public class SecurityActivity extends FragmentActivity {
 
-	// http://stackoverflow.com/questions/10167819/android-geopoint-from-location-locality
-	public static Address searchLocationByName(final Context context,
-			final String locationName) {
-		final Geocoder geoCoder = new Geocoder(context, Locale.getDefault());
-		Address ad = null;
-		try {
-			final List<Address> addresses = geoCoder.getFromLocationName(
-					locationName, 1);
-			for (final Address address : addresses) {
-				new GeoPoint((int) (address.getLatitude() * 1E6),
-						(int) (address.getLongitude() * 1E6));
-				address.getAddressLine(1);
-				ad = address;
-			}
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-		return ad;
-	}
+    private NavBar navBar;
+    private ListView listView;
 
-	private NavBar navBar;
-	private ListView listView;
+    double lat = 45.494498;
+    double lng = -73.563124;
 
-	private MapView mapView;
-	private MyMapMarker markers;
-	private MapController controller;
+    @Override
+    protected void onCreate(final android.os.Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
 
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
-	}
+	setContentView(R.layout.security);
 
-	@Override
-	protected void onCreate(final android.os.Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	navBar = (NavBar) findViewById(R.id.navBar1);
+	navBar.setTitle(getString(R.string.secu_title));
+	navBar.hideLoading();
+	navBar.hideRightButton();
 
-		setContentView(R.layout.security);
+	navBar.setHomeAction(new OnClickListener() {
 
-		navBar = (NavBar) findViewById(R.id.navBar1);
-		navBar.setTitle(getString(R.string.secu_title));
-		navBar.hideLoading();
-		navBar.hideRightButton();
+	    @Override
+	    public void onClick(final View arg0) {
+		finish();
+	    }
+	});
+	listView = (ListView) findViewById(android.R.id.list);
 
-		navBar.setHomeAction(new OnClickListener() {
+	final ViewGroup viewGroup = (ViewGroup) getLayoutInflater().inflate(
+		R.layout.secu_list_header, (ViewGroup) findViewById(R.id.secu_list_header_layout));
+	listView.addHeaderView(viewGroup, null, false);
 
-			@Override
-			public void onClick(final View arg0) {
-				finish();
-			}
+	listView.setOnItemClickListener(new OnItemClickListener() {
+	    @Override
+	    public void onItemClick(final AdapterView<?> arg0, final View arg1, final int arg2,
+		    final long arg3) {
+		final Intent intent = new Intent(getApplicationContext(), UrgenceActivity.class);
+		intent.putExtra("id", arg2);
+		startActivity(intent);
+
+	    }
+	});
+	listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+		getResources().getStringArray(R.array.secu_urgence)));
+
+	viewGroup.findViewById(R.id.secu_list_header_phone).setOnClickListener(
+		new OnClickListener() {
+
+		    @Override
+		    public void onClick(final View v) {
+			final String phoneNumber = ((TextView) v).getText().toString();
+			final String uri = "tel:" + phoneNumber.trim();
+			final Intent intent = new Intent(Intent.ACTION_DIAL);
+			intent.setData(Uri.parse(uri));
+			startActivity(intent);
+		    }
 		});
-		listView = (ListView) findViewById(android.R.id.list);
 
-		final ViewGroup viewGroup = (ViewGroup) getLayoutInflater().inflate(
-				R.layout.secu_list_header,
-				(ViewGroup) findViewById(R.id.secu_list_header_layout));
-		listView.addHeaderView(viewGroup, null, false);
+	final GoogleMap mapView = ((SupportMapFragment) getSupportFragmentManager()
+		.findFragmentById(R.id.map)).getMap();
+	mapView.getUiSettings().setZoomControlsEnabled(false);
+	mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 17));
 
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(final AdapterView<?> arg0, final View arg1,
-					final int arg2, final long arg3) {
-				final Intent intent = new Intent(getApplicationContext(),
-						UrgenceActivity.class);
-				intent.putExtra("id", arg2);
-				startActivity(intent);
-
-			}
-		});
-		listView.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, getResources()
-						.getStringArray(R.array.secu_urgence)));
-
-		viewGroup.findViewById(R.id.secu_list_header_phone).setOnClickListener(
-				new OnClickListener() {
-
-					@Override
-					public void onClick(final View v) {
-
-					}
-				});
-
-		mapView = (MapView) findViewById(R.id.mapview);
-
-		final Drawable drawable = getResources().getDrawable(R.drawable.icon);
-		markers = new MyMapMarker(drawable, this);
-
-		controller = mapView.getController();
-
-		final Address adress = SecurityActivity.searchLocationByName(this,
-				"École de Technologie Supérieure");
-		if (adress != null) {
-
-			final GeoPoint geo = new GeoPoint(
-					(int) (adress.getLatitude() * 1E6),
-					(int) (adress.getLongitude() * 1E6));
-
-			final OverlayItem items = new OverlayItem(geo,
-					"École de Technologie SUpérieur", "");
-			markers.addOverlay(items);
-
-			mapView.getOverlays().add(markers);
-
-			controller.setCenter(geo);
-			controller.setZoom(18);
-			controller.animateTo(geo);
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		final Address adress = SecurityActivity.searchLocationByName(this,
-				"École de Technologie Supérieure");
-		if (adress != null) {
-
-			final GeoPoint geo = new GeoPoint(
-					(int) (adress.getLatitude() * 1E6),
-					(int) (adress.getLongitude() * 1E6));
-
-			final OverlayItem items = new OverlayItem(geo,
-					"École de Technologie SUpérieur", "");
-			markers.addOverlay(items);
-
-			mapView.getOverlays().add(markers);
-
-			controller.setCenter(geo);
-			controller.setZoom(18);
-			controller.animateTo(geo);
-		}
-		super.onResume();
-	}
+	final MarkerOptions etsMarker = new MarkerOptions();
+	etsMarker.position(new LatLng(lat, lng));
+	etsMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon));
+	mapView.addMarker(etsMarker);
+    }
 }

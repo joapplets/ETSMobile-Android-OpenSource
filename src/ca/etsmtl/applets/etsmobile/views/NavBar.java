@@ -16,82 +16,90 @@ import ca.etsmtl.applets.etsmobile.R;
 
 public class NavBar extends RelativeLayout {
 
-	private RelativeLayout root_layout;
-	private ImageButton homeBtn;
-	private ImageView imageTitle;
-	private Button rightBtn;
-	private ProgressBar loading;
-	private TextView txtTitle;
+    private RelativeLayout root_layout;
+    private ImageButton homeBtn;
+    private ImageView imageTitle;
+    private Button rightBtn;
+    private ProgressBar loading;
+    private TextView txtTitle;
 
-	public NavBar(final Context context) {
-		super(context);
+    public NavBar(final Context context, final AttributeSet attrs) {
+	super(context, attrs);
+
+	if (!isInEditMode()) {
+	    final LayoutInflater layoutInflater = (LayoutInflater) context
+		    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    root_layout = (RelativeLayout) layoutInflater.inflate(R.layout.nav_bar, this, true);
+	    init();
 
 	}
+    }
 
-	public NavBar(final Context context, final AttributeSet attrs) {
-		super(context, attrs);
+    public void hideHome() {
+	homeBtn.setVisibility(View.INVISIBLE);
+    }
 
-		final LayoutInflater layoutInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		root_layout = (RelativeLayout) layoutInflater.inflate(R.layout.nav_bar,
-				this, true);
+    public void hideLoading() {
+	loading.setVisibility(View.GONE);
+    }
 
-		if (!isInEditMode()) {
-			init();
-		}
-	}
+    public void hideRightButton() {
+	rightBtn.setVisibility(View.INVISIBLE);
+    }
 
-	public void hideHome() {
-		homeBtn.setVisibility(View.INVISIBLE);
-	}
+    public void hideTitle() {
+	imageTitle.setVisibility(View.INVISIBLE);
+    }
 
-	public void hideLoading() {
-		loading.setVisibility(View.GONE);
-	}
+    private void init() {
+	homeBtn = (ImageButton) root_layout.findViewById(R.id.base_bar_home_btn);
+	imageTitle = (ImageView) root_layout.findViewById(R.id.base_bar_img_title);
+	imageTitle.setVisibility(View.INVISIBLE);
+	txtTitle = (TextView) root_layout.findViewById(R.id.base_bar_title);
+	rightBtn = (Button) root_layout.findViewById(R.id.base_bar_source_btn);
+	loading = (ProgressBar) root_layout.findViewById(R.id.base_bar_loading);
+	homeBtn.setOnClickListener(new OnClickListener() {
 
-	public void hideRightButton() {
-		rightBtn.setVisibility(View.INVISIBLE);
-	}
+	    @Override
+	    public void onClick(final View v) {
+		getContext().startActivity(new Intent(getContext(), ETSMobileActivity.class));
+	    }
+	});
+    }
 
-	public void hideTitle() {
-		imageTitle.setVisibility(View.INVISIBLE);
-	}
+    public void setHomeAction(final OnClickListener l) {
+	homeBtn.setOnClickListener(l);
+    }
 
-	private void init() {
-		homeBtn = (ImageButton) root_layout
-				.findViewById(R.id.base_bar_home_btn);
-		imageTitle = (ImageView) root_layout
-				.findViewById(R.id.base_bar_img_title);
-		imageTitle.setVisibility(View.INVISIBLE);
-		txtTitle = (TextView) root_layout.findViewById(R.id.base_bar_title);
-		rightBtn = (Button) root_layout.findViewById(R.id.base_bar_source_btn);
-		loading = (ProgressBar) root_layout.findViewById(R.id.base_bar_loading);
-		homeBtn.setOnClickListener(new OnClickListener() {
+    public void setRightButtonAction(final OnClickListener l) {
+	rightBtn.setOnClickListener(l);
+    }
 
-			@Override
-			public void onClick(final View v) {
-				getContext().startActivity(
-						new Intent(getContext(), ETSMobileActivity.class));
-			}
-		});
-	}
+    public void setRightButtonText(int resid) {
+	rightBtn.setText(resid);
+    }
 
-	public void setHomeAction(final OnClickListener l) {
-		homeBtn.setOnClickListener(l);
-	}
+    public void setRightButtonText(String text) {
+	rightBtn.setText(text);
+    }
 
-	public void setTitle(final int resId) {
-		imageTitle.setVisibility(View.VISIBLE);
-		imageTitle.setImageResource(resId);
-	}
+    public void setTitle(final int resId) {
+	imageTitle.setVisibility(View.VISIBLE);
+	imageTitle.setImageResource(resId);
+    }
 
-	public void setTitle(final String title) {
-		imageTitle.setVisibility(View.INVISIBLE);
-		txtTitle.setText(title);
-	}
+    public void setTitle(final String title) {
+	imageTitle.setVisibility(View.INVISIBLE);
+	txtTitle.setText(title);
+	txtTitle.setVisibility(View.VISIBLE);
+    }
 
-	public void showLoading() {
-		loading.setVisibility(View.VISIBLE);
-	}
+    public void showLoading() {
+	loading.setVisibility(View.VISIBLE);
+    }
+
+    public void showRightButton() {
+	rightBtn.setVisibility(View.VISIBLE);
+    }
 
 }

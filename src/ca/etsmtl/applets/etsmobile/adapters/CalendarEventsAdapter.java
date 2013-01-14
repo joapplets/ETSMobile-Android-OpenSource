@@ -4,9 +4,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Paint.Style;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,55 +15,67 @@ import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 
 public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 
-	Context context;
-	int layoutResourceId;
-	List<ActivityCalendar> events;
+    public class Holder {
 
-	public CalendarEventsAdapter(final Context context,
-			final int textViewResourceId, final List<ActivityCalendar> objects) {
-		super(context, textViewResourceId, objects);
-		layoutResourceId = textViewResourceId;
-		events = objects;
-		this.context = context;
+	public TextView text1;
+	public TextView text2;
+	public ImageView img;
 
+    }
+
+    Context context;
+    int layoutResourceId;
+    List<ActivityCalendar> events;
+
+    public CalendarEventsAdapter(final Context context, final int textViewResourceId,
+	    final List<ActivityCalendar> objects) {
+	super(context, textViewResourceId, objects);
+	layoutResourceId = textViewResourceId;
+	events = objects;
+	this.context = context;
+
+    }
+
+    @Override
+    public View getView(final int position, View convertView, final ViewGroup parent) {
+	final LayoutInflater inflater = (LayoutInflater) context
+		.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+	Holder holder = null;
+
+	final ActivityCalendar event = events.get(position);
+	final Resources res = context.getResources();
+
+	if (convertView == null) {
+	    convertView = inflater.inflate(layoutResourceId, parent, false);
+	    holder = new Holder();
+	    holder.text1 = (TextView) convertView.findViewById(R.id.txt_title);
+	    holder.text2 = (TextView) convertView.findViewById(R.id.txt_subtitle);
+	    holder.img = (ImageView) convertView.findViewById(R.id.img_indicator);
+	    convertView.setTag(holder);
+	} else {
+	    holder = (Holder) convertView.getTag();
 	}
 
-	@Override
-	public View getView(final int position, final View convertView,
-			final ViewGroup parent) {
-		final LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		final View rowView = inflater.inflate(layoutResourceId, parent, false);
-		final Resources res = context.getResources();
-
-		// set title
-		TextView textView = (TextView) rowView.findViewById(R.id.txt_title);
-
-		textView.setText(String.format(res
-				.getString(R.string.calendar_event_list_item_title), events
-				.get(position).getStartDate(), events.get(position).getCours()));
-
-		// set subtitle
-		textView = (TextView) rowView.findViewById(R.id.txt_subtitle);
-
-		textView.setText(String.format(res
-				.getString(R.string.calendar_event_list_item_subtitle), events
-				.get(position).getName(), events.get(position).getLocation()));
-
-		// set indicator
-		final ShapeDrawable indicator = new ShapeDrawable(new OvalShape());
-		indicator.getPaint().setColor(events.get(position).getDrawableResId());
-		indicator.getPaint().setStyle(Style.FILL);
-
-		final ImageView img = (ImageView) rowView
-				.findViewById(R.id.img_indicator);
-
-		img.setBackgroundDrawable(indicator);
-
-		img.setAlpha(0);
-
-		return rowView;
+	if (event.getStartDate() != null) {
+	    holder.text1.setText(String.format(
+		    res.getString(R.string.calendar_event_list_item_title), event.getStartDate(),
+		    event.getCours()));
+	} else {
+	    holder.text1.setText(event.getCours());
 	}
+
+	if (event.getName() != null && event.getLocation() != null) {
+	    holder.text2.setText(String.format(
+		    res.getString(R.string.calendar_event_list_item_subtitle), event.getName(),
+		    event.getLocation()));
+	} else {
+	    holder.text2.setVisibility(View.GONE);
+	}
+
+	holder.img.setImageDrawable(res.getDrawable(events.get(position).getDrawableResId()));
+
+	return convertView;
+    }
 
 }
