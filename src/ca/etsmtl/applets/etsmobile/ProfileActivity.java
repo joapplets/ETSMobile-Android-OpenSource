@@ -55,9 +55,10 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		final StudentProfile studentProfile = (StudentProfile) data
 			.get(ProfileTask.PROFILE_KEY);
 
-		if (studentProfile != null && studentProfile.getSolde().equals("")
-			&& studentProfile.getNom().equals("")
-			&& studentProfile.getPrenom().equals("")) {
+		if (studentProfile == null
+			|| (studentProfile.getSolde().equals("")
+				&& studentProfile.getNom().equals("") && studentProfile.getPrenom()
+				.equals(""))) {
 		    Toast.makeText(
 			    act,
 			    "Erreur d'identification : Vos informations personnelles sont érronée(s)",

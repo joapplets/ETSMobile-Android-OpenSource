@@ -1,8 +1,11 @@
 package ca.etsmtl.applets.etsmobile;
 
+import java.lang.ref.WeakReference;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,14 +33,19 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener, OnTouchListener,
 	OnClickListener, android.content.DialogInterface.OnClickListener {
-    private static final int LOGIN = 0;
-    private static final String TAG = "ETSMobileActivity";
-    private View view;
+    private static final class LoginHandler extends Handler {
 
-    private final Handler handler = new Handler() {
+	private WeakReference<ETSMobileActivity> ref;
+
+	public LoginHandler(ETSMobileActivity act) {
+	    ref = new WeakReference<ETSMobileActivity>(act);
+	}
+
 	@Override
 	public void handleMessage(final Message msg) {
+	    ETSMobileActivity act = ref.get();
 	    switch (msg.what) {
+
 	    case ProfileTask.ON_POST_EXEC:
 		final Bundle data = msg.getData();
 		final StudentProfile studentProfile = (StudentProfile) data
@@ -47,20 +55,20 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 			&& !studentProfile.getPrenom().equals("")) {
 		    // save credentials to prefs
 		    final SharedPreferences prefs = PreferenceManager
-			    .getDefaultSharedPreferences(getApplicationContext());
+			    .getDefaultSharedPreferences(act);
+		    
 		    final Editor editor = prefs.edit();
-		    editor.putString("codeP", credentials.getUsername());
-		    editor.putString("codeU", credentials.getPassword());
+		    editor.putString("codeP", act.credentials.getUsername());
+		    editor.putString("codeU", act.credentials.getPassword());
 		    editor.commit();
-		    Toast.makeText(getApplicationContext(), getString(R.string.welcome),
+		    Toast.makeText(act.getApplicationContext(), act.getString(R.string.welcome),
 			    Toast.LENGTH_LONG).show();
 		} else {
 		    Toast.makeText(
-			    getApplicationContext(),
+			    act,
 			    "Erreur d'identification : Vos informations personnelles sont érronée(s)",
 			    Toast.LENGTH_LONG).show();
-		    // showDialog(ETSMobileActivity.LOGIN_ERROR);
-		    showDialog(ETSMobileActivity.LOGIN);
+		    act.showDialog(ETSMobileActivity.LOGIN);
 		}
 		break;
 
@@ -68,7 +76,13 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		break;
 	    }
 	}
-    };
+    }
+
+    private static final int LOGIN = 0;
+    private static final String TAG = "ETSMobileActivity";
+    private View view;
+
+    private Handler handler;
     private UserCredentials credentials;
     private NavBar navBar;
 
@@ -110,6 +124,9 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	navBar.hideLoading();
 	navBar.hideRightButton();
 	navBar.hideHome();
+
+	handler = new LoginHandler(this);
+
 	final GridView gridview = (GridView) findViewById(R.id.gridview);
 	gridview.setAdapter(new ETSMobileAdapter(getApplicationContext()));
 
