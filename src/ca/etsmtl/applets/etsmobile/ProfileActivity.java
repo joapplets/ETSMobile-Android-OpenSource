@@ -59,10 +59,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		if (studentProfile != null) {
 		    if (studentProfile.getSolde().equals("") && studentProfile.getNom().equals("")
 			    && studentProfile.getPrenom().equals("")) {
-			Toast.makeText(
-				act,
-				"Erreur d'identification : Vos informations personnelles sont �rron�e(s)",
-				Toast.LENGTH_LONG).show();
+			Toast.makeText(act, R.string.error_profile_login, Toast.LENGTH_LONG).show();
 			act.showDialog(ProfileActivity.SHOW_LOGIN, null);
 		    } else {
 
@@ -279,8 +276,9 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	    ((TextView) view.findViewById(R.id.textView2))
 		    .setText(getString(R.string.bandwith_dialog_appt));
 	    ((TextView) view.findViewById(R.id.login_dialog_code_univesel)).setHint(null);
-	    d = new AlertDialog.Builder(this).setTitle("Votre lieu de r�sidence").setView(view)
-		    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	    d = new AlertDialog.Builder(this).setTitle(R.string.votre_lieu_de_r_sidence)
+		    .setView(view)
+		    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {

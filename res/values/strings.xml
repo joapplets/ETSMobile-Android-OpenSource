@@ -122,5 +122,8 @@ toutes les informations requises avant de raccrocher .</li><br></ul><li> Prodigu
 secouriste ou d’en trouver un.</li><br><li> Demeurer sur place pour assister le secouriste ou pour donner un complément d’informations.</li><br><li> S’il y a des personnes autour, leur demander de l’aide en attendant les secours</li><br><li> Si les gens sont trop près de la victime, exiger qu’ils se déplacent afin de laisser de la place à la victime et de faciliter les soins</li><br><li> Ne jamais déplacer la victime sauf si la situation représente un danger pour la personne</li><br><li> Ne pas donner de nourriture ou de liquide à la victime même si elle l’exige</li><br><li> Si possible ou nécessaire, demeurer en communication avec la sécurité et suivre les instructions données</li><br><li> Si l’état d’une personne se détériore, aviser à nouveau la sécurité</li><br><li> Demeurer sur les lieux jusqu’à ce que les secours arrivent</li></ul><br>]]>
     </string>
     <string name="label_conso_rez">Consomation Bande Passante</string>
+    <string name="votre_lieu_de_r_sidence">Votre lieu de résidence</string>
+    <string name="ok">OK</string>
+    <string name="error_profile_login">Erreur d\'identification : Vos informations personnelles sont éronnée(s)</string>
 
 </resources>
