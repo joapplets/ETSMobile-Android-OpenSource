@@ -208,7 +208,6 @@ public class NumGridView extends View implements Observer {
 	    if (this.maxIndicators < s.getMaxActivities())
 		this.maxIndicators = s.getMaxActivities();
 	}
-
     }
 
     private List<Session> getSessions(final List<Calendar> days) {
@@ -299,7 +298,7 @@ public class NumGridView extends View implements Observer {
 
 		final float radius = mCellWidth / (3 * maxIndicators + 1);
 
-		float startpos = dx + tx
+		final float startpos = dx + tx
 			- ((2 * cell.size() + cell.size() - 1) * radius / 2 - radius);
 
 		ActivityCalendar event;
@@ -312,7 +311,7 @@ public class NumGridView extends View implements Observer {
 
 		    final int right = (int) (left + (radius * 2));
 
-		    final int bottom = (int) dy + mCellHeight - ty / 4 + 2;
+		    final int bottom = dy + mCellHeight - ty / 4 + 2;
 
 		    final int top = (int) (bottom - (2 * radius));
 

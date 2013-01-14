@@ -45,11 +45,14 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 
 	@Override
 	protected void onPostExecute(final Void result) {
+	    super.onPostExecute(result);
 	    navBar.hideLoading();
+	    unbindService(connection);
 	}
 
 	@Override
 	protected void onPreExecute() {
+	    super.onPreExecute();
 	    navBar.showLoading();
 	}
 
@@ -98,8 +101,10 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 	setContentView(R.layout.news_list_fragment);
 	navBar = (NavBar) findViewById(R.id.navBar1);
 	navBar.setTitle(R.drawable.navbar_news_title);
-	navBar.showRightButton();
+	navBar.hideLoading();
+//	navBar.showRightButton();
 	navBar.setRightButtonAction(this);
+
 	prefs = getSharedPreferences("dbpref", Context.MODE_PRIVATE);
 	setAlarm();
     }

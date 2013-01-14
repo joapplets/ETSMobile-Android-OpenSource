@@ -42,6 +42,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	@Override
 	public void handleMessage(final Message msg) {
 	    switch (msg.what) {
+
 	    case ProfileTask.ON_POST_EXEC:
 		ETSMobileActivity act = ref.get();
 		final Bundle data = msg.getData();
@@ -65,7 +66,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 				act,
 				"Erreur d'identification : Vos informations personnelles sont érronée(s)",
 				Toast.LENGTH_LONG).show();
-
 			act.showDialog(ETSMobileActivity.LOGIN);
 		    }
 		}

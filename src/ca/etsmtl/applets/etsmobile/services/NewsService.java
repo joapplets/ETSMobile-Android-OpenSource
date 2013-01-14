@@ -34,8 +34,6 @@ import ca.etsmtl.applets.etsmobile.tools.xml.XMLNewsParser;
 
 public class NewsService extends Service implements Observer {
 
-    public static final String INTERFACE = "interface";
-
     private class Fetcher extends AsyncTask<Void, Void, Void> {
 
 	@Override
@@ -48,6 +46,9 @@ public class NewsService extends Service implements Observer {
 		final String[] rss = { NewsService.RSS_ETS };
 		final String[] fb = { NewsService.FACEBOOK };
 		final String[] tw = { NewsService.TWITTER };
+		final String[] in = { NewsService.INTERFACE };
+
+		// rss cached news
 		Cursor cursor = getContentResolver().query(
 			ETSMobileContentProvider.CONTENT_URI_NEWS, projection, null, rss, null);
 		ArrayList<String> guids = new ArrayList<String>();
@@ -58,12 +59,14 @@ public class NewsService extends Service implements Observer {
 		}
 		cursor.close();
 
+		// rss ets
 		URL url = new URL(NewsService.RSS_ETS_FEED);
 		stream = url.openStream();
-		XMLNewsParser newsParser = new XMLNewsParser(NewsService.RSS_ETS, guids, bundle);
-		saxParser.parse(stream, newsParser);
+		XMLNewsParser xmlParser = new XMLNewsParser(NewsService.RSS_ETS, guids, bundle);
+		saxParser.parse(stream, xmlParser);
 		stream.close();
 
+		// fb cached news
 		cursor = getContentResolver().query(ETSMobileContentProvider.CONTENT_URI_NEWS,
 			projection, null, fb, null);
 		guids = new ArrayList<String>();
@@ -73,12 +76,15 @@ public class NewsService extends Service implements Observer {
 		    } while (cursor.moveToNext());
 		}
 		cursor.close();
+
+		// fb xml feed
 		url = new URL(NewsService.FACEBOOK_FEED);
 		stream = url.openStream();
-		newsParser = new XMLNewsParser(NewsService.FACEBOOK, guids, bundle);
-		saxParser.parse(stream, newsParser);
+		xmlParser = new XMLNewsParser(NewsService.FACEBOOK, guids, bundle);
+		saxParser.parse(stream, xmlParser);
 		stream.close();
 
+		// twitter cached news
 		cursor = getContentResolver().query(ETSMobileContentProvider.CONTENT_URI_NEWS,
 			projection, null, tw, null);
 		guids = new ArrayList<String>();
@@ -88,16 +94,30 @@ public class NewsService extends Service implements Observer {
 		    } while (cursor.moveToNext());
 		}
 		cursor.close();
+
+		// rss twitter
 		url = new URL(NewsService.TWITTER_FEED);
 		stream = url.openStream();
-		newsParser = new XMLNewsParser(NewsService.TWITTER, guids, bundle);
-		saxParser.parse(stream, newsParser);
+		xmlParser = new XMLNewsParser(NewsService.TWITTER, guids, bundle);
+		saxParser.parse(stream, xmlParser);
 		stream.close();
 
-		url = new URL(NewsService.INTERFACE_FEED);
+		// interface cached news
+		cursor = getContentResolver().query(ETSMobileContentProvider.CONTENT_URI_NEWS,
+			projection, null, in, null);
+		guids = new ArrayList<String>();
+		if (cursor.moveToFirst()) {
+		    do {
+			guids.add(cursor.getString(cursor.getColumnIndex(NewsTableHelper.NEWS_GUID)));
+		    } while (cursor.moveToNext());
+		}
+		cursor.close();
+
+		// rss interface
+		url = new URL(NewsService.INTERFACE);
 		stream = url.openStream();
-		newsParser = new XMLNewsParser(NewsService.INTERFACE, guids, bundle);
-		saxParser.parse(stream, newsParser);
+		xmlParser = new XMLNewsParser(NewsService.INTERFACE, guids, bundle);
+		saxParser.parse(stream, xmlParser);
 		stream.close();
 
 	    } catch (final MalformedURLException e) {
@@ -142,7 +162,7 @@ public class NewsService extends Service implements Observer {
     private final static String RSS_ETS_FEED = "http://www.etsmtl.ca/fils-rss?rss=NouvellesRSS";
     private final static String FACEBOOK_FEED = "http://www.facebook.com/feeds/page.php?id=8632204375&format=rss20";
     private final static String TWITTER_FEED = "http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=etsmtl";
-    private final static String INTERFACE_FEED = "http://interfaceets.wordpress.com/feed/";
+    public static final String INTERFACE = "http://interfaceets.wordpress.com/feed/";
     public final static String RSS_ETS = "rssETS";
     public final static String FACEBOOK = "facebook";
     public final static String TWITTER = "twitter";

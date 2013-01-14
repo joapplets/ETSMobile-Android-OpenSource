@@ -14,7 +14,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="top" >
-
     </ca.etsmtl.applets.etsmobile.views.NavBar>
 
     <ScrollView
@@ -75,16 +74,15 @@
             android:text="Appel d&apos;urgence"
             android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/voirPDF_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_gradient"
-                android:text="@string/voirPDF"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/voirPDF_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_gradient"
+            android:text="@string/voirPDF"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package ca.etsmtl.applets.etsmobile.adapters;
 
 import java.text.SimpleDateFormat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -22,8 +23,9 @@ public class NewsCursorAdapter extends CursorAdapter {
     }
 
     private String source, title, description;
-    private final Drawable webLogo, facebookLogo, twitterLogo;
+    private final Drawable webLogo, facebookLogo, twitterLogo, interfaceLogo;
 
+    @SuppressLint("SimpleDateFormat")
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMMMMMMMM yyyy");
 
     public NewsCursorAdapter(final Context context, final Cursor c, final int flags) {
@@ -31,6 +33,8 @@ public class NewsCursorAdapter extends CursorAdapter {
 	webLogo = context.getResources().getDrawable(R.drawable.news_background_ets);
 	facebookLogo = context.getResources().getDrawable(R.drawable.news_background_facebookets);
 	twitterLogo = context.getResources().getDrawable(R.drawable.news_background_twitterets);
+
+	interfaceLogo = context.getResources().getDrawable(R.drawable.news_background_interfaceets);
     }
 
     @Override
@@ -68,6 +72,9 @@ public class NewsCursorAdapter extends CursorAdapter {
 	}
 	if (source.equals(NewsService.TWITTER)) {
 	    holder.logo.setBackgroundDrawable(twitterLogo);
+	}
+	if (source.equals(NewsService.INTERFACE)) {
+	    holder.logo.setBackgroundDrawable(interfaceLogo);
 	}
 
 	view.setTag(R.string.viewholderidtag,

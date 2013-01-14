@@ -65,7 +65,11 @@ public class XMLBottinParser extends XMLAbstractHandler {
 	    }
 
 	    if (key != null) {
-		values.put(key, buffer.toString());
+		String value = buffer.toString();
+		if (value == null) {
+		    value = "";
+		}
+		values.put(key, value);
 	    }
 
 	    if (localName.equalsIgnoreCase(XMLBottinParser.ENTRY_TAG)) {

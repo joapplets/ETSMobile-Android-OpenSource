@@ -67,6 +67,9 @@ public class NewsListFragment extends ListFragment implements LoaderManager.Load
 	if (prefs.getBoolean("twitter", true)) {
 	    source.add(NewsService.TWITTER);
 	}
+	if (prefs.getBoolean("interface", true)) {
+	    source.add(NewsService.INTERFACE);
+	}
 
 	final String[] s = new String[source.size()];
 	for (int i = 0; i < source.size(); i++) {
