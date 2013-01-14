@@ -28,7 +28,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/nav_right_button_selector"
-        android:text="@string/news_list_view_btnSources" />
+        android:text="@string/news_list_view_btnSources"
+        android:visibility="invisible" />
 
     <ImageButton
         android:id="@+id/base_bar_home_btn"
@@ -58,9 +59,9 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:gravity="center"
-        android:text="ASDASDASD"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="invisible" />
 
