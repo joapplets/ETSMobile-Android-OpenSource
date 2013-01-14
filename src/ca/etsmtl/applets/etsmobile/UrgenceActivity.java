@@ -63,7 +63,6 @@ public class UrgenceActivity extends Activity {
     private static final String SDCARD = Environment.getExternalStorageDirectory().getPath();
     private int id;
     private NavBar navBar;
-    private TextView txtView1;
     private TextView txtView2;
     private String pdf_raw;
 
@@ -126,7 +125,6 @@ public class UrgenceActivity extends Activity {
 	navBar.hideTitle();
 	navBar.hideLoading();
 
-	txtView1 = (TextView) findViewById(R.id.urgence_title);
 	txtView2 = (TextView) findViewById(R.id.urgence_txt);
 
 	urgence = getResources().getStringArray(R.array.secu_urgence);

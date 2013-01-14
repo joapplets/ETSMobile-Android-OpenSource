@@ -6,7 +6,7 @@
     android:background="@drawable/navbar_bg"
     android:orientation="horizontal"
     android:padding="5dip" >
-
+
     <EditText
         android:id="@+id/search_nav_bar_autotxt"
         android:layout_width="match_parent"

@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import com.google.gson.annotations.SerializedName;
 
+@SuppressLint("SimpleDateFormat")
 public class Session implements Serializable, Comparable<Session> {
 
     private static final long serialVersionUID = -632822145233952231L;
@@ -28,7 +30,7 @@ public class Session implements Serializable, Comparable<Session> {
     @SerializedName("dateFinCours")
     private String dateFinCoursString;
 
-    private int maxActivities=0;
+    private int maxActivities = 0;
 
     private List<JoursRemplaces> joursRemplaces;
 
@@ -46,7 +48,7 @@ public class Session implements Serializable, Comparable<Session> {
     }
 
     public List<ActivityCalendar> getActivities(String jour) {
-	return this.activities.get(jour);
+	return (activities != null) ? this.activities.get(jour) : null;
     }
 
     public Date getDateDebut() {
@@ -54,7 +56,7 @@ public class Session implements Serializable, Comparable<Session> {
 	Date date;
 	formatter = new SimpleDateFormat("yyyy-MM-dd");
 	try {
-	    date = formatter.parse(getDateDebutString());
+	    date = formatter.parse(dateDebutString);
 	} catch (final ParseException e) {
 	    date = null;
 	}
@@ -71,7 +73,7 @@ public class Session implements Serializable, Comparable<Session> {
 	Date date;
 	formatter = new SimpleDateFormat("yyyy-MM-dd");
 	try {
-	    date = formatter.parse(getDateFinString());
+	    date = formatter.parse(dateFinString);
 	    date.setHours(23);
 	    date.setMinutes(59);
 	    date.setSeconds(59);
@@ -92,7 +94,7 @@ public class Session implements Serializable, Comparable<Session> {
 	Date date;
 	formatter = new SimpleDateFormat("yyyy-MM-dd");
 	try {
-	    date = formatter.parse(getDateFinCoursString());
+	    date = formatter.parse(dateFinCoursString);
 	    date.setHours(23);
 	    date.setMinutes(59);
 	    date.setSeconds(59);
@@ -156,11 +158,11 @@ public class Session implements Serializable, Comparable<Session> {
 	return this.longName;
     }
 
-	public int getMaxActivities() {
-		return maxActivities;
-	}
+    public int getMaxActivities() {
+	return maxActivities;
+    }
 
-	public void setMaxActivities(int maxActivities) {
-		this.maxActivities = maxActivities;
-	}
+    public void setMaxActivities(int maxActivities) {
+	this.maxActivities = maxActivities;
+    }
 }

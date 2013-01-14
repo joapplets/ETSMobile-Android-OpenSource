@@ -10,8 +10,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import com.google.android.gms.internal.c;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -58,31 +56,32 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		final StudentProfile studentProfile = (StudentProfile) data
 			.get(ProfileTask.PROFILE_KEY);
 
-		if (studentProfile != null && studentProfile.getSolde().equals("")
-			&& studentProfile.getNom().equals("")
-			&& studentProfile.getPrenom().equals("")) {
-		    Toast.makeText(
-			    act,
-			    "Erreur d'identification : Vos informations personnelles sont érronée(s)",
-			    Toast.LENGTH_LONG).show();
-		    act.showDialog(ProfileActivity.SHOW_LOGIN, null);
-		} else {
+		if (studentProfile != null) {
+		    if (studentProfile.getSolde().equals("") && studentProfile.getNom().equals("")
+			    && studentProfile.getPrenom().equals("")) {
+			Toast.makeText(
+				act,
+				"Erreur d'identification : Vos informations personnelles sont érronée(s)",
+				Toast.LENGTH_LONG).show();
+			act.showDialog(ProfileActivity.SHOW_LOGIN, null);
+		    } else {
 
-		    act.name.setText(studentProfile.getPrenom());
-		    act.lastname.setText(studentProfile.getNom());
-		    act.solde.setText(studentProfile.getSolde());
-		    act.codeP.setText(studentProfile.getCodePerm());
+			act.name.setText(studentProfile.getPrenom());
+			act.lastname.setText(studentProfile.getNom());
+			act.solde.setText(studentProfile.getSolde());
+			act.codeP.setText(studentProfile.getCodePerm());
 
-		    // save credentials to prefs
-		    final SharedPreferences prefs = act.prefs;
+			// save credentials to prefs
+			final SharedPreferences prefs = act.prefs;
 
-		    final Editor editor = prefs.edit();
-		    editor.putString("codeP", act.creds.getUsername());
-		    editor.putString("codeU", act.creds.getPassword());
-		    editor.commit();
+			final Editor editor = prefs.edit();
+			editor.putString("codeP", act.creds.getUsername());
+			editor.putString("codeU", act.creds.getPassword());
+			editor.commit();
 
-		    act.btnLogin.setTag(true);
-		    act.btnLogin.setText(act.getString(R.string.logout));
+			act.btnLogin.setTag(true);
+			act.btnLogin.setText(act.getString(R.string.logout));
+		    }
 		}
 		break;
 	    case 2:

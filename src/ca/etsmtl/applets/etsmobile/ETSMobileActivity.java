@@ -1,5 +1,7 @@
 package ca.etsmtl.applets.etsmobile;
 
+import java.lang.ref.WeakReference;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,37 +31,43 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener, OnTouchListener,
 	OnClickListener, android.content.DialogInterface.OnClickListener {
-    private static final int LOGIN = 0;
-    private static final String TAG = "ETSMobileActivity";
-    private View view;
 
-    private final Handler handler = new Handler() {
+    private static final class LoginHandler extends Handler {
+	private WeakReference<ETSMobileActivity> ref;
+
+	public LoginHandler(ETSMobileActivity act) {
+	    ref = new WeakReference<ETSMobileActivity>(act);
+	}
+
 	@Override
 	public void handleMessage(final Message msg) {
 	    switch (msg.what) {
 	    case ProfileTask.ON_POST_EXEC:
+		ETSMobileActivity act = ref.get();
 		final Bundle data = msg.getData();
 		final StudentProfile studentProfile = (StudentProfile) data
 			.get(ProfileTask.PROFILE_KEY);
-		if (studentProfile != null && !studentProfile.getSolde().equals("")
-			&& !studentProfile.getNom().equals("")
-			&& !studentProfile.getPrenom().equals("")) {
-		    // save credentials to prefs
-		    final SharedPreferences prefs = PreferenceManager
-			    .getDefaultSharedPreferences(getApplicationContext());
-		    final Editor editor = prefs.edit();
-		    editor.putString("codeP", credentials.getUsername());
-		    editor.putString("codeU", credentials.getPassword());
-		    editor.commit();
-		    Toast.makeText(getApplicationContext(), getString(R.string.welcome),
-			    Toast.LENGTH_LONG).show();
-		} else {
-		    Toast.makeText(
-			    getApplicationContext(),
-			    "Erreur d'identification : Vos informations personnelles sont érronée(s)",
-			    Toast.LENGTH_LONG).show();
-		    // showDialog(ETSMobileActivity.LOGIN_ERROR);
-		    showDialog(ETSMobileActivity.LOGIN);
+		if (studentProfile != null) {
+		    if (!studentProfile.getSolde().equals("")
+			    && !studentProfile.getNom().equals("")
+			    && !studentProfile.getPrenom().equals("")) {
+			// save credentials to prefs
+			final SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(act);
+			final Editor editor = prefs.edit();
+			editor.putString("codeP", act.credentials.getUsername());
+			editor.putString("codeU", act.credentials.getPassword());
+			editor.commit();
+			Toast.makeText(act, act.getString(R.string.welcome), Toast.LENGTH_LONG)
+				.show();
+		    } else {
+			Toast.makeText(
+				act,
+				"Erreur d'identification : Vos informations personnelles sont érronée(s)",
+				Toast.LENGTH_LONG).show();
+
+			act.showDialog(ETSMobileActivity.LOGIN);
+		    }
 		}
 		break;
 
@@ -68,9 +75,13 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		break;
 	    }
 	}
-    };
+    }
+
     private UserCredentials credentials;
     private NavBar navBar;
+    private static final int LOGIN = 0;
+    private View view;
+    private Handler handler;
 
     @Override
     public void onClick(final DialogInterface dialog, final int which) {
@@ -105,6 +116,8 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	super.onCreate(savedInstanceState);
 
 	setContentView(R.layout.main);
+	handler = new LoginHandler(this);
+
 	navBar = (NavBar) findViewById(R.id.navBarMain);
 	navBar.setTitle(R.drawable.navbar_title);
 	navBar.hideLoading();
@@ -121,9 +134,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	if (creds.getPassword() != null && creds.getUsername() != null
 		&& "".equals(creds.getPassword()) && "".equals(creds.getUsername())) {
 	    showDialog(ETSMobileActivity.LOGIN);
-	    Log.d(ETSMobileActivity.TAG, "NEW USER");
 	}
-	Log.d(ETSMobileActivity.TAG, "OLD USER");
 
 	gridview.setOnItemClickListener(this);
 	gridview.setOnTouchListener(this);
