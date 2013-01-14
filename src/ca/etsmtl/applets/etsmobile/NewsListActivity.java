@@ -102,7 +102,7 @@ public class NewsListActivity extends FragmentActivity implements NewsListSelect
 	navBar = (NavBar) findViewById(R.id.navBar1);
 	navBar.setTitle(R.drawable.navbar_news_title);
 	navBar.hideLoading();
-	navBar.showRightButton();
+//	navBar.showRightButton();
 	navBar.setRightButtonAction(this);
 
 	prefs = getSharedPreferences("dbpref", Context.MODE_PRIVATE);

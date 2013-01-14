@@ -203,15 +203,11 @@ public class NumGridView extends View implements Observer {
     }
 
     public void setSessions(final ArrayList<Session> obj) {
-
 	sessions = obj;
-
-	for (final Session s : sessions) {
-	    if (this.maxIndicators < s.getMaxActivities()) {
+	for (Session s : sessions) {
+	    if (this.maxIndicators < s.getMaxActivities())
 		this.maxIndicators = s.getMaxActivities();
-	    }
 	}
-
     }
 
     private List<Session> getSessions(final List<Calendar> days) {

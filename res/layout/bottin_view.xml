@@ -10,7 +10,7 @@
         android:id="@+id/navBar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/empty_nav_bar" />
+        layout="@layout/nav_bar" />
 
     <LinearLayout
         android:layout_width="match_parent"
