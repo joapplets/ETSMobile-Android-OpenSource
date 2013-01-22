@@ -168,7 +168,6 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	    } catch (final IllegalStateException e) {
 	    } finally {
 		writable.endTransaction();
-		// writable.close();
 		getContext().getContentResolver().notifyChange(uri, null);
 	    }
 	    return uri;
@@ -222,7 +221,6 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 	    }
 	} catch (final SQLiteMisuseException e) {
-	    // e.printStackTrace();
 	    return cursor;
 	}
 	return cursor;

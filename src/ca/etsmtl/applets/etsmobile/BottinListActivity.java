@@ -32,7 +32,6 @@ import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.services.BottinService;
 import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
-import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
 
 public class BottinListActivity extends ListActivity implements TextWatcher, OnItemClickListener {
 
@@ -43,6 +42,13 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	    final BottinBinder binder = params[0];
 	    if (binder != null) {
 		binder.startFetching();
+		while (binder.isWorking()) {
+		    try {
+			Thread.sleep(1000);
+		    } catch (InterruptedException e) {
+			e.printStackTrace();
+		    }
+		}
 	    }
 	    return null;
 	}
@@ -50,12 +56,14 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	@Override
 	protected void onPostExecute(final Void result) {
 	    try {
+		unbindService(connection);
 		dismissDialog(BottinListActivity.ALERT_LOADING);
-		allEntryCursor = new ETSMobileOpenHelper(getApplicationContext())
-			.getReadableDatabase().query(BottinTableHelper.TABLE_NAME, null, null,
-				null, null, null, null);
-		simpleCursor = new MyCursorAdapter(BottinListActivity.this, allEntryCursor,
+
+		allEntryCursor = managedQuery(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+			BottinListActivity.DB_COLS, null, null, "nom ASC");
+		simpleCursor = new MyCursorAdapter(getApplicationContext(), allEntryCursor,
 			PROJECTION, TXT_VIEWS);
+		simpleCursor.setFilterQueryProvider(myFilter);
 		setListAdapter(simpleCursor);
 	    } catch (final IllegalArgumentException e) {
 	    }
@@ -178,6 +186,30 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	public void onServiceDisconnected(final ComponentName name) {
 	}
     };
+    private FilterQueryProvider myFilter = new FilterQueryProvider() {
+
+	@Override
+	public Cursor runQuery(final CharSequence constraint) {
+	    Log.d(BottinListActivity.LOG_TAG, "filter input  :" + constraint);
+
+	    String where = null;
+	    String[] args = new String[BottinListActivity.PROJECTION.length];
+	    if (constraint != "") {
+		for (int i = 0; i < args.length; i++) {
+		    args[i] = "%" + (String) constraint + "%";
+		    Log.d("Args", args[i]);
+		}
+		where = "nom LIKE ? OR prenom LIKE ?";
+	    } else {
+		args = null;
+	    }
+
+	    return getContentResolver().query(
+		    ETSMobileContentProvider.CONTENT_URI_BOTTIN,
+		    new String[] { BottinTableHelper.BOTTIN__ID, BottinTableHelper.BOTTIN_NOM,
+			    BottinTableHelper.BOTTIN_PRENOM }, where, args, null);
+	}
+    };
 
     @Override
     public void afterTextChanged(final Editable s) {
@@ -280,31 +312,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	    if (simpleCursor == null) {
 		simpleCursor = new MyCursorAdapter(this, allEntryCursor, PROJECTION, TXT_VIEWS);
 	    }
-	    simpleCursor.setFilterQueryProvider(new FilterQueryProvider() {
-
-		@Override
-		public Cursor runQuery(final CharSequence constraint) {
-		    Log.d(BottinListActivity.LOG_TAG, "filter input  :" + constraint);
-
-		    String where = null;
-		    String[] args = new String[BottinListActivity.PROJECTION.length];
-		    if (constraint != "") {
-			for (int i = 0; i < args.length; i++) {
-			    args[i] = "%" + (String) constraint + "%";
-			    Log.d("Args", args[i]);
-			}
-			where = "nom LIKE ? OR prenom LIKE ?";
-		    } else {
-			args = null;
-		    }
-
-		    return getContentResolver()
-			    .query(ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-				    new String[] { BottinTableHelper.BOTTIN__ID,
-					    BottinTableHelper.BOTTIN_NOM,
-					    BottinTableHelper.BOTTIN_PRENOM }, where, args, null);
-		}
-	    });
+	    simpleCursor.setFilterQueryProvider(myFilter);
 	    setListAdapter(simpleCursor);
 	}
 	super.onResume();
