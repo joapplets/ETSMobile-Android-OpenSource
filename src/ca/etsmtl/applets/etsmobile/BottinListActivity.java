@@ -267,6 +267,9 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 
 			@Override
 			public void onClick(final DialogInterface dialog, final int which) {
+			    dialog.cancel();
+			    dialog.dismiss();
+			    unbindService(connection);
 			}
 		    });
 	    d = builder.create();

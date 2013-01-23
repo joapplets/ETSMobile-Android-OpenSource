@@ -34,7 +34,6 @@
             android:fadingEdge="vertical"
             android:gravity="center|left"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
     </ScrollView>
 
     <LinearLayout
