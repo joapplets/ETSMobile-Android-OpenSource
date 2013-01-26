@@ -126,8 +126,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	final GridView gridview = (GridView) findViewById(R.id.gridview);
 	gridview.setAdapter(new ETSMobileAdapter(getApplicationContext()));
 
-	// test Login
-	view = getLayoutInflater().inflate(R.layout.login_dialog, null, true);
 	final UserCredentials creds = new UserCredentials(
 		PreferenceManager.getDefaultSharedPreferences(this));
 
@@ -146,6 +144,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
     @Override
     protected Dialog onCreateDialog(final int id, final Bundle args) {
 	Dialog d = super.onCreateDialog(id, args);
+	view = getLayoutInflater().inflate(R.layout.login_dialog, null, true);
 	switch (id) {
 	case LOGIN:
 	    d = new AlertDialog.Builder(this).setTitle(getString(R.string.login_dialog_title))
