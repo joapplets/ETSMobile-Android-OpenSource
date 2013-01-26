@@ -38,14 +38,6 @@ public class SecurityActivity extends FragmentActivity {
 	navBar.setTitle(getString(R.string.secu_title));
 	navBar.hideLoading();
 	navBar.hideRightButton();
-
-	navBar.setHomeAction(new OnClickListener() {
-
-	    @Override
-	    public void onClick(final View arg0) {
-		finish();
-	    }
-	});
 	listView = (ListView) findViewById(android.R.id.list);
 
 	final ViewGroup viewGroup = (ViewGroup) getLayoutInflater().inflate(
@@ -80,12 +72,15 @@ public class SecurityActivity extends FragmentActivity {
 
 	final GoogleMap mapView = ((SupportMapFragment) getSupportFragmentManager()
 		.findFragmentById(R.id.map)).getMap();
-	mapView.getUiSettings().setZoomControlsEnabled(false);
-	mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 17));
 
-	final MarkerOptions etsMarker = new MarkerOptions();
-	etsMarker.position(new LatLng(lat, lng));
-	etsMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon));
-	mapView.addMarker(etsMarker);
+	if (mapView != null) {
+	    mapView.getUiSettings().setZoomControlsEnabled(false);
+	    mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 17));
+
+	    final MarkerOptions etsMarker = new MarkerOptions();
+	    etsMarker.position(new LatLng(lat, lng));
+	    etsMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon));
+	    mapView.addMarker(etsMarker);
+	}
     }
 }
