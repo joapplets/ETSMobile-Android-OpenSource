@@ -45,7 +45,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 		while (binder.isWorking()) {
 		    try {
 			Thread.sleep(1000);
-		    } catch (InterruptedException e) {
+		    } catch (final InterruptedException e) {
 			e.printStackTrace();
 		    }
 		}
@@ -186,7 +186,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	public void onServiceDisconnected(final ComponentName name) {
 	}
     };
-    private FilterQueryProvider myFilter = new FilterQueryProvider() {
+    private final FilterQueryProvider myFilter = new FilterQueryProvider() {
 
 	@Override
 	public Cursor runQuery(final CharSequence constraint) {

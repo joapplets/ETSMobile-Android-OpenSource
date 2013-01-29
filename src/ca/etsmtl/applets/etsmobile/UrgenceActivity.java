@@ -5,11 +5,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import org.xml.sax.XMLReader;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -191,13 +194,20 @@ public class UrgenceActivity extends Activity {
 	});
     }
 
+    private boolean isCallable(Intent intent) {
+	final List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent,
+		PackageManager.MATCH_DEFAULT_ONLY);
+	return list.size() > 0;
+    }
+
     private void openPdf() {
 
 	final Intent intent = new Intent(Intent.ACTION_VIEW);
 
 	final Uri data = Uri.fromFile(new File(UrgenceActivity.SDCARD + "/" + pdf_raw));
 	intent.setDataAndType(data, UrgenceActivity.APPLICATION_PDF);
-
-	startActivityForResult(intent, Activity.RESULT_OK);
+	if (isCallable(intent)) {
+	    startActivityForResult(intent, Activity.RESULT_OK);
+	}
     }
 }

@@ -33,7 +33,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	OnClickListener, android.content.DialogInterface.OnClickListener {
 
     private static final class LoginHandler extends Handler {
-	private WeakReference<ETSMobileActivity> ref;
+	private final WeakReference<ETSMobileActivity> ref;
 
 	public LoginHandler(ETSMobileActivity act) {
 	    ref = new WeakReference<ETSMobileActivity>(act);
@@ -41,38 +41,41 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 
 	@Override
 	public void handleMessage(final Message msg) {
-	    switch (msg.what) {
+	    final ETSMobileActivity act = ref.get();
+	    if (!act.isFinishing()) {
+		switch (msg.what) {
 
-	    case ProfileTask.ON_POST_EXEC:
-		ETSMobileActivity act = ref.get();
-		final Bundle data = msg.getData();
-		final StudentProfile studentProfile = (StudentProfile) data
-			.get(ProfileTask.PROFILE_KEY);
-		if (studentProfile != null) {
-		    if (!studentProfile.getSolde().equals("")
-			    && !studentProfile.getNom().equals("")
-			    && !studentProfile.getPrenom().equals("")) {
-			// save credentials to prefs
-			final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(act);
-			final Editor editor = prefs.edit();
-			editor.putString("codeP", act.credentials.getUsername());
-			editor.putString("codeU", act.credentials.getPassword());
-			editor.commit();
-			Toast.makeText(act, act.getString(R.string.welcome), Toast.LENGTH_LONG)
-				.show();
-		    } else {
-			Toast.makeText(
-				act,
-				"Erreur d'identification : Vos informations personnelles sont érronée(s)",
-				Toast.LENGTH_LONG).show();
-			act.showDialog(ETSMobileActivity.LOGIN);
+		case ProfileTask.ON_POST_EXEC:
+
+		    final Bundle data = msg.getData();
+		    final StudentProfile studentProfile = (StudentProfile) data
+			    .get(ProfileTask.PROFILE_KEY);
+		    if (studentProfile != null) {
+			if (!studentProfile.getSolde().equals("")
+				&& !studentProfile.getNom().equals("")
+				&& !studentProfile.getPrenom().equals("")) {
+			    // save credentials to prefs
+			    final SharedPreferences prefs = PreferenceManager
+				    .getDefaultSharedPreferences(act);
+			    final Editor editor = prefs.edit();
+			    editor.putString("codeP", act.credentials.getUsername());
+			    editor.putString("codeU", act.credentials.getPassword());
+			    editor.commit();
+			    Toast.makeText(act, act.getString(R.string.welcome), Toast.LENGTH_LONG)
+				    .show();
+			} else {
+			    Toast.makeText(
+				    act,
+				    "Erreur d'identification : Vos informations personnelles sont érronée(s)",
+				    Toast.LENGTH_LONG).show();
+			    act.showDialog(ETSMobileActivity.LOGIN);
+			}
 		    }
-		}
-		break;
+		    break;
 
-	    default:
-		break;
+		default:
+		    break;
+		}
 	    }
 	}
     }

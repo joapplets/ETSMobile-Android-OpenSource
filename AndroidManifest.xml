@@ -6,8 +6,7 @@
 
     <uses-sdk
         android:maxSdkVersion="17"
-        android:minSdkVersion="8"
-        android:targetSdkVersion="10" />
+        android:minSdkVersion="8" />
 
     <permission
         android:name="ca.etsmtl.applets.etsmobile.permission.MAPS_RECEIVE"
