@@ -1,5 +1,9 @@
 package ca.etsmtl.applets.etsmobile.models;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import ca.etsmtl.applets.etsmobile.tools.db.ActivityCalendarTableHelper;
+
 import com.google.gson.annotations.SerializedName;
 
 public class ActivityCalendar implements Comparable<ActivityCalendar> {
@@ -22,6 +26,7 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
     private String cours;
     @SerializedName("titreCours")
     private String titreCours;
+    private long session_id;
 
     @SerializedName("groupe")
     private String groupe;
@@ -46,12 +51,38 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
     }
 
     public ActivityCalendar() {
-	// TODO Auto-generated constructor stub
+    }
+
+    public ActivityCalendar(Cursor mActivityCursor) {
+	this.cours = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_COURS));
+	this.startDate = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_START_DATE));
+	this.endDate = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_END_DATE));
+	this.titreCours = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_TITRE));
+	this.name = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_NAME));
+	this.groupe = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_GROUP));
+	this.codeActivite = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_CODE));
+	this.jour = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_JOUR));
+	this.journee = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_JOURNEE));
+	this.location = mActivityCursor.getString(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_LOCATION));
+	this.eventDrawableResId = mActivityCursor.getInt(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_EVENT_DRAW_ID));
+	this.session_id = mActivityCursor.getInt(mActivityCursor
+		.getColumnIndex(ActivityCalendarTableHelper.ACTIVITY_SESSION_ID));
+
     }
 
     @Override
     public int compareTo(final ActivityCalendar another) {
-	// TODO Auto-generated method stub
 
 	return cours.compareTo(another.getCours()) == 0
 		&& groupe.compareTo(another.getGroupe()) == 0
@@ -166,7 +197,33 @@ public class ActivityCalendar implements Comparable<ActivityCalendar> {
 	this.titreCours = titreCours;
     }
 
+    public void setSessionId(long session_id2) {
+	this.session_id = session_id2;
+
+    }
+
     public void print() {
 	System.out.println(this.cours + " " + this.journee);
     }
+
+    public ContentValues getContentValues() {
+	final ContentValues cv = new ContentValues();
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_CODE, codeActivite);
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_COURS, cours);
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_END_DATE, endDate);
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_JOUR, jour);
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_JOURNEE, journee);
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_LOCATION, location);
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_NAME, name);
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_START_DATE, startDate);
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_TITRE, titreCours);
+	cv.put(ActivityCalendarTableHelper.ACTIVITY_SESSION_ID, session_id);
+	return cv;
+    }
+
+    public void setId(long id) {
+	// TODO Auto-generated method stub
+
+    }
+
 }

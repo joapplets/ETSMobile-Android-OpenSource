@@ -4,6 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import ca.etsmtl.applets.etsmobile.tools.db.JoursRemplaceTableHelper;
+
 import com.google.gson.annotations.SerializedName;
 
 public class JoursRemplaces {
@@ -16,6 +20,18 @@ public class JoursRemplaces {
 
     @SerializedName("description")
     String description;
+    long session_id;
+
+    public JoursRemplaces(Cursor mJourCursor) {
+	dateOrigineString = mJourCursor.getString(mJourCursor
+		.getColumnIndex(JoursRemplaceTableHelper.DATE_ORIGIN));
+	dateRemplacementString = mJourCursor.getString(mJourCursor
+		.getColumnIndex(JoursRemplaceTableHelper.DATE_REMPLACEMENT));
+	description = mJourCursor.getString(mJourCursor
+		.getColumnIndex(JoursRemplaceTableHelper.DESC));
+	session_id = mJourCursor.getInt(mJourCursor
+		.getColumnIndex(JoursRemplaceTableHelper.SESSION_ID));
+    }
 
     public Date getDateOrigine() {
 	SimpleDateFormat formatter;
@@ -67,4 +83,21 @@ public class JoursRemplaces {
 	this.description = description;
     }
 
+    public ContentValues getContentValues() {
+	final ContentValues cv = new ContentValues();
+	cv.put(JoursRemplaceTableHelper.DATE_ORIGIN, dateOrigineString);
+	cv.put(JoursRemplaceTableHelper.DATE_REMPLACEMENT, dateRemplacementString);
+	cv.put(JoursRemplaceTableHelper.DESC, description);
+	cv.put(JoursRemplaceTableHelper.SESSION_ID, session_id);
+	return cv;
+    }
+
+    public void setSessionId(long id) {
+	this.session_id = id;
+
+    }
+
+    public void setId(long id) {
+
+    }
 }

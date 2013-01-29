@@ -70,8 +70,9 @@ public class SecurityActivity extends FragmentActivity {
 		    }
 		});
 
-	final GoogleMap mapView = ((SupportMapFragment) getSupportFragmentManager()
-		.findFragmentById(R.id.map)).getMap();
+	final SupportMapFragment map = ((SupportMapFragment) getSupportFragmentManager()
+		.findFragmentById(R.id.map));
+	final GoogleMap mapView = map.getMap();
 
 	if (mapView != null) {
 	    mapView.getUiSettings().setZoomControlsEnabled(false);
@@ -81,6 +82,8 @@ public class SecurityActivity extends FragmentActivity {
 	    etsMarker.position(new LatLng(lat, lng));
 	    etsMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon));
 	    mapView.addMarker(etsMarker);
+	} else {
+	    map.getView().setVisibility(View.INVISIBLE);
 	}
     }
 }

@@ -5,6 +5,7 @@ import java.lang.ref.WeakReference;
 import java.net.URI;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -37,6 +38,7 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ProfileActivity extends Activity implements OnClickListener, OnDismissListener {
 
+    private static final int SHOW_BANDW = 3;
     public String bandwith;
 
     private static class ProfileHandler extends Handler {
@@ -99,8 +101,12 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	    case 2:
 
 		if (!act.isFinishing()) {
-		    act.bandwith = (String) msg.obj;
-		    act.showDialog(ProfileActivity.SHOW_BAND_RESULT);
+		    if (msg.obj != null) {
+			act.bandwith = (String) msg.obj;
+			act.showDialog(ProfileActivity.SHOW_BAND_RESULT);
+		    } else {
+			act.showDialog(ProfileActivity.SHOW_BANDW);
+		    }
 		}
 		break;
 	    default:
@@ -167,7 +173,12 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		    final HttpGet get = new HttpGet(URI.create(sb.toString()));
 		    final HttpClient client = new DefaultHttpClient();
 		    final HttpResponse re = client.execute(get);
-		    ent = EntityUtils.toString(re.getEntity());
+
+		    if (re.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+			ent = EntityUtils.toString(re.getEntity());
+		    } else {
+			ent = null;
+		    }
 
 		} catch (final IOException e) {
 		    e.printStackTrace();
@@ -240,7 +251,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 	    @Override
 	    public void onClick(View v) {
-		showDialog(3);
+		showDialog(SHOW_BANDW);
 	    }
 	});
 
@@ -291,7 +302,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	    d = new AlertDialog.Builder(this).setMessage(
 		    "Phase: " + rez + " Appt: " + appt + " \nIl vous reste : " + result).create();
 	    break;
-	case 3:
+	case SHOW_BANDW:
 	    // set bandwith labels
 	    ((TextView) view.findViewById(R.id.textView1))
 		    .setText(getString(R.string.bandwith_dialog_rez));
