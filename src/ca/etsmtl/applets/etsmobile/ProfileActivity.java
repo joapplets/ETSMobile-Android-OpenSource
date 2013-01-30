@@ -52,9 +52,12 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	public void handleMessage(final Message msg) {
 	    super.handleMessage(msg);
 	    final ProfileActivity act = ref.get();
-	    switch (msg.what) {
-	    case ProfileTask.ON_POST_EXEC:
-		if (!act.isFinishing()) {
+	    // weak ref might be null or finishing
+	    if (act != null && !act.isFinishing()) {
+
+		switch (msg.what) {
+		case ProfileTask.ON_POST_EXEC:
+
 		    if (act.navBar != null) {
 			act.navBar.hideLoading();
 		    }
@@ -96,21 +99,22 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 			    act.btnLogin.setBackgroundColor(Color.RED);
 			}
 		    }
-		}
-		break;
-	    case 2:
 
-		if (!act.isFinishing()) {
-		    if (msg.obj != null) {
-			act.bandwith = (String) msg.obj;
-			act.showDialog(ProfileActivity.SHOW_BAND_RESULT);
-		    } else {
-			act.showDialog(ProfileActivity.SHOW_BANDW);
+		    break;
+		case 2:
+
+		    if (!act.isFinishing()) {
+			if (msg.obj != null) {
+			    act.bandwith = (String) msg.obj;
+			    act.showDialog(ProfileActivity.SHOW_BAND_RESULT);
+			} else {
+			    act.showDialog(ProfileActivity.SHOW_BANDW);
+			}
 		    }
+		    break;
+		default:
+		    break;
 		}
-		break;
-	    default:
-		break;
 	    }
 	}
     }
@@ -315,6 +319,9 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	    ((EditText) view.findViewById(R.id.login_dialog_mot_passe))
 		    .setInputType(InputType.TYPE_CLASS_NUMBER);
 
+	    ((EditText) view.findViewById(R.id.login_dialog_code_univesel)).setText(creds.getRez());
+	    ((EditText) view.findViewById(R.id.login_dialog_mot_passe)).setText(creds.getAppt());
+
 	    // create dialog
 	    d = new AlertDialog.Builder(this).setTitle(R.string.votre_lieu_de_r_sidence)
 		    .setView(view)
@@ -328,8 +335,9 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 			    appt = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
 				    .getText().toString();
 			    if (!rez.equals("") && !appt.equals("")) {
+				creds.setRez(rez);
+				creds.setAppt(rez);
 				edit.putString(UserCredentials.REZ, rez);
-
 				edit.putString(UserCredentials.APPT, appt);
 				edit.commit();
 
