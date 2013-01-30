@@ -25,7 +25,8 @@ public class BottinTableHelper {
 	    + BottinTableHelper.BOTTIN_SERVICE + " TEXT DEFAULT NULL, "
 	    + BottinTableHelper.BOTTIN_TIRE + " TEXT DEFAULT NULL, "
 	    + BottinTableHelper.BOTTIN_DATE_MODIF + " TEXT DEFAULT NULL,"
-	    + BottinTableHelper.BOTTIN_ETS_ID + " TEXT DEFAULT NULL" + ", UNIQUE (ets_id) ON CONFLICT REPLACE);";
+	    + BottinTableHelper.BOTTIN_ETS_ID + " TEXT DEFAULT NULL"
+	    + ", UNIQUE (ets_id) ON CONFLICT REPLACE);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + BottinTableHelper.TABLE_NAME;
     public static final String[] AVAILABLE = new String[] { BottinTableHelper.BOTTIN__ID,
