@@ -2,7 +2,7 @@ package ca.etsmtl.applets.etsmobile.tools.db;
 
 public class ActivityCalendarTableHelper {
 
-    private static final String TEXT = " TEXT, ";
+    private static final String TEXT = " TEXT DEFAULT 'n/a', ";
 
     // table name
     public static final String TABLE_NAME = "activitiesTable";

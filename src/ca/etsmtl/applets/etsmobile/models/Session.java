@@ -3,6 +3,7 @@ package ca.etsmtl.applets.etsmobile.models;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,8 +31,9 @@ public class Session implements Serializable, Comparable<Session> {
     private String dateFinCoursString;
     private int maxActivities = 0;
     private String user_id = "";
-    private List<JoursRemplaces> joursRemplaces;
+    private List<JoursRemplaces> joursRemplaces = new ArrayList<JoursRemplaces>();
     private LinkedHashMap<String, List<ActivityCalendar>> activities;
+    private final int id;
 
     public Session(Cursor mCursor) {
 	shortName = mCursor.getString(mCursor
@@ -45,6 +47,7 @@ public class Session implements Serializable, Comparable<Session> {
 		.getColumnIndex(SessionTableHelper.SESSIONS_DATE_FIN_COURS));
 	maxActivities = mCursor.getInt(mCursor.getColumnIndex(SessionTableHelper.SESSIONS_MAX_ACT));
 	user_id = mCursor.getString(mCursor.getColumnIndex(SessionTableHelper.SESSIONS_USER_ID));
+	id = mCursor.getInt(mCursor.getColumnIndex(SessionTableHelper.SESSIONS_ID));
     }
 
     @Override
@@ -193,5 +196,9 @@ public class Session implements Serializable, Comparable<Session> {
     public void setUserId(String username) {
 	this.user_id = username;
 
+    }
+
+    public String getId() {
+	return Integer.toString(id);
     }
 }

@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import android.content.ContentResolver;
-import android.content.Context;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Message;
 import ca.etsmtl.applets.etsmobile.R;
@@ -18,8 +15,6 @@ import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.JoursRemplaces;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
-import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
-import ca.etsmtl.applets.etsmobile.tools.db.SessionTableHelper;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -58,13 +53,8 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	    R.drawable.kal_marker_fuchsia, R.drawable.kal_marker_green, R.drawable.kal_marker_lime,
 	    R.drawable.kal_marker_maroon, R.drawable.kal_marker_navy, R.drawable.kal_marker_aqua,
 	    R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
-    public static final int SHOW_DATA = 11;
-    private final Context ctx;
-    private final ContentResolver cv;
 
-    public CalendarTask(final Context ctx, final CalendarTaskHandler handler) {
-	this.ctx = ctx;
-	this.cv = this.ctx.getContentResolver();
+    public CalendarTask(final CalendarTaskHandler handler) {
 	this.handler = handler;
 
     }
@@ -72,44 +62,7 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
     @Override
     protected ArrayList<Session> doInBackground(final Object... params) {
 	onPreExecute();
-	final UserCredentials creds = (UserCredentials) params[0];
-
-	// get session from sqlite with user_id=Creds.Username as param
-	final Cursor mSessionCursor = cv.query(ETSMobileContentProvider.CONTENT_URI_SESSION, null,
-		SessionTableHelper.SESSIONS_USER_ID + "=?", new String[] { creds.getUsername() },
-		null);
-	final ArrayList<Session> mySessions = new ArrayList<Session>();
-	while (mSessionCursor.moveToNext()) {
-	    final Session session = new Session(mSessionCursor);
-
-	    // get Jours remplacés
-	    final Cursor mJourCursor = cv.query(
-		    ETSMobileContentProvider.CONTENT_URI_JOURS_REMPLACE, null, null, null, null);
-	    final ArrayList<JoursRemplaces> joursRemplaces = new ArrayList<JoursRemplaces>();
-	    while (mJourCursor.moveToNext()) {
-		final JoursRemplaces j = new JoursRemplaces(mJourCursor);
-		joursRemplaces.add(j);
-	    }
-	    session.setJoursRemplaces(joursRemplaces);
-	    mJourCursor.close();
-
-	    // get activité
-	    final Cursor mActivityCursor = cv.query(
-		    ETSMobileContentProvider.CONTENT_URI_ACTIVITY_CALENDAR, null, null, null, null);
-	    final ArrayList<ActivityCalendar> acts = new ArrayList<ActivityCalendar>();
-	    while (mActivityCursor.moveToNext()) {
-		final ActivityCalendar a = new ActivityCalendar(mActivityCursor);
-		acts.add(a);
-	    }
-	    session.setActivities("", acts);
-	    mActivityCursor.close();
-
-	    mySessions.add(session);
-	}
-	mSessionCursor.close();
-	handler.obtainMessage(SHOW_DATA, mySessions).sendToTarget();
-
-	final ArrayList<Session> sessions = getSessions(creds);
+	final ArrayList<Session> sessions = getSessions((UserCredentials) params[0]);
 	List<ActivityCalendar> activities;
 
 	for (final Session s : sessions) {
@@ -196,7 +149,7 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
     }
 
     /**
-     * Donne la liste des cours dans l'interval d'une session donnée
+     * Donne la liste des cours dans l'interval d'une session donnï¿½e
      * 
      * @param creds
      * @param currentSession
