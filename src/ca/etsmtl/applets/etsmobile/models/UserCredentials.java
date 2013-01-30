@@ -20,10 +20,16 @@ public class UserCredentials {
     @SerializedName("codeAccesUniversel")
     private String username;
 
+    private String rez;
+
+    private String appt;
+
     public UserCredentials(final SharedPreferences prefs) {
 	if (prefs != null) {
 	    username = prefs.getString(UserCredentials.CODE_P, "");
 	    password = prefs.getString(UserCredentials.CODE_U, "");
+	    rez = prefs.getString(UserCredentials.REZ, "");
+	    appt = prefs.getString(UserCredentials.APPT, "");
 	}
     }
 
@@ -40,11 +46,27 @@ public class UserCredentials {
 	return username;
     }
 
+    public String getRez() {
+	return rez;
+    }
+
+    public String getAppt() {
+	return appt;
+    }
+
     public void setPassword(final String password) {
 	this.password = password;
     }
 
     public void setUsername(final String username) {
 	this.username = username;
+    }
+
+    public void setRez(String rez2) {
+	rez = rez2;
+    }
+
+    public void setAppt(String appt) {
+	this.appt = appt;
     }
 }

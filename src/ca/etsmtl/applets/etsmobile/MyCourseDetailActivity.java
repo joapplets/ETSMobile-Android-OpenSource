@@ -69,10 +69,6 @@ public class MyCourseDetailActivity extends ListActivity {
 
 		signetBackgroundThead.execute();
 
-		// final ProgressDialog progress = new ProgressDialog(this);
-		// progress.setMessage(getString(R.string.loading));
-		// progress.show();
-
 		navBar.showLoading();
 		new Thread(new Runnable() {
 
@@ -80,25 +76,23 @@ public class MyCourseDetailActivity extends ListActivity {
 		    public void run() {
 			try {
 			    courseEvaluation = signetBackgroundThead.get();
-			    courseEvaluation.setCote(coteFinale);
+			    if (courseEvaluation != null) {
+				courseEvaluation.setCote(coteFinale);
 
-			    runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-				    final MyCourseDetailAdapter myCoursesAdapter = new MyCourseDetailAdapter(
-					    getApplicationContext(), R.layout.list_item_value,
-					    courseEvaluation.getEvaluationElements(),
-					    courseEvaluation);
-				    getListView().setAdapter(myCoursesAdapter);
-				    getListView().setEmptyView(findViewById(R.id.empty));
+				runOnUiThread(new Runnable() {
+				    @Override
+				    public void run() {
+					final MyCourseDetailAdapter myCoursesAdapter = new MyCourseDetailAdapter(
+						getApplicationContext(), R.layout.list_item_value,
+						courseEvaluation.getEvaluationElements(),
+						courseEvaluation);
+					getListView().setAdapter(myCoursesAdapter);
+					getListView().setEmptyView(findViewById(R.id.empty));
 
-				    // if (progress != null) {
-				    // progress.dismiss();
-				    // }
-				    navBar.hideLoading();
-				}
-			    });
-
+					navBar.hideLoading();
+				    }
+				});
+			    }
 			} catch (final InterruptedException e) {
 			    e.printStackTrace();
 			} catch (final ExecutionException e) {

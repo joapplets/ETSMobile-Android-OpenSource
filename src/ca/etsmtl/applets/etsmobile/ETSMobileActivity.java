@@ -42,7 +42,8 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	@Override
 	public void handleMessage(final Message msg) {
 	    final ETSMobileActivity act = ref.get();
-	    if (!act.isFinishing()) {
+	    // weak ref might be null or finishing
+	    if (act != null && !act.isFinishing()) {
 		switch (msg.what) {
 
 		case ProfileTask.ON_POST_EXEC:
