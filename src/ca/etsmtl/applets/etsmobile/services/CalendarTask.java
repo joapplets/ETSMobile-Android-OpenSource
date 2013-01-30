@@ -149,7 +149,7 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
     }
 
     /**
-     * Donne la liste des cours dans l'interval d'une session donnée
+     * Donne la liste des cours dans l'interval d'une session donnï¿½e
      * 
      * @param creds
      * @param currentSession

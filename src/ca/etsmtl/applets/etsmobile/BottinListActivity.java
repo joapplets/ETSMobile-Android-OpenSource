@@ -19,6 +19,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,6 +32,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.services.BottinService;
+import ca.etsmtl.applets.etsmobile.services.CalendarTask;
 import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
@@ -45,7 +48,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 		while (binder.isWorking()) {
 		    try {
 			Thread.sleep(1000);
-		    } catch (InterruptedException e) {
+		    } catch (final InterruptedException e) {
 			e.printStackTrace();
 		    }
 		}
@@ -186,7 +189,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	public void onServiceDisconnected(final ComponentName name) {
 	}
     };
-    private FilterQueryProvider myFilter = new FilterQueryProvider() {
+    private final FilterQueryProvider myFilter = new FilterQueryProvider() {
 
 	@Override
 	public Cursor runQuery(final CharSequence constraint) {
@@ -269,7 +272,6 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 			public void onClick(final DialogInterface dialog, final int which) {
 			    dialog.cancel();
 			    dialog.dismiss();
-			    unbindService(connection);
 			}
 		    });
 	    d = builder.create();
@@ -329,6 +331,25 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 	    }
 	    simpleCursor.getFilter().filter(s);
 	}
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+	getMenuInflater().inflate(R.menu.calendar_menu, menu);
+	return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+	switch (item.getItemId()) {
+	case R.id.calendar_force_update:
+	    showDialog(BottinListActivity.ALERT_INIT_BOTTIN);
+	    break;
+
+	default:
+	    break;
+	}
+	return true;
     }
 
     private boolean serviceIsRunning() {

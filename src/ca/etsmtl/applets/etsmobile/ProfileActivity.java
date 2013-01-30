@@ -5,6 +5,7 @@ import java.lang.ref.WeakReference;
 import java.net.URI;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -23,9 +24,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
@@ -35,6 +38,7 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ProfileActivity extends Activity implements OnClickListener, OnDismissListener {
 
+    private static final int SHOW_BANDW = 3;
     public String bandwith;
 
     private static class ProfileHandler extends Handler {
@@ -50,39 +54,60 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	    final ProfileActivity act = ref.get();
 	    switch (msg.what) {
 	    case ProfileTask.ON_POST_EXEC:
-		act.navBar.hideLoading();
-		final Bundle data = msg.getData();
-		final StudentProfile studentProfile = (StudentProfile) data
-			.get(ProfileTask.PROFILE_KEY);
+		if (!act.isFinishing()) {
+		    if (act.navBar != null) {
+			act.navBar.hideLoading();
+		    }
+		    final Bundle data = msg.getData();
+		    final StudentProfile studentProfile = (StudentProfile) data
+			    .get(ProfileTask.PROFILE_KEY);
 
-		if (studentProfile != null) {
-		    if (studentProfile.getSolde().equals("") && studentProfile.getNom().equals("")
-			    && studentProfile.getPrenom().equals("")) {
-			Toast.makeText(act, R.string.error_profile_login, Toast.LENGTH_LONG).show();
-			act.showDialog(ProfileActivity.SHOW_LOGIN, null);
-		    } else {
+		    if (studentProfile != null) {
+			if (studentProfile.getSolde().equals("")
+				&& studentProfile.getNom().equals("")
+				&& studentProfile.getPrenom().equals("")) {
 
-			act.name.setText(studentProfile.getPrenom());
-			act.lastname.setText(studentProfile.getNom());
-			act.solde.setText(studentProfile.getSolde());
-			act.codeP.setText(studentProfile.getCodePerm());
+			    Toast.makeText(act, R.string.error_profile_login, Toast.LENGTH_LONG)
+				    .show();
 
-			// save credentials to prefs
-			final SharedPreferences prefs = act.prefs;
+			    act.showDialog(ProfileActivity.SHOW_LOGIN);
 
-			final Editor editor = prefs.edit();
-			editor.putString("codeP", act.creds.getUsername());
-			editor.putString("codeU", act.creds.getPassword());
-			editor.commit();
+			    act.btnLogin.setText(R.string.login);
+			    act.btnLogin.setTag(false);
+			    act.btnLogin.setBackgroundColor(Color.GRAY);
 
-			act.btnLogin.setTag(true);
-			act.btnLogin.setText(act.getString(R.string.logout));
+			} else {
+
+			    act.name.setText(studentProfile.getPrenom());
+			    act.lastname.setText(studentProfile.getNom());
+			    act.solde.setText(studentProfile.getSolde());
+			    act.codeP.setText(studentProfile.getCodePerm());
+
+			    // save credentials to prefs
+			    final SharedPreferences prefs = act.prefs;
+
+			    final Editor editor = prefs.edit();
+			    editor.putString("codeP", act.creds.getUsername());
+			    editor.putString("codeU", act.creds.getPassword());
+			    editor.commit();
+
+			    act.btnLogin.setTag(true);
+			    act.btnLogin.setText(act.getString(R.string.logout));
+			    act.btnLogin.setBackgroundColor(Color.RED);
+			}
 		    }
 		}
 		break;
 	    case 2:
-		act.bandwith = (String) msg.obj;
-		act.showDialog(ProfileActivity.SHOW_BAND_RESULT);
+
+		if (!act.isFinishing()) {
+		    if (msg.obj != null) {
+			act.bandwith = (String) msg.obj;
+			act.showDialog(ProfileActivity.SHOW_BAND_RESULT);
+		    } else {
+			act.showDialog(ProfileActivity.SHOW_BANDW);
+		    }
+		}
 		break;
 	    default:
 		break;
@@ -148,7 +173,12 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		    final HttpGet get = new HttpGet(URI.create(sb.toString()));
 		    final HttpClient client = new DefaultHttpClient();
 		    final HttpResponse re = client.execute(get);
-		    ent = EntityUtils.toString(re.getEntity());
+
+		    if (re.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+			ent = EntityUtils.toString(re.getEntity());
+		    } else {
+			ent = null;
+		    }
 
 		} catch (final IOException e) {
 		    e.printStackTrace();
@@ -221,7 +251,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 	    @Override
 	    public void onClick(View v) {
-		showDialog(3);
+		showDialog(SHOW_BANDW);
 	    }
 	});
 
@@ -256,7 +286,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 					.getText().toString();
 				creds = new UserCredentials(codeP, codeU);
 				new ProfileTask(handler).execute(creds);
-	    break;
+				break;
 
 			    default:
 				dialog.cancel();
@@ -272,12 +302,20 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	    d = new AlertDialog.Builder(this).setMessage(
 		    "Phase: " + rez + " Appt: " + appt + " \nIl vous reste : " + result).create();
 	    break;
-	case 3:
+	case SHOW_BANDW:
+	    // set bandwith labels
 	    ((TextView) view.findViewById(R.id.textView1))
 		    .setText(getString(R.string.bandwith_dialog_rez));
 	    ((TextView) view.findViewById(R.id.textView2))
 		    .setText(getString(R.string.bandwith_dialog_appt));
 	    ((TextView) view.findViewById(R.id.login_dialog_code_univesel)).setHint(null);
+
+	    ((EditText) view.findViewById(R.id.login_dialog_code_univesel))
+		    .setInputType(InputType.TYPE_CLASS_NUMBER);
+	    ((EditText) view.findViewById(R.id.login_dialog_mot_passe))
+		    .setInputType(InputType.TYPE_CLASS_NUMBER);
+
+	    // create dialog
 	    d = new AlertDialog.Builder(this).setTitle(R.string.votre_lieu_de_r_sidence)
 		    .setView(view)
 		    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -297,7 +335,6 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 				getBandwith();
 
-				// dialog.cancel();
 				dialog.dismiss();
 			    }
 			}
