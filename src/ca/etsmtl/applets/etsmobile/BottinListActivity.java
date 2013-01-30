@@ -32,7 +32,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.services.BottinService;
-import ca.etsmtl.applets.etsmobile.services.CalendarTask;
 import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
