@@ -192,14 +192,14 @@ public class BottinListActivity extends ListActivity implements TextWatcher, OnI
 
 	@Override
 	public Cursor runQuery(final CharSequence constraint) {
-	    Log.d(BottinListActivity.LOG_TAG, "filter input  :" + constraint);
+//	    Log.d(BottinListActivity.LOG_TAG, "filter input  :" + constraint);
 
 	    String where = null;
 	    String[] args = new String[BottinListActivity.PROJECTION.length];
 	    if (constraint != "") {
 		for (int i = 0; i < args.length; i++) {
 		    args[i] = "%" + (String) constraint + "%";
-		    Log.d("Args", args[i]);
+//		    Log.d("Args", args[i]);
 		}
 		where = "nom LIKE ? OR prenom LIKE ?";
 	    } else {

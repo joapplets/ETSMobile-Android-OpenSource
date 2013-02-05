@@ -45,7 +45,7 @@ public class XMLProfileParser extends XMLAbstractHandler {
 	    }
 
 	    if (key != null) {
-		Log.d("XMLProfileParser", buffer.toString());
+//		Log.d("XMLProfileParser", buffer.toString());
 		values.put(key, buffer.toString());
 	    }
 
