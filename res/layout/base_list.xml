@@ -22,7 +22,6 @@
         android:dividerHeight="1dip"
         android:fastScrollEnabled="true"
         tools:listitem="@layout/bottin_list_item" >
-
     </ListView>
 
 </LinearLayout>
