@@ -169,13 +169,13 @@ public class MyCourseDetailAdapter extends ArrayAdapter<EvaluationElement> {
 		    final String notee = element.getNote();
 		    final String sur = element.getCorrigeSur();
 		    double sur100 = 0;
-		    if (notee != "") {
+		    if (!notee.equals("") && !sur.equals("")) {
 			sur100 = ((nf.parse(notee).doubleValue()) / nf.parse(sur).doubleValue()) * 100;
 
 			holder.txtViewValue.setText(element.getNote() + "/"
 				+ element.getCorrigeSur() + " (" + nfs.format(sur100) + "%)");
 		    } else {
-			holder.txtViewValue.setText("");
+			holder.txtViewValue.setText("/" + sur);
 		    }
 
 		} catch (final ParseException e) {
