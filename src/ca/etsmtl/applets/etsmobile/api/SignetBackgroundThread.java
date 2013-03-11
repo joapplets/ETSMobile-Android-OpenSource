@@ -162,7 +162,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 	    JSONObject jsonRootArray;
 	    jsonRootArray = jsonObject.getJSONObject("d");
 	    object = (T) gson.fromJson(jsonRootArray.toString(), typeOfClass);
-//	    android.util.Log.d("JSON", jsonRootArray.toString());
+	    // android.util.Log.d("JSON", jsonRootArray.toString());
 	} catch (final MalformedURLException e) {
 	    e.printStackTrace();
 	} catch (final IOException e) {
