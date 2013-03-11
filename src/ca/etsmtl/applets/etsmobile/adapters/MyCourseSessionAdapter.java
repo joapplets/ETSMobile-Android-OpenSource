@@ -1,5 +1,6 @@
 package ca.etsmtl.applets.etsmobile.adapters;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,22 +12,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.Session;
 
 public class MyCourseSessionAdapter extends ArrayAdapter<Session> {
 
+    private class ViewHolder {
+
+	public TextView txrViewSeparator;
+	public TextView txtVieSession;
+
+    }
+
     private static final int ITEM_VIEW_TYPE_LIST_ITEM = 0;
     private static final int ITEM_VIEW_TYPE_SEPARATOR = 1;
     private static final int ITEM_VIEW_TYPE_COUNT = 2;
     private ArrayList<Integer> separatorPositions;
+    private SimpleDateFormat simpleDateformat;
 
     public MyCourseSessionAdapter(final Context context, final int textViewResourceId,
 	    final List<Session> objects) {
 	super(context, textViewResourceId, objects);
-
+	simpleDateformat = new SimpleDateFormat("yyyy", DateFormat.getAvailableLocales()[0]);
 	Collections.sort(objects, new Comparator<Session>() {
 	    @Override
 	    public int compare(final Session s1, final Session s2) {
@@ -70,33 +78,36 @@ public class MyCourseSessionAdapter extends ArrayAdapter<Session> {
     }
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
-	LinearLayout view;
 	final int type = getItemViewType(position);
+	ViewHolder holder = null;
 
 	if (convertView == null) {
-	    view = new LinearLayout(getContext());
-	    final String inflater = Context.LAYOUT_INFLATER_SERVICE;
-	    LayoutInflater li;
-	    li = (LayoutInflater) getContext().getSystemService(inflater);
-	    li.inflate(
-		    type == MyCourseSessionAdapter.ITEM_VIEW_TYPE_LIST_ITEM ? R.layout.session_list_item
-			    : R.layout.list_separator, view, true);
+	    holder = new ViewHolder();
+
+	    convertView = LayoutInflater
+		    .from(getContext())
+		    .inflate(
+			    type == MyCourseSessionAdapter.ITEM_VIEW_TYPE_LIST_ITEM ? R.layout.session_list_item
+				    : R.layout.list_separator, null);
+	    holder.txrViewSeparator = (TextView) convertView.findViewById(R.id.textViewSeparator);
+	    holder.txtVieSession = (TextView) convertView.findViewById(R.id.textViewSession);
+
+	    convertView.setTag(holder);
 	} else {
-	    view = (LinearLayout) convertView;
+	    holder = (ViewHolder) convertView.getTag();
 	}
 
 	if (type == MyCourseSessionAdapter.ITEM_VIEW_TYPE_SEPARATOR) {
-	    final SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy");
-	    ((TextView) view.findViewById(R.id.textViewSeparator)).setText(simpleDateformat
-		    .format(getItem(position).getDateDebut()));
+
+	    holder.txrViewSeparator.setText(simpleDateformat.format(getItem(position)
+		    .getDateDebut()));
 	} else {
-	    ((TextView) view.findViewById(R.id.textViewSession)).setText(getItem(position)
-		    .toString());
+	    holder.txtVieSession.setText(getItem(position).toString());
 	}
 
-	return view;
+	return convertView;
     }
 
     @Override

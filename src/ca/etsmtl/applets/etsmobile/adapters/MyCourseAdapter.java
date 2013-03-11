@@ -7,12 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.models.Course;
 
 public class MyCourseAdapter extends ArrayAdapter<Course> {
+    public class ViewHolder {
+
+	public TextView txtViewSeparator;
+	public TextView txtTitle;
+	public TextView txtSubTitle;
+
+    }
+
     private static final int ITEM_VIEW_TYPE_LIST_ITEM = 0;
     private static final int ITEM_VIEW_TYPE_SEPARATOR = 1;
     private static final int ITEM_VIEW_TYPE_COUNT = 2;
@@ -44,32 +51,37 @@ public class MyCourseAdapter extends ArrayAdapter<Course> {
     }
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
-	LinearLayout view;
 	final int type = getItemViewType(position);
+	ViewHolder holder = null;
 
 	if (convertView == null) {
-	    view = new LinearLayout(getContext());
-	    final String inflater = Context.LAYOUT_INFLATER_SERVICE;
-	    LayoutInflater li;
-	    li = (LayoutInflater) getContext().getSystemService(inflater);
-	    li.inflate(type == MyCourseAdapter.ITEM_VIEW_TYPE_LIST_ITEM ? R.layout.course_list_item
-		    : R.layout.list_separator, view, true);
+
+	    holder = new ViewHolder();
+
+	    convertView = LayoutInflater.from(getContext()).inflate(
+		    type == MyCourseAdapter.ITEM_VIEW_TYPE_LIST_ITEM ? R.layout.course_list_item
+			    : R.layout.list_separator, null);
+
+	    holder.txtViewSeparator = (TextView) convertView.findViewById(R.id.textViewSeparator);
+	    holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
+	    holder.txtSubTitle = (TextView) convertView.findViewById(R.id.subtitle);
+
+	    convertView.setTag(holder);
 	} else {
-	    view = (LinearLayout) convertView;
+
+	    holder = (ViewHolder) convertView.getTag();
 	}
 
 	if (type == MyCourseAdapter.ITEM_VIEW_TYPE_SEPARATOR) {
-	    ((TextView) view.findViewById(R.id.textViewSeparator)).setText(getContext().getString(
-		    R.string.mesCours));
+	    holder.txtViewSeparator.setText(R.string.mesCours);
 	} else {
-	    ((TextView) view.findViewById(R.id.title)).setText(getItem(position).toString());
-	    ((TextView) view.findViewById(R.id.subtitle))
-		    .setText(getItem(position).getTitreCours());
+	    holder.txtTitle.setText(getItem(position).toString());
+	    holder.txtSubTitle.setText(getItem(position).getTitreCours());
 	}
 
-	return view;
+	return convertView;
     }
 
     @Override
