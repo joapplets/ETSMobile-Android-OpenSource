@@ -4,5 +4,6 @@
     <string name="ets_fb">http://www.facebook.com/feeds/page.php?id=8632204375</string>
     <string name="ets_signets">http://etsmtl.ca/cmspages/webservice.asmx?op=infoEtudiant</string>
     <string name="url_biblio">http://bibliotheque.etsmtl.ca</string>
+    <string name="url_email_ets">https://etscourriel.etsmtl.ca/OWA/auth/logon.aspx</string>
     <string name="map_key">08WDodmKv-yHZfzbSQneaOs3j0hK-LyMo1Cp-ng</string>
 </resources>

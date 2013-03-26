@@ -30,6 +30,7 @@ public class LoginDialog extends AlertDialog {
     protected void onCreate(final Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.login_dialog);
+	
 	codeP = (TextView) findViewById(R.id.login_dialog_mot_passe);
 	codeU = (TextView) findViewById(R.id.login_dialog_code_univesel);
 

@@ -30,8 +30,14 @@ import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener, OnTouchListener,
-	OnClickListener, android.content.DialogInterface.OnClickListener {
+	android.content.DialogInterface.OnClickListener {
 
+    /**
+     * Handles login; save to sharedPrefs if the {@link StudentProfile} is valid
+     * 
+     * @author Phil
+     * @TODO: refactor
+     */
     private static final class LoginHandler extends Handler {
 	private final WeakReference<ETSMobileActivity> ref;
 
@@ -51,7 +57,9 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 		    final Bundle data = msg.getData();
 		    final StudentProfile studentProfile = (StudentProfile) data
 			    .get(ProfileTask.PROFILE_KEY);
+		    // if profile found
 		    if (studentProfile != null) {
+			// if profile has info
 			if (!studentProfile.getSolde().equals("")
 				&& !studentProfile.getNom().equals("")
 				&& !studentProfile.getPrenom().equals("")) {
@@ -62,9 +70,11 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 			    editor.putString("codeP", act.credentials.getUsername());
 			    editor.putString("codeU", act.credentials.getPassword());
 			    editor.commit();
+			    // show user appreciation
 			    Toast.makeText(act, act.getString(R.string.welcome), Toast.LENGTH_LONG)
 				    .show();
 			} else {
+			    // wrong
 			    Toast.makeText(
 				    act,
 				    "Erreur d'identification : Vos informations personnelles sont érronée(s)",
@@ -87,18 +97,33 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
     private View view;
     private Handler handler;
 
+    /**
+     * Login dialog onClick(ok); create Credential Obj; Launch
+     * {@link ProfileTask}
+     * 
+     * @TODO: refactor
+     */
     @Override
     public void onClick(final DialogInterface dialog, final int which) {
 	String codeP;
 	String codeU;
+
 	switch (which) {
 	case DialogInterface.BUTTON_POSITIVE:
+
 	    codeP = ((TextView) view.findViewById(R.id.login_dialog_code_univesel)).getText()
 		    .toString();
 	    codeU = ((TextView) view.findViewById(R.id.login_dialog_mot_passe)).getText()
 		    .toString();
+
 	    credentials = new UserCredentials(codeP, codeU);
-	    new ProfileTask(handler).execute(credentials);
+
+	    if (!credentials.isEmployee()) {
+		new ProfileTask(handler).execute(credentials);
+	    } else {
+		finish();
+		startActivity(new Intent(this, ETSMobileEmplActivity.class));
+	    }
 	    break;
 
 	default:
@@ -107,29 +132,28 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
     }
 
     /**
-     * About
+     * MAIN
      */
-    @Override
-    public void onClick(final View arg0) {
-	final Intent intent = new Intent(this, AboutActivity.class);
-	startActivity(intent);
-    }
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
 	setContentView(R.layout.main);
+	// handles UI for login
 	handler = new LoginHandler(this);
 
+	// home made nav bar; hide all
 	navBar = (NavBar) findViewById(R.id.navBarMain);
 	navBar.setTitle(R.drawable.navbar_title);
 	navBar.hideLoading();
 	navBar.hideRightButton();
 	navBar.hideHome();
+
+	// Custom GridAdapter, each icon is the main entry to a "module"
 	final GridView gridview = (GridView) findViewById(R.id.gridview);
 	gridview.setAdapter(new ETSMobileAdapter(getApplicationContext()));
 
+	// load credentials from sharePrefs; No prefs, show login
 	final UserCredentials creds = new UserCredentials(
 		PreferenceManager.getDefaultSharedPreferences(this));
 
@@ -142,9 +166,19 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	gridview.setOnTouchListener(this);
 
 	// about bnt
-	((ImageButton) findViewById(R.id.imgBtnabout)).setOnClickListener(this);
+	((ImageButton) findViewById(R.id.imgBtnabout)).setOnClickListener(new OnClickListener() {
+
+	    @Override
+	    public void onClick(View v) {
+		final Intent intent = new Intent(v.getContext(), AboutActivity.class);
+		startActivity(intent);
+	    }
+	});
     }
 
+    /**
+     * Inflate custom dialog view; Create Alert Dialog
+     */
     @Override
     protected Dialog onCreateDialog(final int id, final Bundle args) {
 	Dialog d = super.onCreateDialog(id, args);
@@ -188,6 +222,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	    intent = new Intent(this, BibliothequeActivity.class);
 	    break;
 	case 7:
+	    // contact; Ask to open email app; prefill email info
 	    intent = new Intent(android.content.Intent.ACTION_SEND);
 	    intent.setType("plain/text");
 	    intent.putExtra(android.content.Intent.EXTRA_EMAIL,
@@ -195,7 +230,9 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "ETSMobile-Android : Commentaire");
 	    intent.putExtra(android.content.Intent.EXTRA_TEXT, "Bravo ! 10/10 !");
 	    break;
-
+	case 8:
+	    intent = new Intent(this, EmailWebView.class);
+	    break;
 	default:
 	    break;
 	}

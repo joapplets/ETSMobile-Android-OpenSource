@@ -9,6 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import ca.etsmtl.applets.etsmobile.R;
 
+/**
+ * {@link ETSMobileActivity} Grid adapter
+ * @author Phil
+ *
+ */
 public class ETSMobileAdapter extends BaseAdapter {
 
     class Holder {
@@ -20,7 +25,7 @@ public class ETSMobileAdapter extends BaseAdapter {
 
     private final Integer[] icons = { R.drawable.icon_profile, R.drawable.icon_news,
 	    R.drawable.icon_emergency, R.drawable.icon_schedule, R.drawable.icon_addressbook,
-	    R.drawable.icon_courses, R.drawable.icon_biblio, R.drawable.icon_comments };
+	    R.drawable.icon_courses, R.drawable.icon_biblio, R.drawable.icon_comments, R.drawable.icon_news };
     private final String[] iconsLabels;
 
     public ETSMobileAdapter(final Context context) {
