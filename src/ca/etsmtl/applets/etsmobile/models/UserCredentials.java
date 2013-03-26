@@ -69,4 +69,8 @@ public class UserCredentials {
     public void setAppt(String appt) {
 	this.appt = appt;
     }
+
+    public boolean isEmployee() {
+	return username.equals("empl") && password.equals("empl");
+    }
 }

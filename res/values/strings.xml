@@ -75,6 +75,7 @@
         <item>Mes notes</item>
         <item>Bibliothèque</item>
         <item>Commentaire</item>
+        <item>Courriel</item>
     </string-array>
     <string-array name="day_names">
         <item>dim.</item>

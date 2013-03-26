@@ -11,6 +11,12 @@ import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
+/**
+ * Async Task; Retreive the Student Profile with {@link SignetBackgroundThread}
+ * 
+ * @author Phil
+ * 
+ */
 public class ProfileTask extends AsyncTask<UserCredentials, String, StudentProfile> {
 
     public static final String PROFILE_KEY = "profile";
