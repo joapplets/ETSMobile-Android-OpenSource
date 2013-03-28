@@ -24,11 +24,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.text.InputType;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
@@ -37,9 +38,6 @@ import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ProfileActivity extends Activity implements OnClickListener, OnDismissListener {
-
-    private static final int SHOW_BANDW = 3;
-    public String bandwith;
 
     private static class ProfileHandler extends Handler {
 	private final WeakReference<ProfileActivity> ref;
@@ -102,15 +100,19 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 		    break;
 		case 2:
-
+		    // show bandwith
 		    if (!act.isFinishing()) {
 			if (msg.obj != null) {
-			    act.bandwith = (String) msg.obj;
-			    act.showDialog(ProfileActivity.SHOW_BAND_RESULT);
+			    act.used_bandwith.setText(act.getString(R.string.utilise)
+				    + (String) msg.obj);
+			    final String b = (String) msg.obj;
+			    act.progess.setProgress((int) Double.parseDouble(b.substring(0,
+				    b.indexOf("GB") - 1)));
 			} else {
-			    act.showDialog(ProfileActivity.SHOW_BANDW);
 			}
 		    }
+		    act.appt_input.setEnabled(true);
+		    act.phase_input.setEnabled(true);
 		    break;
 		default:
 		    break;
@@ -132,10 +134,11 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
     private TextView solde;
     private TextView codeP;
     private Handler handler;
-    private TextView btnBandwith;
-    private String appt;
-    private String rez;
     private SharedPreferences prefs;
+    private ProgressBar progess;
+    private TextView phase_input;
+    private TextView appt_input;
+    private TextView used_bandwith;
 
     private void doLogin() {
 	creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
@@ -159,7 +162,18 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	btnLogin.setBackgroundColor(mColor);
     }
 
-    private void getBandwith() {
+    private void getBandwith(String phase, String appt) {
+
+	appt_input.setEnabled(false);
+	phase_input.setEnabled(false);
+
+	final Editor edit = prefs.edit();
+	creds.setPhase(phase);
+	creds.setAppt(appt);
+	edit.putString(UserCredentials.REZ, phase);
+	edit.putString(UserCredentials.APPT, appt);
+	edit.commit();
+
 	new AsyncTask<String, Void, String>() {
 
 	    @Override
@@ -197,7 +211,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		super.onPostExecute(result);
 	    }
 
-	}.execute(rez, appt);
+	}.execute(phase, appt);
     }
 
     /**
@@ -249,19 +263,58 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	lastname = (TextView) findViewById(R.id.student_profile_lastname);
 	solde = (TextView) findViewById(R.id.student_profile_solde);
 	codeP = (TextView) findViewById(R.id.student_profile_codePermanent);
+	progess = (ProgressBar) findViewById(R.id.bandwith_progress);
+	used_bandwith = (TextView) findViewById(R.id.bandwith_used_lbl);
+	phase_input = (TextView) findViewById(R.id.bandwith_phase_input);
 
-	btnBandwith = (TextView) findViewById(R.id.btn_bandwith);
-	btnBandwith.setOnClickListener(new OnClickListener() {
+	phase_input.addTextChangedListener(new TextWatcher() {
 
 	    @Override
-	    public void onClick(View v) {
-		showDialog(SHOW_BANDW);
+	    public void onTextChanged(CharSequence s, int start, int before, int count) {
+		if (s.length() >= 1) {
+		    if (appt_input.getText().length() > 4) {
+			getBandwith(s.toString(), appt_input.getText().toString());
+		    }
+		}
+	    }
+
+	    @Override
+	    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+	    }
+
+	    @Override
+	    public void afterTextChanged(Editable s) {
+	    }
+	});
+
+	appt_input = (TextView) findViewById(R.id.bandwith_appt_input);
+
+	appt_input.addTextChangedListener(new TextWatcher() {
+
+	    @Override
+	    public void onTextChanged(CharSequence s, int start, int before, int count) {
+		if (s.length() >= 4) {
+		    if (phase_input.getText().length() >= 1) {
+			getBandwith(phase_input.getText().toString(), s.toString());
+		    }
+		}
+	    }
+
+	    @Override
+	    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+	    }
+
+	    @Override
+	    public void afterTextChanged(Editable s) {
 	    }
 	});
 
 	prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	creds = new UserCredentials(prefs);
-
+	if (creds.hasBandwithInfo()) {
+	    phase_input.setText(creds.getPhase());
+	    appt_input.setText(creds.getAppt());
+	}
 	doLogin();
     }
 
@@ -301,53 +354,59 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		    }).create();
 	    break;
 
-	case SHOW_BAND_RESULT:
-	    final String result = bandwith;
-	    d = new AlertDialog.Builder(this).setMessage(
-		    "Phase: " + rez + " Appt: " + appt + " \nIl vous reste : " + result).create();
-	    break;
-	case SHOW_BANDW:
-	    // set bandwith labels
-	    ((TextView) view.findViewById(R.id.textView1))
-		    .setText(getString(R.string.bandwith_dialog_rez));
-	    ((TextView) view.findViewById(R.id.textView2))
-		    .setText(getString(R.string.bandwith_dialog_appt));
-	    ((TextView) view.findViewById(R.id.login_dialog_code_univesel)).setHint(null);
-
-	    ((EditText) view.findViewById(R.id.login_dialog_code_univesel))
-		    .setInputType(InputType.TYPE_CLASS_NUMBER);
-	    ((EditText) view.findViewById(R.id.login_dialog_mot_passe))
-		    .setInputType(InputType.TYPE_CLASS_NUMBER);
-
-	    ((EditText) view.findViewById(R.id.login_dialog_code_univesel)).setText(creds.getRez());
-	    ((EditText) view.findViewById(R.id.login_dialog_mot_passe)).setText(creds.getAppt());
-
-	    // create dialog
-	    d = new AlertDialog.Builder(this).setTitle(R.string.votre_lieu_de_r_sidence)
-		    .setView(view)
-		    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			    final Editor edit = prefs.edit();
-			    rez = ((TextView) view.findViewById(R.id.login_dialog_code_univesel))
-				    .getText().toString();
-			    appt = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
-				    .getText().toString();
-			    if (!rez.equals("") && !appt.equals("")) {
-				creds.setRez(rez);
-				creds.setAppt(rez);
-				edit.putString(UserCredentials.REZ, rez);
-				edit.putString(UserCredentials.APPT, appt);
-				edit.commit();
-
-				getBandwith();
-
-				dialog.dismiss();
-			    }
-			}
-		    }).create();
-	    break;
+	// case SHOW_BAND_RESULT:
+	// final String result = bandwith;
+	// d = new AlertDialog.Builder(this).setMessage(
+	// "Phase: " + rez + " Appt: " + appt + " \nIl vous reste : " +
+	// result).create();
+	// break;
+	// case SHOW_BANDW:
+	// // set bandwith labels
+	// ((TextView) view.findViewById(R.id.textView1))
+	// .setText(getString(R.string.bandwith_dialog_rez));
+	// ((TextView) view.findViewById(R.id.bandwith_used_lbl))
+	// .setText(getString(R.string.bandwith_dialog_appt));
+	// ((TextView)
+	// view.findViewById(R.id.login_dialog_code_univesel)).setHint(null);
+	//
+	// ((EditText) view.findViewById(R.id.login_dialog_code_univesel))
+	// .setInputType(InputType.TYPE_CLASS_NUMBER);
+	// ((EditText) view.findViewById(R.id.login_dialog_mot_passe))
+	// .setInputType(InputType.TYPE_CLASS_NUMBER);
+	//
+	// ((EditText)
+	// view.findViewById(R.id.login_dialog_code_univesel)).setText(creds.getRez());
+	// ((EditText)
+	// view.findViewById(R.id.login_dialog_mot_passe)).setText(creds.getAppt());
+	//
+	// // create dialog
+	// d = new
+	// AlertDialog.Builder(this).setTitle(R.string.votre_lieu_de_r_sidence)
+	// .setView(view)
+	// .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
+	// {
+	//
+	// @Override
+	// public void onClick(DialogInterface dialog, int which) {
+	// final Editor edit = prefs.edit();
+	// rez = ((TextView) view.findViewById(R.id.login_dialog_code_univesel))
+	// .getText().toString();
+	// appt = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
+	// .getText().toString();
+	// if (!rez.equals("") && !appt.equals("")) {
+	// creds.setRez(rez);
+	// creds.setAppt(rez);
+	// edit.putString(UserCredentials.REZ, rez);
+	// edit.putString(UserCredentials.APPT, appt);
+	// edit.commit();
+	//
+	// getBandwith();
+	//
+	// dialog.dismiss();
+	// }
+	// }
+	// }).create();
+	// break;
 	}
 	return d;
     }

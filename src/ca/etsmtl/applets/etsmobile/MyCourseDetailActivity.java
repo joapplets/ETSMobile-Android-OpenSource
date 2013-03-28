@@ -5,6 +5,8 @@ import java.util.Hashtable;
 import java.util.concurrent.ExecutionException;
 
 import android.app.ListActivity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -21,37 +23,30 @@ public class MyCourseDetailActivity extends ListActivity {
 
     private CourseEvaluation courseEvaluation;
     private NavBar navBar;
+    private String groupe;
+    private String coteFinale;
+    private String sigle;
+    private String session;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-
 	setContentView(R.layout.my_courses_view);
-
-	navBar = (NavBar) findViewById(R.id.navBar3);
-	navBar.hideRightButton();
-	navBar.setTitle(R.drawable.navbar_notes_title);
-	navBar.setHomeAction(new OnClickListener() {
-
-	    @Override
-	    public void onClick(final View v) {
-		finish();
-	    }
-	});
 
 	if (savedInstanceState != null) {
 	    courseEvaluation = (CourseEvaluation) savedInstanceState
 		    .getSerializable("courseEvaluation");
 	}
 
+	navBar = (NavBar) findViewById(R.id.navBar3);
+	session = getIntent().getExtras().getString("session");
+	sigle = getIntent().getExtras().getString("sigle");
+	coteFinale = getIntent().getExtras().getString("cote");
+	groupe = getIntent().getExtras().getString("groupe");
+
 	if (courseEvaluation == null) {
 	    final UserCredentials creds = new UserCredentials(
 		    PreferenceManager.getDefaultSharedPreferences(this));
-
-	    final String session = getIntent().getExtras().getString("session");
-	    final String sigle = getIntent().getExtras().getString("sigle");
-	    final String coteFinale = getIntent().getExtras().getString("cote");
-	    final String groupe = getIntent().getExtras().getString("groupe");
 
 	    if (creds.getPassword() != null && creds.getUsername() != null
 		    && !"".equals(creds.getPassword()) && !"".equals(creds.getUsername())) {
@@ -83,9 +78,7 @@ public class MyCourseDetailActivity extends ListActivity {
 				    @Override
 				    public void run() {
 					final MyCourseDetailAdapter myCoursesAdapter = new MyCourseDetailAdapter(
-						getApplicationContext(), R.layout.list_item_value,
-						courseEvaluation.getEvaluationElements(),
-						courseEvaluation);
+						getApplicationContext(), courseEvaluation);
 					getListView().setAdapter(myCoursesAdapter);
 					getListView().setEmptyView(findViewById(R.id.empty));
 
@@ -106,11 +99,22 @@ public class MyCourseDetailActivity extends ListActivity {
 	    }
 	} else {
 	    final MyCourseDetailAdapter myCoursesAdapter = new MyCourseDetailAdapter(
-		    getApplicationContext(), R.layout.list_item_value,
-		    courseEvaluation.getEvaluationElements(), courseEvaluation);
+		    getApplicationContext(), courseEvaluation);
 	    getListView().setAdapter(myCoursesAdapter);
 	    getListView().setEmptyView(findViewById(R.id.empty));
 	}
+
+	navBar.setRightButtonText("Site web");
+	navBar.showRightButton();
+	navBar.setTitle(sigle + "-" + groupe);
+	navBar.setRightButtonAction(new OnClickListener() {
+
+	    @Override
+	    public void onClick(View v) {
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://cours.etsmtl.ca/"
+			+ sigle)));
+	    }
+	});
     }
 
     @Override

@@ -19,6 +19,12 @@ import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
+/**
+ * Liste des sessions
+ * 
+ * @author Phil
+ * 
+ */
 public class MyCourseSessionActivity extends ListActivity {
 
     private ArrayList<Session> sessions;
@@ -57,6 +63,7 @@ public class MyCourseSessionActivity extends ListActivity {
 		    final int position, final long arg3) {
 		final Bundle b = new Bundle();
 		b.putString("session", myCoursesAdapter.getItem(position).getShortName());
+		b.putString("session_long", myCoursesAdapter.getItem(position).getLongName());
 		final Intent nextActivity = new Intent(view.getContext(),
 			MyCourseListActivity.class);
 		nextActivity.putExtras(b);
