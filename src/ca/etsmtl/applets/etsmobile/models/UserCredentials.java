@@ -20,7 +20,7 @@ public class UserCredentials {
     @SerializedName("codeAccesUniversel")
     private String username;
 
-    private String rez;
+    private String phase;
 
     private String appt;
 
@@ -28,7 +28,7 @@ public class UserCredentials {
 	if (prefs != null) {
 	    username = prefs.getString(UserCredentials.CODE_P, "");
 	    password = prefs.getString(UserCredentials.CODE_U, "");
-	    rez = prefs.getString(UserCredentials.REZ, "");
+	    phase = prefs.getString(UserCredentials.REZ, "");
 	    appt = prefs.getString(UserCredentials.APPT, "");
 	}
     }
@@ -46,8 +46,8 @@ public class UserCredentials {
 	return username;
     }
 
-    public String getRez() {
-	return rez;
+    public String getPhase() {
+	return phase;
     }
 
     public String getAppt() {
@@ -62,8 +62,8 @@ public class UserCredentials {
 	this.username = username;
     }
 
-    public void setRez(String rez2) {
-	rez = rez2;
+    public void setPhase(String p) {
+	phase = p;
     }
 
     public void setAppt(String appt) {
@@ -73,4 +73,9 @@ public class UserCredentials {
     public boolean isEmployee() {
 	return username.equals("empl") && password.equals("empl");
     }
+
+    public boolean hasBandwithInfo() {
+	return appt != null && phase != null;
+    }
+
 }

@@ -127,5 +127,8 @@ secouriste ou d’en trouver un.</li><br><li> Demeurer sur place pour assister l
     <string name="error_profile_login">Erreur d\'identification : Vos informations personnelles sont éronnée(s)</string>
     <string name="label_conso_rez">Consomation Bande Passante</string>
     <string name="appel_d_apos_urgence">Appel d\'urgence</string>
+    <string name="utilise">"Utilisé : "</string>
+    <string name="gigaoctetx">Go</string>
+    <string name="_0">0</string>
 
 </resources>

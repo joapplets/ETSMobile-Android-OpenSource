@@ -83,6 +83,7 @@
         <activity android:name=".MyCourseListActivity" />
         <activity android:name=".EmailWebViewActivity" />
         <activity android:name=".ETSMobileEmplActivity" />
+        <activity android:name=".EmailWebView" />
     </application>
 
 </manifest>
