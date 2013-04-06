@@ -39,6 +39,12 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ProfileActivity extends Activity implements OnClickListener, OnDismissListener {
 
+    /**
+     * Handles UI logic after asynctask has finished
+     * 
+     * @author Phil
+     * 
+     */
     private static class ProfileHandler extends Handler {
 	private final WeakReference<ProfileActivity> ref;
 
@@ -106,7 +112,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 			    act.used_bandwith.setText(act.getString(R.string.utilise)
 				    + (String) msg.obj);
 			    final String b = (String) msg.obj;
-			    act.progess.setProgress((int) Double.parseDouble(b.substring(0,
+			    act.progess.setProgress(100-(int) Double.parseDouble(b.substring(0,
 				    b.indexOf("GB") - 1)));
 			} else {
 			}

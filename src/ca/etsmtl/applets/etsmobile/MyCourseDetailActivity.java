@@ -33,23 +33,35 @@ public class MyCourseDetailActivity extends ListActivity {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.my_courses_view);
 
+	// Initialize courseEvaluation data from cache
 	if (savedInstanceState != null) {
 	    courseEvaluation = (CourseEvaluation) savedInstanceState
 		    .getSerializable("courseEvaluation");
 	}
-
+	// navBar
 	navBar = (NavBar) findViewById(R.id.navBar3);
+	// get data from parent activity
 	session = getIntent().getExtras().getString("session");
 	sigle = getIntent().getExtras().getString("sigle");
 	coteFinale = getIntent().getExtras().getString("cote");
 	groupe = getIntent().getExtras().getString("groupe");
+	// init navBar
+	navBar.setRightButtonText("Site web");
+	navBar.showRightButton();
+	navBar.setTitle(sigle + "-" + groupe);
+	navBar.setRightButtonAction(new OnClickListener() {
 
+	    @Override
+	    public void onClick(View v) {
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://cours.etsmtl.ca/"
+			+ sigle)));
+	    }
+	});
 	if (courseEvaluation == null) {
 	    final UserCredentials creds = new UserCredentials(
 		    PreferenceManager.getDefaultSharedPreferences(this));
 
-	    if (creds.getPassword() != null && creds.getUsername() != null
-		    && !"".equals(creds.getPassword()) && !"".equals(creds.getUsername())) {
+	    if (creds.isLoggedIn()) {
 		final Dictionary<String, String> requestParams = new Hashtable<String, String>();
 		requestParams.put("codeAccesUniversel", creds.getUsername());
 		requestParams.put("motPasse", creds.getPassword());
@@ -57,6 +69,7 @@ public class MyCourseDetailActivity extends ListActivity {
 		requestParams.put("pGroupe", groupe);
 		requestParams.put("pSession", session);
 
+		// async task; get course details
 		final SignetBackgroundThread<CourseEvaluation, CourseEvaluation> signetBackgroundThead = new SignetBackgroundThread<CourseEvaluation, CourseEvaluation>(
 			"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
 			"listeElementsEvaluation", requestParams, CourseEvaluation.class,
@@ -73,7 +86,7 @@ public class MyCourseDetailActivity extends ListActivity {
 			    courseEvaluation = signetBackgroundThead.get();
 			    if (courseEvaluation != null) {
 				courseEvaluation.setCote(coteFinale);
-
+				// all ui changes must be executed on uiThread
 				runOnUiThread(new Runnable() {
 				    @Override
 				    public void run() {
@@ -104,17 +117,6 @@ public class MyCourseDetailActivity extends ListActivity {
 	    getListView().setEmptyView(findViewById(R.id.empty));
 	}
 
-	navBar.setRightButtonText("Site web");
-	navBar.showRightButton();
-	navBar.setTitle(sigle + "-" + groupe);
-	navBar.setRightButtonAction(new OnClickListener() {
-
-	    @Override
-	    public void onClick(View v) {
-		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://cours.etsmtl.ca/"
-			+ sigle)));
-	    }
-	});
     }
 
     @Override

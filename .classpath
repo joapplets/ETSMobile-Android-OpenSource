@@ -4,5 +4,10 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry exported="true" kind="lib" path="G:/android-sdk/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/G:/android-sdk/extras/google/google_play_services/libproject/google-play-services_lib/libs/../../../docs/reference/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
