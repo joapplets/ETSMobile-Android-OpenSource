@@ -38,7 +38,7 @@ public class AboutActivity extends Activity {
 		    @Override
 		    public void run() {
 			if (scrollView.getScrollY() < scrollView.getMaxScrollAmount() * 9) {
-			    scrollView.smoothScrollTo(0, scrollView.getScrollY() + 2);
+			    scrollView.smoothScrollTo(0, scrollView.getScrollY() + 4);
 			} else {
 			    scrollView.smoothScrollTo(0, 0);
 			}
@@ -47,7 +47,7 @@ public class AboutActivity extends Activity {
 	    }
 	};
 	final Timer t = new Timer();
-	t.schedule(scrollerSchedule, 1000, 100);
+	t.schedule(scrollerSchedule, 1000, 50);
 
     }
 }

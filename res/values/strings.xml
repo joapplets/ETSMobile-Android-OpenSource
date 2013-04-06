@@ -38,7 +38,7 @@
     <string name="moyenne">Moyenne de la classe</string>
     <string name="ecartType">Écart-type</string>
     <string name="mediane">Médiane</string>
-    <string name="rangCentille">Rang centille</string>
+    <string name="rangCentille">Rang centile</string>
     <string name="nodata">Aucune donnée.</string>
     <string name="about_team_android"><b>Réalisation - Équipe Android</b>\n Philippe David\nRodrigo Manyari\nVincent Séguin\nMichael Bernier\nFrancis Gauthier\nLaurence de Villers\nDomenico Leopardi</string>
     <string name="about_team_ti_ets"><b>Intégration avec les Systèmes d’entreprise (TI - ÉTS)</b>\nRobert Gervais\nOlivier Lacasse</string>
@@ -127,8 +127,22 @@ secouriste ou d’en trouver un.</li><br><li> Demeurer sur place pour assister l
     <string name="error_profile_login">Erreur d\'identification : Vos informations personnelles sont éronnée(s)</string>
     <string name="label_conso_rez">Consomation Bande Passante</string>
     <string name="appel_d_apos_urgence">Appel d\'urgence</string>
-    <string name="utilise">"Utilisé : "</string>
+    <string name="utilise">"Restant: "</string>
     <string name="gigaoctetx">Go</string>
     <string name="_0">0</string>
+    <string name="accountSpinnerLabel">Account</string>
+    <string name="addContactButtonLabel">Add Contact</string>
+    <string name="addContactTitle">Add Contact</string>
+    <string name="allAccounts">All Accounts</string>
+    <string name="contactCreationFailure">Contact creation failed, check logs.</string>
+    <string name="contactEmailLabel">Contact Email</string>
+    <string name="contactNameLabel">Contact Name</string>
+    <string name="contactPhoneLabel">Contact Phone</string>
+    <string name="save">Save</string>
+    <string name="selectAccountLabel">Select</string>
+    <string name="selectLabel">Select label</string>
+    <string name="targetAccountLabel">Target Account</string>
+    <string name="undefinedTypeLabel">(Undefined)</string>
+    <string name="nouveau_contact">Nouveau contact</string>
 
 </resources>

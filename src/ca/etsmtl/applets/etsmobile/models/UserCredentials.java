@@ -78,4 +78,9 @@ public class UserCredentials {
 	return appt != null && phase != null;
     }
 
+    public boolean isLoggedIn() {
+	return this.getPassword() != null && this.getUsername() != null
+		&& !"".equals(this.getPassword()) && !"".equals(this.getUsername());
+    }
+
 }
