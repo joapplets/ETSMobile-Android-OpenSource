@@ -57,4 +57,9 @@ public class StudentProfile extends Model {
 	dst.writeString(codePerm);
 	dst.writeString(soldeTotal);
     }
+
+    @Override
+    public String toString() {
+	return "" + nom + "" + prenom + "" + codePerm + "" + soldeTotal;
+    }
 }

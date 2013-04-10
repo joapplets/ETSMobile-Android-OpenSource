@@ -130,7 +130,7 @@ public class ScheduleActivity extends Activity {
 	creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
 	// get data async
 	handler = new CalendarTaskHandler(this);
-	new CalendarTask(handler).execute(creds);
+	new CalendarTask(this, handler).execute(creds);
 
 	// set the navigation bar
 	navBar = (NavBar) findViewById(R.id.navBar1);
@@ -211,7 +211,7 @@ public class ScheduleActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
 	case R.id.calendar_force_update:
-	    new CalendarTask(handler).execute(creds);
+	    new CalendarTask(this, handler).execute(creds);
 	    break;
 
 	default:

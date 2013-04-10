@@ -3,11 +3,19 @@ package ca.etsmtl.applets.etsmobile;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URI;
+import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.auth.AuthenticationException;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -37,10 +45,12 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
+import com.bugsense.trace.BugSenseHandler;
+
 public class ProfileActivity extends Activity implements OnClickListener, OnDismissListener {
 
     /**
-     * Handles UI logic after asynctask has finished
+     * Handles UI logic after async task has finished
      * 
      * @author Phil
      * 
@@ -105,15 +115,19 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 		    }
 
 		    break;
-		case 2:
-		    // show bandwith
+		case 2:// show bandwith
 		    if (!act.isFinishing()) {
 			if (msg.obj != null) {
-			    act.used_bandwith.setText(act.getString(R.string.utilise)
-				    + (String) msg.obj);
-			    final String b = (String) msg.obj;
-			    act.progess.setProgress(100-(int) Double.parseDouble(b.substring(0,
-				    b.indexOf("GB") - 1)));
+
+			    final float[] result = (float[]) msg.obj;
+			    act.bandwith_used.setText(act.getString(R.string.utilise)
+				    + Float.toString(result[1] - result[0]));
+
+			    act.bandwith_max.setText(Float.toString(result[1]) + " "
+				    + act.getString(R.string.gigaoctetx));
+
+			    act.progess.setMax((int) result[1]);
+			    act.progess.setProgress((int) result[0]);
 			} else {
 			}
 		    }
@@ -144,7 +158,8 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
     private ProgressBar progess;
     private TextView phase_input;
     private TextView appt_input;
-    private TextView used_bandwith;
+    private TextView bandwith_used;
+    private TextView bandwith_max;
 
     private void doLogin() {
 	creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
@@ -152,11 +167,11 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	boolean tag = false;
 	int mColor = Color.RED;
 
-	if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
+	if (creds.isLoggedIn()) {
 	    text = getString(R.string.logout);
 	    tag = true;
 	    navBar.showLoading();
-	    new ProfileTask(handler).execute(creds);
+	    new ProfileTask(this, handler).execute(creds);
 	} else {
 	    showDialog(SHOW_LOGIN, null);
 	    text = getString(R.string.login);
@@ -169,7 +184,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
     }
 
     private void getBandwith(String phase, String appt) {
-
+	BugSenseHandler.sendEvent("Bandwith");
 	appt_input.setEnabled(false);
 	phase_input.setEnabled(false);
 
@@ -180,39 +195,67 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	edit.putString(UserCredentials.APPT, appt);
 	edit.commit();
 
-	new AsyncTask<String, Void, String>() {
+	// get bandwidth from cooptel, parse html, extract floats, etc etc
+	new AsyncTask<String, Void, float[]>() {
+	    final Pattern usageRegex = Pattern
+		    .compile("<TR><TD>(.*)</TD><TD>(.*)</TD><TD ALIGN=\"RIGHT\">(.*)</TD><TD ALIGN=\"RIGHT\">(.*)</TD></TR>");
+	    final Pattern quotaRegex = Pattern
+		    .compile("<TR><TD>Quota permis pour la p&eacute;riode</TD><TD ALIGN=\"RIGHT\">(.*)</TD></TD></TR>");
 
 	    @Override
-	    protected String doInBackground(String... params) {
-
-		String ent = null;
+	    protected float[] doInBackground(String... params) {
+		final float[] result = new float[2];
 		try {
+		    final HttpGet get = new HttpGet(URI.create(String.format(
+			    "http://www2.cooptel.qc.ca/services/temps/?mois=%d&cmd=Visualiser",
+			    Calendar.getInstance().get(Calendar.MONTH) + 1)));
+		    final BasicScheme scheme = new BasicScheme();
+		    final Credentials credentials = new UsernamePasswordCredentials("ets-res"
+			    + params[0] + "-" + params[1], "ets" + params[1]);
+		    try {
+			final Header h = scheme.authenticate(credentials, get);
+			get.addHeader(h);
+			final HttpClient client = new DefaultHttpClient();
+			final HttpResponse re = client.execute(get);
 
-		    final StringBuilder sb = new StringBuilder();
-		    sb.append("http://etsmtl.me/py/usage/");
-		    sb.append(params[0]);
-		    sb.append("/");
-		    sb.append(params[1]);
+			// if HTTP200
+			if (re.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+			    final String ent = EntityUtils.toString(re.getEntity());
+			    final Matcher matcher = usageRegex.matcher(ent);
 
-		    final HttpGet get = new HttpGet(URI.create(sb.toString()));
-		    final HttpClient client = new DefaultHttpClient();
-		    final HttpResponse re = client.execute(get);
+			    float total = 0;
+			    // String[] usageResult = matcher.;
+			    // parse all results
+			    while (matcher.find()) {
+				final Number upload = Float.parseFloat(matcher.group(3));
+				final Number download = Float.parseFloat(matcher.group(4));
 
-		    if (re.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-			ent = EntityUtils.toString(re.getEntity());
-		    } else {
-			ent = null;
+				total += upload.floatValue();
+				total += download.floatValue();
+			    }
+
+			    final Matcher quotaResult = quotaRegex.matcher(ent);
+			    float totalBandwithAvail = 0;
+			    if (quotaResult.find()) {
+				totalBandwithAvail = Float.parseFloat(quotaResult.group(1));
+			    }
+			    result[0] = total / 1024;
+			    result[1] = totalBandwithAvail / 1024;
+
+			}
+		    } catch (final AuthenticationException e) {
+			e.printStackTrace();
 		    }
 
 		} catch (final IOException e) {
 		    e.printStackTrace();
 		}
 
-		return ent;
+		return result;
 	    }
 
 	    @Override
-	    protected void onPostExecute(String result) {
+	    protected void onPostExecute(float[] result) {
 		handler.obtainMessage(2, result).sendToTarget();
 		super.onPostExecute(result);
 	    }
@@ -270,7 +313,8 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 	solde = (TextView) findViewById(R.id.student_profile_solde);
 	codeP = (TextView) findViewById(R.id.student_profile_codePermanent);
 	progess = (ProgressBar) findViewById(R.id.bandwith_progress);
-	used_bandwith = (TextView) findViewById(R.id.bandwith_used_lbl);
+	bandwith_used = (TextView) findViewById(R.id.bandwith_used_lbl);
+	bandwith_max = (TextView) findViewById(R.id.bandwith_max);
 	phase_input = (TextView) findViewById(R.id.bandwith_phase_input);
 
 	phase_input.addTextChangedListener(new TextWatcher() {
@@ -299,7 +343,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 
 	    @Override
 	    public void onTextChanged(CharSequence s, int start, int before, int count) {
-		if (s.length() >= 4) {
+		if (s.length() >= 3) {
 		    if (phase_input.getText().length() >= 1) {
 			getBandwith(phase_input.getText().toString(), s.toString());
 		    }
@@ -348,7 +392,7 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 				codeU = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
 					.getText().toString();
 				creds = new UserCredentials(codeP, codeU);
-				new ProfileTask(handler).execute(creds);
+				new ProfileTask(view.getContext(), handler).execute(creds);
 				break;
 
 			    default:
@@ -359,60 +403,6 @@ public class ProfileActivity extends Activity implements OnClickListener, OnDism
 			}
 		    }).create();
 	    break;
-
-	// case SHOW_BAND_RESULT:
-	// final String result = bandwith;
-	// d = new AlertDialog.Builder(this).setMessage(
-	// "Phase: " + rez + " Appt: " + appt + " \nIl vous reste : " +
-	// result).create();
-	// break;
-	// case SHOW_BANDW:
-	// // set bandwith labels
-	// ((TextView) view.findViewById(R.id.textView1))
-	// .setText(getString(R.string.bandwith_dialog_rez));
-	// ((TextView) view.findViewById(R.id.bandwith_used_lbl))
-	// .setText(getString(R.string.bandwith_dialog_appt));
-	// ((TextView)
-	// view.findViewById(R.id.login_dialog_code_univesel)).setHint(null);
-	//
-	// ((EditText) view.findViewById(R.id.login_dialog_code_univesel))
-	// .setInputType(InputType.TYPE_CLASS_NUMBER);
-	// ((EditText) view.findViewById(R.id.login_dialog_mot_passe))
-	// .setInputType(InputType.TYPE_CLASS_NUMBER);
-	//
-	// ((EditText)
-	// view.findViewById(R.id.login_dialog_code_univesel)).setText(creds.getRez());
-	// ((EditText)
-	// view.findViewById(R.id.login_dialog_mot_passe)).setText(creds.getAppt());
-	//
-	// // create dialog
-	// d = new
-	// AlertDialog.Builder(this).setTitle(R.string.votre_lieu_de_r_sidence)
-	// .setView(view)
-	// .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
-	// {
-	//
-	// @Override
-	// public void onClick(DialogInterface dialog, int which) {
-	// final Editor edit = prefs.edit();
-	// rez = ((TextView) view.findViewById(R.id.login_dialog_code_univesel))
-	// .getText().toString();
-	// appt = ((TextView) view.findViewById(R.id.login_dialog_mot_passe))
-	// .getText().toString();
-	// if (!rez.equals("") && !appt.equals("")) {
-	// creds.setRez(rez);
-	// creds.setAppt(rez);
-	// edit.putString(UserCredentials.REZ, rez);
-	// edit.putString(UserCredentials.APPT, appt);
-	// edit.commit();
-	//
-	// getBandwith();
-	//
-	// dialog.dismiss();
-	// }
-	// }
-	// }).create();
-	// break;
 	}
 	return d;
     }

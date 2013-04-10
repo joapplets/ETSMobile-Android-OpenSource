@@ -74,6 +74,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 			    Toast.makeText(act, act.getString(R.string.welcome), Toast.LENGTH_LONG)
 				    .show();
 			} else {
+			    // Log.d("TAG", studentProfile.toString());
 			    // wrong
 			    Toast.makeText(
 				    act,
@@ -119,7 +120,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	    credentials = new UserCredentials(codeP, codeU);
 
 	    if (!credentials.isEmployee()) {
-		new ProfileTask(handler).execute(credentials);
+		new ProfileTask(this, handler).execute(credentials);
 	    } else {
 		finish();
 		startActivity(new Intent(this, ETSMobileEmplActivity.class));
@@ -157,8 +158,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	final UserCredentials creds = new UserCredentials(
 		PreferenceManager.getDefaultSharedPreferences(this));
 
-	if (creds.getPassword() != null && creds.getUsername() != null
-		&& "".equals(creds.getPassword()) && "".equals(creds.getUsername())) {
+	if (!creds.isLoggedIn()) {
 	    showDialog(ETSMobileActivity.LOGIN);
 	}
 

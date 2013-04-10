@@ -1,15 +1,15 @@
 package ca.etsmtl.applets.etsmobile;
 
-import ca.etsmtl.applets.etsmobile.models.UserCredentials;
-import ca.etsmtl.applets.etsmobile.views.NavBar;
 import android.app.Activity;
 import android.graphics.Picture;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.webkit.WebView.PictureListener;
+import android.webkit.WebViewClient;
+import ca.etsmtl.applets.etsmobile.models.UserCredentials;
+import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class EmailWebView extends Activity {
 
@@ -39,9 +39,10 @@ public class EmailWebView extends Activity {
 	webView.loadUrl(getString(R.string.url_email_ets));
 
 	webView.setWebViewClient(new WebViewClient() {
+	    @Override
 	    public void onPageFinished(WebView view, String url) {
-		String user = creds.getUsername();
-		String pwd = creds.getPassword();
+		final String user = creds.getUsername();
+		final String pwd = creds.getPassword();
 		view.loadUrl("javascript:document.getElementById('username').value = '" + user
 			+ "';document.getElementById('password').value='" + pwd + "';");
 	    }

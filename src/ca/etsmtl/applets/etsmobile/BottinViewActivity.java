@@ -96,8 +96,8 @@ public class BottinViewActivity extends Activity {
      * accont.
      */
     protected void launchContactAdder() {
-	Intent i = new Intent(this, ContactAdder.class);
-	Bundle extras = new Bundle();
+	final Intent i = new Intent(this, ContactAdder.class);
+	final Bundle extras = new Bundle();
 	extras.putString("nom", nom);
 	extras.putString("preNom", prenom);
 	extras.putString("service", service);

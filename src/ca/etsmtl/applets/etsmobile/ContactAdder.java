@@ -64,7 +64,7 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
     private AccountData mSelectedAccount;
     private String prenom;
     private String service;
-    private String empl;
+    // private String empl;
     private String titre;
     private String courriel;
     private String phone;
@@ -80,17 +80,17 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.contact_adder);
 
-	Bundle extras = getIntent().getExtras();
+	final Bundle extras = getIntent().getExtras();
 
 	nom = extras.getString("nom");
 	prenom = extras.getString("preNom");
 	service = extras.getString("service");
-	empl = extras.getString("empl");
+	// empl = extras.getString("empl");
 	titre = extras.getString("titre");
 	courriel = extras.getString("courriel");
 	phone = extras.getString("phone");
 
-	NavBar b = (NavBar) findViewById(R.id.navBar1);
+	final NavBar b = (NavBar) findViewById(R.id.navBar1);
 	b.hideLoading();
 	b.setTitle("Nouveau contact");
 
@@ -161,10 +161,12 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
 
 	// Register handlers for UI elements
 	mAccountSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+	    @Override
 	    public void onItemSelected(AdapterView<?> parent, View view, int position, long i) {
 		updateAccountSelection();
 	    }
 
+	    @Override
 	    public void onNothingSelected(AdapterView<?> parent) {
 		// We don't need to worry about nothing being selected, since
 		// Spinners don't allow
@@ -172,6 +174,7 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
 	    }
 	});
 	mContactSaveButton.setOnClickListener(new View.OnClickListener() {
+	    @Override
 	    public void onClick(View v) {
 		onSaveButtonClicked();
 	    }
@@ -194,11 +197,13 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
      */
     protected void createContactEntry() {
 	// Get values from UI
-	String name = mContactNameEditText.getText().toString();
-	String phone = mContactPhoneEditText.getText().toString();
-	String email = mContactEmailEditText.getText().toString();
-	int phoneType = mContactPhoneTypes.get(mContactPhoneTypeSpinner.getSelectedItemPosition());
-	int emailType = mContactEmailTypes.get(mContactEmailTypeSpinner.getSelectedItemPosition());
+	final String name = mContactNameEditText.getText().toString();
+	final String phone = mContactPhoneEditText.getText().toString();
+	final String email = mContactEmailEditText.getText().toString();
+	final int phoneType = mContactPhoneTypes.get(mContactPhoneTypeSpinner
+		.getSelectedItemPosition());
+	final int emailType = mContactEmailTypes.get(mContactEmailTypeSpinner
+		.getSelectedItemPosition());
 
 	// Prepare contact creation request
 	//
@@ -207,7 +212,7 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
 	// The system will aggregate this with any other data for this contact
 	// and create a
 	// coresponding entry in the ContactsContract.Contacts provider for us.
-	ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+	final ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
 	ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
 		.withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, mSelectedAccount.getType())
 		.withValue(ContactsContract.RawContacts.ACCOUNT_NAME, mSelectedAccount.getName())
@@ -254,12 +259,12 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
 	Log.i(TAG, "Creating contact: " + name);
 	try {
 	    getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
-	} catch (Exception e) {
+	} catch (final Exception e) {
 	    // Display warning
-	    Context ctx = getApplicationContext();
-	    CharSequence txt = getString(R.string.contactCreationFailure);
-	    int duration = Toast.LENGTH_SHORT;
-	    Toast toast = Toast.makeText(ctx, txt, duration);
+	    final Context ctx = getApplicationContext();
+	    final CharSequence txt = getString(R.string.contactCreationFailure);
+	    final int duration = Toast.LENGTH_SHORT;
+	    final Toast toast = Toast.makeText(ctx, txt, duration);
 	    toast.show();
 
 	    // Log exception
@@ -281,23 +286,25 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
      * Updates account list spinner when the list of Accounts on the system
      * changes. Satisfies OnAccountsUpdateListener implementation.
      */
+    @Override
     public void onAccountsUpdated(Account[] a) {
 	Log.i(TAG, "Account list update detected");
 	// Clear out any old data to prevent duplicates
 	mAccounts.clear();
 
 	// Get account data from system
-	AuthenticatorDescription[] accountTypes = AccountManager.get(this).getAuthenticatorTypes();
+	final AuthenticatorDescription[] accountTypes = AccountManager.get(this)
+		.getAuthenticatorTypes();
 
 	// Populate tables
-	for (int i = 0; i < a.length; i++) {
+	for (final Account element : a) {
 	    // The user may have multiple accounts with the same name, so we
 	    // need to construct a
 	    // meaningful display name for each.
-	    String systemAccountType = a[i].type;
-	    AuthenticatorDescription ad = getAuthenticatorDescription(systemAccountType,
+	    final String systemAccountType = element.type;
+	    final AuthenticatorDescription ad = getAuthenticatorDescription(systemAccountType,
 		    accountTypes);
-	    AccountData data = new AccountData(a[i].name, ad);
+	    final AccountData data = new AccountData(element.name, ad);
 	    mAccounts.add(data);
 	}
 
@@ -317,9 +324,9 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
      */
     private static AuthenticatorDescription getAuthenticatorDescription(String type,
 	    AuthenticatorDescription[] dictionary) {
-	for (int i = 0; i < dictionary.length; i++) {
-	    if (dictionary[i].type.equals(type)) {
-		return dictionary[i];
+	for (final AuthenticatorDescription element : dictionary) {
+	    if (element.type.equals(type)) {
+		return element;
 	    }
 	}
 	// No match found
@@ -340,7 +347,7 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
      * account.
      */
     private class AccountData {
-	private String mName;
+	private final String mName;
 	private String mType;
 	private CharSequence mTypeLabel;
 	private Drawable mIcon;
@@ -362,8 +369,8 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
 		// The type string is stored in a resource, so we need to
 		// convert it into something
 		// human readable.
-		String packageName = description.packageName;
-		PackageManager pm = getPackageManager();
+		final String packageName = description.packageName;
+		final PackageManager pm = getPackageManager();
 
 		if (description.labelId != 0) {
 		    mTypeLabel = pm.getText(packageName, description.labelId, null);
@@ -402,6 +409,7 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
 	    return mIcon;
 	}
 
+	@Override
 	public String toString() {
 	    return mName;
 	}
@@ -417,19 +425,21 @@ public final class ContactAdder extends Activity implements OnAccountsUpdateList
 	    setDropDownViewResource(R.layout.account_entry);
 	}
 
+	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 	    // Inflate a view template
 	    if (convertView == null) {
-		LayoutInflater layoutInflater = getLayoutInflater();
+		final LayoutInflater layoutInflater = getLayoutInflater();
 		convertView = layoutInflater.inflate(R.layout.account_entry, parent, false);
 	    }
-	    TextView firstAccountLine = (TextView) convertView.findViewById(R.id.firstAccountLine);
-	    TextView secondAccountLine = (TextView) convertView
+	    final TextView firstAccountLine = (TextView) convertView
+		    .findViewById(R.id.firstAccountLine);
+	    final TextView secondAccountLine = (TextView) convertView
 		    .findViewById(R.id.secondAccountLine);
-	    ImageView accountIcon = (ImageView) convertView.findViewById(R.id.accountIcon);
+	    final ImageView accountIcon = (ImageView) convertView.findViewById(R.id.accountIcon);
 
 	    // Populate template
-	    AccountData data = getItem(position);
+	    final AccountData data = getItem(position);
 	    firstAccountLine.setText(data.getName());
 	    secondAccountLine.setText(data.getTypeLabel());
 	    Drawable icon = data.getIcon();
