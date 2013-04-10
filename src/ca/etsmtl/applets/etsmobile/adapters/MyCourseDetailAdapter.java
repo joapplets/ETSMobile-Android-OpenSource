@@ -4,11 +4,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +39,7 @@ public class MyCourseDetailAdapter extends BaseAdapter {
     private final CourseEvaluation courseEvaluation;
     private double total;
     private final LayoutInflater li;
-    private Context ctx;
+    private final Context ctx;
     private ViewHolder holder = null;
 
     public MyCourseDetailAdapter(final Context context, final CourseEvaluation courseEvaluation) {
@@ -54,8 +52,8 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 	for (final EvaluationElement evaluationElement : courseEvaluation.getEvaluationElements()) {
 	    if (evaluationElement.getNote().length() > 1) {
 		try {
-		    String pond = evaluationElement.getPonderation();
-		    double value = nf_frCA.parse(pond).doubleValue();
+		    final String pond = evaluationElement.getPonderation();
+		    final double value = nf_frCA.parse(pond).doubleValue();
 		    total += value;
 		} catch (final ParseException e) {
 		}
@@ -136,7 +134,7 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 		try {
 		    holder.txtViewValue.setText(nf_enUS
 			    .format((nf_frCA.parse(m).doubleValue() / total) * 100) + "%");
-		} catch (ParseException e1) {
+		} catch (final ParseException e1) {
 		    e1.printStackTrace();
 		}
 		break;
@@ -150,7 +148,7 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 		try {
 		    holder.txtViewValue.setText(nf_enUS
 			    .format((nf_frCA.parse(n).doubleValue() / total) * 100) + "%");
-		} catch (ParseException e1) {
+		} catch (final ParseException e1) {
 		    e1.printStackTrace();
 		}
 		break;
@@ -171,7 +169,7 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 			    sur100 = ((nf_frCA.parse(notee).doubleValue()) / nf_frCA.parse(sur)
 				    .doubleValue()) * 100;
 
-			    String tmp = nf_enUS.format(sur100);
+			    final String tmp = nf_enUS.format(sur100);
 			    holder.txtViewValue.setText(element.getNote() + "/"
 				    + element.getCorrigeSur() + " (" + tmp + "%)");
 

@@ -15,14 +15,14 @@ public class UserCredentials {
     public static final String REZ = "rez";
 
     @SerializedName("motPasse")
-    private String password;
+    private String password = "";
 
     @SerializedName("codeAccesUniversel")
-    private String username;
+    private String username = "";
 
-    private String phase;
+    private String phase = "";
 
-    private String appt;
+    private String appt = "";
 
     public UserCredentials(final SharedPreferences prefs) {
 	if (prefs != null) {
@@ -79,8 +79,7 @@ public class UserCredentials {
     }
 
     public boolean isLoggedIn() {
-	return this.getPassword() != null && this.getUsername() != null
-		&& !"".equals(this.getPassword()) && !"".equals(this.getUsername());
+	return !"".equals(password) && !"".equals(username);
     }
 
 }

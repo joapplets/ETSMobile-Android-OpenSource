@@ -10,7 +10,6 @@
     <string name="pref_signets_label">Signets</string>
     <string name="pref_code_universel">Code Universel</string>
     <string name="pref_mot_passe_lbl">Mot de passe</string>
-    <string name="apphence_key">8d31bdcc179d40b0af806d41a32010ef7f3f0d38</string>
     <string name="student_profile_name">Prénom</string>
     <string name="student_profile_lastname">Nom</string>
     <string name="student_profile_solde">Solde</string>
@@ -42,8 +41,8 @@
     <string name="nodata">Aucune donnée.</string>
     <string name="about_team_android"><b>Réalisation - Équipe Android</b>\n Philippe David\nRodrigo Manyari\nVincent Séguin\nMichael Bernier\nFrancis Gauthier\nLaurence de Villers\nDomenico Leopardi</string>
     <string name="about_team_ti_ets"><b>Intégration avec les Systèmes d’entreprise (TI - ÉTS)</b>\nRobert Gervais\nOlivier Lacasse</string>
-    <string name="about_team_applets"><b>Responsables du club</b>\nVincent Seguin (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
-    <string name="about_partenaires"><b>Partenaires 2012–2013</b></string>
+    <string name="about_team_applets"><b>Responsables du club</b>Philippe David (Capitaine)\nDanny Tran (Trésorier)\nLaurence de Villers (Communications)\nJean-François Patenaude (Processus)</string>
+    <string name="about_partenaires"><b>Partenaires 2013-2014</b></string>
     <string name="about_particuliers"><b>Remerciements Particuliers</b>\nFrançois Coallier (DDTSA)\nIdrissa Konkobo (Systèmes d\'entreprise)\nObed José (Icônes)\nBruno Côté (Sécurité)\nCarl-Olivier Perras-Beaulieu (Communications)</string>
     <string name="secu_title1">Joindre la sécurité</string>
     <string name="secu_phone_lbl">514–396–8900</string>

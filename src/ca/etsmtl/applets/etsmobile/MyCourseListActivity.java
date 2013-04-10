@@ -79,7 +79,7 @@ public class MyCourseListActivity extends ListActivity implements OnDismissListe
 	creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
 
 	if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
-	    new ProfileTask(handler).execute(creds);
+	    new ProfileTask(this, handler).execute(creds);
 	}
 
     }
