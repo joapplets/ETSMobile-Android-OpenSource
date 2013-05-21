@@ -86,7 +86,9 @@
         <activity android:name=".MyCourseListActivity" />
         <activity android:name=".EmailWebViewActivity" />
         <activity android:name=".ETSMobileEmplActivity" />
-        <activity android:name=".EmailWebView" />
+        <activity 
+                  android:name=".EmailWebView" 
+                  android:configChanges="keyboardHidden|orientation"/>
         <activity android:name=".ContactAdder" />
     </application>
 
