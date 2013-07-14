@@ -39,16 +39,16 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 
     private class LireJoursRemplaces {
 
-	@SerializedName("pSession")
-	private final String session;
-
-	public LireJoursRemplaces(final Session currentSession) {
-	    session = currentSession.getShortName();
-	}
+		@SerializedName("pSession")
+		private final String session;
+	
+		public LireJoursRemplaces(final Session currentSession) {
+		    session = currentSession.getShortName();
+		}
     }
 
-    public static final int ON_POST_EXEC = 10;
-    private final CalendarTaskHandler handler;
+  
+   
 
     private final static int[] dots = new int[] { R.drawable.kal_marker_red,
 	    R.drawable.kal_marker_fuchsia, R.drawable.kal_marker_green, R.drawable.kal_marker_lime,
@@ -56,9 +56,9 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	    R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
     private final Context ctx;
 
-    public CalendarTask(Context ctx, final CalendarTaskHandler handler) {
+    public CalendarTask(Context ctx) {
 	this.ctx = ctx;
-	this.handler = handler;
+
     }
 
     @Override
@@ -231,21 +231,4 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	return sessions;
     }
 
-    @Override
-    protected void onPostExecute(final ArrayList<Session> result) {
-	super.onPostExecute(result);
-
-	Collections.sort(result);
-
-	// Bundle data = new Bundle();
-	final Message msg = handler.obtainMessage(CalendarTask.ON_POST_EXEC, result);
-	msg.sendToTarget();
-
-    }
-
-    @Override
-    protected void onPreExecute() {
-	super.onPreExecute();
-	handler.obtainMessage().sendToTarget();
-    }
 }
