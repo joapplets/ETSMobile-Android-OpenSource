@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,7 @@ import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
-import ca.etsmtl.applets.etsmobile.services.CalendarTask;
+import ca.etsmtl.applets.etsmobile.services.CalendarTaskMonth;
 import ca.etsmtl.applets.etsmobile.views.CalendarEventsListView;
 import ca.etsmtl.applets.etsmobile.views.CalendarTextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
@@ -53,8 +54,9 @@ public class ScheduleActivity extends FragmentActivity {
 			super.handleMessage(msg);
 			final ScheduleActivity act = ref.get();
 			final ArrayList<Session> retreivedSessions = (ArrayList<Session>) msg.obj;
+			Log.v("ScheduleActivity","ScheduleActivity: msg.what="+msg.what);
 			switch (msg.what) {
-			case CalendarTask.ON_POST_EXEC:
+			case CalendarTaskMonth.ON_POST_EXEC:
 				if (act != null) {
 					if (act.navBar != null) {
 						act.navBar.hideLoading();
@@ -192,7 +194,7 @@ public class ScheduleActivity extends FragmentActivity {
 				PreferenceManager.getDefaultSharedPreferences(this));
 		// get data async
 		handler = new CalendarTaskHandler(this);
-		new CalendarTask(this, handler).execute(creds);
+		new CalendarTaskMonth(this, handler).execute(creds);
 		getCalendarICS();
 
 		// set the navigation bar
@@ -261,7 +263,7 @@ public class ScheduleActivity extends FragmentActivity {
 		currentCalendar.notifyObservers(currentCalendar.getCalendar());
 		
 		
-
+		Log.v("ScheduleActivity","ScheduleActivity: lst_cours="+ lst_cours);
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 		currentGridView.getCurrentCell().addObserver(lst_cours);
 		currentGridView.getCurrentCell().setChanged();
