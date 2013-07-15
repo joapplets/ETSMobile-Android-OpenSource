@@ -73,6 +73,10 @@
             android:name=".ScheduleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" />
+         <activity
+            android:name=".ScheduleWeekActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".BottinListActivity" />
         <activity android:name=".ScheduleDetailActivity" />
