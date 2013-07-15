@@ -266,9 +266,11 @@ public class ScheduleWeekActivity extends FragmentActivity {
 
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 		Log.v("ScheduleActivity","ScheduleActivity: lst_cours="+ lst_cours);
-		currentGridView.getCurrentCell().addObserver(lst_cours);
-		currentGridView.getCurrentCell().setChanged();
-		currentGridView.getCurrentCell().notifyObservers();
+		if(currentGridView !=null){
+			currentGridView.getCurrentCell().addObserver(lst_cours);
+			currentGridView.getCurrentCell().setChanged();
+			currentGridView.getCurrentCell().notifyObservers();
+		}
 
 		navBar.setRightButtonText(R.string.Ajourdhui);
 		navBar.showRightButton();

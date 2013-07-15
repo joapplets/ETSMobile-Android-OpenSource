@@ -260,31 +260,33 @@ public class NumGridViewWeek extends View implements Observer {
 
 		cell = mCells[x][y];
 
-		if (cell.equals(currentCell)) {
-		    mPaintFg.setAlpha(100);
-		    mPaintBg.setColor(getResources().getColor(
-			    R.color.calendar_selected_cell_background_color));
-		    mPaintFg.setColor(getResources().getColor(
-			    R.color.calendar_selected_cell_text_color));
-		} else if (cell.getDate().getYear() == now.getYear()
-			&& cell.getDate().getMonth() == now.getMonth()
-			&& cell.getDate().getDate() == now.getDate()) {
-		    mPaintFg.setAlpha(100);
-		    mPaintBg.setColor(getResources().getColor(
-			    R.color.calendar_current_day_cell_background_color));
-		    mPaintFg.setColor(getResources().getColor(
-			    R.color.calendar_current_day_cell_text_color));
-		} else if (cell.getDate().getMonth() == current.getTime().getMonth()) {
-		    mPaintFg.setAlpha(100);
-		    mPaintBg.setColor(getResources().getColor(
-			    R.color.calendar_cell_background_color));
-		    mPaintFg.setColor(getResources().getColor(R.color.calendar_cell_text_color));
-
-		} else {
-		    mPaintBg.setColor(getResources().getColor(
-			    R.color.calendar_cell_background_color));
-		    mPaintFg.setColor(getResources().getColor(R.color.calendar_cell_text_color));
-		    mPaintFg.setAlpha(50);
+		if(currentCell!=null){
+			if (cell.equals(currentCell)) {
+			    mPaintFg.setAlpha(100);
+			    mPaintBg.setColor(getResources().getColor(
+				    R.color.calendar_selected_cell_background_color));
+			    mPaintFg.setColor(getResources().getColor(
+				    R.color.calendar_selected_cell_text_color));
+			} else if (cell.getDate().getYear() == now.getYear()
+				&& cell.getDate().getMonth() == now.getMonth()
+				&& cell.getDate().getDate() == now.getDate()) {
+			    mPaintFg.setAlpha(100);
+			    mPaintBg.setColor(getResources().getColor(
+				    R.color.calendar_current_day_cell_background_color));
+			    mPaintFg.setColor(getResources().getColor(
+				    R.color.calendar_current_day_cell_text_color));
+			} else if (cell.getDate().getMonth() == current.getTime().getMonth()) {
+			    mPaintFg.setAlpha(100);
+			    mPaintBg.setColor(getResources().getColor(
+				    R.color.calendar_cell_background_color));
+			    mPaintFg.setColor(getResources().getColor(R.color.calendar_cell_text_color));
+	
+			} else {
+			    mPaintBg.setColor(getResources().getColor(
+				    R.color.calendar_cell_background_color));
+			    mPaintFg.setColor(getResources().getColor(R.color.calendar_cell_text_color));
+			    mPaintFg.setAlpha(50);
+			}
 		}
 
 		canvas.drawRect(
@@ -491,7 +493,7 @@ public class NumGridViewWeek extends View implements Observer {
 	}
 //TODO
 	//mCellCountY = days.size() / 7;
-	mCellCountY = days.size() / mCellCountX;
+	//mCellCountY = days.size() / mCellCountX;
 
 	mCells = new CalendarCell[mCellCountX][mCellCountY];
 
@@ -507,78 +509,80 @@ public class NumGridViewWeek extends View implements Observer {
 
 	// Possibilité d'avoir 2 sessions dans 1 mois
 	final List<Session> sessions = getSessions(days);
-
+	Log.v("NumGridViewWeek", "NumGridViewWeek: setOnCellTouche day.size ="+days.size());
+	Log.v("NumGridViewWeek", "NumGridViewWeek: setOnCellTouche mCellCountY ="+mCellCountY);
+	Log.v("NumGridViewWeek", "NumGridViewWeek: setOnCellTouche mCellCountX ="+mCellCountX);
 	for (int y = 0; y < mCellCountY; y++) {
 	    for (int x = 0; x < mCellCountX; x++) {
 	     	Date nextTime=it.next().getTime();
 	    	Calendar cal = GregorianCalendar.getInstance();
 	    	cal.setTimeInMillis(nextTime.getTime());
 	    	if( cal.get(Calendar.DAY_OF_WEEK)!=Calendar.SUNDAY &&  cal.get(Calendar.DAY_OF_WEEK)!=Calendar.SATURDAY){
-	    		mCells[x][y] = new CalendarCell(it.next().getTime());
+	    		mCells[x][y] = new CalendarCell(nextTime);
 	    
 	    	
 
-
-			for (final Session s : sessions) {
-	
-			    if (mCells[x][y].getDate().after(s.getDateDebut())
-				    && mCells[x][y].getDate().before(s.getDateFinCours())) {
-	
-				boolean isRemplacee = false;
-	
-				for (final JoursRemplaces j : s.getJoursRemplaces()) {
-	
-				    if (mCells[x][y].getDate().getDate() == j.getDateRemplacement()
-					    .getDate()
-					    && mCells[x][y].getDate().getMonth() == j.getDateRemplacement()
-						    .getMonth()
-					    && mCells[x][y].getDate().getYear() == j.getDateRemplacement()
-						    .getYear()) {
-					if (s.getActivities(String.valueOf(j.getDateOrigine().getDay())) != null) {
-					    mCells[x][y].setEvents(s.getActivities(String.valueOf(j
-						    .getDateOrigine().getDay())));
-					} else {
-					    mCells[x][y].clear();
-					}
-	
-					isRemplacee = true;
-					break;
-				    }
-	
-				    if (mCells[x][y].getDate().getDate() == j.getDateOrigine().getDate()
-					    && mCells[x][y].getDate().getMonth() == j.getDateOrigine()
-						    .getMonth()
-					    && mCells[x][y].getDate().getYear() == j.getDateOrigine()
-						    .getYear()) {
-					mCells[x][y].clear();
-	
-					final ActivityCalendar activity = new ActivityCalendar();
-	
-					activity.setCours(j.getDescription().trim());
-					activity.setDrawableResId(R.drawable.kal_marker_black);
-	
-					mCells[x][y].add(activity);
-	
-					isRemplacee = true;
-					break;
-				    }
-				}
-	
-				if (!isRemplacee
-					&& s.getActivities(String.valueOf(mCells[x][y].getDate().getDay())) != null) {
-				    mCells[x][y].setEvents(s.getActivities(String.valueOf(mCells[x][y]
-					    .getDate().getDay())));
-				}
-	
-			    }
-	
-			}
+//
+//			for (final Session s : sessions) {
+//	
+//			    if (mCells[x][y].getDate().after(s.getDateDebut())
+//				    && mCells[x][y].getDate().before(s.getDateFinCours())) {
+//	
+//				boolean isRemplacee = false;
+//	
+//				for (final JoursRemplaces j : s.getJoursRemplaces()) {
+//	
+//				    if (mCells[x][y].getDate().getDate() == j.getDateRemplacement()
+//					    .getDate()
+//					    && mCells[x][y].getDate().getMonth() == j.getDateRemplacement()
+//						    .getMonth()
+//					    && mCells[x][y].getDate().getYear() == j.getDateRemplacement()
+//						    .getYear()) {
+//					if (s.getActivities(String.valueOf(j.getDateOrigine().getDay())) != null) {
+//					    mCells[x][y].setEvents(s.getActivities(String.valueOf(j
+//						    .getDateOrigine().getDay())));
+//					} else {
+//					    mCells[x][y].clear();
+//					}
+//	
+//					isRemplacee = true;
+//					break;
+//				    }
+//	
+//				    if (mCells[x][y].getDate().getDate() == j.getDateOrigine().getDate()
+//					    && mCells[x][y].getDate().getMonth() == j.getDateOrigine()
+//						    .getMonth()
+//					    && mCells[x][y].getDate().getYear() == j.getDateOrigine()
+//						    .getYear()) {
+//					mCells[x][y].clear();
+//	
+//					final ActivityCalendar activity = new ActivityCalendar();
+//	
+//					activity.setCours(j.getDescription().trim());
+//					activity.setDrawableResId(R.drawable.kal_marker_black);
+//	
+//					mCells[x][y].add(activity);
+//	
+//					isRemplacee = true;
+//					break;
+//				    }
+//				}
+//	
+//				if (!isRemplacee
+//					&& s.getActivities(String.valueOf(mCells[x][y].getDate().getDay())) != null) {
+//				    mCells[x][y].setEvents(s.getActivities(String.valueOf(mCells[x][y]
+//					    .getDate().getDay())));
+//				}
+//	
+//			    }
+//	
+//			}
 	
 			if (currentCell == null) {
 				Log.v("NumGridView", "NumGridView: x="+x+ " y="+y+ " now.getMonth="+now.getMonth()+" Month="+mCells[x][y].getDate());
-			    if (mCells[x][y].getDate().getMonth() == now.getMonth()
-				    && mCells[x][y].getDate().getDate() == now.getDate()) {
+			    if (mCells[x][y].getDate().getMonth() == now.getMonth()  && mCells[x][y].getDate().getDate() == now.getDate()) {
 				setCurrentCell(mCells[x][y]);
+				Log.v("NumGridView", "setCurrentCell NumGridView: x="+x+ " y="+y+ " now.getMonth="+now.getMonth()+" Month="+mCells[x][y].getDate());
 			    }
 			}
 		    }
