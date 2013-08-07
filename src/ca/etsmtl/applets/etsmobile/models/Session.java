@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+
 import com.google.gson.annotations.SerializedName;
 
 @SuppressLint("SimpleDateFormat")
