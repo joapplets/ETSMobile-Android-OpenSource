@@ -19,7 +19,7 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="login">Login</string>
-    <string name="login_dialog_title">Informations personelles</string>
+    <string name="login_dialog_title">Informations personnelles</string>
     <string name="login_dialog_code_perm">Code Permanent</string>
     <string name="login_dialog_code_uni">Code Universel</string>
     <string name="logout">Logout</string>
