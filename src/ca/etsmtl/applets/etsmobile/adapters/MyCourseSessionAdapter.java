@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -34,7 +35,8 @@ public class MyCourseSessionAdapter extends ArrayAdapter<Session> {
     public MyCourseSessionAdapter(final Context context, final int textViewResourceId,
 	    final List<Session> objects) {
 	super(context, textViewResourceId, objects);
-	simpleDateformat = new SimpleDateFormat("yyyy", DateFormat.getAvailableLocales()[0]);
+	//DateFormat.getAvailableLocales()[0];
+	simpleDateformat = new SimpleDateFormat("yyyy",Locale.getDefault());
 	Collections.sort(objects, new Comparator<Session>() {
 	    @Override
 	    public int compare(final Session s1, final Session s2) {
@@ -102,7 +104,7 @@ public class MyCourseSessionAdapter extends ArrayAdapter<Session> {
 	if (type == MyCourseSessionAdapter.ITEM_VIEW_TYPE_SEPARATOR) {
 
 	    holder.txrViewSeparator.setText(simpleDateformat.format(getItem(position)
-		    .getDateDebut()));
+		.getDateDebut()));
 	} else {
 	    holder.txtVieSession.setText(getItem(position).toString());
 	}
