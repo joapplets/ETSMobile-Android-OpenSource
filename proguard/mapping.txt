@@ -2463,51 +2463,55 @@ ca.etsmtl.applets.etsmobile.ProfileActivity -> ca.etsmtl.applets.etsmobile.Profi
     android.widget.ProgressBar progess -> progess
     android.widget.TextView phase_input -> phase_input
     android.widget.TextView appt_input -> appt_input
-    android.widget.TextView used_bandwith -> used_bandwith
-    152:171:void doLogin() -> doLogin
-    174:223:void getBandwith(java.lang.String,java.lang.String) -> getBandwith
-    230:253:void onClick(android.view.View) -> onClick
-    257:327:void onCreate(android.os.Bundle) -> onCreate
-    331:365:android.app.Dialog onCreateDialog(int) -> onCreateDialog
-    370:371:void onDismiss(android.content.DialogInterface) -> onDismiss
-    139:139:ca.etsmtl.applets.etsmobile.views.NavBar access$0(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$0
-    135:135:android.widget.Button access$1(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$1
-    140:140:android.widget.TextView access$2(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$2
-    141:141:android.widget.TextView access$3(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$3
-    142:142:android.widget.TextView access$4(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$4
-    143:143:android.widget.TextView access$5(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$5
-    145:145:android.content.SharedPreferences access$6(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$6
-    137:137:ca.etsmtl.applets.etsmobile.models.UserCredentials access$7(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$7
-    149:149:android.widget.TextView access$8(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$8
-    146:146:android.widget.ProgressBar access$9(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$9
-    148:148:android.widget.TextView access$10(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$10
-    147:147:android.widget.TextView access$11(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$11
-    144:144:android.os.Handler access$12(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$12
-    173:173:void access$13(ca.etsmtl.applets.etsmobile.ProfileActivity,java.lang.String,java.lang.String) -> access$13
-    138:138:android.view.View access$14(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$14
-    137:137:void access$15(ca.etsmtl.applets.etsmobile.ProfileActivity,ca.etsmtl.applets.etsmobile.models.UserCredentials) -> access$15
+    android.widget.TextView bandwith_used -> bandwith_used
+    android.widget.TextView bandwith_max -> bandwith_max
+    165:184:void doLogin() -> doLogin
+    187:264:void getBandwith(java.lang.String,java.lang.String) -> getBandwith
+    271:294:void onClick(android.view.View) -> onClick
+    298:369:void onCreate(android.os.Bundle) -> onCreate
+    373:407:android.app.Dialog onCreateDialog(int) -> onCreateDialog
+    412:413:void onDismiss(android.content.DialogInterface) -> onDismiss
+    151:151:ca.etsmtl.applets.etsmobile.views.NavBar access$0(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$0
+    147:147:android.widget.Button access$1(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$1
+    152:152:android.widget.TextView access$2(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$2
+    153:153:android.widget.TextView access$3(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$3
+    154:154:android.widget.TextView access$4(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$4
+    155:155:android.widget.TextView access$5(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$5
+    157:157:android.content.SharedPreferences access$6(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$6
+    149:149:ca.etsmtl.applets.etsmobile.models.UserCredentials access$7(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$7
+    161:161:android.widget.TextView access$8(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$8
+    162:162:android.widget.TextView access$9(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$9
+    158:158:android.widget.ProgressBar access$10(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$10
+    160:160:android.widget.TextView access$11(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$11
+    159:159:android.widget.TextView access$12(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$12
+    156:156:android.os.Handler access$13(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$13
+    186:186:void access$14(ca.etsmtl.applets.etsmobile.ProfileActivity,java.lang.String,java.lang.String) -> access$14
+    150:150:android.view.View access$15(ca.etsmtl.applets.etsmobile.ProfileActivity) -> access$15
+    149:149:void access$16(ca.etsmtl.applets.etsmobile.ProfileActivity,ca.etsmtl.applets.etsmobile.models.UserCredentials) -> access$16
 ca.etsmtl.applets.etsmobile.ProfileActivity$1 -> ca.etsmtl.applets.etsmobile.ProfileActivity$1:
+    java.util.regex.Pattern usageRegex -> usageRegex
+    java.util.regex.Pattern quotaRegex -> quotaRegex
     ca.etsmtl.applets.etsmobile.ProfileActivity this$0 -> this$0
-    190:213:java.lang.String doInBackground(java.lang.String[]) -> doInBackground
-    218:220:void onPostExecute(java.lang.String) -> onPostExecute
+    207:254:float[] doInBackground(java.lang.String[]) -> doInBackground
+    259:261:void onPostExecute(float[]) -> onPostExecute
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 ca.etsmtl.applets.etsmobile.ProfileActivity$2 -> ca.etsmtl.applets.etsmobile.ProfileActivity$2:
     ca.etsmtl.applets.etsmobile.ProfileActivity this$0 -> this$0
-    282:287:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    291:291:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    295:295:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    324:329:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    333:333:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    337:337:void afterTextChanged(android.text.Editable) -> afterTextChanged
 ca.etsmtl.applets.etsmobile.ProfileActivity$3 -> ca.etsmtl.applets.etsmobile.ProfileActivity$3:
     ca.etsmtl.applets.etsmobile.ProfileActivity this$0 -> this$0
-    304:309:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    313:313:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    317:317:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    346:351:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    355:355:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    359:359:void afterTextChanged(android.text.Editable) -> afterTextChanged
 ca.etsmtl.applets.etsmobile.ProfileActivity$4 -> ca.etsmtl.applets.etsmobile.ProfileActivity$4:
     ca.etsmtl.applets.etsmobile.ProfileActivity this$0 -> this$0
-    345:361:void onClick(android.content.DialogInterface,int) -> onClick
+    387:403:void onClick(android.content.DialogInterface,int) -> onClick
 ca.etsmtl.applets.etsmobile.ProfileActivity$ProfileHandler -> ca.etsmtl.applets.etsmobile.ProfileActivity$ProfileHandler:
     java.lang.ref.WeakReference ref -> ref
-    59:124:void handleMessage(android.os.Message) -> handleMessage
+    67:136:void handleMessage(android.os.Message) -> handleMessage
 ca.etsmtl.applets.etsmobile.R -> ca.etsmtl.applets.etsmobile.R:
 ca.etsmtl.applets.etsmobile.R$anim -> ca.etsmtl.applets.etsmobile.R$anim:
     int slide_in_left -> slide_in_left
@@ -2639,6 +2643,7 @@ ca.etsmtl.applets.etsmobile.R$id -> ca.etsmtl.applets.etsmobile.R$id:
     int accountIcon -> accountIcon
     int accountSpinner -> accountSpinner
     int bandwith_appt_input -> bandwith_appt_input
+    int bandwith_max -> bandwith_max
     int bandwith_phase_input -> bandwith_phase_input
     int bandwith_progress -> bandwith_progress
     int bandwith_used_lbl -> bandwith_used_lbl
@@ -2734,7 +2739,6 @@ ca.etsmtl.applets.etsmobile.R$id -> ca.etsmtl.applets.etsmobile.R$id:
     int terrain -> terrain
     int textView -> textView
     int textView1 -> textView1
-    int textView3 -> textView3
     int textView4 -> textView4
     int textView5 -> textView5
     int textViewSeparator -> textViewSeparator
@@ -2810,7 +2814,6 @@ ca.etsmtl.applets.etsmobile.R$string -> ca.etsmtl.applets.etsmobile.R$string:
     int allAccounts -> allAccounts
     int app_name -> app_name
     int appel_d_apos_urgence -> appel_d_apos_urgence
-    int apphence_key -> apphence_key
     int auth_client_availability_notification_title -> auth_client_availability_notification_title
     int auth_client_play_services_err_notification_msg -> auth_client_play_services_err_notification_msg
     int auth_client_requested_by_msg -> auth_client_requested_by_msg
