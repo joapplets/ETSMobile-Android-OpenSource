@@ -14,156 +14,157 @@ import com.google.gson.annotations.SerializedName;
 @SuppressLint("SimpleDateFormat")
 public class Session implements Serializable, Comparable<Session> {
 
-    private static final long serialVersionUID = -632822145233952231L;
+	private static final long serialVersionUID = -632822145233952231L;
 
-    @SerializedName("abrege")
-    private String shortName;
+	@SerializedName("abrege")
+	private String shortName;
 
-    @SerializedName("auLong")
-    private String longName;
+	@SerializedName("auLong")
+	private String longName;
 
-    @SerializedName("dateDebut")
-    private String dateDebutString;
+	@SerializedName("dateDebut")
+	private String dateDebutString;
 
-    @SerializedName("dateFin")
-    private String dateFinString;
+	@SerializedName("dateFin")
+	private String dateFinString;
 
-    @SerializedName("dateFinCours")
-    private String dateFinCoursString;
+	@SerializedName("dateFinCours")
+	private String dateFinCoursString;
 
-    private int maxActivities = 0;
+	private int maxActivities = 0;
 
-    private List<JoursRemplaces> joursRemplaces;
+	private List<JoursRemplaces> joursRemplaces;
 
-    private LinkedHashMap<String, List<ActivityCalendar>> activities;
+	private LinkedHashMap<String, List<ActivityCalendar>> activities;
 
-    @Override
-    public int compareTo(final Session s) {
-	// TODO Auto-generated method stu
+	@Override
+	public int compareTo(final Session s) {
+		// TODO Auto-generated method stu
 
-	return s.getDateDebut().compareTo(s.getDateFin());
-    }
-
-    public LinkedHashMap<String, List<ActivityCalendar>> getActivities() {
-	return activities;
-    }
-
-    public List<ActivityCalendar> getActivities(String jour) {
-	return (activities != null) ? this.activities.get(jour) : null;
-    }
-
-    public Date getDateDebut() {
-	SimpleDateFormat formatter;
-	Date date;
-	formatter = new SimpleDateFormat("yyyy-MM-dd");
-	try {
-	    date = formatter.parse(dateDebutString);
-	} catch (final ParseException e) {
-	    date = null;
+		return s.getDateDebut().compareTo(s.getDateFin());
 	}
 
-	return date;
-    }
-
-    public String getDateDebutString() {
-	return dateDebutString;
-    }
-
-    public Date getDateFin() {
-	SimpleDateFormat formatter;
-	Date date;
-	formatter = new SimpleDateFormat("yyyy-MM-dd");
-	try {
-	    date = formatter.parse(dateFinString);
-	    date.setHours(23);
-	    date.setMinutes(59);
-	    date.setSeconds(59);
-	} catch (final ParseException e) {
-	    date = null;
+	public LinkedHashMap<String, List<ActivityCalendar>> getActivities() {
+		return activities;
 	}
 
-	return date;
-    }
-
-    /**
-     * yyyy-MM-dd
-     * 
-     * @return formated string
-     */
-    public Date getDateFinCours() {
-	SimpleDateFormat formatter;
-	Date date;
-	formatter = new SimpleDateFormat("yyyy-MM-dd");
-	try {
-	    date = formatter.parse(dateFinCoursString);
-	    date.setHours(23);
-	    date.setMinutes(59);
-	    date.setSeconds(59);
-	} catch (final ParseException e) {
-	    date = null;
+	public List<ActivityCalendar> getActivities(String jour) {
+		return (activities != null) ? this.activities.get(jour) : null;
 	}
 
-	return date;
-    }
+	public Date getDateDebut() {
+		SimpleDateFormat formatter;
+		Date date;
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date = formatter.parse(dateDebutString);
+		} catch (final ParseException e) {
+			date = null;
+		}
 
-    public String getDateFinCoursString() {
-	return dateFinCoursString;
-    }
-
-    public String getDateFinString() {
-	return dateFinString;
-    }
-
-    public List<JoursRemplaces> getJoursRemplaces() {
-	return joursRemplaces;
-    }
-
-    public String getLongName() {
-	return longName;
-    }
-
-    public String getShortName() {
-	return shortName;
-    }
-
-    public void setActivities(String jour, final List<ActivityCalendar> activities) {
-	if (this.activities != null) {
-	    this.activities.put(jour, activities);
-	} else {
-	    this.activities = new LinkedHashMap<String, List<ActivityCalendar>>();
+		return date;
 	}
-    }
 
-    public void setDateDebutString(final String dateDebutString) {
-	this.dateDebutString = dateDebutString;
-    }
+	public String getDateDebutString() {
+		return dateDebutString;
+	}
 
-    public void setDateFinCoursString(final String dateFinCoursString) {
-	this.dateFinCoursString = dateFinCoursString;
-    }
+	public Date getDateFin() {
+		SimpleDateFormat formatter;
+		Date date;
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date = formatter.parse(dateFinString);
+			date.setHours(23);
+			date.setMinutes(59);
+			date.setSeconds(59);
+		} catch (final ParseException e) {
+			date = null;
+		}
 
-    public void setJoursRemplaces(List<JoursRemplaces> joursRemplaces) {
-	this.joursRemplaces = joursRemplaces;
-    }
+		return date;
+	}
 
-    public void setLongName(final String longName) {
-	this.longName = longName;
-    }
+	/**
+	 * yyyy-MM-dd
+	 * 
+	 * @return formated string
+	 */
+	public Date getDateFinCours() {
+		SimpleDateFormat formatter;
+		Date date;
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date = formatter.parse(dateFinCoursString);
+			date.setHours(23);
+			date.setMinutes(59);
+			date.setSeconds(59);
+		} catch (final ParseException e) {
+			date = null;
+		}
 
-    public void setShortName(final String shortName) {
-	this.shortName = shortName;
-    }
+		return date;
+	}
 
-    @Override
-    public String toString() {
-	return this.longName;
-    }
+	public String getDateFinCoursString() {
+		return dateFinCoursString;
+	}
 
-    public int getMaxActivities() {
-	return maxActivities;
-    }
+	public String getDateFinString() {
+		return dateFinString;
+	}
 
-    public void setMaxActivities(int maxActivities) {
-	this.maxActivities = maxActivities;
-    }
+	public List<JoursRemplaces> getJoursRemplaces() {
+		return joursRemplaces;
+	}
+
+	public String getLongName() {
+		return longName;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setActivities(String jour,
+			final List<ActivityCalendar> activities) {
+		if (this.activities != null) {
+			this.activities.put(jour, activities);
+		} else {
+			this.activities = new LinkedHashMap<String, List<ActivityCalendar>>();
+		}
+	}
+
+	public void setDateDebutString(final String dateDebutString) {
+		this.dateDebutString = dateDebutString;
+	}
+
+	public void setDateFinCoursString(final String dateFinCoursString) {
+		this.dateFinCoursString = dateFinCoursString;
+	}
+
+	public void setJoursRemplaces(List<JoursRemplaces> joursRemplaces) {
+		this.joursRemplaces = joursRemplaces;
+	}
+
+	public void setLongName(final String longName) {
+		this.longName = longName;
+	}
+
+	public void setShortName(final String shortName) {
+		this.shortName = shortName;
+	}
+
+	@Override
+	public String toString() {
+		return this.longName;
+	}
+
+	public int getMaxActivities() {
+		return maxActivities;
+	}
+
+	public void setMaxActivities(int maxActivities) {
+		this.maxActivities = maxActivities;
+	}
 }

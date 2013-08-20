@@ -13,52 +13,52 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
 public class LoginDialog extends AlertDialog {
 
-    private TextView codeP;
-    private TextView codeU;
+	private TextView codeP;
+	private TextView codeU;
 
-    public LoginDialog(final Context context) {
-	super(context);
-    }
+	public LoginDialog(final Context context) {
+		super(context);
+	}
 
-    protected LoginDialog(final Context context, final boolean cancelable,
-	    final OnCancelListener cancelListener) {
-	super(context, cancelable, cancelListener);
+	protected LoginDialog(final Context context, final boolean cancelable,
+			final OnCancelListener cancelListener) {
+		super(context, cancelable, cancelListener);
 
-    }
+	}
 
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.login_dialog);
-	codeP = (TextView) findViewById(R.id.login_dialog_mot_passe);
-	codeU = (TextView) findViewById(R.id.login_dialog_code_univesel);
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.login_dialog);
+		codeP = (TextView) findViewById(R.id.login_dialog_mot_passe);
+		codeU = (TextView) findViewById(R.id.login_dialog_code_univesel);
 
-	setTitle(R.string.login_dialog_title);
-	setButton("Ok", new OnClickListener() {
+		setTitle(R.string.login_dialog_title);
+		setButton("Ok", new OnClickListener() {
 
-	    @Override
-	    public void onClick(final DialogInterface dialog, final int which) {
-		final SharedPreferences prefs = PreferenceManager
-			.getDefaultSharedPreferences(getContext());
-		final Editor edit = prefs.edit();
-		edit.putString(UserCredentials.CODE_P, (String) codeP.getText());
-		edit.putString(UserCredentials.CODE_U, (String) codeU.getText());
-		edit.commit();
-		dismiss();
-	    }
-	});
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+				final SharedPreferences prefs = PreferenceManager
+						.getDefaultSharedPreferences(getContext());
+				final Editor edit = prefs.edit();
+				edit.putString(UserCredentials.CODE_P, (String) codeP.getText());
+				edit.putString(UserCredentials.CODE_U, (String) codeU.getText());
+				edit.commit();
+				dismiss();
+			}
+		});
 
-	setButton2("Cancel", new OnClickListener() {
+		setButton2("Cancel", new OnClickListener() {
 
-	    @Override
-	    public void onClick(final DialogInterface dialog, final int which) {
-		codeP.setText("");
-		codeU.setText("");
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+				codeP.setText("");
+				codeU.setText("");
 
-		cancel();
+				cancel();
 
-	    }
-	});
-    }
+			}
+		});
+	}
 
 }

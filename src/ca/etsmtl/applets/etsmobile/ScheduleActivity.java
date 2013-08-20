@@ -27,172 +27,182 @@ import ca.etsmtl.applets.etsmobile.views.NumGridView.OnCellTouchListener;
 
 public class ScheduleActivity extends Activity {
 
-    public static class CalendarTaskHandler extends Handler {
-	private final WeakReference<ScheduleActivity> ref;
+	public static class CalendarTaskHandler extends Handler {
+		private final WeakReference<ScheduleActivity> ref;
 
-	public CalendarTaskHandler(final ScheduleActivity act) {
-	    ref = new WeakReference<ScheduleActivity>(act);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void handleMessage(final Message msg) {
-	    super.handleMessage(msg);
-	    final ScheduleActivity act = ref.get();
-	    switch (msg.what) {
-	    case CalendarTask.ON_POST_EXEC:
-		if (act != null) {
-		    if (act.navBar != null) {
-			act.navBar.hideLoading();
-		    }
-
-		    final ArrayList<Session> s = (ArrayList<Session>) msg.obj;
-		    ETSMobileApp.getInstance().setSessions(s);
-		    act.currentGridView.setSessions(s);
-		    act.currentGridView.setCurrentCell(null);
-		    act.currentCalendar.setChanged();
-		    act.currentCalendar.notifyObservers(act.currentCalendar.getCalendar());
-
-		    if (act.currentGridView != null && act.currentGridView.getCurrentCell() != null) {
-			act.currentGridView.getCurrentCell().addObserver(act.lst_cours);
-			act.currentGridView.getCurrentCell().setChanged();
-			act.currentGridView.getCurrentCell().notifyObservers();
-		    }
-
-		}
-		break;
-	    default:
-		act.navBar.showLoading();
-		break;
-	    }
-	}
-    }
-
-    private CurrentCalendar currentCalendar;
-    private NumGridView currentGridView;
-    private CalendarEventsListView lst_cours;
-    private NavBar navBar;
-
-    private final OnCellTouchListener mNumGridView_OnCellTouchListener = new OnCellTouchListener() {
-	@Override
-	public void onCellTouch(final NumGridView v, final int x, final int y) {
-	    if (task.getStatus() != Status.RUNNING) {
-		CalendarCell cell = v.getCell(x, y);
-		cell.deleteObservers();
-
-		if (cell.getDate().getMonth() == currentCalendar.getCalendar().getTime().getMonth()
-			&& cell.getDate().getYear() == currentCalendar.getCalendar().getTime()
-				.getYear()) {
-
-		    cell.addObserver(lst_cours);
-		    cell.setChanged();
-		    cell.notifyObservers();
-		    v.setCurrentCell(cell);
-
-		} else {
-		    if (cell.getDate().before(currentCalendar.getCalendar().getTime())) {
-
-			currentCalendar.previousMonth();
-			cell = v.getCell(x, v.getmCellCountY() - 1);
-			cell.addObserver(lst_cours);
-			cell.setChanged();
-			cell.notifyObservers();
-			v.setCurrentCell(cell);
-
-		    } else if (cell.getDate().after(currentCalendar.getCalendar().getTime())) {
-
-			currentCalendar.nextMonth();
-			cell = v.getCell(x, 0);
-			cell.addObserver(lst_cours);
-			cell.setChanged();
-			cell.notifyObservers();
-			v.setCurrentCell(cell);
-
-		    }
+		public CalendarTaskHandler(final ScheduleActivity act) {
+			ref = new WeakReference<ScheduleActivity>(act);
 		}
 
-		v.invalidate();
-	    }
+		@SuppressWarnings("unchecked")
+		@Override
+		public void handleMessage(final Message msg) {
+			super.handleMessage(msg);
+			final ScheduleActivity act = ref.get();
+			switch (msg.what) {
+			case CalendarTask.ON_POST_EXEC:
+				if (act != null) {
+					if (act.navBar != null) {
+						act.navBar.hideLoading();
+					}
+
+					final ArrayList<Session> s = (ArrayList<Session>) msg.obj;
+					ETSMobileApp.getInstance().setSessions(s);
+					act.currentGridView.setSessions(s);
+					act.currentGridView.setCurrentCell(null);
+					act.currentCalendar.setChanged();
+					act.currentCalendar.notifyObservers(act.currentCalendar
+							.getCalendar());
+
+					if (act.currentGridView != null
+							&& act.currentGridView.getCurrentCell() != null) {
+						act.currentGridView.getCurrentCell().addObserver(
+								act.lst_cours);
+						act.currentGridView.getCurrentCell().setChanged();
+						act.currentGridView.getCurrentCell().notifyObservers();
+					}
+
+				}
+				break;
+			default:
+				act.navBar.showLoading();
+				break;
+			}
+		}
 	}
-    };
 
-    private AsyncTask<Object, Void, ArrayList<Session>> task;
+	private CurrentCalendar currentCalendar;
+	private NumGridView currentGridView;
+	private CalendarEventsListView lst_cours;
+	private NavBar navBar;
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.calendar_view);
+	private final OnCellTouchListener mNumGridView_OnCellTouchListener = new OnCellTouchListener() {
+		@Override
+		public void onCellTouch(final NumGridView v, final int x, final int y) {
+			if (task.getStatus() != Status.RUNNING) {
+				CalendarCell cell = v.getCell(x, y);
+				cell.deleteObservers();
 
-	// get data async
-	task = new CalendarTask(new CalendarTaskHandler(this)).execute(new UserCredentials(
-		PreferenceManager.getDefaultSharedPreferences(this)));
+				if (cell.getDate().getMonth() == currentCalendar.getCalendar()
+						.getTime().getMonth()
+						&& cell.getDate().getYear() == currentCalendar
+								.getCalendar().getTime().getYear()) {
 
-	// set the navigation bar
-	navBar = (NavBar) findViewById(R.id.navBar1);
-	navBar.setTitle(R.drawable.navbar_horaire_title);
+					cell.addObserver(lst_cours);
+					cell.setChanged();
+					cell.notifyObservers();
+					v.setCurrentCell(cell);
 
-	// set the gridview containing the day names
-	final String[] day_names = getResources().getStringArray(R.array.day_names);
+				} else {
+					if (cell.getDate().before(
+							currentCalendar.getCalendar().getTime())) {
 
-	final GridView grid = (GridView) findViewById(R.id.gridDayNames);
-	grid.setAdapter(new ArrayAdapter<String>(this, R.layout.day_name, day_names));
+						currentCalendar.previousMonth();
+						cell = v.getCell(x, v.getmCellCountY() - 1);
+						cell.addObserver(lst_cours);
+						cell.setChanged();
+						cell.notifyObservers();
+						v.setCurrentCell(cell);
 
-	// set next and previous buttons
-	final ImageButton btn_previous = (ImageButton) findViewById(R.id.btn_previous);
-	final ImageButton btn_next = (ImageButton) findViewById(R.id.btn_next);
+					} else if (cell.getDate().after(
+							currentCalendar.getCalendar().getTime())) {
 
-	btn_previous.setOnClickListener(new View.OnClickListener() {
-	    @Override
-	    public void onClick(final View v) {
-		currentCalendar.previousMonth();
-	    }
-	});
-	btn_next.setOnClickListener(new View.OnClickListener() {
-	    @Override
-	    public void onClick(final View v) {
-		currentCalendar.nextMonth();
-	    }
-	});
+						currentCalendar.nextMonth();
+						cell = v.getCell(x, 0);
+						cell.addObserver(lst_cours);
+						cell.setChanged();
+						cell.notifyObservers();
+						v.setCurrentCell(cell);
 
-	// set the calendar view
-	currentGridView = (NumGridView) findViewById(R.id.calendar_view);
-	currentGridView.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
+					}
+				}
 
-	// assignation des session déja en mémoire
-	currentGridView.setSessions(ETSMobileApp.getInstance().getSessions());
+				v.invalidate();
+			}
+		}
+	};
 
-	// Affiche le mois courant
-	final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
+	private AsyncTask<Object, Void, ArrayList<Session>> task;
 
-	currentCalendar = new CurrentCalendar();
-	// initialisation des observers
+	@Override
+	public void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.calendar_view);
 
-	currentCalendar.addObserver(currentGridView);
-	currentCalendar.addObserver(txtcalendar_title);
+		// get data async
+		task = new CalendarTask(new CalendarTaskHandler(this))
+				.execute(new UserCredentials(PreferenceManager
+						.getDefaultSharedPreferences(this)));
 
-	currentCalendar.setChanged();
-	currentCalendar.notifyObservers(currentCalendar.getCalendar());
+		// set the navigation bar
+		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.setTitle(R.drawable.navbar_horaire_title);
 
-	lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
-	currentGridView.getCurrentCell().addObserver(lst_cours);
-	currentGridView.getCurrentCell().setChanged();
-	currentGridView.getCurrentCell().notifyObservers();
+		// set the gridview containing the day names
+		final String[] day_names = getResources().getStringArray(
+				R.array.day_names);
 
-	navBar.setRightButtonText(R.string.Ajourdhui);
-	navBar.showRightButton();
-	navBar.setRightButtonAction(new View.OnClickListener() {
-	    @Override
-	    public void onClick(final View v) {
-		currentGridView.getCurrentCell().deleteObservers();
-		currentGridView.setCurrentCell(null);
+		final GridView grid = (GridView) findViewById(R.id.gridDayNames);
+		grid.setAdapter(new ArrayAdapter<String>(this, R.layout.day_name,
+				day_names));
 
-		currentCalendar.setToday();
+		// set next and previous buttons
+		final ImageButton btn_previous = (ImageButton) findViewById(R.id.btn_previous);
+		final ImageButton btn_next = (ImageButton) findViewById(R.id.btn_next);
 
+		btn_previous.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				currentCalendar.previousMonth();
+			}
+		});
+		btn_next.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				currentCalendar.nextMonth();
+			}
+		});
+
+		// set the calendar view
+		currentGridView = (NumGridView) findViewById(R.id.calendar_view);
+		currentGridView
+				.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
+
+		// assignation des session déja en mémoire
+		currentGridView.setSessions(ETSMobileApp.getInstance().getSessions());
+
+		// Affiche le mois courant
+		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
+
+		currentCalendar = new CurrentCalendar();
+		// initialisation des observers
+
+		currentCalendar.addObserver(currentGridView);
+		currentCalendar.addObserver(txtcalendar_title);
+
+		currentCalendar.setChanged();
+		currentCalendar.notifyObservers(currentCalendar.getCalendar());
+
+		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 		currentGridView.getCurrentCell().addObserver(lst_cours);
 		currentGridView.getCurrentCell().setChanged();
 		currentGridView.getCurrentCell().notifyObservers();
-	    }
-	});
 
-    }
+		navBar.setRightButtonText(R.string.Ajourdhui);
+		navBar.showRightButton();
+		navBar.setRightButtonAction(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				currentGridView.getCurrentCell().deleteObservers();
+				currentGridView.setCurrentCell(null);
+
+				currentCalendar.setToday();
+
+				currentGridView.getCurrentCell().addObserver(lst_cours);
+				currentGridView.getCurrentCell().setChanged();
+				currentGridView.getCurrentCell().notifyObservers();
+			}
+		});
+
+	}
 }

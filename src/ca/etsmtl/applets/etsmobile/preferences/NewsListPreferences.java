@@ -6,9 +6,9 @@ import ca.etsmtl.applets.etsmobile.R;
 
 public class NewsListPreferences extends PreferenceActivity {
 
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	addPreferencesFromResource(R.xml.newspreferences);
-    }
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		addPreferencesFromResource(R.xml.newspreferences);
+	}
 }

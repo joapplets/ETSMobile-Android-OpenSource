@@ -46,7 +46,8 @@ public class SignetBackgroundThread<T, E> {
 	}
 
 	public SignetBackgroundThread(final String urlStr, final String action,
-			final Object bodyParams, final Class<E> typeOfClass, final String liste) {
+			final Object bodyParams, final Class<E> typeOfClass,
+			final String liste) {
 		this.urlStr = urlStr;
 		this.action = action;
 		this.bodyParams = bodyParams;
