@@ -2702,7 +2702,8 @@ ca.etsmtl.applets.etsmobile.ProfileActivity: android.content.SharedPreferences p
 ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.ProgressBar progess
 ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView phase_input
 ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView appt_input
-ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView used_bandwith
+ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView bandwith_used
+ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView bandwith_max
 ca.etsmtl.applets.etsmobile.ProfileActivity: ProfileActivity()
 ca.etsmtl.applets.etsmobile.ProfileActivity: void doLogin()
 ca.etsmtl.applets.etsmobile.ProfileActivity: void getBandwith(java.lang.String,java.lang.String)
@@ -2719,18 +2720,21 @@ ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView access$5(ca
 ca.etsmtl.applets.etsmobile.ProfileActivity: android.content.SharedPreferences access$6(ca.etsmtl.applets.etsmobile.ProfileActivity)
 ca.etsmtl.applets.etsmobile.ProfileActivity: ca.etsmtl.applets.etsmobile.models.UserCredentials access$7(ca.etsmtl.applets.etsmobile.ProfileActivity)
 ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView access$8(ca.etsmtl.applets.etsmobile.ProfileActivity)
-ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.ProgressBar access$9(ca.etsmtl.applets.etsmobile.ProfileActivity)
-ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView access$10(ca.etsmtl.applets.etsmobile.ProfileActivity)
+ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView access$9(ca.etsmtl.applets.etsmobile.ProfileActivity)
+ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.ProgressBar access$10(ca.etsmtl.applets.etsmobile.ProfileActivity)
 ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView access$11(ca.etsmtl.applets.etsmobile.ProfileActivity)
-ca.etsmtl.applets.etsmobile.ProfileActivity: android.os.Handler access$12(ca.etsmtl.applets.etsmobile.ProfileActivity)
-ca.etsmtl.applets.etsmobile.ProfileActivity: void access$13(ca.etsmtl.applets.etsmobile.ProfileActivity,java.lang.String,java.lang.String)
-ca.etsmtl.applets.etsmobile.ProfileActivity: android.view.View access$14(ca.etsmtl.applets.etsmobile.ProfileActivity)
-ca.etsmtl.applets.etsmobile.ProfileActivity: void access$15(ca.etsmtl.applets.etsmobile.ProfileActivity,ca.etsmtl.applets.etsmobile.models.UserCredentials)
+ca.etsmtl.applets.etsmobile.ProfileActivity: android.widget.TextView access$12(ca.etsmtl.applets.etsmobile.ProfileActivity)
+ca.etsmtl.applets.etsmobile.ProfileActivity: android.os.Handler access$13(ca.etsmtl.applets.etsmobile.ProfileActivity)
+ca.etsmtl.applets.etsmobile.ProfileActivity: void access$14(ca.etsmtl.applets.etsmobile.ProfileActivity,java.lang.String,java.lang.String)
+ca.etsmtl.applets.etsmobile.ProfileActivity: android.view.View access$15(ca.etsmtl.applets.etsmobile.ProfileActivity)
+ca.etsmtl.applets.etsmobile.ProfileActivity: void access$16(ca.etsmtl.applets.etsmobile.ProfileActivity,ca.etsmtl.applets.etsmobile.models.UserCredentials)
 ca.etsmtl.applets.etsmobile.ProfileActivity$1
+ca.etsmtl.applets.etsmobile.ProfileActivity$1: java.util.regex.Pattern usageRegex
+ca.etsmtl.applets.etsmobile.ProfileActivity$1: java.util.regex.Pattern quotaRegex
 ca.etsmtl.applets.etsmobile.ProfileActivity$1: ca.etsmtl.applets.etsmobile.ProfileActivity this$0
 ca.etsmtl.applets.etsmobile.ProfileActivity$1: ProfileActivity$1(ca.etsmtl.applets.etsmobile.ProfileActivity)
-ca.etsmtl.applets.etsmobile.ProfileActivity$1: java.lang.String doInBackground(java.lang.String[])
-ca.etsmtl.applets.etsmobile.ProfileActivity$1: void onPostExecute(java.lang.String)
+ca.etsmtl.applets.etsmobile.ProfileActivity$1: float[] doInBackground(java.lang.String[])
+ca.etsmtl.applets.etsmobile.ProfileActivity$1: void onPostExecute(float[])
 ca.etsmtl.applets.etsmobile.ProfileActivity$1: void onPostExecute(java.lang.Object)
 ca.etsmtl.applets.etsmobile.ProfileActivity$1: java.lang.Object doInBackground(java.lang.Object[])
 ca.etsmtl.applets.etsmobile.ProfileActivity$2
@@ -2891,6 +2895,7 @@ ca.etsmtl.applets.etsmobile.R$id: int about_wrap
 ca.etsmtl.applets.etsmobile.R$id: int accountIcon
 ca.etsmtl.applets.etsmobile.R$id: int accountSpinner
 ca.etsmtl.applets.etsmobile.R$id: int bandwith_appt_input
+ca.etsmtl.applets.etsmobile.R$id: int bandwith_max
 ca.etsmtl.applets.etsmobile.R$id: int bandwith_phase_input
 ca.etsmtl.applets.etsmobile.R$id: int bandwith_progress
 ca.etsmtl.applets.etsmobile.R$id: int bandwith_used_lbl
@@ -2986,7 +2991,6 @@ ca.etsmtl.applets.etsmobile.R$id: int subtitle
 ca.etsmtl.applets.etsmobile.R$id: int terrain
 ca.etsmtl.applets.etsmobile.R$id: int textView
 ca.etsmtl.applets.etsmobile.R$id: int textView1
-ca.etsmtl.applets.etsmobile.R$id: int textView3
 ca.etsmtl.applets.etsmobile.R$id: int textView4
 ca.etsmtl.applets.etsmobile.R$id: int textView5
 ca.etsmtl.applets.etsmobile.R$id: int textViewSeparator
@@ -3066,7 +3070,6 @@ ca.etsmtl.applets.etsmobile.R$string: int addContactTitle
 ca.etsmtl.applets.etsmobile.R$string: int allAccounts
 ca.etsmtl.applets.etsmobile.R$string: int app_name
 ca.etsmtl.applets.etsmobile.R$string: int appel_d_apos_urgence
-ca.etsmtl.applets.etsmobile.R$string: int apphence_key
 ca.etsmtl.applets.etsmobile.R$string: int auth_client_availability_notification_title
 ca.etsmtl.applets.etsmobile.R$string: int auth_client_play_services_err_notification_msg
 ca.etsmtl.applets.etsmobile.R$string: int auth_client_requested_by_msg
