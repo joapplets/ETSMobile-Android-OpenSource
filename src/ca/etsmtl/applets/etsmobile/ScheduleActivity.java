@@ -8,11 +8,19 @@ import java.util.Date;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+<<<<<<< HEAD
+=======
+import android.content.Intent;
+>>>>>>> origin/lauCalendar
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+<<<<<<< HEAD
+=======
+import android.util.Log;
+>>>>>>> origin/lauCalendar
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +34,11 @@ import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
+<<<<<<< HEAD
 import ca.etsmtl.applets.etsmobile.services.CalendarTask;
+=======
+import ca.etsmtl.applets.etsmobile.services.CalendarTaskMonth;
+>>>>>>> origin/lauCalendar
 import ca.etsmtl.applets.etsmobile.views.CalendarEventsListView;
 import ca.etsmtl.applets.etsmobile.views.CalendarTextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
@@ -53,8 +65,14 @@ public class ScheduleActivity extends FragmentActivity {
 			super.handleMessage(msg);
 			final ScheduleActivity act = ref.get();
 			final ArrayList<Session> retreivedSessions = (ArrayList<Session>) msg.obj;
+<<<<<<< HEAD
 			switch (msg.what) {
 			case CalendarTask.ON_POST_EXEC:
+=======
+			Log.v("ScheduleActivity","ScheduleActivity: msg.what="+msg.what);
+			switch (msg.what) {
+			case CalendarTaskMonth.ON_POST_EXEC:
+>>>>>>> origin/lauCalendar
 				if (act != null) {
 					if (act.navBar != null) {
 						act.navBar.hideLoading();
@@ -192,7 +210,11 @@ public class ScheduleActivity extends FragmentActivity {
 				PreferenceManager.getDefaultSharedPreferences(this));
 		// get data async
 		handler = new CalendarTaskHandler(this);
+<<<<<<< HEAD
 		new CalendarTask(this, handler).execute(creds);
+=======
+		new CalendarTaskMonth(this, handler).execute(creds);
+>>>>>>> origin/lauCalendar
 		getCalendarICS();
 
 		// set the navigation bar
@@ -261,7 +283,11 @@ public class ScheduleActivity extends FragmentActivity {
 		currentCalendar.notifyObservers(currentCalendar.getCalendar());
 		
 		
+<<<<<<< HEAD
 
+=======
+		Log.v("ScheduleActivity","ScheduleActivity: lst_cours="+ lst_cours);
+>>>>>>> origin/lauCalendar
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 		currentGridView.getCurrentCell().addObserver(lst_cours);
 		currentGridView.getCurrentCell().setChanged();
@@ -292,7 +318,16 @@ public class ScheduleActivity extends FragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+<<<<<<< HEAD
 		switch (item.getItemId()) {
+=======
+		Intent intent= null;
+		switch (item.getItemId()) {
+		case R.id.calendar_week_view:
+			intent = new Intent(this, ScheduleWeekActivity.class);
+			break;
+			
+>>>>>>> origin/lauCalendar
 		// case R.id.calendar_force_update:
 		// new CalendarTask(this, handler).execute(creds);
 		// break;
@@ -300,6 +335,12 @@ public class ScheduleActivity extends FragmentActivity {
 		default:
 			break;
 		}
+<<<<<<< HEAD
+=======
+		if(intent!=null){
+		  startActivity(intent);
+		}
+>>>>>>> origin/lauCalendar
 		return true;
 	}
 	

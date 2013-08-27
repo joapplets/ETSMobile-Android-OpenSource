@@ -210,7 +210,12 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener, 
 	    intent = new Intent(this, SecurityActivity.class);
 	    break;
 	case 3:
+<<<<<<< HEAD
 	    intent = new Intent(this, ScheduleActivity.class);
+=======
+		intent = new Intent(this, ScheduleWeekActivity.class);
+	   // intent = new Intent(this, ScheduleActivity.class);
+>>>>>>> origin/lauCalendar
 	    break;
 	case 4:
 	    intent = new Intent(this, BottinListActivity.class);

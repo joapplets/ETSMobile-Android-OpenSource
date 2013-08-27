@@ -85,6 +85,13 @@
         <item>ven.</item>
         <item>sam.</item>
     </string-array>
+    <string-array name="day_names_5_days_week">
+        <item>lun.</item>
+        <item>mar.</item>
+        <item>mer.</item>
+        <item>jeu.</item>
+        <item>ven.</item>
+    </string-array>
 
     <string name="calendar_event_list_item_title">%1$s %2$s</string>
     <string name="calendar_event_list_item_subtitle">%1$s - %2$s</string>
