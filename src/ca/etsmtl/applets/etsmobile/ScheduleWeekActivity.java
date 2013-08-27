@@ -8,6 +8,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -203,7 +204,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
 
 		// set the gridview containing the day names
 		final String[] day_names = getResources().getStringArray(
-				R.array.day_names);
+				R.array.day_names_5_days_week);
 
 		final GridView grid = (GridView) findViewById(R.id.gridDayNames);
 		grid.setAdapter(new ArrayAdapter<String>(this, R.layout.day_name,
@@ -219,13 +220,13 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		btn_previous.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				currentCalendar.previousMonth();
+				currentCalendar.previousWeek();
 			}
 		});
 		btn_next.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				currentCalendar.nextMonth();
+				currentCalendar.nextWeek();
 			}
 		});
 
@@ -267,9 +268,12 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 		Log.v("ScheduleActivity","ScheduleActivity: lst_cours="+ lst_cours);
 		if(currentGridView !=null){
-			currentGridView.getCurrentCell().addObserver(lst_cours);
-			currentGridView.getCurrentCell().setChanged();
-			currentGridView.getCurrentCell().notifyObservers();
+			if(currentGridView.getCurrentCell() != null){
+				Log.v("ScheduleWeekActivity", "ScheduleWeekActivity: onCreate: currentGridView.getCurrentCell()!=null");
+				currentGridView.getCurrentCell().addObserver(lst_cours);
+				currentGridView.getCurrentCell().setChanged();
+				currentGridView.getCurrentCell().notifyObservers();
+			}
 		}
 
 		navBar.setRightButtonText(R.string.Ajourdhui);
@@ -297,13 +301,20 @@ public class ScheduleWeekActivity extends FragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = null;
 		switch (item.getItemId()) {
+		case R.id.calendar_month_view:
+			intent = new Intent(this, ScheduleActivity.class);
+			break;
 		// case R.id.calendar_force_update:
 		// new CalendarTask(this, handler).execute(creds);
 		// break;
 
 		default:
 			break;
+		}
+		if(intent!=null){
+			startActivity(intent);
 		}
 		return true;
 	}
