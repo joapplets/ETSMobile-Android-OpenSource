@@ -59,7 +59,7 @@ public class NumGridViewWeek extends View implements Observer {
 	void onCellTouch(NumGridViewWeek v, int x, int y);
     }
 
-    final int nbCellulesY = 6; // on va générer toujours un grilles 7 x 6
+    final int nbCellulesY = 1; // on va générer toujours un grilles 7 x 6
 
     int maxIndicators = 3;
     // Member variables
@@ -433,63 +433,63 @@ public class NumGridViewWeek extends View implements Observer {
 	final long start = new Date().getTime();
 
 	current = (Calendar) data;
-
 	final List<Calendar> days = new ArrayList<Calendar>();
 
-	final Calendar firstdayofmonth = (Calendar) current.clone();
-	final Calendar lastdayofmonth = (Calendar) current.clone();
+	final Calendar firstDayOfWeek = (Calendar) current.clone();
+	final Calendar lastDayOfWeek = (Calendar) current.clone();
 
-	firstdayofmonth.set(Calendar.DAY_OF_MONTH, current.getActualMinimum(Calendar.DAY_OF_MONTH));
-	lastdayofmonth.set(Calendar.DAY_OF_MONTH, current.getActualMaximum(Calendar.DAY_OF_MONTH));
+	firstDayOfWeek.set(Calendar.DAY_OF_WEEK, current.getFirstDayOfWeek());
+	lastDayOfWeek.set(Calendar.DAY_OF_WEEK, current.getLeastMaximum(Calendar.DAY_OF_WEEK_IN_MONTH));
+	//lastDayOfWeek.set(Calendar.DAY_OF_MONTH, current.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-	switch (firstdayofmonth.get(Calendar.DAY_OF_WEEK)) {
+	switch (firstDayOfWeek.get(Calendar.DAY_OF_WEEK)) {
 
 	case Calendar.MONDAY:
-	    firstdayofmonth.add(Calendar.DAY_OF_MONTH, -1);
+	    firstDayOfWeek.add(Calendar.DAY_OF_MONTH, -1);
 	    break;
 	case Calendar.TUESDAY:
-	    firstdayofmonth.add(Calendar.DAY_OF_MONTH, -2);
+	    firstDayOfWeek.add(Calendar.DAY_OF_MONTH, -2);
 	    break;
 	case Calendar.WEDNESDAY:
-	    firstdayofmonth.add(Calendar.DAY_OF_MONTH, -3);
+	    firstDayOfWeek.add(Calendar.DAY_OF_MONTH, -3);
 	    break;
 	case Calendar.THURSDAY:
-	    firstdayofmonth.add(Calendar.DAY_OF_MONTH, -4);
+	    firstDayOfWeek.add(Calendar.DAY_OF_MONTH, -4);
 	    break;
 	case Calendar.FRIDAY:
-	    firstdayofmonth.add(Calendar.DAY_OF_MONTH, -5);
+	    firstDayOfWeek.add(Calendar.DAY_OF_MONTH, -5);
 	    break;
 	case Calendar.SATURDAY:
-	    firstdayofmonth.add(Calendar.DAY_OF_MONTH, -6);
+	    firstDayOfWeek.add(Calendar.DAY_OF_MONTH, -6);
 	    break;
 	}
 
-	switch (lastdayofmonth.get(Calendar.DAY_OF_WEEK)) {
+	switch (lastDayOfWeek.get(Calendar.DAY_OF_WEEK)) {
 	case Calendar.SUNDAY:
-	    lastdayofmonth.add(Calendar.DAY_OF_MONTH, 6);
+	    lastDayOfWeek.add(Calendar.DAY_OF_MONTH, 6);
 	    break;
 	case Calendar.MONDAY:
-	    lastdayofmonth.add(Calendar.DAY_OF_MONTH, 5);
+	    lastDayOfWeek.add(Calendar.DAY_OF_MONTH, 5);
 	    break;
 	case Calendar.TUESDAY:
-	    lastdayofmonth.add(Calendar.DAY_OF_MONTH, 4);
+	    lastDayOfWeek.add(Calendar.DAY_OF_MONTH, 4);
 	    break;
 	case Calendar.WEDNESDAY:
-	    lastdayofmonth.add(Calendar.DAY_OF_MONTH, 3);
+	    lastDayOfWeek.add(Calendar.DAY_OF_MONTH, 3);
 	    break;
 	case Calendar.THURSDAY:
-	    lastdayofmonth.add(Calendar.DAY_OF_MONTH, 2);
+	    lastDayOfWeek.add(Calendar.DAY_OF_MONTH, 2);
 	    break;
 	case Calendar.FRIDAY:
-	    lastdayofmonth.add(Calendar.DAY_OF_MONTH, 1);
+	    lastDayOfWeek.add(Calendar.DAY_OF_MONTH, 1);
 	    break;
 
 	}
 
-	while (firstdayofmonth.compareTo(lastdayofmonth) <= 0) {
+	while (firstDayOfWeek.compareTo(lastDayOfWeek) <= 0) {
 
-	    days.add((Calendar) firstdayofmonth.clone());
-	    firstdayofmonth.add(Calendar.DAY_OF_MONTH, 1);
+	    days.add((Calendar) firstDayOfWeek.clone());
+	    firstDayOfWeek.add(Calendar.DAY_OF_MONTH, 1);
 	}
 //TODO
 	//mCellCountY = days.size() / 7;
@@ -522,70 +522,74 @@ public class NumGridViewWeek extends View implements Observer {
 	    
 	    	
 
-//
-//			for (final Session s : sessions) {
-//	
-//			    if (mCells[x][y].getDate().after(s.getDateDebut())
-//				    && mCells[x][y].getDate().before(s.getDateFinCours())) {
-//	
-//				boolean isRemplacee = false;
-//	
-//				for (final JoursRemplaces j : s.getJoursRemplaces()) {
-//	
-//				    if (mCells[x][y].getDate().getDate() == j.getDateRemplacement()
-//					    .getDate()
-//					    && mCells[x][y].getDate().getMonth() == j.getDateRemplacement()
-//						    .getMonth()
-//					    && mCells[x][y].getDate().getYear() == j.getDateRemplacement()
-//						    .getYear()) {
-//					if (s.getActivities(String.valueOf(j.getDateOrigine().getDay())) != null) {
-//					    mCells[x][y].setEvents(s.getActivities(String.valueOf(j
-//						    .getDateOrigine().getDay())));
-//					} else {
-//					    mCells[x][y].clear();
-//					}
-//	
-//					isRemplacee = true;
-//					break;
-//				    }
-//	
-//				    if (mCells[x][y].getDate().getDate() == j.getDateOrigine().getDate()
-//					    && mCells[x][y].getDate().getMonth() == j.getDateOrigine()
-//						    .getMonth()
-//					    && mCells[x][y].getDate().getYear() == j.getDateOrigine()
-//						    .getYear()) {
-//					mCells[x][y].clear();
-//	
-//					final ActivityCalendar activity = new ActivityCalendar();
-//	
-//					activity.setCours(j.getDescription().trim());
-//					activity.setDrawableResId(R.drawable.kal_marker_black);
-//	
-//					mCells[x][y].add(activity);
-//	
-//					isRemplacee = true;
-//					break;
-//				    }
-//				}
-//	
-//				if (!isRemplacee
-//					&& s.getActivities(String.valueOf(mCells[x][y].getDate().getDay())) != null) {
-//				    mCells[x][y].setEvents(s.getActivities(String.valueOf(mCells[x][y]
-//					    .getDate().getDay())));
-//				}
-//	
-//			    }
-//	
-//			}
+
+			for (final Session s : sessions) {
 	
-			if (currentCell == null) {
-				Log.v("NumGridView", "NumGridView: x="+x+ " y="+y+ " now.getMonth="+now.getMonth()+" Month="+mCells[x][y].getDate());
-			    if (mCells[x][y].getDate().getMonth() == now.getMonth()  && mCells[x][y].getDate().getDate() == now.getDate()) {
-				setCurrentCell(mCells[x][y]);
-				Log.v("NumGridView", "setCurrentCell NumGridView: x="+x+ " y="+y+ " now.getMonth="+now.getMonth()+" Month="+mCells[x][y].getDate());
+			    if (mCells[x][y].getDate().after(s.getDateDebut())
+				    && mCells[x][y].getDate().before(s.getDateFinCours())) {
+	
+				boolean isRemplacee = false;
+	
+				for (final JoursRemplaces j : s.getJoursRemplaces()) {
+	
+				    if (mCells[x][y].getDate().getDate() == j.getDateRemplacement()
+					    .getDate()
+					    && mCells[x][y].getDate().getMonth() == j.getDateRemplacement()
+						    .getMonth()
+					    && mCells[x][y].getDate().getYear() == j.getDateRemplacement()
+						    .getYear()) {
+					if (s.getActivities(String.valueOf(j.getDateOrigine().getDay())) != null) {
+					    mCells[x][y].setEvents(s.getActivities(String.valueOf(j
+						    .getDateOrigine().getDay())));
+					} else {
+					    mCells[x][y].clear();
+					}
+	
+					isRemplacee = true;
+					break;
+				    }
+	
+				    if (mCells[x][y].getDate().getDate() == j.getDateOrigine().getDate()
+					    && mCells[x][y].getDate().getMonth() == j.getDateOrigine()
+						    .getMonth()
+					    && mCells[x][y].getDate().getYear() == j.getDateOrigine()
+						    .getYear()) {
+					mCells[x][y].clear();
+	
+					final ActivityCalendar activity = new ActivityCalendar();
+	
+					activity.setCours(j.getDescription().trim());
+					activity.setDrawableResId(R.drawable.kal_marker_black);
+	
+					mCells[x][y].add(activity);
+	
+					isRemplacee = true;
+					break;
+				    }
+				}
+	
+				if (!isRemplacee
+					&& s.getActivities(String.valueOf(mCells[x][y].getDate().getDay())) != null) {
+					Log.v("NumGridViewWeek", "NumGridViewWeek: !=isRemplacee: setEvents");
+				    mCells[x][y].setEvents(s.getActivities(String.valueOf(mCells[x][y]
+					    .getDate().getDay())));
+				}
+	
 			    }
+	
 			}
-		    }
+	
+				if (currentCell == null) {
+					Log.v("NumGridView", "NumGridView: x="+x+ " y="+y+ " now.getMonth="+now.getMonth()+" Month="+mCells[x][y].getDate());
+				    if (mCells[x][y].getDate().getMonth() == now.getMonth()  && mCells[x][y].getDate().getDate() == now.getDate()) {
+					setCurrentCell(mCells[x][y]);
+					Log.v("NumGridView", "setCurrentCell NumGridView: x="+x+ " y="+y+ " now.getMonth="+now.getMonth()+" Month="+mCells[x][y].getDate());
+				    }
+				}
+			    }
+	    	else{
+	    		x--;
+	    	}
 	}
 	}
 

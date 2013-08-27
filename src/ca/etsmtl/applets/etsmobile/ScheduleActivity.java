@@ -8,6 +8,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -294,13 +295,21 @@ public class ScheduleActivity extends FragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent= null;
 		switch (item.getItemId()) {
+		case R.id.calendar_week_view:
+			intent = new Intent(this, ScheduleWeekActivity.class);
+			break;
+			
 		// case R.id.calendar_force_update:
 		// new CalendarTask(this, handler).execute(creds);
 		// break;
 
 		default:
 			break;
+		}
+		if(intent!=null){
+		  startActivity(intent);
 		}
 		return true;
 	}

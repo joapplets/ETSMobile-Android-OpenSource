@@ -50,7 +50,7 @@
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:listSelector="#00000000"
-        android:numColumns="7" >
+        android:numColumns="5" >
     </GridView>
 
     <LinearLayout
@@ -62,7 +62,7 @@
     <ca.etsmtl.applets.etsmobile.views.NumGridViewWeek
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:scrollHorizontally="true"
             numgrid:cellCountX="5"
             numgrid:cellCountY="1" />
