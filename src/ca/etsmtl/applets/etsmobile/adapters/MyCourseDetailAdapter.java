@@ -223,5 +223,6 @@ public class MyCourseDetailAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 	return 8 + courseEvaluation.getEvaluationElements().size();
+	return 7 + courseEvaluation.getEvaluationElements().size();
     }
 }
