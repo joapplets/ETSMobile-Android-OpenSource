@@ -36,175 +36,188 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
  * 
  */
 @SuppressLint({ "HandlerLeak", "HandlerLeak" })
-public class MyCourseListActivity extends ListActivity implements OnDismissListener {
+public class MyCourseListActivity extends ListActivity implements
+		OnDismissListener {
 
-    private static final int SHOW_LOGIN = 0;
-    protected static final int LOGIN_ERROR = 0;
-    private ArrayList<Course> courseActivities;
-    private MyCourseAdapter myCoursesAdapter;
+	private static final int SHOW_LOGIN = 0;
+	protected static final int LOGIN_ERROR = 0;
+	private ArrayList<Course> courseActivities;
+	private MyCourseAdapter myCoursesAdapter;
 
-    // should be static
-    private final Handler handler = new Handler() {
-	@Override
-	public void handleMessage(final Message msg) {
-	    switch (msg.what) {
-	    case ProfileTask.ON_POST_EXEC:
-		final Bundle data = msg.getData();
-		final StudentProfile profile = (StudentProfile) data.get(ProfileTask.PROFILE_KEY);
-		if (profile != null) {
-		    // save credentials to prefs
-		    final SharedPreferences prefs = PreferenceManager
-			    .getDefaultSharedPreferences(getApplicationContext());
-		    final Editor editor = prefs.edit();
-		    editor.putString("codeP", creds.getUsername());
-		    editor.putString("codeU", creds.getPassword());
-		    editor.commit();
-
-		    initCours(sessionString);
-		} else {
-		    showDialog(MyCourseListActivity.LOGIN_ERROR);
-		}
-		break;
-
-	    default:
-		break;
-	    }
-	}
-    };
-    private UserCredentials creds;
-    private String sessionString = "";
-    private NavBar navBar;
-
-    private void doLogin() {
-	creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
-
-	if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
-	    new ProfileTask(this, handler).execute(creds);
-	}
-
-    }
-
-    private void initCours(final String sessionString) {
-	creds = new UserCredentials(PreferenceManager.getDefaultSharedPreferences(this));
-	getListView().setOnItemClickListener(new OnItemClickListener() {
-
-	    @Override
-	    public void onItemClick(final AdapterView<?> adapterView, final View view,
-		    final int position, final long arg3) {
-		final Bundle b = new Bundle();
-		b.putString("sigle", myCoursesAdapter.getItem(position).getSigle());
-		b.putString("session", sessionString);
-		b.putString("cote", myCoursesAdapter.getItem(position).getCote());
-		b.putString("groupe", myCoursesAdapter.getItem(position).getGroupe());
-		final Intent nextActivity = new Intent(view.getContext(),
-			MyCourseDetailActivity.class);
-		nextActivity.putExtras(b);
-		startActivity(nextActivity);
-	    }
-	});
-
-	if (courseActivities == null) {
-	    final SignetBackgroundThread<ArrayList<Course>, Course> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Course>, Course>(
-		    "https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
-		    "listeCours", creds, Course.class, FetchType.ARRAY);
-
-	    signetBackgroundThead.execute();
-
-	    navBar.showLoading();
-
-	    new Thread(new Runnable() {
-
+	// should be static
+	private final Handler handler = new Handler() {
 		@Override
-		public void run() {
-		    try {
-			final ArrayList<Course> newCourseActivities = signetBackgroundThead.get();
+		public void handleMessage(final Message msg) {
+			switch (msg.what) {
+			case ProfileTask.ON_POST_EXEC:
+				final Bundle data = msg.getData();
+				final StudentProfile profile = (StudentProfile) data
+						.get(ProfileTask.PROFILE_KEY);
+				if (profile != null) {
+					// save credentials to prefs
+					final SharedPreferences prefs = PreferenceManager
+							.getDefaultSharedPreferences(getApplicationContext());
+					final Editor editor = prefs.edit();
+					editor.putString("codeP", creds.getUsername());
+					editor.putString("codeU", creds.getPassword());
+					editor.commit();
 
-			runOnUiThread(new Runnable() {
-			    @Override
-			    public void run() {
-				courseActivities = new ArrayList<Course>();
-
-				for (final Course course : newCourseActivities) {
-				    if (sessionString.equals(course.getSession())) {
-					courseActivities.add(course);
-				    }
+					initCours(sessionString);
+				} else {
+					showDialog(MyCourseListActivity.LOGIN_ERROR);
 				}
+				break;
 
-				myCoursesAdapter = new MyCourseAdapter(getApplicationContext(),
-					R.layout.course_list_item, courseActivities);
-				getListView().setAdapter(myCoursesAdapter);
-				navBar.hideLoading();
-			    }
-			});
-
-		    } catch (final InterruptedException e) {
-			e.printStackTrace();
-		    } catch (final ExecutionException e) {
-			e.printStackTrace();
-		    }
+			default:
+				break;
+			}
 		}
-	    }).start();
-	} else {
-	    myCoursesAdapter = new MyCourseAdapter(getApplicationContext(),
-		    R.layout.course_list_item, courseActivities);
-	    getListView().setAdapter(myCoursesAdapter);
-	}
-    }
+	};
+	private UserCredentials creds;
+	private String sessionString = "";
+	private NavBar navBar;
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.my_courses_view);
+	private void doLogin() {
+		creds = new UserCredentials(
+				PreferenceManager.getDefaultSharedPreferences(this));
 
-	navBar = (NavBar) findViewById(R.id.navBar3);
-	navBar.hideRightButton();
-	navBar.setTitle(R.drawable.navbar_notes_title);
+		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
+			new ProfileTask(this, handler).execute(creds);
+		}
 
-	if (savedInstanceState != null) {
-	    courseActivities = (ArrayList<Course>) savedInstanceState
-		    .getSerializable("courseActivities");
 	}
 
-	final UserCredentials creds = new UserCredentials(
-		PreferenceManager.getDefaultSharedPreferences(this));
-	sessionString = getIntent().getExtras().getString("session");
-	// set title
-	navBar.setTitle(getIntent().getExtras().getString("session_long"));
+	private void initCours(final String sessionString) {
+		creds = new UserCredentials(
+				PreferenceManager.getDefaultSharedPreferences(this));
+		getListView().setOnItemClickListener(new OnItemClickListener() {
 
-	if (creds.getPassword() != null && creds.getUsername() != null
-		&& !"".equals(creds.getPassword()) && !"".equals(creds.getUsername())) {
-	    initCours(sessionString);
-	} else {
-	    showDialog(MyCourseListActivity.SHOW_LOGIN);
-	    Toast.makeText(this, getString(R.string.usernamePasswordRequired), Toast.LENGTH_LONG)
-		    .show();
+			@Override
+			public void onItemClick(final AdapterView<?> adapterView,
+					final View view, final int position, final long arg3) {
+				final Bundle b = new Bundle();
+				b.putString("sigle", myCoursesAdapter.getItem(position)
+						.getSigle());
+				b.putString("session", sessionString);
+				b.putString("cote", myCoursesAdapter.getItem(position)
+						.getCote());
+				b.putString("groupe", myCoursesAdapter.getItem(position)
+						.getGroupe());
+				final Intent nextActivity = new Intent(view.getContext(),
+						MyCourseDetailActivity.class);
+				nextActivity.putExtras(b);
+				startActivity(nextActivity);
+			}
+		});
+
+		if (courseActivities == null) {
+			final SignetBackgroundThread<ArrayList<Course>, Course> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Course>, Course>(
+					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
+					"listeCours", creds, Course.class, FetchType.ARRAY);
+
+			signetBackgroundThead.execute();
+
+			navBar.showLoading();
+
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						final ArrayList<Course> newCourseActivities = signetBackgroundThead
+								.get();
+
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								courseActivities = new ArrayList<Course>();
+
+								for (final Course course : newCourseActivities) {
+									if (sessionString.equals(course
+											.getSession())) {
+										courseActivities.add(course);
+									}
+								}
+
+								myCoursesAdapter = new MyCourseAdapter(
+										getApplicationContext(),
+										R.layout.course_list_item,
+										courseActivities);
+								getListView().setAdapter(myCoursesAdapter);
+								navBar.hideLoading();
+							}
+						});
+
+					} catch (final InterruptedException e) {
+						e.printStackTrace();
+					} catch (final ExecutionException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		} else {
+			myCoursesAdapter = new MyCourseAdapter(getApplicationContext(),
+					R.layout.course_list_item, courseActivities);
+			getListView().setAdapter(myCoursesAdapter);
+		}
 	}
-    }
 
-    @Override
-    protected Dialog onCreateDialog(final int id) {
-	Dialog d = null;
-	switch (id) {
-	case SHOW_LOGIN:
-	    d = new LoginDialog(this);
-	    d.setOnDismissListener(this);
-	    break;
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.my_courses_view);
 
-	default:
-	    break;
+		navBar = (NavBar) findViewById(R.id.navBar3);
+		navBar.hideRightButton();
+		navBar.setTitle(R.drawable.navbar_notes_title);
+
+		if (savedInstanceState != null) {
+			courseActivities = (ArrayList<Course>) savedInstanceState
+					.getSerializable("courseActivities");
+		}
+
+		final UserCredentials creds = new UserCredentials(
+				PreferenceManager.getDefaultSharedPreferences(this));
+		sessionString = getIntent().getExtras().getString("session");
+		// set title
+		navBar.setTitle(getIntent().getExtras().getString("session_long"));
+
+		if (creds.getPassword() != null && creds.getUsername() != null
+				&& !"".equals(creds.getPassword())
+				&& !"".equals(creds.getUsername())) {
+			initCours(sessionString);
+		} else {
+			showDialog(MyCourseListActivity.SHOW_LOGIN);
+			Toast.makeText(this, getString(R.string.usernamePasswordRequired),
+					Toast.LENGTH_LONG).show();
+		}
 	}
-	return d;
-    }
 
-    @Override
-    public void onDismiss(final DialogInterface dialog) {
-	doLogin();
-    }
+	@Override
+	protected Dialog onCreateDialog(final int id) {
+		Dialog d = null;
+		switch (id) {
+		case SHOW_LOGIN:
+			d = new LoginDialog(this);
+			d.setOnDismissListener(this);
+			break;
 
-    @Override
-    public void onSaveInstanceState(final Bundle savedInstanceState) {
-	super.onSaveInstanceState(savedInstanceState);
-	savedInstanceState.putSerializable("courseActivities", courseActivities);
-    }
+		default:
+			break;
+		}
+		return d;
+	}
+
+	@Override
+	public void onDismiss(final DialogInterface dialog) {
+		doLogin();
+	}
+
+	@Override
+	public void onSaveInstanceState(final Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState
+				.putSerializable("courseActivities", courseActivities);
+	}
 }

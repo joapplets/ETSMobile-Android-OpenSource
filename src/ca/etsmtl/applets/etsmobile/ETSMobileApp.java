@@ -13,27 +13,27 @@ import com.bugsense.trace.BugSenseHandler;
 @ReportsCrashes(formUri = "http://www.bugsense.com/api/acra?api_key=4422c148", formKey = "")
 public class ETSMobileApp extends Application {
 
-    private static ETSMobileApp instance;
-    private ArrayList<Session> sessions = new ArrayList<Session>();
+	private static ETSMobileApp instance;
+	private ArrayList<Session> sessions = new ArrayList<Session>();
 
-    @Override
-    public void onCreate() {
-	ACRA.init(this);
-	BugSenseHandler.initAndStartSession(this, "4422c148");
-	super.onCreate();
-	instance = this;
-    }
+	@Override
+	public void onCreate() {
+		ACRA.init(this);
+		BugSenseHandler.initAndStartSession(this, "4422c148");
+		super.onCreate();
+		instance = this;
+	}
 
-    public static ETSMobileApp getInstance() {
-	return instance;
-    }
+	public static ETSMobileApp getInstance() {
+		return instance;
+	}
 
-    public ArrayList<Session> getSessions() {
-	return sessions;
-    }
+	public ArrayList<Session> getSessions() {
+		return sessions;
+	}
 
-    public void setSessions(ArrayList<Session> sessions) {
-	this.sessions = sessions;
-    }
+	public void setSessions(ArrayList<Session> sessions) {
+		this.sessions = sessions;
+	}
 
 }

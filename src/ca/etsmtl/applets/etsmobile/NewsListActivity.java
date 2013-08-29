@@ -29,182 +29,191 @@ import ca.etsmtl.applets.etsmobile.services.NewsService;
 import ca.etsmtl.applets.etsmobile.services.NewsService.NewsFetcherBinder;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-public class NewsListActivity extends FragmentActivity implements NewsListSelectedItemListener,
-	OnClickListener {
+public class NewsListActivity extends FragmentActivity implements
+		NewsListSelectedItemListener, OnClickListener {
 
-    private class ManualFetcher extends AsyncTask<NewsFetcherBinder, Void, Void> {
+	private class ManualFetcher extends
+			AsyncTask<NewsFetcherBinder, Void, Void> {
 
-	@Override
-	protected Void doInBackground(final NewsFetcherBinder... params) {
-	    final NewsFetcherBinder binder = params[0];
-	    if (binder != null) {
-		binder.startFetching();
-	    }
-	    return null;
+		@Override
+		protected Void doInBackground(final NewsFetcherBinder... params) {
+			final NewsFetcherBinder binder = params[0];
+			if (binder != null) {
+				binder.startFetching();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(final Void result) {
+			super.onPostExecute(result);
+			navBar.hideLoading();
+			unbindService(connection);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			navBar.showLoading();
+		}
+
+	}
+
+	private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.NewsFetcher";
+
+	private final ServiceConnection connection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(final ComponentName name,
+				final IBinder service) {
+			new ManualFetcher().execute((NewsFetcherBinder) service);
+		}
+
+		@Override
+		public void onServiceDisconnected(final ComponentName name) {
+		}
+	};
+	private NavBar navBar;
+
+	private SharedPreferences prefs;
+
+	private void connectToFetcherService() {
+		final Intent i = new Intent(this, NewsService.class);
+		if (!serviceIsRunning()) {
+			startService(i);
+			navBar.showLoading();
+		}
+		bindService(i, connection, Context.BIND_AUTO_CREATE);
 	}
 
 	@Override
-	protected void onPostExecute(final Void result) {
-	    super.onPostExecute(result);
-	    navBar.hideLoading();
-	    unbindService(connection);
+	public void onClick(final View v) {
+		switch (v.getId()) {
+		case R.id.base_bar_source_btn:
+			final Intent intent = new Intent(getApplicationContext(),
+					NewsListPreferences.class);
+			startActivity(intent);
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
-	protected void onPreExecute() {
-	    super.onPreExecute();
-	    navBar.showLoading();
-	}
+	protected void onCreate(final Bundle bundle) {
+		super.onCreate(bundle);
+		setContentView(R.layout.news_list_fragment);
+		navBar = (NavBar) findViewById(R.id.navBar1);
+		navBar.setTitle(R.drawable.navbar_news_title);
+		navBar.hideLoading();
+		// navBar.showRightButton();
+		navBar.setRightButtonAction(this);
 
-    }
-
-    private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.NewsFetcher";
-
-    private final ServiceConnection connection = new ServiceConnection() {
-
-	@Override
-	public void onServiceConnected(final ComponentName name, final IBinder service) {
-	    new ManualFetcher().execute((NewsFetcherBinder) service);
+		prefs = getSharedPreferences("dbpref", Context.MODE_PRIVATE);
+		setAlarm();
 	}
 
 	@Override
-	public void onServiceDisconnected(final ComponentName name) {
-	}
-    };
-    private NavBar navBar;
-
-    private SharedPreferences prefs;
-
-    private void connectToFetcherService() {
-	final Intent i = new Intent(this, NewsService.class);
-	if (!serviceIsRunning()) {
-	    startService(i);
-	    navBar.showLoading();
-	}
-	bindService(i, connection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    public void onClick(final View v) {
-	switch (v.getId()) {
-	case R.id.base_bar_source_btn:
-	    final Intent intent = new Intent(getApplicationContext(), NewsListPreferences.class);
-	    startActivity(intent);
-	    break;
-	default:
-	    break;
-	}
-    }
-
-    @Override
-    protected void onCreate(final Bundle bundle) {
-	super.onCreate(bundle);
-	setContentView(R.layout.news_list_fragment);
-	navBar = (NavBar) findViewById(R.id.navBar1);
-	navBar.setTitle(R.drawable.navbar_news_title);
-	navBar.hideLoading();
-	// navBar.showRightButton();
-	navBar.setRightButtonAction(this);
-
-	prefs = getSharedPreferences("dbpref", Context.MODE_PRIVATE);
-	setAlarm();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-	final MenuInflater inflater = getMenuInflater();
-	inflater.inflate(R.layout.news_list_menu, menu);
-	return true;
-    }
-
-    @Override
-    public void onItemClick(final View v) {
-
-	// On crée un nouveau intent qui va nous permettre de lancer
-	// la nouvelle activity
-
-	final Intent intent = new Intent(getApplicationContext(), SingleNewsActivity.class);
-	intent.putExtra("id", (Integer) v.getTag(R.string.viewholderidtag));
-
-	// On lance l'intent qui va créer la nouvelle activity.
-	startActivity(intent);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-	Intent intent = null;
-
-	switch (item.getItemId()) {
-	case R.id.newsListMenuUpdate:
-	    connectToFetcherService();
-	    break;
-	case R.id.newsListMenuPreferences:
-	    intent = new Intent(getApplicationContext(), NewsListPreferences.class);
-	    break;
-	default:
-	    break;
-	}
-
-	if (intent != null) {
-	    startActivity(intent);
-	}
-
-	return true;
-    }
-
-    @Override
-    protected void onPause() {
-	try {
-	    unbindService(connection);
-	} catch (final IllegalArgumentException e) {
-	}
-	super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-	final NewsListFragment frag = (NewsListFragment) getSupportFragmentManager()
-		.findFragmentById(R.id.newsList_fragment);
-
-	frag.getLoaderManager().restartLoader(NewsListFragment.ID, null, frag);
-
-	if (prefs.getBoolean("isEmpty", true)) {
-	    connectToFetcherService();
-	}
-	super.onResume();
-    }
-
-    private boolean serviceIsRunning() {
-	final ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-	for (final RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-	    if (service.service.getClassName().equals(NewsListActivity.SERVICE)) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		final MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.layout.news_list_menu, menu);
 		return true;
-	    }
 	}
-	return false;
-    }
 
-    private void setAlarm() {
-	final Intent toAlarm = new Intent(this, NewsAlarmReceiver.class);
-	final PendingIntent toDownload = PendingIntent.getBroadcast(this, 0, toAlarm,
-		PendingIntent.FLAG_CANCEL_CURRENT);
-	final AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+	@Override
+	public void onItemClick(final View v) {
 
-	final Calendar updateTime = Calendar.getInstance();
-	updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+		// On crée un nouveau intent qui va nous permettre de lancer
+		// la nouvelle activity
 
-	updateTime.set(Calendar.HOUR_OF_DAY, 6);
-	updateTime.set(Calendar.MINUTE, 00);
-	alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
-		AlarmManager.INTERVAL_DAY, toDownload);
+		final Intent intent = new Intent(getApplicationContext(),
+				SingleNewsActivity.class);
+		intent.putExtra("id", (Integer) v.getTag(R.string.viewholderidtag));
 
-	updateTime.set(Calendar.HOUR_OF_DAY, 12);
-	alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
-		AlarmManager.INTERVAL_DAY, toDownload);
+		// On lance l'intent qui va créer la nouvelle activity.
+		startActivity(intent);
+	}
 
-	updateTime.set(Calendar.HOUR_OF_DAY, 18);
-	alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
-		AlarmManager.INTERVAL_DAY, toDownload);
-    }
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		Intent intent = null;
+
+		switch (item.getItemId()) {
+		case R.id.newsListMenuUpdate:
+			connectToFetcherService();
+			break;
+		case R.id.newsListMenuPreferences:
+			intent = new Intent(getApplicationContext(),
+					NewsListPreferences.class);
+			break;
+		default:
+			break;
+		}
+
+		if (intent != null) {
+			startActivity(intent);
+		}
+
+		return true;
+	}
+
+	@Override
+	protected void onPause() {
+		try {
+			unbindService(connection);
+		} catch (final IllegalArgumentException e) {
+		}
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		final NewsListFragment frag = (NewsListFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.newsList_fragment);
+
+		frag.getLoaderManager().restartLoader(NewsListFragment.ID, null, frag);
+
+		if (prefs.getBoolean("isEmpty", true)) {
+			connectToFetcherService();
+		}
+		super.onResume();
+	}
+
+	private boolean serviceIsRunning() {
+		final ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		for (final RunningServiceInfo service : manager
+				.getRunningServices(Integer.MAX_VALUE)) {
+			if (service.service.getClassName().equals(NewsListActivity.SERVICE)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void setAlarm() {
+		final Intent toAlarm = new Intent(this, NewsAlarmReceiver.class);
+		final PendingIntent toDownload = PendingIntent.getBroadcast(this, 0,
+				toAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
+		final AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+		final Calendar updateTime = Calendar.getInstance();
+		updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+		updateTime.set(Calendar.HOUR_OF_DAY, 6);
+		updateTime.set(Calendar.MINUTE, 00);
+		alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+				updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
+				toDownload);
+
+		updateTime.set(Calendar.HOUR_OF_DAY, 12);
+		alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+				updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
+				toDownload);
+
+		updateTime.set(Calendar.HOUR_OF_DAY, 18);
+		alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+				updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
+				toDownload);
+	}
 
 }

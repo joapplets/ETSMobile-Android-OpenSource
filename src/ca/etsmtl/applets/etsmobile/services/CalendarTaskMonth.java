@@ -19,34 +19,32 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CalendarTaskMonth  extends CalendarTask {
+public class CalendarTaskMonth extends CalendarTask {
 
 	public static final int ON_POST_EXEC = 10;
-    private final CalendarTaskHandler handler;
+	private final CalendarTaskHandler handler;
 
-       public CalendarTaskMonth(Context ctx, final CalendarTaskHandler handler) {
-    	super(ctx);
-    	this.handler = handler;
-    }
-       
+	public CalendarTaskMonth(Context ctx, final CalendarTaskHandler handler) {
+		super(ctx);
+		this.handler = handler;
+	}
 
-
-
-    @Override
-    protected void onPostExecute(final ArrayList<Session> result) {
+	@Override
+	protected void onPostExecute(final ArrayList<Session> result) {
 		super.onPostExecute(result);
-	
+
 		Collections.sort(result);
-	
+
 		// Bundle data = new Bundle();
-		final Message msg = handler.obtainMessage(CalendarTaskMonth.ON_POST_EXEC, result);
+		final Message msg = handler.obtainMessage(
+				CalendarTaskMonth.ON_POST_EXEC, result);
 		msg.sendToTarget();
 
-    }
+	}
 
-    @Override
-    protected void onPreExecute() {	
+	@Override
+	protected void onPreExecute() {
 		super.onPreExecute();
 		handler.obtainMessage().sendToTarget();
-    }
+	}
 }

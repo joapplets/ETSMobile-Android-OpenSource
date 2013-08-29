@@ -14,11 +14,9 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.DatePicker;
 
+public class DatePickerDialogFragment extends DatePickerDialog implements
+		Observer {
 
-
-public class DatePickerDialogFragment extends DatePickerDialog implements Observer{
-
-	
 	public DatePickerDialogFragment(Context context, int theme,
 			OnDateSetListener callBack, int year, int monthOfYear,
 			int dayOfMonth) {
@@ -33,8 +31,9 @@ public class DatePickerDialogFragment extends DatePickerDialog implements Observ
 		int year = current.get(Calendar.YEAR);
 		int monthOfYear = current.get(Calendar.MONTH);
 		int dayOfMonth = current.get(Calendar.DAY_OF_MONTH);
-		Log.v("DatePickerDialog", "DatePickerDialog: observer date="+year+" "+monthOfYear+" "+dayOfMonth);
-		super.updateDate( year,  monthOfYear,  dayOfMonth);
+		Log.v("DatePickerDialog", "DatePickerDialog: observer date=" + year
+				+ " " + monthOfYear + " " + dayOfMonth);
+		super.updateDate(year, monthOfYear, dayOfMonth);
 	}
 
 }
