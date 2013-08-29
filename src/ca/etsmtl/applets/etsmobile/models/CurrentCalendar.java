@@ -28,15 +28,12 @@ public class CurrentCalendar extends Observable {
 		super.setChanged();
 		this.notifyObservers(current);
 	}
-<<<<<<< HEAD
-=======
-	
-	public void nextWeek(){
+
+	public void nextWeek() {
 		current.add(Calendar.DAY_OF_YEAR, +7);
 		super.setChanged();
 		super.notifyObservers(current);
 	}
->>>>>>> origin/lauCalendar
 
 	public void previousMonth() {
 		current.add(Calendar.MONTH, -1);
@@ -44,14 +41,12 @@ public class CurrentCalendar extends Observable {
 		super.notifyObservers(current);
 	}
 
-<<<<<<< HEAD
-=======
-	public void previousWeek(){
+	public void previousWeek() {
 		current.add(Calendar.DAY_OF_YEAR, -7);
 		super.setChanged();
 		super.notifyObservers(current);
 	}
->>>>>>> origin/lauCalendar
+
 	@Override
 	public void setChanged() {
 		super.setChanged();
@@ -64,8 +59,8 @@ public class CurrentCalendar extends Observable {
 		super.setChanged();
 		this.notifyObservers(current);
 	}
-	
-	public void setDate(int year, int month, int day){
+
+	public void setDate(int year, int month, int day) {
 		current.set(year, month, day);
 		super.setChanged();
 		super.notifyObservers(current);

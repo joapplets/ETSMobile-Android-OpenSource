@@ -4,10 +4,7 @@
     <item
         android:id="@+id/calendar_force_update"
         android:icon="@android:drawable/ic_menu_rotate"
-<<<<<<< HEAD
         android:title="Update"/>
-=======
-        android:title="Update"/>¸
     <item 
         android:id="@+id/calendar_month_view"
         android:icon="@android:drawable/ic_menu_agenda"
@@ -16,6 +13,5 @@
         android:id="@+id/calendar_week_view"
         android:icon="@android:drawable/ic_menu_week"
         android:title="Semaines"/>
->>>>>>> origin/lauCalendar
 
 </menu>

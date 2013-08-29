@@ -2,10 +2,8 @@ package ca.etsmtl.applets.etsmobile;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
@@ -28,14 +26,13 @@ import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
+import ca.etsmtl.applets.etsmobile.services.CalendarTask;
 import ca.etsmtl.applets.etsmobile.services.CalendarTaskWeek;
 import ca.etsmtl.applets.etsmobile.views.CalendarEventsListView;
 import ca.etsmtl.applets.etsmobile.views.CalendarTextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek.OnCellTouchListener;
-
-
 
 public class ScheduleWeekActivity extends FragmentActivity {
 
@@ -55,7 +52,8 @@ public class ScheduleWeekActivity extends FragmentActivity {
 			super.handleMessage(msg);
 			final ScheduleWeekActivity act = ref.get();
 			final ArrayList<Session> retreivedSessions = (ArrayList<Session>) msg.obj;
-			Log.v("ScheduleWeekActivity","ScheduleWeekActivity: msg.what="+msg.what );
+			Log.v("ScheduleWeekActivity", "ScheduleWeekActivity: msg.what="
+					+ msg.what);
 			switch (msg.what) {
 			case CalendarTaskWeek.ON_POST_EXEC:
 				if (act != null) {
@@ -141,7 +139,8 @@ public class ScheduleWeekActivity extends FragmentActivity {
 
 	private final OnCellTouchListener mNumGridViewWeek_OnCellTouchListener = new OnCellTouchListener() {
 		@Override
-		public void onCellTouch(final NumGridViewWeek v, final int x, final int y) {
+		public void onCellTouch(final NumGridViewWeek v, final int x,
+				final int y) {
 			// if (task.getStatus() != Status.RUNNING) {
 			CalendarCell cell = v.getCell(x, y);
 			cell.deleteObservers();
@@ -190,7 +189,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calendar_view_week);
-		
+
 		creds = new UserCredentials(
 				PreferenceManager.getDefaultSharedPreferences(this));
 		// get data async
@@ -210,9 +209,6 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		grid.setAdapter(new ArrayAdapter<String>(this, R.layout.day_name,
 				day_names));
 
-
-
-		
 		// set next and previous buttons
 		final ImageButton btn_previous = (ImageButton) findViewById(R.id.btn_previous);
 		final ImageButton btn_next = (ImageButton) findViewById(R.id.btn_next);
@@ -240,36 +236,35 @@ public class ScheduleWeekActivity extends FragmentActivity {
 
 		// Affiche le mois courant
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
-		
-		
+
 		// initialisation des observers
 		currentCalendar = new CurrentCalendar();
-		
-		
+
 		currentCalendar.addObserver(currentGridView);
 		currentCalendar.addObserver(txtcalendar_title);
-		
-		//set DatePicker
-		Date date =	currentCalendar.getCalendar().getTime();
-		datePickerDialog = new DatePickerDialogFragment(ScheduleWeekActivity.this,0,mDateSetListener , date.getYear(), date.getMonth(), date.getDay());	 
-		txtcalendar_title.setOnClickListener( new OnClickListener() {
-					
-				@Override
-				public void onClick(View v) {
-					datePickerDialog.show();
-				}
+
+		// set DatePicker
+		Date date = currentCalendar.getCalendar().getTime();
+		datePickerDialog = new DatePickerDialogFragment(
+				ScheduleWeekActivity.this, 0, mDateSetListener, date.getYear(),
+				date.getMonth(), date.getDay());
+		txtcalendar_title.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				datePickerDialog.show();
+			}
 		});
 		currentCalendar.addObserver(datePickerDialog);
 		currentCalendar.setChanged();
 		currentCalendar.notifyObservers(currentCalendar.getCalendar());
-		
-		
 
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
-		Log.v("ScheduleActivity","ScheduleActivity: lst_cours="+ lst_cours);
-		if(currentGridView !=null){
-			if(currentGridView.getCurrentCell() != null){
-				Log.v("ScheduleWeekActivity", "ScheduleWeekActivity: onCreate: currentGridView.getCurrentCell()!=null");
+		Log.v("ScheduleActivity", "ScheduleActivity: lst_cours=" + lst_cours);
+		if (currentGridView != null) {
+			if (currentGridView.getCurrentCell() != null) {
+				Log.v("ScheduleWeekActivity",
+						"ScheduleWeekActivity: onCreate: currentGridView.getCurrentCell()!=null");
 				currentGridView.getCurrentCell().addObserver(lst_cours);
 				currentGridView.getCurrentCell().setChanged();
 				currentGridView.getCurrentCell().notifyObservers();
@@ -305,26 +300,29 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		switch (item.getItemId()) {
 		case R.id.calendar_month_view:
 			intent = new Intent(this, ScheduleActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			break;
-		// case R.id.calendar_force_update:
-		// new CalendarTask(this, handler).execute(creds);
-		// break;
+		case R.id.calendar_force_update:
+			new CalendarTask(this).execute(creds);
+			break;
 
 		default:
 			break;
 		}
-		if(intent!=null){
+		if (intent != null) {
 			startActivity(intent);
+			finish();
 		}
 		return true;
 	}
-	
-	private DatePickerDialog.OnDateSetListener mDateSetListener = new OnDateSetListener(){
-		public void onDateSet(DatePicker datepicker, int year, int month, int day) {
+
+	private DatePickerDialog.OnDateSetListener mDateSetListener = new OnDateSetListener() {
+		public void onDateSet(DatePicker datepicker, int year, int month,
+				int day) {
 			currentCalendar.setDate(year, month, day);
 			currentCalendar.setChanged();
-			
+
 		}
-    	
-    };
+
+	};
 }

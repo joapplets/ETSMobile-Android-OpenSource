@@ -20,254 +20,226 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import com.google.gson.annotations.SerializedName;
 
 public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
-    private class ListeHorraireEtProf {
-	@SerializedName("motPasse")
-	private final String password;
+	private class ListeHorraireEtProf {
+		@SerializedName("motPasse")
+		private final String password;
 
-	@SerializedName("codeAccesUniversel")
-	private final String username;
+		@SerializedName("codeAccesUniversel")
+		private final String username;
 
-	@SerializedName("pSession")
-	private final String session;
-
-	public ListeHorraireEtProf(final UserCredentials cred, final Session currentSession) {
-	    password = cred.getPassword();
-	    username = cred.getUsername();
-	    session = currentSession.getShortName();
-	}
-    }
-
-    private class LireJoursRemplaces {
-
-<<<<<<< HEAD
-	@SerializedName("pSession")
-	private final String session;
-
-	public LireJoursRemplaces(final Session currentSession) {
-	    session = currentSession.getShortName();
-	}
-    }
-
-    public static final int ON_POST_EXEC = 10;
-    private final CalendarTaskHandler handler;
-=======
 		@SerializedName("pSession")
 		private final String session;
-	
-		public LireJoursRemplaces(final Session currentSession) {
-		    session = currentSession.getShortName();
+
+		public ListeHorraireEtProf(final UserCredentials cred,
+				final Session currentSession) {
+			password = cred.getPassword();
+			username = cred.getUsername();
+			session = currentSession.getShortName();
 		}
-    }
+	}
 
-  
-   
->>>>>>> origin/lauCalendar
+	private class LireJoursRemplaces {
 
-    private final static int[] dots = new int[] { R.drawable.kal_marker_red,
-	    R.drawable.kal_marker_fuchsia, R.drawable.kal_marker_green, R.drawable.kal_marker_lime,
-	    R.drawable.kal_marker_maroon, R.drawable.kal_marker_navy, R.drawable.kal_marker_aqua,
-	    R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
-    private final Context ctx;
+		@SerializedName("pSession")
+		private final String session;
 
-<<<<<<< HEAD
-    public CalendarTask(Context ctx, final CalendarTaskHandler handler) {
-	this.ctx = ctx;
-	this.handler = handler;
-=======
-    public CalendarTask(Context ctx) {
-	this.ctx = ctx;
+		public LireJoursRemplaces(final Session currentSession) {
+			session = currentSession.getShortName();
+		}
+	}
 
->>>>>>> origin/lauCalendar
-    }
+	private final static int[] dots = new int[] { R.drawable.kal_marker_red,
+			R.drawable.kal_marker_fuchsia, R.drawable.kal_marker_green,
+			R.drawable.kal_marker_lime, R.drawable.kal_marker_maroon,
+			R.drawable.kal_marker_navy, R.drawable.kal_marker_aqua,
+			R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
+	private final Context ctx;
 
-    @Override
-    protected ArrayList<Session> doInBackground(final Object... params) {
-	onPreExecute();
-	final ArrayList<Session> sessions = getSessions((UserCredentials) params[0]);
-	List<ActivityCalendar> activities;
+	public CalendarTask(Context ctx) {
+		this.ctx = ctx;
 
-	for (final Session s : sessions) {
-	    activities = removeDuplicates(getCoursIntervalSession((UserCredentials) params[0], s));
+	}
 
-	    setColors(activities);
+	@Override
+	protected ArrayList<Session> doInBackground(final Object... params) {
+		onPreExecute();
+		final ArrayList<Session> sessions = getSessions((UserCredentials) params[0]);
+		List<ActivityCalendar> activities;
 
-	    if (!activities.isEmpty()) {
-		String jour = activities.get(0).getCours();
-		int start = 0, end = 0;
-		for (final ActivityCalendar a : activities) {
+		for (final Session s : sessions) {
+			activities = removeDuplicates(getCoursIntervalSession(
+					(UserCredentials) params[0], s));
 
-		    if (!jour.equals(a.getJour())) {
+			setColors(activities);
 
-			if (s.getMaxActivities() < activities.subList(start, end).size()) {
-			    s.setMaxActivities(activities.subList(start, end).size());
+			if (!activities.isEmpty()) {
+				String jour = activities.get(0).getCours();
+				int start = 0, end = 0;
+				for (final ActivityCalendar a : activities) {
+
+					if (!jour.equals(a.getJour())) {
+
+						if (s.getMaxActivities() < activities.subList(start,
+								end).size()) {
+							s.setMaxActivities(activities.subList(start, end)
+									.size());
+						}
+
+						s.setActivities(jour, activities.subList(start, end));
+						jour = a.getJour();
+						start = end;
+					}
+					end++;
+				}
+
+				if (s.getMaxActivities() < activities.subList(start, end)
+						.size()) {
+					s.setMaxActivities(activities.subList(start, end).size());
+				}
+				s.setActivities(jour, activities.subList(start, end));
 			}
 
-			s.setActivities(jour, activities.subList(start, end));
-			jour = a.getJour();
-			start = end;
-		    }
-		    end++;
+			s.setJoursRemplaces(getJoursRemplacesSession(s));
 		}
 
-		if (s.getMaxActivities() < activities.subList(start, end).size()) {
-		    s.setMaxActivities(activities.subList(start, end).size());
+		return sessions;
+	}
+
+	public List<ActivityCalendar> removeDuplicates(
+			List<ActivityCalendar> activities) {
+		final List<ActivityCalendar> removed = new ArrayList<ActivityCalendar>();
+
+		ActivityCalendar activity, anotherActivity;
+
+		for (int i = 0; i < activities.size() - 1; i++) {
+			activity = activities.get(i);
+			anotherActivity = activities.get(i + 1);
+
+			if (activity.compareTo(anotherActivity) == 0) {
+				if (activity.getStartDate().compareTo(
+						anotherActivity.getStartDate()) == 0
+						&& activity.getEndDate().compareTo(
+								anotherActivity.getEndDate()) == 0
+						&& activity.getLocation().compareTo(
+								anotherActivity.getLocation()) != 0) {
+					activity.setLocation(activity.getLocation() + "; "
+							+ anotherActivity.getLocation());
+					removed.add(anotherActivity);
+				}
+
+			}
+
 		}
-		s.setActivities(jour, activities.subList(start, end));
-	    }
 
-	    s.setJoursRemplaces(getJoursRemplacesSession(s));
+		activities.removeAll(removed);
+		return activities;
+
 	}
 
-	return sessions;
-    }
+	public void setColors(List<ActivityCalendar> session_activites) {
+		final ArrayList<String> activites = new ArrayList<String>();
+		int color_index = 0;
 
-    public List<ActivityCalendar> removeDuplicates(List<ActivityCalendar> activities) {
-	final List<ActivityCalendar> removed = new ArrayList<ActivityCalendar>();
+		// set colors before notifying ui
+		for (int i = 0; i < session_activites.size(); i++) {
 
-	ActivityCalendar activity, anotherActivity;
+			if (activites.contains(session_activites.get(i).getCours())) {
+				session_activites.get(i).setDrawableResId(
+						session_activites.get(
+								activites.indexOf(session_activites.get(i)
+										.getCours())).getDrawableResId());
+				activites.add(session_activites.get(i).getCours());
+			} else {
+				session_activites.get(i).setDrawableResId(dots[color_index]);
+				color_index++;
+				activites.add(session_activites.get(i).getCours());
+			}
+		}
+	}
 
-	for (int i = 0; i < activities.size() - 1; i++) {
-	    activity = activities.get(i);
-	    anotherActivity = activities.get(i + 1);
+	/**
+	 * Donne la liste des cours dans l'interval d'une session donn�e
+	 * 
+	 * @param creds
+	 * @param currentSession
+	 * 
+	 * @return
+	 */
+	private ArrayList<ActivityCalendar> getCoursIntervalSession(
+			final UserCredentials creds, final Session currentSession) {
+		try {
+			final ListeHorraireEtProf listeHoraireEtProf = new ListeHorraireEtProf(
+					creds, currentSession);
+			final SignetBackgroundThread<ArrayList<ActivityCalendar>, ActivityCalendar> signetBackgroundThead = new SignetBackgroundThread<ArrayList<ActivityCalendar>, ActivityCalendar>(
+					ctx.getString(R.string.ets_signets), "listeHoraireEtProf",
+					listeHoraireEtProf, ActivityCalendar.class,
+					FetchType.ARRAY, "listeActivites");
 
-	    if (activity.compareTo(anotherActivity) == 0) {
-		if (activity.getStartDate().compareTo(anotherActivity.getStartDate()) == 0
-			&& activity.getEndDate().compareTo(anotherActivity.getEndDate()) == 0
-			&& activity.getLocation().compareTo(anotherActivity.getLocation()) != 0) {
-		    activity.setLocation(activity.getLocation() + "; "
-			    + anotherActivity.getLocation());
-		    removed.add(anotherActivity);
+			signetBackgroundThead.execute();
+
+			return signetBackgroundThead.get();
+		} catch (final InterruptedException e) {
+			e.printStackTrace();
+		} catch (final ExecutionException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * Donne la liste des jours remplaces dans une session
+	 * 
+	 * @param creds
+	 * @param currentSession
+	 * 
+	 * @return
+	 */
+	private ArrayList<JoursRemplaces> getJoursRemplacesSession(
+			final Session currentSession) {
+
+		try {
+			final LireJoursRemplaces listeJoursRemplaces = new LireJoursRemplaces(
+					currentSession);
+			final SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces> signetBackgroundThead = new SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces>(
+					ctx.getString(R.string.ets_signets), "lireJoursRemplaces",
+					listeJoursRemplaces, JoursRemplaces.class, FetchType.ARRAY,
+					"listeJours");
+
+			signetBackgroundThead.execute();
+
+			return signetBackgroundThead.get();
+		} catch (final InterruptedException e) {
+			e.printStackTrace();
+		} catch (final ExecutionException e) {
+			e.printStackTrace();
 		}
 
-	    }
-
+		return null;
 	}
 
-	activities.removeAll(removed);
-	return activities;
+	/**
+	 * Obtien la liste des sessions acceccibles
+	 * 
+	 * @param creds
+	 */
+	private ArrayList<Session> getSessions(final UserCredentials creds) {
+		ArrayList<Session> sessions = new ArrayList<Session>();
+		try {
 
-    }
+			final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Session>, Session>(
+					ctx.getString(R.string.ets_signets), "listeSessions",
+					creds, Session.class, FetchType.ARRAY);
 
-    public void setColors(List<ActivityCalendar> session_activites) {
-	final ArrayList<String> activites = new ArrayList<String>();
-	int color_index = 0;
+			signetBackgroundThead.execute();
 
-	// set colors before notifying ui
-	for (int i = 0; i < session_activites.size(); i++) {
+			sessions = signetBackgroundThead.get();
+		} catch (final InterruptedException e) {
+			e.printStackTrace();
+		} catch (final ExecutionException e) {
+			e.printStackTrace();
+		}
 
-	    if (activites.contains(session_activites.get(i).getCours())) {
-		session_activites.get(i).setDrawableResId(
-			session_activites.get(
-				activites.indexOf(session_activites.get(i).getCours()))
-				.getDrawableResId());
-		activites.add(session_activites.get(i).getCours());
-	    } else {
-		session_activites.get(i).setDrawableResId(dots[color_index]);
-		color_index++;
-		activites.add(session_activites.get(i).getCours());
-	    }
-	}
-    }
-
-    /**
-     * Donne la liste des cours dans l'interval d'une session donn�e
-     * 
-     * @param creds
-     * @param currentSession
-     * 
-     * @return
-     */
-    private ArrayList<ActivityCalendar> getCoursIntervalSession(final UserCredentials creds,
-	    final Session currentSession) {
-	try {
-	    final ListeHorraireEtProf listeHoraireEtProf = new ListeHorraireEtProf(creds,
-		    currentSession);
-	    final SignetBackgroundThread<ArrayList<ActivityCalendar>, ActivityCalendar> signetBackgroundThead = new SignetBackgroundThread<ArrayList<ActivityCalendar>, ActivityCalendar>(
-		    ctx.getString(R.string.ets_signets), "listeHoraireEtProf", listeHoraireEtProf,
-		    ActivityCalendar.class, FetchType.ARRAY, "listeActivites");
-
-	    signetBackgroundThead.execute();
-
-	    return signetBackgroundThead.get();
-	} catch (final InterruptedException e) {
-	    e.printStackTrace();
-	} catch (final ExecutionException e) {
-	    e.printStackTrace();
-	}
-	return null;
-    }
-
-    /**
-     * Donne la liste des jours remplaces dans une session
-     * 
-     * @param creds
-     * @param currentSession
-     * 
-     * @return
-     */
-    private ArrayList<JoursRemplaces> getJoursRemplacesSession(final Session currentSession) {
-
-	try {
-	    final LireJoursRemplaces listeJoursRemplaces = new LireJoursRemplaces(currentSession);
-	    final SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces> signetBackgroundThead = new SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces>(
-		    ctx.getString(R.string.ets_signets), "lireJoursRemplaces", listeJoursRemplaces,
-		    JoursRemplaces.class, FetchType.ARRAY, "listeJours");
-
-	    signetBackgroundThead.execute();
-
-	    return signetBackgroundThead.get();
-	} catch (final InterruptedException e) {
-	    e.printStackTrace();
-	} catch (final ExecutionException e) {
-	    e.printStackTrace();
+		return sessions;
 	}
 
-	return null;
-    }
-
-    /**
-     * Obtien la liste des sessions acceccibles
-     * 
-     * @param creds
-     */
-    private ArrayList<Session> getSessions(final UserCredentials creds) {
-	ArrayList<Session> sessions = new ArrayList<Session>();
-	try {
-
-	    final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Session>, Session>(
-		    ctx.getString(R.string.ets_signets), "listeSessions", creds, Session.class,
-		    FetchType.ARRAY);
-
-	    signetBackgroundThead.execute();
-
-	    sessions = signetBackgroundThead.get();
-	} catch (final InterruptedException e) {
-	    e.printStackTrace();
-	} catch (final ExecutionException e) {
-	    e.printStackTrace();
-	}
-
-	return sessions;
-    }
-
-<<<<<<< HEAD
-    @Override
-    protected void onPostExecute(final ArrayList<Session> result) {
-	super.onPostExecute(result);
-
-	Collections.sort(result);
-
-	// Bundle data = new Bundle();
-	final Message msg = handler.obtainMessage(CalendarTask.ON_POST_EXEC, result);
-	msg.sendToTarget();
-
-    }
-
-    @Override
-    protected void onPreExecute() {
-	super.onPreExecute();
-	handler.obtainMessage().sendToTarget();
-    }
-=======
->>>>>>> origin/lauCalendar
 }

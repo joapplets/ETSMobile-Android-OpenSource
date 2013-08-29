@@ -8,19 +8,13 @@ import java.util.Date;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-<<<<<<< HEAD
-=======
 import android.content.Intent;
->>>>>>> origin/lauCalendar
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-<<<<<<< HEAD
-=======
 import android.util.Log;
->>>>>>> origin/lauCalendar
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,18 +28,13 @@ import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
-<<<<<<< HEAD
 import ca.etsmtl.applets.etsmobile.services.CalendarTask;
-=======
 import ca.etsmtl.applets.etsmobile.services.CalendarTaskMonth;
->>>>>>> origin/lauCalendar
 import ca.etsmtl.applets.etsmobile.views.CalendarEventsListView;
 import ca.etsmtl.applets.etsmobile.views.CalendarTextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 import ca.etsmtl.applets.etsmobile.views.NumGridView;
 import ca.etsmtl.applets.etsmobile.views.NumGridView.OnCellTouchListener;
-
-
 
 public class ScheduleActivity extends FragmentActivity {
 
@@ -65,14 +54,9 @@ public class ScheduleActivity extends FragmentActivity {
 			super.handleMessage(msg);
 			final ScheduleActivity act = ref.get();
 			final ArrayList<Session> retreivedSessions = (ArrayList<Session>) msg.obj;
-<<<<<<< HEAD
-			switch (msg.what) {
-			case CalendarTask.ON_POST_EXEC:
-=======
-			Log.v("ScheduleActivity","ScheduleActivity: msg.what="+msg.what);
+			Log.v("ScheduleActivity", "ScheduleActivity: msg.what=" + msg.what);
 			switch (msg.what) {
 			case CalendarTaskMonth.ON_POST_EXEC:
->>>>>>> origin/lauCalendar
 				if (act != null) {
 					if (act.navBar != null) {
 						act.navBar.hideLoading();
@@ -205,16 +189,12 @@ public class ScheduleActivity extends FragmentActivity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calendar_view);
-		
+
 		creds = new UserCredentials(
 				PreferenceManager.getDefaultSharedPreferences(this));
 		// get data async
 		handler = new CalendarTaskHandler(this);
-<<<<<<< HEAD
-		new CalendarTask(this, handler).execute(creds);
-=======
 		new CalendarTaskMonth(this, handler).execute(creds);
->>>>>>> origin/lauCalendar
 		getCalendarICS();
 
 		// set the navigation bar
@@ -229,9 +209,6 @@ public class ScheduleActivity extends FragmentActivity {
 		grid.setAdapter(new ArrayAdapter<String>(this, R.layout.day_name,
 				day_names));
 
-
-
-		
 		// set next and previous buttons
 		final ImageButton btn_previous = (ImageButton) findViewById(R.id.btn_previous);
 		final ImageButton btn_next = (ImageButton) findViewById(R.id.btn_next);
@@ -259,35 +236,30 @@ public class ScheduleActivity extends FragmentActivity {
 
 		// Affiche le mois courant
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
-		
-		
+
 		// initialisation des observers
 		currentCalendar = new CurrentCalendar();
-		
-		
+
 		currentCalendar.addObserver(currentGridView);
 		currentCalendar.addObserver(txtcalendar_title);
-		
-		//set DatePicker
-		Date date =	currentCalendar.getCalendar().getTime();
-		datePickerDialog = new DatePickerDialogFragment(ScheduleActivity.this,0,mDateSetListener , date.getYear(), date.getMonth(), date.getDay());	 
-		txtcalendar_title.setOnClickListener( new OnClickListener() {
-					
-				@Override
-				public void onClick(View v) {
-					datePickerDialog.show();
-				}
+
+		// set DatePicker
+		Date date = currentCalendar.getCalendar().getTime();
+		datePickerDialog = new DatePickerDialogFragment(ScheduleActivity.this,
+				0, mDateSetListener, date.getYear(), date.getMonth(),
+				date.getDay());
+		txtcalendar_title.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				datePickerDialog.show();
+			}
 		});
 		currentCalendar.addObserver(datePickerDialog);
 		currentCalendar.setChanged();
 		currentCalendar.notifyObservers(currentCalendar.getCalendar());
-		
-		
-<<<<<<< HEAD
 
-=======
-		Log.v("ScheduleActivity","ScheduleActivity: lst_cours="+ lst_cours);
->>>>>>> origin/lauCalendar
+		Log.v("ScheduleActivity", "ScheduleActivity: lst_cours=" + lst_cours);
 		lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
 		currentGridView.getCurrentCell().addObserver(lst_cours);
 		currentGridView.getCurrentCell().setChanged();
@@ -318,38 +290,34 @@ public class ScheduleActivity extends FragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-<<<<<<< HEAD
-		switch (item.getItemId()) {
-=======
-		Intent intent= null;
+		Intent intent = null;
 		switch (item.getItemId()) {
 		case R.id.calendar_week_view:
 			intent = new Intent(this, ScheduleWeekActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			break;
-			
->>>>>>> origin/lauCalendar
-		// case R.id.calendar_force_update:
-		// new CalendarTask(this, handler).execute(creds);
-		// break;
+
+		 case R.id.calendar_force_update:
+			 new CalendarTask(this).execute(creds);
+		 break;
 
 		default:
 			break;
 		}
-<<<<<<< HEAD
-=======
-		if(intent!=null){
-		  startActivity(intent);
+		if (intent != null) {
+			startActivity(intent);
+			finish();
 		}
->>>>>>> origin/lauCalendar
 		return true;
 	}
-	
-	private DatePickerDialog.OnDateSetListener mDateSetListener = new OnDateSetListener(){
-		public void onDateSet(DatePicker datepicker, int year, int month, int day) {
+
+	private DatePickerDialog.OnDateSetListener mDateSetListener = new OnDateSetListener() {
+		public void onDateSet(DatePicker datepicker, int year, int month,
+				int day) {
 			currentCalendar.setDate(year, month, day);
 			currentCalendar.setChanged();
-			
+
 		}
-    	
-    };
+
+	};
 }

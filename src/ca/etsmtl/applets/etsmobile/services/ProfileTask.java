@@ -19,57 +19,58 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
  * @author Phil
  * 
  */
-public class ProfileTask extends AsyncTask<UserCredentials, String, StudentProfile> {
+public class ProfileTask extends
+		AsyncTask<UserCredentials, String, StudentProfile> {
 
-    public static final String PROFILE_KEY = "profile";
-    public static final int ON_POST_EXEC = 0;
-    public static final int ON_PRE_EXEC = 1;
-    private final Handler handler;
-    private final Context ctx;
+	public static final String PROFILE_KEY = "profile";
+	public static final int ON_POST_EXEC = 0;
+	public static final int ON_PRE_EXEC = 1;
+	private final Handler handler;
+	private final Context ctx;
 
-    public ProfileTask(Context ctx, final Handler handler) {
-	this.ctx = ctx;
-	this.handler = handler;
+	public ProfileTask(Context ctx, final Handler handler) {
+		this.ctx = ctx;
+		this.handler = handler;
 
-    }
-
-    @Override
-    protected StudentProfile doInBackground(final UserCredentials... params) {
-	onPreExecute();
-	final SignetBackgroundThread<StudentProfile, StudentProfile> signets = new SignetBackgroundThread<StudentProfile, StudentProfile>(
-		ctx.getString(R.string.ets_signets), "infoEtudiant", params[0],
-		StudentProfile.class, FetchType.OBJECT);
-
-	signets.execute();
-	StudentProfile profile = null;
-	try {
-	    profile = signets.get();
-	    // Log.d("TAG", profile.toString());
-	} catch (final InterruptedException e) {
-	    onCancelled();
-	    e.printStackTrace();
-	} catch (final ExecutionException e) {
-	    onCancelled();
-	    e.printStackTrace();
 	}
-	return profile;
-    }
 
-    @Override
-    protected void onPreExecute() {
-	super.onPreExecute();
-	handler.obtainMessage(ON_PRE_EXEC).sendToTarget();
-    }
+	@Override
+	protected StudentProfile doInBackground(final UserCredentials... params) {
+		onPreExecute();
+		final SignetBackgroundThread<StudentProfile, StudentProfile> signets = new SignetBackgroundThread<StudentProfile, StudentProfile>(
+				ctx.getString(R.string.ets_signets), "infoEtudiant", params[0],
+				StudentProfile.class, FetchType.OBJECT);
 
-    @Override
-    protected void onPostExecute(final StudentProfile result) {
-	super.onPostExecute(result);
-	final Message msg = handler.obtainMessage(ProfileTask.ON_POST_EXEC);
-	final Bundle data = new Bundle();
-	data.putParcelable(ProfileTask.PROFILE_KEY, result);
-	msg.setData(data);
-	msg.sendToTarget();
+		signets.execute();
+		StudentProfile profile = null;
+		try {
+			profile = signets.get();
+			// Log.d("TAG", profile.toString());
+		} catch (final InterruptedException e) {
+			onCancelled();
+			e.printStackTrace();
+		} catch (final ExecutionException e) {
+			onCancelled();
+			e.printStackTrace();
+		}
+		return profile;
+	}
 
-    }
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		handler.obtainMessage(ON_PRE_EXEC).sendToTarget();
+	}
+
+	@Override
+	protected void onPostExecute(final StudentProfile result) {
+		super.onPostExecute(result);
+		final Message msg = handler.obtainMessage(ProfileTask.ON_POST_EXEC);
+		final Bundle data = new Bundle();
+		data.putParcelable(ProfileTask.PROFILE_KEY, result);
+		msg.setData(data);
+		msg.sendToTarget();
+
+	}
 
 }

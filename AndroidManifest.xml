@@ -21,10 +21,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-<<<<<<< HEAD
-=======
     <uses-permission android:name="android.permission.VIBRATE" />
->>>>>>> origin/lauCalendar
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -77,13 +74,10 @@
             android:name=".ScheduleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-<<<<<<< HEAD
-=======
          <activity
             android:name=".ScheduleWeekActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" />
->>>>>>> origin/lauCalendar
         <activity android:name=".ProfileActivity" />
         <activity android:name=".BottinListActivity" />
         <activity android:name=".ScheduleDetailActivity" />
