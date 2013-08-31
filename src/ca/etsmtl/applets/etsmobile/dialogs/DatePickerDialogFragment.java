@@ -1,18 +1,13 @@
 package ca.etsmtl.applets.etsmobile.dialogs;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
-import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
-
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.DatePicker;
+import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 
 public class DatePickerDialogFragment extends DatePickerDialog implements
 		Observer {

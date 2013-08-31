@@ -97,6 +97,7 @@ public class JoursRemplaces {
 		this.session_id = id;
 
 	}
+
 	public void setId(long id) {
 
 	}

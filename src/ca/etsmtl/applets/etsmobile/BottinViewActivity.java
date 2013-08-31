@@ -107,7 +107,7 @@ public class BottinViewActivity extends Activity {
 		navBar.setTitle(R.drawable.navbar_phonebook_title);
 		navBar.hideRightButton();
 		navBar.hideLoading();
-
+	}
 
 	/**
 	 * Launches the ContactAdder activity to add a new contact to the selected

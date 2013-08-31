@@ -175,7 +175,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 			text = getString(R.string.logout);
 			tag = true;
 			navBar.showLoading();
-			new ProfileTask(this, handler).execute(creds);
+			new ProfileTask(handler).execute(creds);
 		} else {
 			showDialog(SHOW_LOGIN, null);
 			text = getString(R.string.login);
@@ -417,8 +417,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 												.getText().toString();
 										creds = new UserCredentials(codeP,
 												codeU);
-										new ProfileTask(view.getContext(),
-												handler).execute(creds);
+										new ProfileTask(handler).execute(creds);
 										break;
 
 									default:

@@ -31,10 +31,6 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	private static final String SESSION_PATH = "session";
 	private static final String ACT_PATH = "activity";
 	private static final String JOUR_PATH = "jours";
-	private static final int ALL_NEWS = 1;
-	private static final int SINGLE_NEWS = 2;
-	private static final int ALL_BOTTIN = 3;
-	private static final int SINGLE_BOTTIN = 4;
 	private static final int ALL_SESSION = 5;
 	private static final int SINGLE_SESSION = 6;
 	private static final int ALL_ACT = 7;
@@ -121,25 +117,6 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			+ ETSMobileContentProvider.JOUR_PATH);
 
 	//
-	private static final UriMatcher sURIMatcher = new UriMatcher(
-			UriMatcher.NO_MATCH);
-
-	/**
-	 * BOTTIN
-	 */
-	// --> content://ca.etsmtl.applets.etsmobile/bottin
-	public static final Uri CONTENT_URI_BOTTIN = Uri.parse("content://"
-			+ ETSMobileContentProvider.AUTHORITY + "/"
-			+ ETSMobileContentProvider.BOTTIN_PATH);
-
-	// --> vnd.android.cursor.dir/bottin
-	public static final String CONTENT_MULTIPLE_BOTTIN = ContentResolver.CURSOR_DIR_BASE_TYPE
-			+ "/" + ETSMobileContentProvider.BOTTIN_PATH;
-
-	// --> vnd.android.cursor.item/bottin
-	public static final String CONTENT_SINGLE_BOTTIN = ContentResolver.CURSOR_ITEM_BASE_TYPE
-			+ "/" + ETSMobileContentProvider.BOTTIN_PATH;
-
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
 

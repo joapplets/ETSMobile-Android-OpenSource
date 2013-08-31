@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.Message;
 import ca.etsmtl.applets.etsmobile.R;
-import ca.etsmtl.applets.etsmobile.ScheduleActivity.CalendarTaskHandler;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.JoursRemplaces;
@@ -47,22 +46,16 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	}
 
 	public static final int ON_POST_EXEC = 10;
-	private final CalendarTaskHandler handler;
+	protected final Handler handler;
 
 	private final static int[] dots = new int[] { R.drawable.kal_marker_red,
 			R.drawable.kal_marker_fuchsia, R.drawable.kal_marker_green,
 			R.drawable.kal_marker_lime, R.drawable.kal_marker_maroon,
 			R.drawable.kal_marker_navy, R.drawable.kal_marker_aqua,
 			R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
-	private final static int[] dots = new int[] { R.drawable.kal_marker_red,
-			R.drawable.kal_marker_fuchsia, R.drawable.kal_marker_green,
-			R.drawable.kal_marker_lime, R.drawable.kal_marker_maroon,
-			R.drawable.kal_marker_navy, R.drawable.kal_marker_aqua,
-			R.drawable.kal_marker_yellow, R.drawable.kal_marker_black };
-	private final Context ctx;
 
-	public CalendarTask(Context ctx) {
-		this.ctx = ctx;
+	public CalendarTask(final Handler handler2) {
+		this.handler = handler2;
 
 	}
 
@@ -164,7 +157,7 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	}
 
 	/**
-	 * Donne la liste des cours dans l'interval d'une session donnÃ©e
+	 * Donne la liste des cours dans l'interval d'une session donnée
 	 * 
 	 * @param creds
 	 * @param currentSession
@@ -179,35 +172,8 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
 				"listeHoraireEtProf", listeHoraireEtProf,
 				ActivityCalendar.class, "listeActivites");
-	}
 
-	/**
-	 * Donne la liste des cours dans l'interval d'une session donnï¿½e
-	 * 
-	 * @param creds
-	 * @param currentSession
-	 * 
-	 * @return
-	 */
-	private ArrayList<ActivityCalendar> getCoursIntervalSession(
-			final UserCredentials creds, final Session currentSession) {
-		try {
-			final ListeHorraireEtProf listeHoraireEtProf = new ListeHorraireEtProf(
-					creds, currentSession);
-			final SignetBackgroundThread<ArrayList<ActivityCalendar>, ActivityCalendar> signetBackgroundThead = new SignetBackgroundThread<ArrayList<ActivityCalendar>, ActivityCalendar>(
-					ctx.getString(R.string.ets_signets), "listeHoraireEtProf",
-					listeHoraireEtProf, ActivityCalendar.class,
-					FetchType.ARRAY, "listeActivites");
-
-			signetBackgroundThead.execute();
-
-			return signetBackgroundThead.get();
-		} catch (final InterruptedException e) {
-			e.printStackTrace();
-		} catch (final ExecutionException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return signetBackgroundThead.fetchArray();
 	}
 
 	/**
@@ -221,24 +187,14 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	private ArrayList<JoursRemplaces> getJoursRemplacesSession(
 			final Session currentSession) {
 
-		try {
-			final LireJoursRemplaces listeJoursRemplaces = new LireJoursRemplaces(
-					currentSession);
-			final SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces> signetBackgroundThead = new SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces>(
-					ctx.getString(R.string.ets_signets), "lireJoursRemplaces",
-					listeJoursRemplaces, JoursRemplaces.class, FetchType.ARRAY,
-					"listeJours");
+		final LireJoursRemplaces listeJoursRemplaces = new LireJoursRemplaces(
+				currentSession);
+		final SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces> signetBackgroundThead = new SignetBackgroundThread<ArrayList<JoursRemplaces>, JoursRemplaces>(
+				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
+				"lireJoursRemplaces", listeJoursRemplaces,
+				JoursRemplaces.class, "listeJours");
 
-			signetBackgroundThead.execute();
-
-			return signetBackgroundThead.get();
-		} catch (final InterruptedException e) {
-			e.printStackTrace();
-		} catch (final ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		return signetBackgroundThead.fetchArray();
 	}
 
 	/**
@@ -248,22 +204,31 @@ public class CalendarTask extends AsyncTask<Object, Void, ArrayList<Session>> {
 	 */
 	private ArrayList<Session> getSessions(final UserCredentials creds) {
 		ArrayList<Session> sessions = new ArrayList<Session>();
-		try {
+		final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Session>, Session>(
+				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
+				"listeSessions", creds, Session.class);
 
-			final SignetBackgroundThread<ArrayList<Session>, Session> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Session>, Session>(
-					ctx.getString(R.string.ets_signets), "listeSessions",
-					creds, Session.class, FetchType.ARRAY);
-
-			signetBackgroundThead.execute();
-
-			sessions = signetBackgroundThead.get();
-		} catch (final InterruptedException e) {
-			e.printStackTrace();
-		} catch (final ExecutionException e) {
-			e.printStackTrace();
-		}
+		sessions = signetBackgroundThead.fetchArray();
 
 		return sessions;
 	}
 
+	@Override
+	protected void onPostExecute(final ArrayList<Session> result) {
+		super.onPostExecute(result);
+
+		Collections.sort(result);
+
+		// Bundle data = new Bundle();
+		final Message msg = handler.obtainMessage(CalendarTask.ON_POST_EXEC,
+				result);
+		msg.sendToTarget();
+
+	}
+
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		handler.obtainMessage().sendToTarget();
+	}
 }

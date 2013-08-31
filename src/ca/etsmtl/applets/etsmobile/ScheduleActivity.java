@@ -2,10 +2,8 @@ package ca.etsmtl.applets.etsmobile;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
@@ -194,7 +192,7 @@ public class ScheduleActivity extends FragmentActivity {
 				PreferenceManager.getDefaultSharedPreferences(this));
 		// get data async
 		handler = new CalendarTaskHandler(this);
-		new CalendarTaskMonth(this, handler).execute(creds);
+		new CalendarTaskMonth(handler).execute(creds);
 		getCalendarICS();
 
 		// set the navigation bar
@@ -297,9 +295,9 @@ public class ScheduleActivity extends FragmentActivity {
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			break;
 
-		 case R.id.calendar_force_update:
-			 new CalendarTask(this).execute(creds);
-		 break;
+		case R.id.calendar_force_update:
+			new CalendarTask(handler).execute(creds);
+			break;
 
 		default:
 			break;

@@ -27,7 +27,6 @@ public class BottinTableHelper {
 			+ BottinTableHelper.BOTTIN_SERVICE + " TEXT DEFAULT NULL, "
 			+ BottinTableHelper.BOTTIN_TIRE + " TEXT DEFAULT NULL, "
 			+ BottinTableHelper.BOTTIN_DATE_MODIF + " TEXT DEFAULT NULL,"
-			+ BottinTableHelper.BOTTIN_ETS_ID + " TEXT DEFAULT NULL" + ");";
 			+ BottinTableHelper.BOTTIN_ETS_ID + " TEXT DEFAULT NULL"
 			+ ", UNIQUE (ets_id) ON CONFLICT REPLACE);";
 

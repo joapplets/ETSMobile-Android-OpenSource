@@ -22,8 +22,6 @@ public class Session implements Serializable, Comparable<Session> {
 
 	@SerializedName("abrege")
 	private String shortName;
-	@SerializedName("abrege")
-	private String shortName;
 	@SerializedName("auLong")
 	private String longName;
 	@SerializedName("dateDebut")
@@ -57,25 +55,8 @@ public class Session implements Serializable, Comparable<Session> {
 				.getColumnIndex(SessionTableHelper.SESSIONS_ID));
 	}
 
-	@SerializedName("dateDebut")
-	private String dateDebutString;
-
-	@SerializedName("dateFin")
-	private String dateFinString;
-
-	@SerializedName("dateFinCours")
-	private String dateFinCoursString;
-
-	private int maxActivities = 0;
-
-	private List<JoursRemplaces> joursRemplaces;
-
-	private LinkedHashMap<String, List<ActivityCalendar>> activities;
-
 	@Override
 	public int compareTo(final Session s) {
-		// TODO Auto-generated method stu
-
 		return s.getDateDebut().compareTo(s.getDateFin());
 	}
 

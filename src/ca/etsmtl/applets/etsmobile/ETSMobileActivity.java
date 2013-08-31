@@ -32,8 +32,6 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		OnTouchListener, android.content.DialogInterface.OnClickListener {
 
-	private static final class LoginHandler extends Handler {
-		private WeakReference<ETSMobileActivity> ref;
 	/**
 	 * Handles login; save to sharedPrefs if the {@link StudentProfile} is valid
 	 * 
@@ -95,51 +93,6 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 				}
 			}
 		}
-
-			case ProfileTask.ON_POST_EXEC:
-				ETSMobileActivity act = ref.get();
-				final Bundle data = msg.getData();
-				final StudentProfile studentProfile = (StudentProfile) data
-						.get(ProfileTask.PROFILE_KEY);
-				if (studentProfile != null) {
-					if (!studentProfile.getSolde().equals("")
-							&& !studentProfile.getNom().equals("")
-							&& !studentProfile.getPrenom().equals("")) {
-						// save credentials to prefs
-						final SharedPreferences prefs = PreferenceManager
-								.getDefaultSharedPreferences(act);
-						final Editor editor = prefs.edit();
-						editor.putString("codeP", act.credentials.getUsername());
-						editor.putString("codeU", act.credentials.getPassword());
-						editor.commit();
-						Toast.makeText(act, act.getString(R.string.welcome),
-								Toast.LENGTH_LONG).show();
-					} else {
-						Toast.makeText(
-								act,
-								"Erreur d'identification : Vos informations personnelles sont érronée(s)",
-								Toast.LENGTH_LONG).show();
-						act.showDialog(ETSMobileActivity.LOGIN);
-					}
-				}
-				break;
-	private UserCredentials credentials;
-	private NavBar navBar;
-	private static final int LOGIN = 0;
-	private View view;
-	private Handler handler;
-
-	/**
-	 * Login dialog onClick(ok); create Credential Obj; Launch
-	 * {@link ProfileTask}
-	 * 
-	 * @TODO: refactor
-	 */
-
-			default:
-				break;
-			}
-		}
 	}
 
 	private UserCredentials credentials;
@@ -161,7 +114,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 					.getText().toString();
 			credentials = new UserCredentials(codeP, codeU);
 			if (!credentials.isEmployee()) {
-				new ProfileTask(this, handler).execute(credentials);
+				new ProfileTask(handler).execute(credentials);
 			} else {
 				finish();
 				startActivity(new Intent(this, ETSMobileEmplActivity.class));

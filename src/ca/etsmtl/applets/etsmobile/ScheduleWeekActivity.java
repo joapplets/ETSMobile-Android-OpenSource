@@ -194,7 +194,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
 				PreferenceManager.getDefaultSharedPreferences(this));
 		// get data async
 		handler = new CalendarTaskHandlerWeek(this);
-		new CalendarTaskWeek(this, handler).execute(creds);
+		new CalendarTaskWeek(handler).execute(creds);
 		getCalendarICS();
 
 		// set the navigation bar
@@ -303,7 +303,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			break;
 		case R.id.calendar_force_update:
-			new CalendarTask(this).execute(creds);
+			new CalendarTask(handler).execute(creds);
 			break;
 
 		default:

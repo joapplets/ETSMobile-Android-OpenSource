@@ -58,33 +58,6 @@ public class UserCredentials {
 		this.password = password;
 	}
 
-	@SerializedName("codeAccesUniversel")
-	private String username;
-
-	public UserCredentials(final SharedPreferences prefs) {
-		if (prefs != null) {
-			username = prefs.getString(UserCredentials.CODE_P, "");
-			password = prefs.getString(UserCredentials.CODE_U, "");
-		}
-	}
-
-	public UserCredentials(final String codeP, final String codeU) {
-		username = codeP;
-		password = codeU;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setPassword(final String password) {
-		this.password = password;
-	}
-
 	public void setUsername(final String username) {
 		this.username = username;
 	}

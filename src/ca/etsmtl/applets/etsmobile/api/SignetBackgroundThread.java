@@ -14,19 +14,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.AsyncTask;
-
 import com.google.gson.Gson;
 
 /**
  * Use this class to make async JSON GET/POST to signETS
  * 
- * @author Vincent Seguin
+ * @author Vincent Seguin, Philipp David, Micheal Bernier
  * 
  * @param <T>
  * @param <E>
  */
-public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
+public class SignetBackgroundThread<T, E> {
 	public enum FetchType {
 		ARRAY, OBJECT
 	}
@@ -36,45 +34,29 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 	private final Object bodyParams;
 	private final Class<E> typeOfClass;
 
-	private final FetchType fetchType;
 	private final String liste;
 
 	public SignetBackgroundThread(final String urlStr, final String action,
-			final Object bodyParams, final Class<E> typeOfClass,
-			final FetchType fetchType) {
+			final Object bodyParams, final Class<E> typeOfClass) {
 		this.urlStr = urlStr;
 		this.action = action;
 		this.bodyParams = bodyParams;
 		this.typeOfClass = typeOfClass;
-		this.fetchType = fetchType;
 		this.liste = "liste";
 	}
 
 	public SignetBackgroundThread(final String urlStr, final String action,
 			final Object bodyParams, final Class<E> typeOfClass,
-			final FetchType fetchType, final String liste) {
+			final String liste) {
 		this.urlStr = urlStr;
 		this.action = action;
 		this.bodyParams = bodyParams;
 		this.typeOfClass = typeOfClass;
-		this.fetchType = fetchType;
 		this.liste = liste;
 	}
 
-	@Override
-	protected T doInBackground(final Void... params) {
-		T object = null;
-		if (this.fetchType.equals(FetchType.ARRAY)) {
-			object = this.fetchArray();
-		} else if (this.fetchType.equals(FetchType.OBJECT)) {
-			object = this.fetchObject();
-		}
-
-		return object;
-	}
-
 	@SuppressWarnings("unchecked")
-	private T fetchArray() {
+	public T fetchArray() {
 		ArrayList<E> array = new ArrayList<E>();
 
 		try {
@@ -129,7 +111,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	private T fetchObject() {
+	public T fetchObject() {
 		T object = null;
 
 		try {
@@ -166,7 +148,7 @@ public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 			JSONObject jsonRootArray;
 			jsonRootArray = jsonObject.getJSONObject("d");
 			object = (T) gson.fromJson(jsonRootArray.toString(), typeOfClass);
-			// android.util.Log.d("JSON", jsonRootArray.toString());
+			android.util.Log.d("JSON", jsonRootArray.toString());
 		} catch (final MalformedURLException e) {
 			e.printStackTrace();
 		} catch (final IOException e) {

@@ -5,8 +5,7 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class EvaluationElement implements Serializable {
-
-	/**
+	
 	private static final long serialVersionUID = -8642324351015289340L;
 
 	@SerializedName("coursGroupe")
