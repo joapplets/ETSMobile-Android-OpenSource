@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.etsmtl.applets.etsmobile"
-    android:versionCode="2"
-    android:versionName="1.0" >
+    android:versionCode="4"
+    android:versionName="1.7.2" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -17,6 +17,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -24,10 +28,10 @@
 
     <application
         android:name="ETSMobileApp"
+        android:allowBackup="false"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar"
-        android:allowBackup="false" >
+        android:theme="@android:style/Theme.NoTitleBar" >
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAwuf0_BLRGaBrYlYs6vcbarI2wiC7WSWQ" />
@@ -45,8 +49,7 @@
 
         <activity
             android:name=".ETSMobileActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,25 +58,13 @@
         </activity>
         <activity
             android:name=".NewsListActivity"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".preferences.NewsListPreferences"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".SingleNewsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name=".ProfileActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".BottinListActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".CoopActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
@@ -82,42 +73,27 @@
             android:name=".ScheduleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ScheduleDetailActivity"
+         <activity
+            android:name=".ScheduleWeekActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".AboutActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".BottinViewActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".BibliothequeActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SecurityActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UrgenceActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MyCourseSessionActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MyCourseDetailActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MyCourseListActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".BottinListActivity" />
+        <activity android:name=".ScheduleDetailActivity" />
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".BottinViewActivity" />
+        <activity android:name=".BibliothequeActivity" />
+        <activity android:name=".SecurityActivity" />
+        <activity android:name=".UrgenceActivity" />
+        <activity android:name=".MyCourseSessionActivity" />
+        <activity android:name=".MyCourseDetailActivity" />
+        <activity android:name=".MyCourseListActivity" />
+        <activity android:name=".EmailWebViewActivity" />
+        <activity android:name=".ETSMobileEmplActivity" />
+        <activity 
+                  android:name=".EmailWebView" 
+                  android:configChanges="keyboardHidden|orientation"/>
+        <activity android:name=".ContactAdder" />
     </application>
 
 </manifest>

@@ -18,6 +18,9 @@ public class ETSMobileOpenHelper extends SQLiteOpenHelper {
 	public void onCreate(final SQLiteDatabase db) {
 		db.execSQL(BottinTableHelper.CREATE_TABLE);
 		db.execSQL(NewsTableHelper.CREATE_TABLE);
+		db.execSQL(ActivityCalendarTableHelper.CREATE_TABLE);
+		db.execSQL(JoursRemplaceTableHelper.CREATE_TABLE);
+		db.execSQL(SessionTableHelper.CREATE_TABLE);
 
 	}
 
@@ -26,6 +29,9 @@ public class ETSMobileOpenHelper extends SQLiteOpenHelper {
 			final int newVersion) {
 		db.execSQL(NewsTableHelper.DROP_TABLE);
 		db.execSQL(BottinTableHelper.DROP_TABLE);
+		db.execSQL(ActivityCalendarTableHelper.DROP_TABLE);
+		db.execSQL(JoursRemplaceTableHelper.DROP_TABLE);
+		db.execSQL(SessionTableHelper.DROP_TABLE);
 		onCreate(db);
 
 	}

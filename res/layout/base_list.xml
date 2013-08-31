@@ -20,8 +20,8 @@
         android:choiceMode="singleChoice"
         android:divider="@drawable/divider_horizontal_light_opaque"
         android:dividerHeight="1dip"
+        android:fastScrollEnabled="true"
         tools:listitem="@layout/bottin_list_item" >
-
     </ListView>
 
 </LinearLayout>

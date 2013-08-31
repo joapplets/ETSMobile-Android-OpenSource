@@ -3,10 +3,19 @@ package ca.etsmtl.applets.etsmobile;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URI;
+import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.auth.AuthenticationException;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -23,9 +32,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
@@ -33,11 +45,17 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
+import com.bugsense.trace.BugSenseHandler;
+
 public class ProfileActivity extends Activity implements OnClickListener,
 		OnDismissListener {
 
-	public String bandwith;
-
+	/**
+	 * Handles UI logic after async task has finished
+	 * 
+	 * @author Phil
+	 * 
+	 */
 	private static class ProfileHandler extends Handler {
 		private final WeakReference<ProfileActivity> ref;
 
@@ -49,46 +67,79 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		public void handleMessage(final Message msg) {
 			super.handleMessage(msg);
 			final ProfileActivity act = ref.get();
-			switch (msg.what) {
-			case ProfileTask.ON_POST_EXEC:
-				act.navBar.hideLoading();
-				final Bundle data = msg.getData();
-				final StudentProfile studentProfile = (StudentProfile) data
-						.get(ProfileTask.PROFILE_KEY);
+			// weak ref might be null or finishing
+			if (act != null && !act.isFinishing()) {
 
-				if (studentProfile != null) {
-					if (studentProfile.getSolde().equals("")
-							&& studentProfile.getNom().equals("")
-							&& studentProfile.getPrenom().equals("")) {
-						Toast.makeText(act, R.string.error_profile_login,
-								Toast.LENGTH_LONG).show();
-						act.showDialog(ProfileActivity.SHOW_LOGIN, null);
-					} else {
+				switch (msg.what) {
+				case ProfileTask.ON_POST_EXEC:
 
-						act.name.setText(studentProfile.getPrenom());
-						act.lastname.setText(studentProfile.getNom());
-						act.solde.setText(studentProfile.getSolde());
-						act.codeP.setText(studentProfile.getCodePerm());
-
-						// save credentials to prefs
-						final SharedPreferences prefs = act.prefs;
-
-						final Editor editor = prefs.edit();
-						editor.putString("codeP", act.creds.getUsername());
-						editor.putString("codeU", act.creds.getPassword());
-						editor.commit();
-
-						act.btnLogin.setTag(true);
-						act.btnLogin.setText(act.getString(R.string.logout));
+					if (act.navBar != null) {
+						act.navBar.hideLoading();
 					}
+					final Bundle data = msg.getData();
+					final StudentProfile studentProfile = (StudentProfile) data
+							.get(ProfileTask.PROFILE_KEY);
+
+					if (studentProfile != null) {
+						if (studentProfile.getSolde().equals("")
+								&& studentProfile.getNom().equals("")
+								&& studentProfile.getPrenom().equals("")) {
+
+							Toast.makeText(act, R.string.error_profile_login,
+									Toast.LENGTH_LONG).show();
+
+							act.showDialog(ProfileActivity.SHOW_LOGIN);
+
+							act.btnLogin.setText(R.string.login);
+							act.btnLogin.setTag(false);
+							act.btnLogin.setBackgroundColor(Color.GRAY);
+
+						} else {
+
+							act.name.setText(studentProfile.getPrenom());
+							act.lastname.setText(studentProfile.getNom());
+							act.solde.setText(studentProfile.getSolde());
+							act.codeP.setText(studentProfile.getCodePerm());
+
+							// save credentials to prefs
+							final SharedPreferences prefs = act.prefs;
+
+							final Editor editor = prefs.edit();
+							editor.putString("codeP", act.creds.getUsername());
+							editor.putString("codeU", act.creds.getPassword());
+							editor.commit();
+
+							act.btnLogin.setTag(true);
+							act.btnLogin
+									.setText(act.getString(R.string.logout));
+							act.btnLogin.setBackgroundColor(Color.RED);
+						}
+					}
+
+					break;
+				case 2:// show bandwith
+					if (!act.isFinishing()) {
+						if (msg.obj != null) {
+
+							final float[] result = (float[]) msg.obj;
+							act.bandwith_used.setText(act
+									.getString(R.string.utilise)
+									+ Float.toString(result[1] - result[0]));
+
+							act.bandwith_max.setText(Float.toString(result[1])
+									+ " " + act.getString(R.string.gigaoctetx));
+
+							act.progess.setMax((int) result[1]);
+							act.progess.setProgress((int) result[0]);
+						} else {
+						}
+					}
+					act.appt_input.setEnabled(true);
+					act.phase_input.setEnabled(true);
+					break;
+				default:
+					break;
 				}
-				break;
-			case 2:
-				act.bandwith = (String) msg.obj;
-				act.showDialog(ProfileActivity.SHOW_BAND_RESULT);
-				break;
-			default:
-				break;
 			}
 		}
 	}
@@ -106,10 +157,12 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	private TextView solde;
 	private TextView codeP;
 	private Handler handler;
-	private TextView btnBandwith;
-	private String appt;
-	private String rez;
 	private SharedPreferences prefs;
+	private ProgressBar progess;
+	private TextView phase_input;
+	private TextView appt_input;
+	private TextView bandwith_used;
+	private TextView bandwith_max;
 
 	private void doLogin() {
 		creds = new UserCredentials(
@@ -118,11 +171,11 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		boolean tag = false;
 		int mColor = Color.RED;
 
-		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
+		if (creds.isLoggedIn()) {
 			text = getString(R.string.logout);
 			tag = true;
 			navBar.showLoading();
-			new ProfileTask(handler).execute(creds);
+			new ProfileTask(this, handler).execute(creds);
 		} else {
 			showDialog(SHOW_LOGIN, null);
 			text = getString(R.string.login);
@@ -134,40 +187,91 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		btnLogin.setBackgroundColor(mColor);
 	}
 
-	private void getBandwith() {
-		new AsyncTask<String, Void, String>() {
+	private void getBandwith(String phase, String appt) {
+		BugSenseHandler.sendEvent("Bandwith");
+		appt_input.setEnabled(false);
+		phase_input.setEnabled(false);
+
+		final Editor edit = prefs.edit();
+		creds.setPhase(phase);
+		creds.setAppt(appt);
+		edit.putString(UserCredentials.REZ, phase);
+		edit.putString(UserCredentials.APPT, appt);
+		edit.commit();
+
+		// get bandwidth from cooptel, parse html, extract floats, etc etc
+		new AsyncTask<String, Void, float[]>() {
+			final Pattern usageRegex = Pattern
+					.compile("<TR><TD>(.*)</TD><TD>(.*)</TD><TD ALIGN=\"RIGHT\">(.*)</TD><TD ALIGN=\"RIGHT\">(.*)</TD></TR>");
+			final Pattern quotaRegex = Pattern
+					.compile("<TR><TD>Quota permis pour la p&eacute;riode</TD><TD ALIGN=\"RIGHT\">(.*)</TD></TD></TR>");
 
 			@Override
-			protected String doInBackground(String... params) {
-
-				String ent = null;
+			protected float[] doInBackground(String... params) {
+				final float[] result = new float[2];
 				try {
+					final HttpGet get = new HttpGet(
+							URI.create(String
+									.format("http://www2.cooptel.qc.ca/services/temps/?mois=%d&cmd=Visualiser",
+											Calendar.getInstance().get(
+													Calendar.MONTH) + 1)));
+					final BasicScheme scheme = new BasicScheme();
+					final Credentials credentials = new UsernamePasswordCredentials(
+							"ets-res" + params[0] + "-" + params[1], "ets"
+									+ params[1]);
+					try {
+						final Header h = scheme.authenticate(credentials, get);
+						get.addHeader(h);
+						final HttpClient client = new DefaultHttpClient();
+						final HttpResponse re = client.execute(get);
 
-					final StringBuilder sb = new StringBuilder();
-					sb.append("http://etsmtl.me/py/usage/");
-					sb.append(params[0]);
-					sb.append("/");
-					sb.append(params[1]);
+						// if HTTP200
+						if (re.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+							final String ent = EntityUtils.toString(re
+									.getEntity());
+							final Matcher matcher = usageRegex.matcher(ent);
 
-					final HttpGet get = new HttpGet(URI.create(sb.toString()));
-					final HttpClient client = new DefaultHttpClient();
-					final HttpResponse re = client.execute(get);
-					ent = EntityUtils.toString(re.getEntity());
+							float total = 0;
+							// String[] usageResult = matcher.;
+							// parse all results
+							while (matcher.find()) {
+								final Number upload = Float.parseFloat(matcher
+										.group(3));
+								final Number download = Float
+										.parseFloat(matcher.group(4));
+
+								total += upload.floatValue();
+								total += download.floatValue();
+							}
+
+							final Matcher quotaResult = quotaRegex.matcher(ent);
+							float totalBandwithAvail = 0;
+							if (quotaResult.find()) {
+								totalBandwithAvail = Float
+										.parseFloat(quotaResult.group(1));
+							}
+							result[0] = total / 1024;
+							result[1] = totalBandwithAvail / 1024;
+
+						}
+					} catch (final AuthenticationException e) {
+						e.printStackTrace();
+					}
 
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 
-				return ent;
+				return result;
 			}
 
 			@Override
-			protected void onPostExecute(String result) {
+			protected void onPostExecute(float[] result) {
 				handler.obtainMessage(2, result).sendToTarget();
 				super.onPostExecute(result);
 			}
 
-		}.execute(rez, appt);
+		}.execute(phase, appt);
 	}
 
 	/**
@@ -220,19 +324,65 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		lastname = (TextView) findViewById(R.id.student_profile_lastname);
 		solde = (TextView) findViewById(R.id.student_profile_solde);
 		codeP = (TextView) findViewById(R.id.student_profile_codePermanent);
+		progess = (ProgressBar) findViewById(R.id.bandwith_progress);
+		bandwith_used = (TextView) findViewById(R.id.bandwith_used_lbl);
+		bandwith_max = (TextView) findViewById(R.id.bandwith_max);
+		phase_input = (TextView) findViewById(R.id.bandwith_phase_input);
 
-		btnBandwith = (TextView) findViewById(R.id.btn_bandwith);
-		btnBandwith.setOnClickListener(new OnClickListener() {
+		phase_input.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onClick(View v) {
-				showDialog(3);
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				if (s.length() >= 1) {
+					if (appt_input.getText().length() > 4) {
+						getBandwith(s.toString(), appt_input.getText()
+								.toString());
+					}
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
+
+		appt_input = (TextView) findViewById(R.id.bandwith_appt_input);
+
+		appt_input.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				if (s.length() >= 3) {
+					if (phase_input.getText().length() >= 1) {
+						getBandwith(phase_input.getText().toString(),
+								s.toString());
+					}
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
 			}
 		});
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		creds = new UserCredentials(prefs);
-
+		if (creds.hasBandwithInfo()) {
+			phase_input.setText(creds.getPhase());
+			appt_input.setText(creds.getAppt());
+		}
 		doLogin();
 	}
 
@@ -267,58 +417,14 @@ public class ProfileActivity extends Activity implements OnClickListener,
 												.getText().toString();
 										creds = new UserCredentials(codeP,
 												codeU);
-										new ProfileTask(handler).execute(creds);
+										new ProfileTask(view.getContext(),
+												handler).execute(creds);
 										break;
 
 									default:
 										dialog.cancel();
 										dialog.dismiss();
 										break;
-									}
-								}
-							}).create();
-			break;
-
-		case SHOW_BAND_RESULT:
-			final String result = bandwith;
-			d = new AlertDialog.Builder(this).setMessage(
-					"Phase: " + rez + " Appt: " + appt + " \nIl vous reste : "
-							+ result).create();
-			break;
-		case 3:
-			((TextView) view.findViewById(R.id.textView1))
-					.setText(getString(R.string.bandwith_dialog_rez));
-			((TextView) view.findViewById(R.id.textView2))
-					.setText(getString(R.string.bandwith_dialog_appt));
-			((TextView) view.findViewById(R.id.login_dialog_code_univesel))
-					.setHint(null);
-			d = new AlertDialog.Builder(this)
-					.setTitle(R.string.votre_lieu_de_r_sidence)
-					.setView(view)
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									final Editor edit = prefs.edit();
-									rez = ((TextView) view
-											.findViewById(R.id.login_dialog_code_univesel))
-											.getText().toString();
-									appt = ((TextView) view
-											.findViewById(R.id.login_dialog_mot_passe))
-											.getText().toString();
-									if (!rez.equals("") && !appt.equals("")) {
-										edit.putString(UserCredentials.REZ, rez);
-
-										edit.putString(UserCredentials.APPT,
-												appt);
-										edit.commit();
-
-										getBandwith();
-
-										// dialog.cancel();
-										dialog.dismiss();
 									}
 								}
 							}).create();

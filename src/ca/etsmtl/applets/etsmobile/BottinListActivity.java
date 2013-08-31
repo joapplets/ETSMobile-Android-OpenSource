@@ -17,8 +17,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -46,7 +47,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 				while (binder.isWorking()) {
 					try {
 						Thread.sleep(1000);
-					} catch (InterruptedException e) {
+					} catch (final InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
@@ -194,11 +195,13 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		public void onServiceDisconnected(final ComponentName name) {
 		}
 	};
-	private FilterQueryProvider myFilter = new FilterQueryProvider() {
+	private final FilterQueryProvider myFilter = new FilterQueryProvider() {
 
 		@Override
 		public Cursor runQuery(final CharSequence constraint) {
 			Log.d(BottinListActivity.LOG_TAG, "filter input  :" + constraint);
+			// Log.d(BottinListActivity.LOG_TAG, "filter input  :" +
+			// constraint);
 
 			String where = null;
 			String[] args = new String[BottinListActivity.PROJECTION.length];
@@ -206,6 +209,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 				for (int i = 0; i < args.length; i++) {
 					args[i] = "%" + (String) constraint + "%";
 					Log.d("Args", args[i]);
+					// Log.d("Args", args[i]);
 				}
 				where = "nom LIKE ? OR prenom LIKE ?";
 			} else {
@@ -257,6 +261,42 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 			simpleCursor = new MyCursorAdapter(this, allEntryCursor,
 					PROJECTION, TXT_VIEWS);
 		}
+	}
+
+	@Override
+	protected Dialog onCreateDialog(final int id) {
+		Dialog d;
+		switch (id) {
+		case ALERT_INIT_BOTTIN:
+			final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+					.setIcon(android.R.drawable.ic_dialog_alert)
+					.setMessage(R.string.bottin_init_alert)
+					.setTitle("Attention")
+					.setPositiveButton(R.string.yes,
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(
+										final DialogInterface dialog,
+										final int which) {
+
+									connectToFetcherService();
+									dismissDialog(BottinListActivity.ALERT_INIT_BOTTIN);
+								}
+							})
+					.setNegativeButton(R.string.no,
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(
+										final DialogInterface dialog,
+										final int which) {
+									dialog.cancel();
+									dialog.dismiss();
+								}
+							});
+			d = builder.create();
+			break;
 	}
 
 	@Override
@@ -352,6 +392,25 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 			}
 			simpleCursor.getFilter().filter(s);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.calendar_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.calendar_force_update:
+			showDialog(BottinListActivity.ALERT_INIT_BOTTIN);
+			break;
+
+		default:
+			break;
+		}
+		return true;
 	}
 
 	private boolean serviceIsRunning() {

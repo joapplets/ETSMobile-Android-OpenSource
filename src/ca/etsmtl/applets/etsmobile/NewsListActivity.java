@@ -81,6 +81,7 @@ public class NewsListActivity extends FragmentActivity implements
 		final Intent i = new Intent(this, NewsService.class);
 		if (!serviceIsRunning()) {
 			startService(i);
+			navBar.showLoading();
 		}
 		bindService(i, connection, Context.BIND_AUTO_CREATE);
 	}

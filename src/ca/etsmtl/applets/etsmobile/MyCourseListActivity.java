@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
@@ -28,6 +27,12 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
+/**
+ * Liste des Cours
+ * 
+ * @author Phil
+ * 
+ */
 @SuppressLint({ "HandlerLeak", "HandlerLeak" })
 public class MyCourseListActivity extends ListActivity implements
 		OnDismissListener {
@@ -75,7 +80,7 @@ public class MyCourseListActivity extends ListActivity implements
 				PreferenceManager.getDefaultSharedPreferences(this));
 
 		if (!creds.getUsername().equals("") && !creds.getPassword().equals("")) {
-			new ProfileTask(handler).execute(creds);
+			new ProfileTask(this, handler).execute(creds);
 		}
 
 	}
@@ -106,7 +111,9 @@ public class MyCourseListActivity extends ListActivity implements
 		if (courseActivities == null) {
 			final SignetBackgroundThread<ArrayList<Course>, Course> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Course>, Course>(
 					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
-					"listeCours", creds, Course.class);
+					"listeCours", creds, Course.class, FetchType.ARRAY);
+
+			signetBackgroundThead.execute();
 
 			navBar.showLoading();
 
@@ -116,28 +123,37 @@ public class MyCourseListActivity extends ListActivity implements
 				public void run() {
 					final ArrayList<Course> newCourseActivities = signetBackgroundThead
 							.fetchArray();
+					try {
+						final ArrayList<Course> newCourseActivities = signetBackgroundThead
+								.get();
 
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							courseActivities = new ArrayList<Course>();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								courseActivities = new ArrayList<Course>();
 
-							for (final Course course : newCourseActivities) {
-								if (sessionString.equals(course.getSession())) {
-									courseActivities.add(course);
+								for (final Course course : newCourseActivities) {
+									if (sessionString.equals(course
+											.getSession())) {
+										courseActivities.add(course);
+									}
 								}
 							}
 
-							myCoursesAdapter = new MyCourseAdapter(
-									getApplicationContext(),
-									R.layout.course_list_item, courseActivities);
-							getListView().setAdapter(myCoursesAdapter);
-							// if (progress != null) {
-							// progress.dismiss();
-							// }
-							navBar.hideLoading();
-						}
-					});
+								myCoursesAdapter = new MyCourseAdapter(
+										getApplicationContext(),
+										R.layout.course_list_item,
+										courseActivities);
+								getListView().setAdapter(myCoursesAdapter);
+								navBar.hideLoading();
+							}
+						});
+
+					} catch (final InterruptedException e) {
+						e.printStackTrace();
+					} catch (final ExecutionException e) {
+						e.printStackTrace();
+					}
 				}
 			}).start();
 		} else {
@@ -171,6 +187,22 @@ public class MyCourseListActivity extends ListActivity implements
 		if (savedInstanceState != null) {
 			courseActivities = (ArrayList<Course>) savedInstanceState
 					.getSerializable("courseActivities");
+		}
+
+		final UserCredentials creds = new UserCredentials(
+				PreferenceManager.getDefaultSharedPreferences(this));
+		sessionString = getIntent().getExtras().getString("session");
+		// set title
+		navBar.setTitle(getIntent().getExtras().getString("session_long"));
+
+		if (creds.getPassword() != null && creds.getUsername() != null
+				&& !"".equals(creds.getPassword())
+				&& !"".equals(creds.getUsername())) {
+			initCours(sessionString);
+		} else {
+			showDialog(MyCourseListActivity.SHOW_LOGIN);
+			Toast.makeText(this, getString(R.string.usernamePasswordRequired),
+					Toast.LENGTH_LONG).show();
 		}
 
 		final UserCredentials creds = new UserCredentials(

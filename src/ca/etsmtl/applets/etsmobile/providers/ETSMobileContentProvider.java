@@ -11,9 +11,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteMisuseException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import ca.etsmtl.applets.etsmobile.tools.db.ActivityCalendarTableHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
+import ca.etsmtl.applets.etsmobile.tools.db.JoursRemplaceTableHelper;
 import ca.etsmtl.applets.etsmobile.tools.db.NewsTableHelper;
+import ca.etsmtl.applets.etsmobile.tools.db.SessionTableHelper;
 
 public class ETSMobileContentProvider extends android.content.ContentProvider {
 
@@ -25,6 +28,19 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	private static final int SINGLE_NEWS = 2;
 	private static final int ALL_BOTTIN = 3;
 	private static final int SINGLE_BOTTIN = 4;
+	private static final String SESSION_PATH = "session";
+	private static final String ACT_PATH = "activity";
+	private static final String JOUR_PATH = "jours";
+	private static final int ALL_NEWS = 1;
+	private static final int SINGLE_NEWS = 2;
+	private static final int ALL_BOTTIN = 3;
+	private static final int SINGLE_BOTTIN = 4;
+	private static final int ALL_SESSION = 5;
+	private static final int SINGLE_SESSION = 6;
+	private static final int ALL_ACT = 7;
+	private static final int SINGLE_ACT = 8;
+	private static final int ALL_JOUR = 9;
+	private static final int SINGLE_JOUR = 10;
 
 	/**
 	 * NEWS
@@ -34,13 +50,79 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			+ ETSMobileContentProvider.AUTHORITY + "/"
 			+ ETSMobileContentProvider.NEWS_PATH);
 
-	// --> vnd.android.cursor.dir/news
+	// --> cursor.dir/news
 	public static final String CONTENT_MULTIPLE_ITEM_NEWS = ContentResolver.CURSOR_DIR_BASE_TYPE
 			+ "/" + ETSMobileContentProvider.NEWS_PATH;
 
-	// --> vnd.android.cursor.item/news
+	// --> cursor.item/news
 	public static final String CONTENT_SINGLE_ITEM_NEWS = ContentResolver.CURSOR_ITEM_BASE_TYPE
 			+ "/" + ETSMobileContentProvider.NEWS_PATH;
+
+	/**
+	 * BOTTIN
+	 */
+	// --> content://ca.etsmtl.applets.etsmobile/bottin
+	public static final Uri CONTENT_URI_BOTTIN = Uri.parse("content://"
+			+ ETSMobileContentProvider.AUTHORITY + "/"
+			+ ETSMobileContentProvider.BOTTIN_PATH);
+
+	// --> cursor.dir/bottin
+	public static final String CONTENT_MULTIPLE_BOTTIN = ContentResolver.CURSOR_DIR_BASE_TYPE
+			+ "/" + ETSMobileContentProvider.BOTTIN_PATH;
+
+	// --> cursor.item/session
+	public static final String CONTENT_SINGLE_BOTTIN = ContentResolver.CURSOR_ITEM_BASE_TYPE
+			+ "/" + ETSMobileContentProvider.BOTTIN_PATH;
+
+	/**
+	 * Sessions
+	 */
+	// --> content://ca.etsmtl.applets.etsmobile/session
+	public static final Uri CONTENT_URI_SESSION = Uri.parse("content://"
+			+ ETSMobileContentProvider.AUTHORITY + "/"
+			+ ETSMobileContentProvider.SESSION_PATH);
+
+	// --> cursor.dir/session
+	public static final String CONTENT_MULTIPLE_SESSION = ContentResolver.CURSOR_DIR_BASE_TYPE
+			+ "/" + ETSMobileContentProvider.SESSION_PATH;
+
+	// --> cursor.item/session
+	public static final String CONTENT_SINGLE_SESSION = ContentResolver.CURSOR_ITEM_BASE_TYPE
+			+ "/" + ETSMobileContentProvider.SESSION_PATH;
+
+	/**
+	 * Activity Calendar
+	 */
+	public static final Uri CONTENT_URI_ACTIVITY_CALENDAR = Uri
+			.parse("content://" + ETSMobileContentProvider.AUTHORITY + "/"
+					+ ETSMobileContentProvider.ACT_PATH);
+	// --> cursor.dir/act
+	public static final String CONTENT_MULTIPLE_ACT = ContentResolver.CURSOR_DIR_BASE_TYPE
+			+ "/" + ETSMobileContentProvider.ACT_PATH;
+
+	// --> cursor.item/act
+	public static final String CONTENT_SINGLE_ACT = ContentResolver.CURSOR_ITEM_BASE_TYPE
+			+ "/" + ETSMobileContentProvider.ACT_PATH;
+
+	/**
+	 * Jours Remplace
+	 */
+
+	// --> cursor.dir/act
+	public static final String CONTENT_MULTIPLE_JOUR = ContentResolver.CURSOR_DIR_BASE_TYPE
+			+ "/" + ETSMobileContentProvider.JOUR_PATH;
+
+	// --> cursor.item/act
+	public static final String CONTENT_SINGLE_JOUR = ContentResolver.CURSOR_ITEM_BASE_TYPE
+			+ "/" + ETSMobileContentProvider.JOUR_PATH;
+
+	public static final Uri CONTENT_URI_JOURS_REMPLACE = Uri.parse("content://"
+			+ ETSMobileContentProvider.AUTHORITY + "/"
+			+ ETSMobileContentProvider.JOUR_PATH);
+
+	//
+	private static final UriMatcher sURIMatcher = new UriMatcher(
+			UriMatcher.NO_MATCH);
 
 	/**
 	 * BOTTIN
@@ -86,6 +168,38 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 				ETSMobileContentProvider.AUTHORITY,
 				ETSMobileContentProvider.BOTTIN_PATH + "/#",
 				ETSMobileContentProvider.SINGLE_BOTTIN);
+		// --> ca.etsmtl.applets.etsmobile - session - 5
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.SESSION_PATH,
+				ETSMobileContentProvider.ALL_SESSION);
+		// --> ca.etsmtl.applets.etsmobile - session/* - 6
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.SESSION_PATH + "/#",
+				ETSMobileContentProvider.SINGLE_SESSION);
+		// --> ca.etsmtl.applets.etsmobile - session - 7
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.ACT_PATH,
+				ETSMobileContentProvider.ALL_ACT);
+		// --> ca.etsmtl.applets.etsmobile - session/* - 8
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.ACT_PATH + "/#",
+				ETSMobileContentProvider.SINGLE_ACT);
+
+		// --> ca.etsmtl.applets.etsmobile - session - 9
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.JOUR_PATH,
+				ETSMobileContentProvider.ALL_JOUR);
+
+		// --> ca.etsmtl.applets.etsmobile - session/* - 10
+		ETSMobileContentProvider.sURIMatcher.addURI(
+				ETSMobileContentProvider.AUTHORITY,
+				ETSMobileContentProvider.JOUR_PATH + "/#",
+				ETSMobileContentProvider.SINGLE_JOUR);
 	}
 
 	private ETSMobileOpenHelper helper;
@@ -124,7 +238,10 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		writable.beginTransaction();
 		try {
 			for (final ContentValues value : values) {
-				writable.insert(getRequestedTable(uri.getPath()), null, value);
+				if (value != null) {
+					writable.insert(getRequestedTable(uri.getPath()), null,
+							value);
+				}
 			}
 			writable.setTransactionSuccessful();
 			numInserted = values.length;
@@ -146,8 +263,14 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		String tableName = "";
 		if (path.contains(ETSMobileContentProvider.NEWS_PATH)) {
 			tableName = NewsTableHelper.TABLE_NAME;
-		} else {
+		} else if (path.contains(ETSMobileContentProvider.BOTTIN_PATH)) {
 			tableName = BottinTableHelper.TABLE_NAME;
+		} else if (path.contains(ETSMobileContentProvider.SESSION_PATH)) {
+			tableName = SessionTableHelper.TABLE_NAME;
+		} else if (path.contains(ETSMobileContentProvider.JOUR_PATH)) {
+			tableName = JoursRemplaceTableHelper.TABLE_NAME;
+		} else if (path.contains(ETSMobileContentProvider.ACT_PATH)) {
+			tableName = ActivityCalendarTableHelper.TABLE_NAME;
 		}
 		return tableName;
 	}
@@ -164,6 +287,18 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 			return ETSMobileContentProvider.CONTENT_MULTIPLE_BOTTIN;
 		case SINGLE_BOTTIN:
 			return ETSMobileContentProvider.CONTENT_SINGLE_BOTTIN;
+		case ALL_SESSION:
+			return ETSMobileContentProvider.CONTENT_MULTIPLE_SESSION;
+		case SINGLE_SESSION:
+			return ETSMobileContentProvider.CONTENT_SINGLE_SESSION;
+		case ALL_ACT:
+			return ETSMobileContentProvider.CONTENT_MULTIPLE_ACT;
+		case SINGLE_ACT:
+			return ETSMobileContentProvider.CONTENT_SINGLE_ACT;
+		case ALL_JOUR:
+			return ETSMobileContentProvider.CONTENT_MULTIPLE_JOUR;
+		case SINGLE_JOUR:
+			return ETSMobileContentProvider.CONTENT_SINGLE_JOUR;
 		default:
 			return null;
 		}
@@ -172,23 +307,20 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 	@Override
 	public Uri insert(final Uri uri, final ContentValues values) {
 
-		if (ETSMobileContentProvider.sURIMatcher.match(uri) == ETSMobileContentProvider.ALL_NEWS) {
-			final SQLiteDatabase writable = helper.getWritableDatabase();
-			try {
-				if (writable.isOpen()) {
-					writable.beginTransaction();
-					writable.insert(getRequestedTable(uri.getPath()), null,
-							values);
-					writable.setTransactionSuccessful();
-				}
-			} catch (final IllegalStateException e) {
-			} finally {
-				writable.endTransaction();
-				getContext().getContentResolver().notifyChange(uri, null);
+		final SQLiteDatabase writable = helper.getWritableDatabase();
+		try {
+			if (writable.isOpen()) {
+				writable.beginTransaction();
+				writable.insert(getRequestedTable(uri.getPath()), null, values);
+				writable.setTransactionSuccessful();
 			}
 			return uri;
+		} catch (final IllegalStateException e) {
+		} finally {
+			writable.endTransaction();
+			getContext().getContentResolver().notifyChange(uri, null);
 		}
-		return null;
+		return uri;
 	}
 
 	@Override
@@ -223,6 +355,23 @@ public class ETSMobileContentProvider extends android.content.ContentProvider {
 		case SINGLE_BOTTIN:
 			queryBuilder.setTables(BottinTableHelper.TABLE_NAME);
 			buildBottinQuerySingle(uri, queryBuilder);
+			break;
+		case ALL_SESSION:
+			queryBuilder.setTables(SessionTableHelper.TABLE_NAME);
+			break;
+		case SINGLE_SESSION:
+			break;
+		case ALL_ACT:
+			queryBuilder.setTables(ActivityCalendarTableHelper.TABLE_NAME);
+			break;
+		case SINGLE_ACT:
+			// TODO:
+			break;
+		case ALL_JOUR:
+			queryBuilder.setTables(JoursRemplaceTableHelper.TABLE_NAME);
+			break;
+		case SINGLE_JOUR:
+			// TODO:
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);

@@ -10,7 +10,6 @@
     <string name="pref_signets_label">Signets</string>
     <string name="pref_code_universel">Code Universel</string>
     <string name="pref_mot_passe_lbl">Mot de passe</string>
-    <string name="apphence_key">8d31bdcc179d40b0af806d41a32010ef7f3f0d38</string>
     <string name="student_profile_name">Prénom</string>
     <string name="student_profile_lastname">Nom</string>
     <string name="student_profile_solde">Solde</string>
@@ -20,7 +19,7 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="login">Login</string>
-    <string name="login_dialog_title">Informations personelles</string>
+    <string name="login_dialog_title">Informations personnelles</string>
     <string name="login_dialog_code_perm">Code Permanent</string>
     <string name="login_dialog_code_uni">Code Universel</string>
     <string name="logout">Logout</string>
@@ -38,12 +37,12 @@
     <string name="moyenne">Moyenne de la classe</string>
     <string name="ecartType">Écart-type</string>
     <string name="mediane">Médiane</string>
-    <string name="rangCentille">Rang centille</string>
+    <string name="rangCentille">Rang centile</string>
     <string name="nodata">Aucune donnée.</string>
     <string name="about_team_android"><b>Réalisation - Équipe Android</b>\n Philippe David\nRodrigo Manyari\nVincent Séguin\nMichael Bernier\nFrancis Gauthier\nLaurence de Villers\nDomenico Leopardi</string>
     <string name="about_team_ti_ets"><b>Intégration avec les Systèmes d’entreprise (TI - ÉTS)</b>\nRobert Gervais\nOlivier Lacasse</string>
-    <string name="about_team_applets"><b>Responsables du club</b>\nVincent Seguin (Capitaine)\nPhilippe David (Second)\nDanny Tran (Communications)\nJean-François Patenaude (Processus)</string>
-    <string name="about_partenaires"><b>Partenaires 2012–2013</b></string>
+    <string name="about_team_applets"><b>Responsables du club</b>\nPhilippe David (Capitaine)\nDanny Tran (Trésorier)\nLaurence de Villers (Communications)\nJean-François Patenaude (Processus)</string>
+    <string name="about_partenaires"><b>Partenaires 2013-2014</b></string>
     <string name="about_particuliers"><b>Remerciements Particuliers</b>\nFrançois Coallier (DDTSA)\nIdrissa Konkobo (Systèmes d\'entreprise)\nObed José (Icônes)\nBruno Côté (Sécurité)\nCarl-Olivier Perras-Beaulieu (Communications)</string>
     <string name="secu_title1">Joindre la sécurité</string>
     <string name="secu_phone_lbl">514–396–8900</string>
@@ -75,6 +74,7 @@
         <item>Mes notes</item>
         <item>Bibliothèque</item>
         <item>Commentaire</item>
+        <item>Courriel</item>
     </string-array>
     <string-array name="day_names">
         <item>dim.</item>
@@ -84,6 +84,13 @@
         <item>jeu.</item>
         <item>ven.</item>
         <item>sam.</item>
+    </string-array>
+    <string-array name="day_names_5_days_week">
+        <item>lun.</item>
+        <item>mar.</item>
+        <item>mer.</item>
+        <item>jeu.</item>
+        <item>ven.</item>
     </string-array>
 
     <string name="calendar_event_list_item_title">%1$s %2$s</string>
@@ -126,5 +133,22 @@ secouriste ou d’en trouver un.</li><br><li> Demeurer sur place pour assister l
     <string name="error_profile_login">Erreur d\'identification : Vos informations personnelles sont éronnée(s)</string>
     <string name="label_conso_rez">Consomation Bande Passante</string>
     <string name="appel_d_apos_urgence">Appel d\'urgence</string>
+    <string name="utilise">"Restant: "</string>
+    <string name="gigaoctetx">Go</string>
+    <string name="_0">0</string>
+    <string name="accountSpinnerLabel">Account</string>
+    <string name="addContactButtonLabel">Add Contact</string>
+    <string name="addContactTitle">Add Contact</string>
+    <string name="allAccounts">All Accounts</string>
+    <string name="contactCreationFailure">Contact creation failed, check logs.</string>
+    <string name="contactEmailLabel">Contact Email</string>
+    <string name="contactNameLabel">Contact Name</string>
+    <string name="contactPhoneLabel">Contact Phone</string>
+    <string name="save">Save</string>
+    <string name="selectAccountLabel">Select</string>
+    <string name="selectLabel">Select label</string>
+    <string name="targetAccountLabel">Target Account</string>
+    <string name="undefinedTypeLabel">(Undefined)</string>
+    <string name="nouveau_contact">Nouveau contact</string>
 
 </resources>

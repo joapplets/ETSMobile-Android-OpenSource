@@ -19,22 +19,12 @@
         android:orientation="vertical" >
 
         <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="0.5"
             class="com.google.android.gms.maps.SupportMapFragment" />
-
-        <!-- <com.google.android.maps.MapView -->
-        <!-- xmlns:android="http://schemas.android.com/apk/res/android" -->
-        <!-- android:id="@+id/mapview" -->
-        <!-- android:apiKey="@string/map_key" -->
-        <!-- android:clickable="true" > -->
-
-
-        <!-- </com.google.android.maps.MapView> -->
 
         <ListView
             android:id="@android:id/list"

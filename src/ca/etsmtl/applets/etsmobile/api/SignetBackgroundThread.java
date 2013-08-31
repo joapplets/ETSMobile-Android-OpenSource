@@ -14,6 +14,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.AsyncTask;
+
 import com.google.gson.Gson;
 
 /**
@@ -24,7 +26,7 @@ import com.google.gson.Gson;
  * @param <T>
  * @param <E>
  */
-public class SignetBackgroundThread<T, E> {
+public class SignetBackgroundThread<T, E> extends AsyncTask<Void, Integer, T> {
 	public enum FetchType {
 		ARRAY, OBJECT
 	}
@@ -34,29 +36,45 @@ public class SignetBackgroundThread<T, E> {
 	private final Object bodyParams;
 	private final Class<E> typeOfClass;
 
+	private final FetchType fetchType;
 	private final String liste;
 
 	public SignetBackgroundThread(final String urlStr, final String action,
-			final Object bodyParams, final Class<E> typeOfClass) {
+			final Object bodyParams, final Class<E> typeOfClass,
+			final FetchType fetchType) {
 		this.urlStr = urlStr;
 		this.action = action;
 		this.bodyParams = bodyParams;
 		this.typeOfClass = typeOfClass;
+		this.fetchType = fetchType;
 		this.liste = "liste";
 	}
 
 	public SignetBackgroundThread(final String urlStr, final String action,
 			final Object bodyParams, final Class<E> typeOfClass,
-			final String liste) {
+			final FetchType fetchType, final String liste) {
 		this.urlStr = urlStr;
 		this.action = action;
 		this.bodyParams = bodyParams;
 		this.typeOfClass = typeOfClass;
+		this.fetchType = fetchType;
 		this.liste = liste;
 	}
 
+	@Override
+	protected T doInBackground(final Void... params) {
+		T object = null;
+		if (this.fetchType.equals(FetchType.ARRAY)) {
+			object = this.fetchArray();
+		} else if (this.fetchType.equals(FetchType.OBJECT)) {
+			object = this.fetchObject();
+		}
+
+		return object;
+	}
+
 	@SuppressWarnings("unchecked")
-	public T fetchArray() {
+	private T fetchArray() {
 		ArrayList<E> array = new ArrayList<E>();
 
 		try {
@@ -111,7 +129,7 @@ public class SignetBackgroundThread<T, E> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public T fetchObject() {
+	private T fetchObject() {
 		T object = null;
 
 		try {
@@ -148,7 +166,7 @@ public class SignetBackgroundThread<T, E> {
 			JSONObject jsonRootArray;
 			jsonRootArray = jsonObject.getJSONObject("d");
 			object = (T) gson.fromJson(jsonRootArray.toString(), typeOfClass);
-			android.util.Log.d("JSON", jsonRootArray.toString());
+			// android.util.Log.d("JSON", jsonRootArray.toString());
 		} catch (final MalformedURLException e) {
 			e.printStackTrace();
 		} catch (final IOException e) {

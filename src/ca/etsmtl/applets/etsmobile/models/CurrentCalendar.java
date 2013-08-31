@@ -29,8 +29,20 @@ public class CurrentCalendar extends Observable {
 		this.notifyObservers(current);
 	}
 
+	public void nextWeek() {
+		current.add(Calendar.DAY_OF_YEAR, +7);
+		super.setChanged();
+		super.notifyObservers(current);
+	}
+
 	public void previousMonth() {
 		current.add(Calendar.MONTH, -1);
+		super.setChanged();
+		super.notifyObservers(current);
+	}
+
+	public void previousWeek() {
+		current.add(Calendar.DAY_OF_YEAR, -7);
 		super.setChanged();
 		super.notifyObservers(current);
 	}
@@ -46,6 +58,12 @@ public class CurrentCalendar extends Observable {
 
 		super.setChanged();
 		this.notifyObservers(current);
+	}
+
+	public void setDate(int year, int month, int day) {
+		current.set(year, month, day);
+		super.setChanged();
+		super.notifyObservers(current);
 	}
 
 }

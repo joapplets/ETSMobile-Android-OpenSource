@@ -3,11 +3,15 @@ package ca.etsmtl.applets.etsmobile.models;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.database.Cursor;
+import ca.etsmtl.applets.etsmobile.tools.db.SessionTableHelper;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -18,9 +22,40 @@ public class Session implements Serializable, Comparable<Session> {
 
 	@SerializedName("abrege")
 	private String shortName;
-
+	@SerializedName("abrege")
+	private String shortName;
 	@SerializedName("auLong")
 	private String longName;
+	@SerializedName("dateDebut")
+	private String dateDebutString;
+	@SerializedName("dateFin")
+	private final String dateFinString;
+	@SerializedName("dateFinCours")
+	private String dateFinCoursString;
+	private int maxActivities = 0;
+	private String user_id = "";
+	private List<JoursRemplaces> joursRemplaces = new ArrayList<JoursRemplaces>();
+	private LinkedHashMap<String, List<ActivityCalendar>> activities;
+	private final int id;
+
+	public Session(Cursor mCursor) {
+		shortName = mCursor.getString(mCursor
+				.getColumnIndex(SessionTableHelper.SESSIONS_SHORT_NAME));
+		longName = mCursor.getString(mCursor
+				.getColumnIndex(SessionTableHelper.SESSIONS_LONG_NAME));
+		dateDebutString = mCursor.getString(mCursor
+				.getColumnIndex(SessionTableHelper.SESSIONS_DATE_DEBUT));
+		dateFinString = mCursor.getString(mCursor
+				.getColumnIndex(SessionTableHelper.SESSIONS_DATE_FIN));
+		dateFinCoursString = mCursor.getString(mCursor
+				.getColumnIndex(SessionTableHelper.SESSIONS_DATE_FIN_COURS));
+		maxActivities = mCursor.getInt(mCursor
+				.getColumnIndex(SessionTableHelper.SESSIONS_MAX_ACT));
+		user_id = mCursor.getString(mCursor
+				.getColumnIndex(SessionTableHelper.SESSIONS_USER_ID));
+		id = mCursor.getInt(mCursor
+				.getColumnIndex(SessionTableHelper.SESSIONS_ID));
+	}
 
 	@SerializedName("dateDebut")
 	private String dateDebutString;
@@ -166,5 +201,29 @@ public class Session implements Serializable, Comparable<Session> {
 
 	public void setMaxActivities(int maxActivities) {
 		this.maxActivities = maxActivities;
+	}
+
+	public ContentValues getContentValues() {
+
+		final ContentValues cv = new ContentValues();
+		cv.put(SessionTableHelper.SESSIONS_SHORT_NAME, shortName);
+		cv.put(SessionTableHelper.SESSIONS_LONG_NAME, longName);
+		cv.put(SessionTableHelper.SESSIONS_DATE_DEBUT, dateDebutString);
+		cv.put(SessionTableHelper.SESSIONS_DATE_FIN, dateFinString);
+		cv.put(SessionTableHelper.SESSIONS_DATE_FIN_COURS, dateFinCoursString);
+		cv.put(SessionTableHelper.SESSIONS_USER_ID, user_id);
+		return cv;
+	}
+
+	public void setId(long id) {
+	}
+
+	public void setUserId(String username) {
+		this.user_id = username;
+
+	}
+
+	public String getId() {
+		return Integer.toString(id);
 	}
 }

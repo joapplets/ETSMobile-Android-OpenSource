@@ -1,13 +1,21 @@
 package ca.etsmtl.applets.etsmobile.services;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import ca.etsmtl.applets.etsmobile.R;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
+/**
+ * Async Task; Retreive the Student Profile with {@link SignetBackgroundThread}
+ * 
+ * @author Phil
+ * 
+ */
 public class ProfileTask extends
 		AsyncTask<UserCredentials, String, StudentProfile> {
 
@@ -15,8 +23,10 @@ public class ProfileTask extends
 	public static final int ON_POST_EXEC = 0;
 	public static final int ON_PRE_EXEC = 1;
 	private final Handler handler;
+	private final Context ctx;
 
-	public ProfileTask(final Handler handler) {
+	public ProfileTask(Context ctx, final Handler handler) {
+		this.ctx = ctx;
 		this.handler = handler;
 
 	}
@@ -24,11 +34,22 @@ public class ProfileTask extends
 	@Override
 	protected StudentProfile doInBackground(final UserCredentials... params) {
 		onPreExecute();
-		SignetBackgroundThread<StudentProfile, StudentProfile> signets = new SignetBackgroundThread<StudentProfile, StudentProfile>(
-				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
-				"infoEtudiant", params[0], StudentProfile.class);
+		final SignetBackgroundThread<StudentProfile, StudentProfile> signets = new SignetBackgroundThread<StudentProfile, StudentProfile>(
+				ctx.getString(R.string.ets_signets), "infoEtudiant", params[0],
+				StudentProfile.class, FetchType.OBJECT);
+
+		signets.execute();
 		StudentProfile profile = null;
-		profile = signets.fetchObject();
+		try {
+			profile = signets.get();
+			// Log.d("TAG", profile.toString());
+		} catch (final InterruptedException e) {
+			onCancelled();
+			e.printStackTrace();
+		} catch (final ExecutionException e) {
+			onCancelled();
+			e.printStackTrace();
+		}
 		return profile;
 	}
 
