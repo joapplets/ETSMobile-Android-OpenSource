@@ -34,7 +34,7 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek.OnCellTouchListener;
 
-public class ScheduleWeekActivity extends FragmentActivity{
+public class ScheduleWeekActivity extends FragmentActivity {
 
 	public UserCredentials creds;
 	private DatePickerDialogFragment datePickerDialog;
@@ -237,14 +237,22 @@ public class ScheduleWeekActivity extends FragmentActivity{
 		navBar.setRightButtonAction(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				currentGridView.getCurrentCell().deleteObservers();
-				currentGridView.setCurrentCell(null);
+				if (currentGridView.getCurrentCell() != null) {
+					currentGridView.getCurrentCell().deleteObservers();
+					currentGridView.setCurrentCell(null);
+				}
 
 				currentCalendar.setToday();
+				currentCalendar.setChanged();
 
-				currentGridView.getCurrentCell().addObserver(lst_cours);
-				currentGridView.getCurrentCell().setChanged();
-				currentGridView.getCurrentCell().notifyObservers();
+				if (currentGridView.getCurrentCell() != null) {
+					currentGridView.getCurrentCell().addObserver(lst_cours);
+					currentGridView.getCurrentCell().setChanged();
+					currentGridView.getCurrentCell().notifyObservers();
+				} else {
+					lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
+					lst_cours.resetAdaper();
+				}
 			}
 		});
 	}

@@ -48,7 +48,10 @@ public class NewsListActivity extends FragmentActivity implements
 		protected void onPostExecute(final Void result) {
 			super.onPostExecute(result);
 			navBar.hideLoading();
-			unbindService(connection);
+			try {
+				unbindService(connection);
+			} catch (final IllegalArgumentException e) {
+			}
 		}
 
 		@Override

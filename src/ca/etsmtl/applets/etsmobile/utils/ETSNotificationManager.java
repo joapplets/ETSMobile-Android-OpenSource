@@ -69,9 +69,8 @@ public class ETSNotificationManager {
 	public static void forceWakeUp(final Context context, final int timeout) {
 		final PowerManager pm = (PowerManager) context
 				.getSystemService(Context.POWER_SERVICE);
-		wl = pm.newWakeLock(
-				PowerManager.SCREEN_BRIGHT_WAKE_LOCK
-						| PowerManager.ACQUIRE_CAUSES_WAKEUP, "wl");
+		wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+				| PowerManager.ACQUIRE_CAUSES_WAKEUP, "wl");
 		wl.acquire(timeout);
 	}
 

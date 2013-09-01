@@ -265,42 +265,42 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		}
 	}
 
-//	@Override
-//	protected Dialog onCreateDialog(final int id) {
-//		Dialog d;
-//		switch (id) {
-//		case ALERT_INIT_BOTTIN:
-//			final AlertDialog.Builder builder = new AlertDialog.Builder(this)
-//					.setIcon(android.R.drawable.ic_dialog_alert)
-//					.setMessage(R.string.bottin_init_alert)
-//					.setTitle("Attention")
-//					.setPositiveButton(R.string.yes,
-//							new DialogInterface.OnClickListener() {
-//
-//								@Override
-//								public void onClick(
-//										final DialogInterface dialog,
-//										final int which) {
-//
-//									connectToFetcherService();
-//									dismissDialog(BottinListActivity.ALERT_INIT_BOTTIN);
-//								}
-//							})
-//					.setNegativeButton(R.string.no,
-//							new DialogInterface.OnClickListener() {
-//
-//								@Override
-//								public void onClick(
-//										final DialogInterface dialog,
-//										final int which) {
-//									dialog.cancel();
-//									dialog.dismiss();
-//								}
-//							});
-//			d = builder.create();
-//			break;
-//		}
-//	}
+	// @Override
+	// protected Dialog onCreateDialog(final int id) {
+	// Dialog d;
+	// switch (id) {
+	// case ALERT_INIT_BOTTIN:
+	// final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+	// .setIcon(android.R.drawable.ic_dialog_alert)
+	// .setMessage(R.string.bottin_init_alert)
+	// .setTitle("Attention")
+	// .setPositiveButton(R.string.yes,
+	// new DialogInterface.OnClickListener() {
+	//
+	// @Override
+	// public void onClick(
+	// final DialogInterface dialog,
+	// final int which) {
+	//
+	// connectToFetcherService();
+	// dismissDialog(BottinListActivity.ALERT_INIT_BOTTIN);
+	// }
+	// })
+	// .setNegativeButton(R.string.no,
+	// new DialogInterface.OnClickListener() {
+	//
+	// @Override
+	// public void onClick(
+	// final DialogInterface dialog,
+	// final int which) {
+	// dialog.cancel();
+	// dialog.dismiss();
+	// }
+	// });
+	// d = builder.create();
+	// break;
+	// }
+	// }
 
 	@Override
 	protected Dialog onCreateDialog(final int id) {

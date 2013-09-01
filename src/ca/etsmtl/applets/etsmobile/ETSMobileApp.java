@@ -2,13 +2,10 @@ package ca.etsmtl.applets.etsmobile;
 
 import java.util.ArrayList;
 
-import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
 import android.app.Application;
 import ca.etsmtl.applets.etsmobile.models.Session;
-
-import com.bugsense.trace.BugSenseHandler;
 
 @ReportsCrashes(formUri = "http://www.bugsense.com/api/acra?api_key=4422c148", formKey = "")
 public class ETSMobileApp extends Application {
@@ -18,8 +15,8 @@ public class ETSMobileApp extends Application {
 
 	@Override
 	public void onCreate() {
-//		ACRA.init(this);
-//		BugSenseHandler.initAndStartSession(this, "4422c148");
+		// ACRA.init(this);
+		// BugSenseHandler.initAndStartSession(this, "4422c148");
 		super.onCreate();
 		instance = this;
 	}
