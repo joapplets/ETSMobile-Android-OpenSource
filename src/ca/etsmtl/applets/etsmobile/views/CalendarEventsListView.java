@@ -101,5 +101,10 @@ public class CalendarEventsListView extends ListView implements Observer {
 		setAdapter(adapter);
 
 	}
+	
+	public void resetAdaper(){
+		adapter = null;
+		setAdapter(adapter);
+	}
 
 }

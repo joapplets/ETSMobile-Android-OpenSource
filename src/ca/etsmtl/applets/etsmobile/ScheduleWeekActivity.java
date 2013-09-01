@@ -276,14 +276,22 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		navBar.setRightButtonAction(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				currentGridView.getCurrentCell().deleteObservers();
-				currentGridView.setCurrentCell(null);
+				if(currentGridView.getCurrentCell()!=null){
+					currentGridView.getCurrentCell().deleteObservers();
+					currentGridView.setCurrentCell(null);
+				}
 
 				currentCalendar.setToday();
-
-				currentGridView.getCurrentCell().addObserver(lst_cours);
-				currentGridView.getCurrentCell().setChanged();
-				currentGridView.getCurrentCell().notifyObservers();
+				currentCalendar.setChanged();
+				
+				if(currentGridView.getCurrentCell()!=null){
+					currentGridView.getCurrentCell().addObserver(lst_cours);
+					currentGridView.getCurrentCell().setChanged();
+					currentGridView.getCurrentCell().notifyObservers();
+				}else{
+					lst_cours = (CalendarEventsListView) findViewById(R.id.lst_cours);
+					lst_cours.resetAdaper();
+				}
 			}
 		});
 	}
