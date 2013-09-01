@@ -46,7 +46,7 @@ public class NewsService extends Service implements Observer {
 				final String[] projection = { NewsTableHelper.NEWS_GUID };
 				final String[] rss = { NewsService.RSS_ETS };
 				final String[] fb = { NewsService.FACEBOOK };
-				final String[] tw = { NewsService.TWITTER };
+//				final String[] tw = { NewsService.TWITTER };
 				final String[] in = { NewsService.INTERFACE };
 
 				// rss cached news
@@ -92,25 +92,25 @@ public class NewsService extends Service implements Observer {
 				stream.close();
 
 				// twitter cached news
-				cursor = getContentResolver().query(
-						ETSMobileContentProvider.CONTENT_URI_NEWS, projection,
-						null, tw, null);
-				guids = new ArrayList<String>();
-				if (cursor.moveToFirst()) {
-					do {
-						guids.add(cursor.getString(cursor
-								.getColumnIndex(NewsTableHelper.NEWS_GUID)));
-					} while (cursor.moveToNext());
-				}
-				cursor.close();
+//				cursor = getContentResolver().query(
+//						ETSMobileContentProvider.CONTENT_URI_NEWS, projection,
+//						null, tw, null);
+//				guids = new ArrayList<String>();
+//				if (cursor.moveToFirst()) {
+//					do {
+//						guids.add(cursor.getString(cursor
+//								.getColumnIndex(NewsTableHelper.NEWS_GUID)));
+//					} while (cursor.moveToNext());
+//				}
+//				cursor.close();
 
 				// rss twitter
-				url = new URL(NewsService.TWITTER_FEED);
-				stream = url.openStream();
-				xmlParser = new XMLNewsParser(NewsService.TWITTER, guids,
-						bundle);
-				saxParser.parse(stream, xmlParser);
-				stream.close();
+//				url = new URL(NewsService.TWITTER_FEED);
+//				stream = url.openStream();
+//				xmlParser = new XMLNewsParser(NewsService.TWITTER, guids,
+//						bundle);
+//				saxParser.parse(stream, xmlParser);
+//				stream.close();
 
 				// interface cached news
 				cursor = getContentResolver().query(
@@ -174,7 +174,7 @@ public class NewsService extends Service implements Observer {
 	private final static String TAG = "ca.etsmtl.applets.etsmobile.services.NewsFetcher";
 	private final static String RSS_ETS_FEED = "http://www.etsmtl.ca/fils-rss?rss=NouvellesRSS";
 	private final static String FACEBOOK_FEED = "http://www.facebook.com/feeds/page.php?id=8632204375&format=rss20";
-	private final static String TWITTER_FEED = "http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=etsmtl";
+//	private final static String TWITTER_FEED = "http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=etsmtl";
 	public static final String INTERFACE = "http://interfaceets.wordpress.com/feed/";
 	public final static String RSS_ETS = "rssETS";
 	public final static String FACEBOOK = "facebook";

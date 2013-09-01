@@ -18,8 +18,8 @@ public class ETSMobileApp extends Application {
 
 	@Override
 	public void onCreate() {
-		ACRA.init(this);
-		BugSenseHandler.initAndStartSession(this, "4422c148");
+//		ACRA.init(this);
+//		BugSenseHandler.initAndStartSession(this, "4422c148");
 		super.onCreate();
 		instance = this;
 	}

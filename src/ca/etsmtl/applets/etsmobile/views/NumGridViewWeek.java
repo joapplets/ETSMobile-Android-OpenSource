@@ -233,7 +233,7 @@ public class NumGridViewWeek extends View implements Observer {
 					.get(days.size() - 1).getTime().before(s.getDateDebut()))) {
 				sessions.add(s);
 			} else if (days.get(0).getTime().after(s.getDateFinCours())) {
-				break;
+				continue;
 			}
 		}
 

@@ -181,8 +181,6 @@
                 android:id="@+id/bandwith_appt_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/bandwith_phase_input"
                 android:layout_weight=".25"
                 android:ems="10"
                 android:hint="Appt."
@@ -196,7 +194,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/wrap_bandwith"
-            android:layout_weight="1"
             android:orientation="vertical" >
 
             <LinearLayout

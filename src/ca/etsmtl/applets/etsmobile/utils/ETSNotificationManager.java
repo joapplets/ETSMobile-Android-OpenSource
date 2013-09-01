@@ -1,5 +1,6 @@
 package ca.etsmtl.applets.etsmobile.utils;
 
+import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,12 +9,15 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import ca.etsmtl.applets.etsmobile.R;
 
+@SuppressLint("NewApi")
 public class ETSNotificationManager {
 
 	public static int NOTIF_CALENDAR_COURSE = 1000;
 	public static int NOTIF_GRADE_RESULT = 1001;
+	private static WakeLock wl;
 
 	public static void showNotification(Context context, String title,
 			String subject, Intent intent, int id) {
@@ -59,12 +63,13 @@ public class ETSNotificationManager {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Service.NOTIFICATION_SERVICE);
 		notificationManager.cancel(id);
+		wl.release();
 	}
 
 	public static void forceWakeUp(final Context context, final int timeout) {
 		final PowerManager pm = (PowerManager) context
 				.getSystemService(Context.POWER_SERVICE);
-		final PowerManager.WakeLock wl = pm.newWakeLock(
+		wl = pm.newWakeLock(
 				PowerManager.SCREEN_BRIGHT_WAKE_LOCK
 						| PowerManager.ACQUIRE_CAUSES_WAKEUP, "wl");
 		wl.acquire(timeout);

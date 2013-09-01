@@ -13,6 +13,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import ca.etsmtl.applets.etsmobile.R;
@@ -26,23 +27,28 @@ public class CalendarEventsListView extends ListView implements Observer {
 	Context context;
 	CalendarEventsAdapter adapter;
 	Date date;
+	protected ViewGroup rootView;
+	protected ActivityCalendar selectedItem;
 
 	public CalendarEventsListView(final Context context) {
 		super(context);
 
 		this.context = context;
+		rootView = this;
 	}
 
 	public CalendarEventsListView(final Context context,
 			final AttributeSet attrs) {
 		super(context, attrs);
 		this.context = context;
+		rootView = this;
 	}
 
 	public CalendarEventsListView(final Context context,
 			final AttributeSet attrs, final int defStyle) {
 		super(context, attrs, defStyle);
 		this.context = context;
+		rootView = this;
 	}
 
 	@Override
@@ -58,43 +64,39 @@ public class CalendarEventsListView extends ListView implements Observer {
 		setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(final AdapterView<?> arg0, final View arg1,
+			public void onItemClick(final AdapterView<?> arg0, final View v,
 					final int position, final long arg3) {
 				// TODO Auto-generated method stub
 
 				final Resources res = context.getResources();
 
 				final Bundle b = new Bundle();
-				b.putString("cours", adapter.getItem(position).getCours());
+				ActivityCalendar item = adapter.getItem(position);
+				selectedItem = item;
+				b.putString("cours", item.getCours());
 
-				if (adapter.getItem(position).getLocation() != null) {
-					b.putString("local", adapter.getItem(position)
-							.getLocation());
+				if (item.getLocation() != null) {
+					b.putString("local", item.getLocation());
 				}
 
 				b.putString("date", new SimpleDateFormat("EEEE dd MMMM yyyy",
 						Locale.CANADA_FRENCH).format(date));
 
-				if (adapter.getItem(position).getStartDate() != null
-						&& adapter.getItem(position).getEndDate() != null) {
+				if (item.getStartDate() != null && item.getEndDate() != null) {
 					b.putString(
 							"hours",
 							String.format(
 									res.getString(R.string.calendar_event_detail_hours),
-									adapter.getItem(position).getStartDate(),
-									adapter.getItem(position).getEndDate()));
+									item.getStartDate(), item.getEndDate()));
 				}
 
-				if (adapter.getItem(position).getName() != null) {
-					b.putString("name", adapter.getItem(position).getName());
+				if (item.getName() != null) {
+					b.putString("name", item.getName());
 				}
 
 				final Intent nextActivity = new Intent(context,
 						ScheduleDetailActivity.class);
 				nextActivity.putExtras(b);
-
-				context.startActivity(nextActivity);
-
 			}
 
 		});

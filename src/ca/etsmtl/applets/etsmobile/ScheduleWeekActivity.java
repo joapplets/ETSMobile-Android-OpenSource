@@ -34,12 +34,13 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek.OnCellTouchListener;
 
-public class ScheduleWeekActivity extends FragmentActivity {
+public class ScheduleWeekActivity extends FragmentActivity{
 
 	public UserCredentials creds;
 	private DatePickerDialogFragment datePickerDialog;
 
 	public static class CalendarTaskHandlerWeek extends Handler {
+		private static final String TAG = "CalendarTaskHandlerWeek";
 		private final WeakReference<ScheduleWeekActivity> ref;
 
 		public CalendarTaskHandlerWeek(final ScheduleWeekActivity act) {
@@ -66,7 +67,8 @@ public class ScheduleWeekActivity extends FragmentActivity {
 							&& !retreivedSessions.isEmpty()) {
 						ETSMobileApp.getInstance().setSessions(
 								retreivedSessions);
-
+						Log.d(TAG, "updating Calendar : session count : "
+								+ retreivedSessions.size() + "\n");
 						act.currentGridView.setSessions(retreivedSessions);
 						act.currentGridView.setCurrentCell(null);
 						act.currentCalendar.setChanged();
@@ -75,6 +77,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
 
 						if (act.currentGridView != null
 								&& act.currentGridView.getCurrentCell() != null) {
+							Log.d(TAG, "settingObservers");
 							act.currentGridView.getCurrentCell().addObserver(
 									act.lst_cours);
 							act.currentGridView.getCurrentCell().setChanged();
@@ -89,47 +92,6 @@ public class ScheduleWeekActivity extends FragmentActivity {
 				break;
 			}
 		}
-	}
-
-	private void getCalendarICS() {
-		// Handler mainHandler = new Handler(getMainLooper());
-		// mainHandler.post(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// // TODO Auto-generated method stub
-		// try {
-		// InputStream fin;
-		// AssetManager assetManager = getAssets();
-		// Log.v("ScheduleActivity",
-		// "ScheduleActivity: getCalendarICS: asset ="
-		// + assetManager);
-		// fin = (InputStream) assetManager.open("ete_2013.ics");
-		// CalendarBuilder builder = new CalendarBuilder(
-		// new TimeZoneRegistryImpl());
-		// Calendar calendar = builder.build(fin);
-		//
-		// for (Iterator i = calendar.getComponents().iterator(); i
-		// .hasNext();) {
-		// Property property = (Property) i.next();
-		// Log.v("ScheduleActivity",
-		// "ScheduleActivity: getCalendarICS: calendar="
-		// + property.getName() + " , "
-		// + property.getValue());
-		// }
-		//
-		// } catch (FileNotFoundException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// } catch (ParserException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
-		// });
 	}
 
 	private CurrentCalendar currentCalendar;
@@ -189,13 +151,12 @@ public class ScheduleWeekActivity extends FragmentActivity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calendar_view_week);
-
 		creds = new UserCredentials(
 				PreferenceManager.getDefaultSharedPreferences(this));
 		// get data async
 		handler = new CalendarTaskHandlerWeek(this);
 		new CalendarTaskWeek(handler).execute(creds);
-		getCalendarICS();
+		// getCalendarICS();
 
 		// set the navigation bar
 		navBar = (NavBar) findViewById(R.id.navBar1);

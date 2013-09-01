@@ -1,5 +1,6 @@
 package ca.etsmtl.applets.etsmobile;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Picture;
 import android.os.Bundle;
@@ -11,11 +12,13 @@ import android.webkit.WebViewClient;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
+@SuppressLint("SetJavaScriptEnabled")
 public class EmailWebView extends Activity {
 
 	private WebView webView;
 	private NavBar navBar;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

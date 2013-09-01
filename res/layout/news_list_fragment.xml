@@ -31,7 +31,6 @@
     </ca.etsmtl.applets.etsmobile.views.NavBar>
 
     <fragment
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/newsList_fragment"
         android:name="ca.etsmtl.applets.etsmobile.fragments.NewsListFragment"
         android:layout_width="match_parent"
