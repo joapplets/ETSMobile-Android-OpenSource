@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="NoActionBar" parent="@android:style/Theme.Holo.NoActionBar">
         <!-- Inherits the Holo theme with no action bar; no other styles needed. -->
+        
     </style>
 
 </resources>

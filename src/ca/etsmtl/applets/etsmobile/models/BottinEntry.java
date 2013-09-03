@@ -3,6 +3,7 @@ package ca.etsmtl.applets.etsmobile.models;
 import java.sql.Date;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Parcel;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
 
@@ -43,6 +44,26 @@ public class BottinEntry extends Model {
 		this(-1, nom2, prenom2, tel_bureau, emplacement2, courriel, service2,
 				titre2, date_modif2);
 		ets_id = id2;
+	}
+
+	public BottinEntry(Cursor cursor) {
+		this(cursor
+				.getLong(cursor.getColumnIndex(BottinTableHelper.BOTTIN__ID)),
+				cursor.getString(cursor
+						.getColumnIndex(BottinTableHelper.BOTTIN_NOM)),
+				cursor.getString(cursor
+						.getColumnIndex(BottinTableHelper.BOTTIN_PRENOM)),
+				cursor.getString(cursor
+						.getColumnIndex(BottinTableHelper.BOTTIN_TELBUREAU)),
+				cursor.getString(cursor
+						.getColumnIndex(BottinTableHelper.BOTTIN_EMPLACEMENT)),
+				cursor.getString(cursor
+						.getColumnIndex(BottinTableHelper.BOTTIN_COURRIEL)),
+				cursor.getString(cursor
+						.getColumnIndex(BottinTableHelper.BOTTIN_SERVICE)),
+				cursor.getString(cursor
+						.getColumnIndex(BottinTableHelper.BOTTIN_TIRE)),
+				new Date(System.currentTimeMillis()));
 	}
 
 	@Override

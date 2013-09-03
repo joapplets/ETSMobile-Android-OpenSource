@@ -172,7 +172,8 @@
                 android:layout_weight=".25"
                 android:ems="10"
                 android:hint="Phase"
-                android:inputType="number" >
+                android:inputType="number"
+                android:textColor="@color/black" >
 
                 <requestFocus />
             </EditText>
@@ -185,7 +186,9 @@
                 android:ems="10"
                 android:hint="Appt."
                 android:inputType="number"
-                android:lines="1" />
+                android:lines="1"
+                android:textColor="@color/black" />
+
         </LinearLayout>
 
         <LinearLayout

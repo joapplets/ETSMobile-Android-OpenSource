@@ -1,5 +1,7 @@
 package ca.etsmtl.applets.etsmobile;
 
+import java.lang.ref.WeakReference;
+
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
@@ -30,15 +32,22 @@ import android.widget.FilterQueryProvider;
 import android.widget.SectionIndexer;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import ca.etsmtl.applets.etsmobile.providers.ETSMobileContentProvider;
 import ca.etsmtl.applets.etsmobile.services.BottinService;
 import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
+import ca.etsmtl.applets.etsmobile.tools.db.BottinEntryDataSource;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
+import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
 
 public class BottinListActivity extends ListActivity implements TextWatcher,
 		OnItemClickListener {
 
 	private class ManualFetcher extends AsyncTask<BottinBinder, Void, Void> {
+
+		private final WeakReference<BottinListActivity> ref;
+
+		public ManualFetcher(WeakReference<BottinListActivity> ref) {
+			this.ref = ref;
+		}
 
 		@Override
 		protected Void doInBackground(final BottinBinder... params) {
@@ -62,13 +71,15 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 				unbindService(connection);
 				dismissDialog(BottinListActivity.ALERT_LOADING);
 
-				allEntryCursor = managedQuery(
-						ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-						BottinListActivity.DB_COLS, null, null, "nom ASC");
-				simpleCursor = new MyCursorAdapter(getApplicationContext(),
-						allEntryCursor, PROJECTION, TXT_VIEWS);
-				simpleCursor.setFilterQueryProvider(myFilter);
-				setListAdapter(simpleCursor);
+				final BottinListActivity act = ref.get();
+
+				if (act != null && !act.isFinishing()) {
+
+					act.setListAdapter(new MyCursorAdapter(act,
+							act.bottinEntryDataSource.getAllAsCursor(),
+							BottinEntryDataSource.allColumns, TXT_VIEWS));
+				}
+
 			} catch (final IllegalArgumentException e) {
 			}
 			super.onPostExecute(result);
@@ -92,7 +103,8 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 			super(context, R.layout.bottin_list_item, cursor, strings, is);
 
 			mAlphabetIndexer = new AlphabetIndexer(cursor,
-					cursor.getColumnIndex("nom"), "ABCDEFGHIJKLMNOPQRTSUVWXYZ");
+					cursor.getColumnIndex(BottinTableHelper.BOTTIN_NOM),
+					"ABCDEFGHIJKLMNOPQRTSUVWXYZ");
 			mAlphabetIndexer.setCursor(cursor);// Sets a new cursor as the data
 			// set and resets the cache of
 			// indices.
@@ -151,14 +163,20 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 			return newView;
 		}
 
+		@Override
+		public void changeCursor(Cursor cursor) {
+
+			mAlphabetIndexer.setCursor(cursor);
+			super.changeCursor(cursor);
+
+		}
 	}
 
 	private final static String SERVICE = "ca.etsmtl.applets.etsmobile.services.BottinFetcher";
 	/**
 	 * SimpleCursorAdapter INFO
 	 */
-	private static final String[] PROJECTION = new String[] {
-			BottinTableHelper.BOTTIN_NOM, BottinTableHelper.BOTTIN_PRENOM };
+
 	private static final int[] TXT_VIEWS = new int[] {
 			R.id.bottin_list_item_nom, R.id.bottin_list_item_prenom };
 	/**
@@ -169,16 +187,8 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 
 	protected static final String LOG_TAG = "BottinListActivity";
 
-	/**
-	 * Db cols to show in list items
-	 */
-	private static final String[] DB_COLS = new String[] {
-			BottinTableHelper.BOTTIN__ID, BottinTableHelper.BOTTIN_NOM,
-			BottinTableHelper.BOTTIN_PRENOM };
-
-	private Cursor allEntryCursor;
 	// Handler uiHandler;
-	private SimpleCursorAdapter simpleCursor;
+	private SimpleCursorAdapter simpleCursorAdapter;
 	private TextView txtView;
 
 	/**
@@ -189,7 +199,8 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		@Override
 		public void onServiceConnected(final ComponentName name,
 				final IBinder service) {
-			new ManualFetcher().execute((BottinBinder) service);
+			new ManualFetcher(new WeakReference<BottinListActivity>(
+					BottinListActivity.this)).execute((BottinBinder) service);
 		}
 
 		@Override
@@ -197,35 +208,9 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		}
 	};
 
-	private final FilterQueryProvider myFilter = new FilterQueryProvider() {
-
-		@Override
-		public Cursor runQuery(final CharSequence constraint) {
-			Log.d(BottinListActivity.LOG_TAG, "filter input  :" + constraint);
-			// Log.d(BottinListActivity.LOG_TAG, "filter input  :" +
-			// constraint);
-
-			String where = null;
-			String[] args = new String[BottinListActivity.PROJECTION.length];
-			if (constraint != "") {
-				for (int i = 0; i < args.length; i++) {
-					args[i] = "%" + (String) constraint + "%";
-					Log.d("Args", args[i]);
-					// Log.d("Args", args[i]);
-				}
-				where = "nom LIKE ? OR prenom LIKE ?";
-			} else {
-				args = null;
-			}
-
-			return getContentResolver().query(
-					ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-					new String[] { BottinTableHelper.BOTTIN__ID,
-							BottinTableHelper.BOTTIN_NOM,
-							BottinTableHelper.BOTTIN_PRENOM }, where, args,
-					null);
-		}
-	};
+	private ETSMobileOpenHelper helper;
+	private BottinEntryDataSource bottinEntryDataSource;
+	private int count;
 
 	@Override
 	public void afterTextChanged(final Editable s) {
@@ -254,53 +239,50 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		// init textview with filter options
 		txtView = (TextView) findViewById(R.id.search_nav_bar_autotxt);
 		txtView.addTextChangedListener(this);
-		allEntryCursor = managedQuery(
-				ETSMobileContentProvider.CONTENT_URI_BOTTIN,
-				BottinListActivity.DB_COLS, null, null, "nom ASC");
 
-		// cursor adapter is faster
-		if (simpleCursor == null) {
-			simpleCursor = new MyCursorAdapter(this, allEntryCursor,
-					PROJECTION, TXT_VIEWS);
+		bottinEntryDataSource = new BottinEntryDataSource(
+				getApplicationContext());
+
+		Cursor allAsCursor = bottinEntryDataSource
+				.getAllAsCursor(BottinEntryDataSource.allColumns);
+		allAsCursor.moveToFirst();
+		count = allAsCursor.getCount();
+		simpleCursorAdapter = new MyCursorAdapter(this, allAsCursor,
+				BottinEntryDataSource.allColumns, TXT_VIEWS);
+
+		if (count == 0) {
+			showDialog(BottinListActivity.ALERT_INIT_BOTTIN);
+		} else {
+
+			simpleCursorAdapter = new MyCursorAdapter(this, allAsCursor,
+					BottinEntryDataSource.allColumns, TXT_VIEWS);
+
+			simpleCursorAdapter
+					.setFilterQueryProvider(new FilterQueryProvider() {
+
+						@Override
+						public Cursor runQuery(final CharSequence constraint) {
+
+							String where = null;
+							String[] args = new String[BottinEntryDataSource.allColumns.length - 1];
+							if (constraint != "") {
+								for (int i = 0; i < args.length; i++) {
+									args[i] = "%" + (String) constraint + "%";
+								}
+								where = "nom LIKE ? OR prenom LIKE ?";
+							} else {
+								args = null;
+							}
+
+							return bottinEntryDataSource.getAllAsCursor(where,
+									args);
+						}
+					});
+
+			setListAdapter(simpleCursorAdapter);
 		}
-	}
 
-	// @Override
-	// protected Dialog onCreateDialog(final int id) {
-	// Dialog d;
-	// switch (id) {
-	// case ALERT_INIT_BOTTIN:
-	// final AlertDialog.Builder builder = new AlertDialog.Builder(this)
-	// .setIcon(android.R.drawable.ic_dialog_alert)
-	// .setMessage(R.string.bottin_init_alert)
-	// .setTitle("Attention")
-	// .setPositiveButton(R.string.yes,
-	// new DialogInterface.OnClickListener() {
-	//
-	// @Override
-	// public void onClick(
-	// final DialogInterface dialog,
-	// final int which) {
-	//
-	// connectToFetcherService();
-	// dismissDialog(BottinListActivity.ALERT_INIT_BOTTIN);
-	// }
-	// })
-	// .setNegativeButton(R.string.no,
-	// new DialogInterface.OnClickListener() {
-	//
-	// @Override
-	// public void onClick(
-	// final DialogInterface dialog,
-	// final int which) {
-	// dialog.cancel();
-	// dialog.dismiss();
-	// }
-	// });
-	// d = builder.create();
-	// break;
-	// }
-	// }
+	}
 
 	@Override
 	protected Dialog onCreateDialog(final int id) {
@@ -353,9 +335,11 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 	@Override
 	public void onItemClick(final AdapterView<?> vc, final View view,
 			final int position, final long id) {
+
 		final Intent intent = new Intent(getApplicationContext(),
 				BottinViewActivity.class);
 		intent.putExtra("id", id);
+
 		startActivity(intent);
 	}
 
@@ -369,31 +353,13 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 	}
 
 	@Override
-	protected void onResume() {
-
-		if (allEntryCursor.getCount() == 0) {
-			showDialog(BottinListActivity.ALERT_INIT_BOTTIN);
-		} else {
-
-			// cursor adapter is faster
-			if (simpleCursor == null) {
-				simpleCursor = new MyCursorAdapter(this, allEntryCursor,
-						PROJECTION, TXT_VIEWS);
-			}
-			simpleCursor.setFilterQueryProvider(myFilter);
-			setListAdapter(simpleCursor);
-		}
-		super.onResume();
-	}
-
-	@Override
 	public void onTextChanged(CharSequence s, final int start,
 			final int before, final int count) {
-		if (simpleCursor != null) {
+		if (simpleCursorAdapter != null) {
 			if (s == "") {
 				s = "%";
 			}
-			simpleCursor.getFilter().filter(s);
+			simpleCursorAdapter.getFilter().filter(s);
 		}
 	}
 
