@@ -1,5 +1,7 @@
 package ca.etsmtl.applets.etsmobile.models;
 
+import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -17,6 +19,8 @@ public class StudentProfile extends Model {
 			return new StudentProfile[size];
 		}
 	};
+
+	private List<StudentPrograms> programms;
 
 	public StudentProfile(final Parcel in) {
 		super(in);
@@ -61,5 +65,13 @@ public class StudentProfile extends Model {
 	@Override
 	public String toString() {
 		return "" + nom + "" + prenom + "" + codePerm + "" + soldeTotal;
+	}
+
+	public void setStudentPrograms(List<StudentPrograms> programms2) {
+		this.programms = programms2;
+	}
+
+	public List<StudentPrograms> getStudentPrograms() {
+		return programms;
 	}
 }

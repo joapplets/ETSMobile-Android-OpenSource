@@ -3,6 +3,7 @@ package ca.etsmtl.applets.etsmobile;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -153,6 +154,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		setContentView(R.layout.calendar_view_week);
 		creds = new UserCredentials(
 				PreferenceManager.getDefaultSharedPreferences(this));
+
 		// get data async
 		handler = new CalendarTaskHandlerWeek(this);
 		new CalendarTaskWeek(handler).execute(creds);
@@ -193,7 +195,8 @@ public class ScheduleWeekActivity extends FragmentActivity {
 				.setOnCellTouchListener(mNumGridViewWeek_OnCellTouchListener);
 
 		// assignation des session déja en mémoire
-		currentGridView.setSessions(ETSMobileApp.getInstance().getSessions());
+		currentGridView.setSessions(ETSMobileApp.getInstance()
+				.getSessionsFromPrefs());
 
 		// Affiche le mois courant
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);

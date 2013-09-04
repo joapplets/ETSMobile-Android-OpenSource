@@ -27,6 +27,7 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 		public TextView txtViewCent;
 		public TextView txtViewMed;
 		public TextView txtViewMoy;
+		public TextView txtViewPond;
 
 	}
 
@@ -55,9 +56,12 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 				.getEvaluationElements()) {
 			if (evaluationElement.getNote().length() > 1) {
 				try {
+
 					final String pond = evaluationElement.getPonderation();
 					final double value = nf_frCA.parse(pond).doubleValue();
+
 					total += value;
+
 				} catch (final ParseException e) {
 				}
 			}
@@ -110,6 +114,8 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 					.findViewById(R.id.item_value_centile);
 			holder.txtViewEcType = (TextView) convertView
 					.findViewById(R.id.item_value_ec_type);
+			holder.txtViewPond = (TextView) convertView
+					.findViewById(R.id.item_value_pond);
 			// set tag
 			convertView.setTag(holder);
 		} else {
@@ -129,6 +135,7 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 			holder.txtViewMed.setVisibility(View.GONE);
 			holder.txtViewCent.setVisibility(View.GONE);
 			holder.txtViewEcType.setVisibility(View.GONE);
+			holder.txtViewPond.setVisibility(View.GONE);
 			switch (position) {
 			case 1:// COURS EVAL
 				holder.txtView.setText(R.string.cote);
@@ -136,15 +143,22 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 				break;
 			case 2:// NOTE À CE JOUR
 				holder.txtView.setText(R.string.noteACejour);
-				final String note = courseEvaluation.getNoteACeJour();
-				holder.txtViewValue.setText(note + "%");
+				final String note = courseEvaluation.getScoreFinalSur100();
+				holder.txtViewValue.setText(courseEvaluation.getNoteACeJour()
+						+ "/" + total + " (" + note + "%)");
 				break;
 			case 3:// MOYENNE CLASSE
 				holder.txtView.setText(R.string.moyenne);
 				final String m = courseEvaluation.getMoyenneClasse();
 				try {
-					holder.txtViewValue.setText(nf_enUS.format((nf_frCA
-							.parse(m).doubleValue() / total) * 100) + "%");
+					holder.txtViewValue
+							.setText(m
+									+ "/"
+									+ total
+									+ " ("
+									+ nf_enUS.format(+(nf_frCA.parse(m)
+											.doubleValue() / total) * 100)
+									+ "%)");
 				} catch (final ParseException e1) {
 					e1.printStackTrace();
 				}
@@ -191,21 +205,29 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 							holder.txtViewMed.setVisibility(View.VISIBLE);
 							holder.txtViewCent.setVisibility(View.VISIBLE);
 							holder.txtViewEcType.setVisibility(View.VISIBLE);
+							holder.txtViewPond.setVisibility(View.VISIBLE);
 
 							holder.txtViewMoy.setText("Moyenne: "
+									+ " "
 									+ nf_enUS.format(nf_frCA.parse(
 											element.getMoyenne()).doubleValue()
 											/ nf_frCA.parse(sur).doubleValue()
 											* 100) + "%");
+
 							holder.txtViewMed.setText("Médiane: "
 									+ nf_enUS.format(nf_frCA.parse(
 											element.getMediane()).doubleValue()
 											/ nf_frCA.parse(sur).doubleValue()
 											* 100) + "%");
+
 							holder.txtViewCent.setText("Rang centile: "
 									+ element.getRangCentile());
+
 							holder.txtViewEcType.setText("Écart-type: "
 									+ element.getEcartType());
+
+							holder.txtViewPond.setText("Pondération: "
+									+ element.getPonderation() + "%");
 						} else {
 							holder.txtViewValue.setText("/" + sur);
 						}

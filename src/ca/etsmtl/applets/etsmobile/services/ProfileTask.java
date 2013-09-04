@@ -1,11 +1,14 @@
 package ca.etsmtl.applets.etsmobile.services;
 
+import java.util.List;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
+import ca.etsmtl.applets.etsmobile.models.StudentPrograms;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 
 public class ProfileTask extends
@@ -28,7 +31,18 @@ public class ProfileTask extends
 				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
 				"infoEtudiant", params[0], StudentProfile.class);
 		StudentProfile profile = null;
+		List<StudentPrograms> programms = null;
 		profile = signets.fetchObject();
+
+		SignetBackgroundThread<List<StudentPrograms>, StudentPrograms> signetsListPrograms = new SignetBackgroundThread<List<StudentPrograms>, StudentPrograms>(
+				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
+				"listeProgrammes", params[0], StudentPrograms.class);
+
+		profile = signets.fetchObject();
+		programms = signetsListPrograms.fetchArray();
+		
+		profile.setStudentPrograms(programms);
+		
 		return profile;
 	}
 

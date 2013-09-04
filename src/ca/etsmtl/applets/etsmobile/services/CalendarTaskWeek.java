@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import android.os.Handler;
 import android.os.Message;
+import ca.etsmtl.applets.etsmobile.ETSMobileApp;
 import ca.etsmtl.applets.etsmobile.models.Session;
 
 public class CalendarTaskWeek extends CalendarTask {
@@ -20,7 +21,7 @@ public class CalendarTaskWeek extends CalendarTask {
 		super.onPostExecute(result);
 
 		Collections.sort(result);
-
+		ETSMobileApp.getInstance().saveSessionsToPrefs(result);
 		// Bundle data = new Bundle();
 		final Message msg = handler.obtainMessage(
 				CalendarTaskWeek.ON_POST_EXEC, result);

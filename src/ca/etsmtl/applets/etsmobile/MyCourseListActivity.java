@@ -1,8 +1,8 @@
 package ca.etsmtl.applets.etsmobile;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
@@ -28,7 +27,12 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-@SuppressLint({ "HandlerLeak", "HandlerLeak" })
+/**
+ * Liste des Cours
+ * 
+ * @author Phil
+ * 
+ */
 public class MyCourseListActivity extends ListActivity implements
 		OnDismissListener {
 
@@ -107,7 +111,6 @@ public class MyCourseListActivity extends ListActivity implements
 			final SignetBackgroundThread<ArrayList<Course>, Course> signetBackgroundThead = new SignetBackgroundThread<ArrayList<Course>, Course>(
 					"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
 					"listeCours", creds, Course.class);
-
 			navBar.showLoading();
 
 			new Thread(new Runnable() {
@@ -116,7 +119,6 @@ public class MyCourseListActivity extends ListActivity implements
 				public void run() {
 					final ArrayList<Course> newCourseActivities = signetBackgroundThead
 							.fetchArray();
-
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
@@ -132,12 +134,10 @@ public class MyCourseListActivity extends ListActivity implements
 									getApplicationContext(),
 									R.layout.course_list_item, courseActivities);
 							getListView().setAdapter(myCoursesAdapter);
-							// if (progress != null) {
-							// progress.dismiss();
-							// }
 							navBar.hideLoading();
 						}
 					});
+
 				}
 			}).start();
 		} else {
@@ -156,17 +156,6 @@ public class MyCourseListActivity extends ListActivity implements
 		navBar = (NavBar) findViewById(R.id.navBar3);
 		navBar.hideRightButton();
 		navBar.setTitle(R.drawable.navbar_notes_title);
-		navBar.setHomeAction(new OnClickListener() {
-
-			@Override
-			public void onClick(final View v) {
-				final Intent intent = new Intent(v.getContext(),
-						ETSMobileActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
-			}
-		});
 
 		if (savedInstanceState != null) {
 			courseActivities = (ArrayList<Course>) savedInstanceState
@@ -176,6 +165,8 @@ public class MyCourseListActivity extends ListActivity implements
 		final UserCredentials creds = new UserCredentials(
 				PreferenceManager.getDefaultSharedPreferences(this));
 		sessionString = getIntent().getExtras().getString("session");
+		// set title
+		navBar.setTitle(getIntent().getExtras().getString("session_long"));
 
 		if (creds.getPassword() != null && creds.getUsername() != null
 				&& !"".equals(creds.getPassword())

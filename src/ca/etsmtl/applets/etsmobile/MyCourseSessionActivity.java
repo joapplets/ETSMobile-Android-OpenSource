@@ -57,6 +57,8 @@ public class MyCourseSessionActivity extends ListActivity {
 				final Bundle b = new Bundle();
 				b.putString("session", myCoursesAdapter.getItem(position)
 						.getShortName());
+				b.putString("session_long", myCoursesAdapter.getItem(position)
+						.getLongName());
 				final Intent nextActivity = new Intent(view.getContext(),
 						MyCourseListActivity.class);
 				nextActivity.putExtras(b);

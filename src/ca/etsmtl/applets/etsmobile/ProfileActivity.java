@@ -41,6 +41,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.models.StudentProfile;
+import ca.etsmtl.applets.etsmobile.models.StudentPrograms;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
@@ -49,6 +50,47 @@ import com.bugsense.trace.BugSenseHandler;
 
 public class ProfileActivity extends Activity implements OnClickListener,
 		OnDismissListener {
+
+	public static class BandwithHandler extends Handler {
+
+		private WeakReference<ProfileActivity> ref;
+
+		public BandwithHandler(ProfileActivity profileActivity) {
+			ref = new WeakReference<ProfileActivity>(profileActivity);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+
+			final ProfileActivity act = ref.get();
+
+			switch (msg.what) {
+
+			case 2:// show bandwith
+				if (!act.isFinishing()) {
+					if (msg.obj != null) {
+
+						final float[] result = (float[]) msg.obj;
+						act.bandwith_used.setText(act
+								.getString(R.string.utilise)
+								+ Float.toString(result[1] - result[0]));
+
+						act.bandwith_max.setText(Float.toString(result[1])
+								+ " " + act.getString(R.string.gigaoctetx));
+
+						act.progess.setMax((int) result[1]);
+						act.progess.setProgress((int) result[0]);
+					} else {
+					}
+				}
+				act.appt_input.setEnabled(true);
+				act.phase_input.setEnabled(true);
+				break;
+			}
+		}
+
+	}
 
 	/**
 	 * Handles UI logic after async task has finished
@@ -98,8 +140,31 @@ public class ProfileActivity extends Activity implements OnClickListener,
 
 							act.name.setText(studentProfile.getPrenom());
 							act.lastname.setText(studentProfile.getNom());
-							act.solde.setText(studentProfile.getSolde());
 							act.codeP.setText(studentProfile.getCodePerm());
+							act.solde.setText(studentProfile.getSolde());
+
+							StudentPrograms studentPrograms = studentProfile
+									.getStudentPrograms().get(0);
+							act.credits_done.setText(studentPrograms
+									.getNbCreditsCompletes());
+							act.credit_failed.setText(studentPrograms
+									.getNbCrsEchoues());
+							act.credits_now.setText(studentPrograms
+									.getNbCreditsInscrits());
+
+							String libelle = studentPrograms.getLibelle();
+							String[] split = libelle.split(" ");
+							libelle = "";
+							int i = 0;
+							for (String string : split) {
+								if (i > 0 && i % 2 == 0) {
+									libelle += "\n";
+								}
+								libelle += " " + string;
+								i++;
+							}
+							act.programme.setText(libelle);
+							act.moyenne.setText(studentPrograms.getMoyenne());
 
 							// save credentials to prefs
 							final SharedPreferences prefs = act.prefs;
@@ -116,26 +181,6 @@ public class ProfileActivity extends Activity implements OnClickListener,
 						}
 					}
 
-					break;
-				case 2:// show bandwith
-					if (!act.isFinishing()) {
-						if (msg.obj != null) {
-
-							final float[] result = (float[]) msg.obj;
-							act.bandwith_used.setText(act
-									.getString(R.string.utilise)
-									+ Float.toString(result[1] - result[0]));
-
-							act.bandwith_max.setText(Float.toString(result[1])
-									+ " " + act.getString(R.string.gigaoctetx));
-
-							act.progess.setMax((int) result[1]);
-							act.progess.setProgress((int) result[0]);
-						} else {
-						}
-					}
-					act.appt_input.setEnabled(true);
-					act.phase_input.setEnabled(true);
 					break;
 				default:
 					break;
@@ -157,12 +202,18 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	private TextView solde;
 	private TextView codeP;
 	private Handler handler;
+	private Handler handlerBandwith;
 	private SharedPreferences prefs;
 	private ProgressBar progess;
 	private TextView phase_input;
 	private TextView appt_input;
 	private TextView bandwith_used;
 	private TextView bandwith_max;
+	private TextView credits_done;
+	private TextView credit_failed;
+	private TextView credits_now;
+	private TextView programme;
+	public TextView moyenne;
 
 	private void doLogin() {
 		creds = new UserCredentials(
@@ -188,7 +239,6 @@ public class ProfileActivity extends Activity implements OnClickListener,
 	}
 
 	private void getBandwith(String phase, String appt) {
-		BugSenseHandler.sendEvent("Bandwith");
 		appt_input.setEnabled(false);
 		phase_input.setEnabled(false);
 
@@ -310,7 +360,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.student_profile);
 		handler = new ProfileHandler(this);
-
+		handlerBandwith = new BandwithHandler(this);
 		btnLogin = (Button) findViewById(R.id.profile_login_btn);
 		btnLogin.setOnClickListener(this);
 
@@ -327,7 +377,15 @@ public class ProfileActivity extends Activity implements OnClickListener,
 		progess = (ProgressBar) findViewById(R.id.bandwith_progress);
 		bandwith_used = (TextView) findViewById(R.id.bandwith_used_lbl);
 		bandwith_max = (TextView) findViewById(R.id.bandwith_max);
+
 		phase_input = (TextView) findViewById(R.id.bandwith_phase_input);
+
+		credits_done = (TextView) findViewById(R.id.student_profile_credit_done);
+		credit_failed = (TextView) findViewById(R.id.student_profile_credits_failed);
+		credits_now = (TextView) findViewById(R.id.student_profile_credits_now);
+
+		programme = (TextView) findViewById(R.id.student_profile_programme);
+		moyenne = (TextView) findViewById(R.id.student_profile_moy);
 
 		phase_input.addTextChangedListener(new TextWatcher() {
 

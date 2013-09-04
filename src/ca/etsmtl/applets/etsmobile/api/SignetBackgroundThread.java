@@ -22,7 +22,9 @@ import com.google.gson.Gson;
  * @author Vincent Seguin, Philipp David, Micheal Bernier
  * 
  * @param <T>
+ *            Type
  * @param <E>
+ *            Entity
  */
 public class SignetBackgroundThread<T, E> {
 	public enum FetchType {
@@ -94,7 +96,7 @@ public class SignetBackgroundThread<T, E> {
 
 			JSONArray jsonRootArray;
 			jsonRootArray = jsonObject.getJSONObject("d").getJSONArray(liste);
-
+			android.util.Log.d("JSON", jsonRootArray.toString());
 			for (int i = 0; i < jsonRootArray.length(); i++) {
 				objectList.add(gson.fromJson(jsonRootArray.getJSONObject(i)
 						.toString(), typeOfClass));
