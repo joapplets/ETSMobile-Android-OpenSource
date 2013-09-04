@@ -2,8 +2,6 @@ package ca.etsmtl.applets.etsmobile.models;
 
 import java.io.Serializable;
 
-import android.os.Parcel;
-
 public class StudentPrograms implements Serializable {
 
 	private static final long serialVersionUID = 7328350494569964493L;

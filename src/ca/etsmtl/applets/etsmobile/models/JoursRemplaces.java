@@ -3,6 +3,7 @@ package ca.etsmtl.applets.etsmobile.models;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -36,7 +37,7 @@ public class JoursRemplaces {
 	public Date getDateOrigine() {
 		SimpleDateFormat formatter;
 		Date date;
-		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA_FRENCH);
 		try {
 			date = formatter.parse(this.dateOrigineString);
 		} catch (final ParseException e) {
@@ -53,7 +54,7 @@ public class JoursRemplaces {
 	public Date getDateRemplacement() {
 		SimpleDateFormat formatter;
 		Date date;
-		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA_FRENCH);
 		try {
 			date = formatter.parse(this.dateRemplacementString);
 		} catch (final ParseException e) {

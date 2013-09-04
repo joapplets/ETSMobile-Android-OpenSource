@@ -35,7 +35,7 @@
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content" >
 
             <TableRow>
 
@@ -68,7 +68,9 @@
                     android:id="@+id/contactNameEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:hint="John Smith" />
+
             </TableRow>
 
             <TableRow>
@@ -85,6 +87,8 @@
                     android:id="@+id/contactPhoneEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="1(514)123-4567"
                     android:layout_weight="1" />
 
                 <Spinner
@@ -107,6 +111,7 @@
                     android:id="@+id/contactEmailEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:inputType="textWebEmailAddress"
                     android:layout_weight="1" />
 
                 <Spinner

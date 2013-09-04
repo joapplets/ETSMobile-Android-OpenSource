@@ -1,10 +1,12 @@
 package ca.etsmtl.applets.etsmobile;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.database.Cursor;
@@ -30,7 +32,7 @@ public class SingleNewsActivity extends Activity {
 	private FrameLayout webViewPlaceholder;
 	private String html, title, content, date, source, link;
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"dd MMMMMMMMMM yyyy");
+			"dd MMMMMMMMMM yyyy", Locale.CANADA_FRENCH);
 	private static ProgressDialog progressDialog;
 
 	private static Handler handler = new Handler() {
@@ -40,6 +42,7 @@ public class SingleNewsActivity extends Activity {
 		};
 	};
 
+	@SuppressLint("SetJavaScriptEnabled")
 	private void init() {
 
 		// On va chercher les param passés par le bundle et on associe

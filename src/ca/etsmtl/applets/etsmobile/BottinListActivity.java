@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +35,6 @@ import ca.etsmtl.applets.etsmobile.services.BottinService;
 import ca.etsmtl.applets.etsmobile.services.BottinService.BottinBinder;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinEntryDataSource;
 import ca.etsmtl.applets.etsmobile.tools.db.BottinTableHelper;
-import ca.etsmtl.applets.etsmobile.tools.db.ETSMobileOpenHelper;
 
 public class BottinListActivity extends ListActivity implements TextWatcher,
 		OnItemClickListener {
@@ -208,7 +206,6 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		}
 	};
 
-	private ETSMobileOpenHelper helper;
 	private BottinEntryDataSource bottinEntryDataSource;
 	private int count;
 
@@ -243,7 +240,7 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 		bottinEntryDataSource = new BottinEntryDataSource(
 				getApplicationContext());
 
-		Cursor allAsCursor = bottinEntryDataSource
+		final Cursor allAsCursor = bottinEntryDataSource
 				.getAllAsCursor(BottinEntryDataSource.allColumns);
 		allAsCursor.moveToFirst();
 		count = allAsCursor.getCount();

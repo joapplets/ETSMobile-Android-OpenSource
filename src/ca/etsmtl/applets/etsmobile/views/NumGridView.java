@@ -322,11 +322,11 @@ public class NumGridView extends View implements Observer {
 
 					final int left = (int) (startpos + 3 * i * radius - radius);
 
-					final int right = (int) (left + (radius * 2));
+					final int right = (int) (left + radius * 2);
 
 					final int bottom = dy + mCellHeight - ty / 4 + 2;
 
-					final int top = (int) (bottom - (2 * radius));
+					final int top = (int) (bottom - 2 * radius);
 
 					d.setBounds(left, top, right, bottom);
 

@@ -74,8 +74,8 @@ public class SecurityActivity extends FragmentActivity {
 					}
 				});
 
-		final SupportMapFragment map = ((SupportMapFragment) getSupportFragmentManager()
-				.findFragmentById(R.id.map));
+		final SupportMapFragment map = (SupportMapFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.map);
 		final GoogleMap mapView = map.getMap();
 
 		if (mapView != null) {

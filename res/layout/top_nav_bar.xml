@@ -13,7 +13,7 @@
         style="@style/btnHome"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@drawable/icon_home" />
+        android:src="@drawable/icon_home" android:contentDescription="@string/app_name"/>
 
 
     <ImageView

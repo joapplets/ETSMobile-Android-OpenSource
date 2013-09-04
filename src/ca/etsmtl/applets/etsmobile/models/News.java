@@ -28,12 +28,12 @@ public class News extends Model {
 	@Override
 	public ContentValues getContentValues() {
 		final ContentValues values = new ContentValues();
-		values.put(NewsTableHelper.NEWS_TITLE, getTitle());
-		values.put(NewsTableHelper.NEWS_DATE, getPubDate().getTime());
-		values.put(NewsTableHelper.NEWS_DESCRIPTION, getDescription());
-		values.put(NewsTableHelper.NEWS_GUID, getGuid());
-		values.put(NewsTableHelper.NEWS_SOURCE, getSource());
-		values.put(NewsTableHelper.NEWS_LINK, getLink());
+		values.put(NewsTableHelper.NEWS_TITLE, title);
+		values.put(NewsTableHelper.NEWS_DATE, date.getTime());
+		values.put(NewsTableHelper.NEWS_DESCRIPTION, description);
+		values.put(NewsTableHelper.NEWS_GUID, guid);
+		values.put(NewsTableHelper.NEWS_SOURCE, source);
+		values.put(NewsTableHelper.NEWS_LINK, link);
 		return values;
 	}
 

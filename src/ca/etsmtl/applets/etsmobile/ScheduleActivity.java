@@ -242,7 +242,7 @@ public class ScheduleActivity extends FragmentActivity {
 		currentCalendar.addObserver(txtcalendar_title);
 
 		// set DatePicker
-		Date date = currentCalendar.getCalendar().getTime();
+		final Date date = currentCalendar.getCalendar().getTime();
 		datePickerDialog = new DatePickerDialogFragment(ScheduleActivity.this,
 				0, mDateSetListener, date.getYear(), date.getMonth(),
 				date.getDay());
@@ -309,7 +309,8 @@ public class ScheduleActivity extends FragmentActivity {
 		return true;
 	}
 
-	private DatePickerDialog.OnDateSetListener mDateSetListener = new OnDateSetListener() {
+	private final DatePickerDialog.OnDateSetListener mDateSetListener = new OnDateSetListener() {
+		@Override
 		public void onDateSet(DatePicker datepicker, int year, int month,
 				int day) {
 			currentCalendar.setDate(year, month, day);

@@ -69,8 +69,8 @@ public class BottinEntry extends Model {
 	@Override
 	public boolean equals(final Object o) {
 		final BottinEntry b = (BottinEntry) o;
-		return b.getNom().equals(getNom()) && b.getPrenom().equals(getPrenom())
-				&& b.getCourriel().equals(getCourriel());
+		return b.nom.equals(nom) && b.prenom.equals(prenom)
+				&& b.courriel.equals(courriel);
 	}
 
 	@Override

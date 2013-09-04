@@ -46,9 +46,9 @@ public class ETSMobileApp extends Application {
 	public void saveSessionsToPrefs(ArrayList<Session> result) {
 
 		final Gson gson = new Gson();
-		String json = gson.toJson(result);
+		final String json = gson.toJson(result);
 		prefs = getSharedPreferences("etsmobile-calendrier", MODE_PRIVATE);
-		Editor edit = prefs.edit();
+		final Editor edit = prefs.edit();
 		edit.putString(ETSMOBILE_CALENDRIER_SESSIONS, json).commit();
 	}
 
@@ -60,7 +60,7 @@ public class ETSMobileApp extends Application {
 
 		list = new Gson().fromJson(
 				prefs.getString(ETSMOBILE_CALENDRIER_SESSIONS, "[]"), type);
-		if(list == null){
+		if (list == null) {
 			list = new ArrayList<Session>();
 		}
 		return list;

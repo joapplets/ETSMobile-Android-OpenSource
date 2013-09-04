@@ -46,14 +46,12 @@ import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
-import com.bugsense.trace.BugSenseHandler;
-
 public class ProfileActivity extends Activity implements OnClickListener,
 		OnDismissListener {
 
 	public static class BandwithHandler extends Handler {
 
-		private WeakReference<ProfileActivity> ref;
+		private final WeakReference<ProfileActivity> ref;
 
 		public BandwithHandler(ProfileActivity profileActivity) {
 			ref = new WeakReference<ProfileActivity>(profileActivity);
@@ -143,7 +141,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 							act.codeP.setText(studentProfile.getCodePerm());
 							act.solde.setText(studentProfile.getSolde());
 
-							StudentPrograms studentPrograms = studentProfile
+							final StudentPrograms studentPrograms = studentProfile
 									.getStudentPrograms().get(0);
 							act.credits_done.setText(studentPrograms
 									.getNbCreditsCompletes());
@@ -153,10 +151,10 @@ public class ProfileActivity extends Activity implements OnClickListener,
 									.getNbCreditsInscrits());
 
 							String libelle = studentPrograms.getLibelle();
-							String[] split = libelle.split(" ");
+							final String[] split = libelle.split(" ");
 							libelle = "";
 							int i = 0;
-							for (String string : split) {
+							for (final String string : split) {
 								if (i > 0 && i % 2 == 0) {
 									libelle += "\n";
 								}

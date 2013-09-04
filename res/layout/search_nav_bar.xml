@@ -11,6 +11,7 @@
         android:id="@+id/search_nav_bar_autotxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="@integer/search_nav_bar_ems" />
+        android:ems="@integer/search_nav_bar_ems"
+        android:inputType="textAutoComplete" />
 
 </LinearLayout>

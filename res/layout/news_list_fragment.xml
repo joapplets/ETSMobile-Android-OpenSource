@@ -14,7 +14,6 @@
         android:layout_height="25dip"
         android:layout_alignParentBottom="true"
         android:background="@drawable/loading_border"
-        android:drawableLeft="@drawable/loading_icon"
         android:gravity="center_horizontal"
         android:paddingLeft="5dip"
         android:paddingTop="2dip"

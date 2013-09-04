@@ -172,8 +172,9 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 				holder.txtView.setText(R.string.mediane);
 				final String n = courseEvaluation.getMedianeClasse();
 				try {
-					holder.txtViewValue.setText(nf_enUS.format((nf_frCA
-							.parse(n).doubleValue() / total) * 100) + "%");
+					holder.txtViewValue.setText(nf_enUS.format(nf_frCA.parse(n)
+							.doubleValue() / total * 100)
+							+ "%");
 				} catch (final ParseException e1) {
 					e1.printStackTrace();
 				}
@@ -193,8 +194,8 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 						final String sur = element.getCorrigeSur();
 						double sur100 = 0;
 						if (!notee.equals("") && !sur.equals("")) {
-							sur100 = ((nf_frCA.parse(notee).doubleValue()) / nf_frCA
-									.parse(sur).doubleValue()) * 100;
+							sur100 = nf_frCA.parse(notee).doubleValue()
+									/ nf_frCA.parse(sur).doubleValue() * 100;
 
 							final String tmp = nf_enUS.format(sur100);
 							holder.txtViewValue.setText(element.getNote() + "/"

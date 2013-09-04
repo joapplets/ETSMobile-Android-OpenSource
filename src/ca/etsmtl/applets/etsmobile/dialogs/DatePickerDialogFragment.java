@@ -23,9 +23,9 @@ public class DatePickerDialogFragment extends DatePickerDialog implements
 	public void update(Observable observable, Object arg1) {
 		// TODO Auto-generated method stub
 		final Calendar current = ((CurrentCalendar) observable).getCalendar();
-		int year = current.get(Calendar.YEAR);
-		int monthOfYear = current.get(Calendar.MONTH);
-		int dayOfMonth = current.get(Calendar.DAY_OF_MONTH);
+		final int year = current.get(Calendar.YEAR);
+		final int monthOfYear = current.get(Calendar.MONTH);
+		final int dayOfMonth = current.get(Calendar.DAY_OF_MONTH);
 		Log.v("DatePickerDialog", "DatePickerDialog: observer date=" + year
 				+ " " + monthOfYear + " " + dayOfMonth);
 		super.updateDate(year, monthOfYear, dayOfMonth);

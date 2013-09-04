@@ -5,7 +5,6 @@ import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
@@ -22,25 +21,25 @@ public class ETSNotificationManager {
 	public static void showNotification(Context context, String title,
 			String subject, Intent intent, int id) {
 
-		long when = 2000;
+		final long when = 2000;
 		final KeyguardManager keyGuardManager = (KeyguardManager) context
 				.getSystemService(Context.KEYGUARD_SERVICE);
 		final boolean isScreenOff = keyGuardManager
 				.inKeyguardRestrictedInputMode();
 
-		NotificationManager notificationManager = (NotificationManager) context
-				.getSystemService(Service.NOTIFICATION_SERVICE);
-		PendingIntent pIntent = PendingIntent
-				.getActivity(context, 0, intent, 0);
+		final NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		final PendingIntent pIntent = PendingIntent.getActivity(context, 0,
+				intent, 0);
 
 		if (isScreenOff) {
 			forceWakeUp(context, 5000);
 		}
 
-		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+		final int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 		if (currentapiVersion >= android.os.Build.VERSION_CODES.HONEYCOMB) {
 
-			Notification notif = new Notification.Builder(context)
+			final Notification notif = new Notification.Builder(context)
 					.setContentTitle(title).setContentText(subject)
 					.setSmallIcon(R.drawable.icon).setContentIntent(pIntent)
 					.build();
@@ -50,8 +49,8 @@ public class ETSNotificationManager {
 			notificationManager.notify(id, notif);
 
 		} else {
-			Notification notif = new Notification(R.drawable.icon, subject,
-					when);
+			final Notification notif = new Notification(R.drawable.icon,
+					subject, when);
 			notif.defaults |= Notification.DEFAULT_SOUND;
 			notif.defaults |= Notification.DEFAULT_VIBRATE;
 			notificationManager.notify(id, notif);
@@ -60,8 +59,8 @@ public class ETSNotificationManager {
 	}
 
 	public static void removeNotification(Context context, int id) {
-		NotificationManager notificationManager = (NotificationManager) context
-				.getSystemService(Service.NOTIFICATION_SERVICE);
+		final NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.cancel(id);
 		wl.release();
 	}

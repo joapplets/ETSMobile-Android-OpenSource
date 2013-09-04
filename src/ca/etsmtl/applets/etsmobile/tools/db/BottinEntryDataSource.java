@@ -10,7 +10,7 @@ public class BottinEntryDataSource {
 
 	// Database fields
 	private SQLiteDatabase database;
-	private ETSMobileOpenHelper dbHelper;
+	private final ETSMobileOpenHelper dbHelper;
 	public static final String[] allColumns = { BottinTableHelper.BOTTIN__ID,
 			BottinTableHelper.BOTTIN_NOM, BottinTableHelper.BOTTIN_PRENOM };
 
@@ -28,7 +28,7 @@ public class BottinEntryDataSource {
 	}
 
 	public void deleteBottinEntry(BottinEntry BottinEntry) {
-		long id = BottinEntry.getId();
+		final long id = BottinEntry.getId();
 		System.out.println("BottinEntry deleted with id: " + id);
 		database.delete(BottinTableHelper.TABLE_NAME,
 				BottinTableHelper.BOTTIN__ID + " = " + id, null);
@@ -36,7 +36,7 @@ public class BottinEntryDataSource {
 
 	public Cursor getAllAsCursor() {
 
-		Cursor cursor = database.query(BottinTableHelper.TABLE_NAME,
+		final Cursor cursor = database.query(BottinTableHelper.TABLE_NAME,
 				allColumns, null, null, null, null, null);
 		return cursor;
 	}

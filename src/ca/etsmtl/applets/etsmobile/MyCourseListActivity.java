@@ -1,7 +1,7 @@
 package ca.etsmtl.applets.etsmobile;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -41,11 +41,20 @@ public class MyCourseListActivity extends ListActivity implements
 	private ArrayList<Course> courseActivities;
 	private MyCourseAdapter myCoursesAdapter;
 
-	// should be static
-	private final Handler handler = new Handler() {
+	private Handler handler;
+
+	private static class MyCourseHandler extends Handler {
+		private final WeakReference<MyCourseListActivity> ref;
+
+		public MyCourseHandler(MyCourseListActivity act) {
+			ref = new WeakReference<MyCourseListActivity>(act);
+		}
+
 		@Override
 		public void handleMessage(final Message msg) {
+			final MyCourseListActivity act = ref.get();
 			switch (msg.what) {
+
 			case ProfileTask.ON_POST_EXEC:
 				final Bundle data = msg.getData();
 				final StudentProfile profile = (StudentProfile) data
@@ -53,15 +62,16 @@ public class MyCourseListActivity extends ListActivity implements
 				if (profile != null) {
 					// save credentials to prefs
 					final SharedPreferences prefs = PreferenceManager
-							.getDefaultSharedPreferences(getApplicationContext());
+							.getDefaultSharedPreferences(act
+									.getApplicationContext());
 					final Editor editor = prefs.edit();
-					editor.putString("codeP", creds.getUsername());
-					editor.putString("codeU", creds.getPassword());
+					editor.putString("codeP", act.creds.getUsername());
+					editor.putString("codeU", act.creds.getPassword());
 					editor.commit();
 
-					initCours(sessionString);
+					act.initCours(act.sessionString);
 				} else {
-					showDialog(MyCourseListActivity.LOGIN_ERROR);
+					act.showDialog(MyCourseListActivity.LOGIN_ERROR);
 				}
 				break;
 
@@ -69,7 +79,8 @@ public class MyCourseListActivity extends ListActivity implements
 				break;
 			}
 		}
-	};
+	}
+
 	private UserCredentials creds;
 	private String sessionString = "";
 	private NavBar navBar;
@@ -156,6 +167,8 @@ public class MyCourseListActivity extends ListActivity implements
 		navBar = (NavBar) findViewById(R.id.navBar3);
 		navBar.hideRightButton();
 		navBar.setTitle(R.drawable.navbar_notes_title);
+
+		handler = new MyCourseHandler(this);
 
 		if (savedInstanceState != null) {
 			courseActivities = (ArrayList<Course>) savedInstanceState

@@ -2,7 +2,6 @@ package ca.etsmtl.applets.etsmobile;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.concurrent.ExecutionException;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 import ca.etsmtl.applets.etsmobile.adapters.MyCourseDetailAdapter;
 import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
-import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread.FetchType;
 import ca.etsmtl.applets.etsmobile.models.CourseEvaluation;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.views.NavBar;

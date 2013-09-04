@@ -71,7 +71,7 @@ public class CalendarEventsListView extends ListView implements Observer {
 				final Resources res = context.getResources();
 
 				final Bundle b = new Bundle();
-				ActivityCalendar item = adapter.getItem(position);
+				final ActivityCalendar item = adapter.getItem(position);
 				selectedItem = item;
 				b.putString("cours", item.getCours());
 

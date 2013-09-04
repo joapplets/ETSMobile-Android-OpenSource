@@ -65,7 +65,7 @@ public class Session implements Serializable, Comparable<Session> {
 	}
 
 	public List<ActivityCalendar> getActivities(String jour) {
-		return (activities != null) ? this.activities.get(jour) : null;
+		return activities != null ? this.activities.get(jour) : null;
 	}
 
 	public Date getDateDebut() {
