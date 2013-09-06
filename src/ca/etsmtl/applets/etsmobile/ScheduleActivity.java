@@ -50,12 +50,14 @@ public class ScheduleActivity extends FragmentActivity {
 		@Override
 		public void handleMessage(final Message msg) {
 			super.handleMessage(msg);
+
 			final ScheduleActivity act = ref.get();
-			final ArrayList<Session> retreivedSessions = (ArrayList<Session>) msg.obj;
-			Log.v("ScheduleActivity", "ScheduleActivity: msg.what=" + msg.what);
-			switch (msg.what) {
-			case CalendarTaskMonth.ON_POST_EXEC:
-				if (act != null) {
+			if (act != null && !act.isFinishing()) {
+
+				final ArrayList<Session> retreivedSessions = (ArrayList<Session>) msg.obj;
+
+				switch (msg.what) {
+				case CalendarTaskMonth.ON_POST_EXEC:
 					if (act.navBar != null) {
 						act.navBar.hideLoading();
 					}
@@ -63,6 +65,7 @@ public class ScheduleActivity extends FragmentActivity {
 					// update calendar
 					if (retreivedSessions != null
 							&& !retreivedSessions.isEmpty()) {
+						
 						ETSMobileApp.getInstance().setSessions(
 								retreivedSessions);
 
@@ -81,54 +84,16 @@ public class ScheduleActivity extends FragmentActivity {
 									.notifyObservers();
 						}
 					}
+
+					break;
+				default:
+					if (act.navBar != null) {
+						act.navBar.showLoading();
+					}
+					break;
 				}
-				break;
-			default:
-				act.navBar.showLoading();
-				break;
 			}
 		}
-	}
-
-	private void getCalendarICS() {
-		// Handler mainHandler = new Handler(getMainLooper());
-		// mainHandler.post(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// // TODO Auto-generated method stub
-		// try {
-		// InputStream fin;
-		// AssetManager assetManager = getAssets();
-		// Log.v("ScheduleActivity",
-		// "ScheduleActivity: getCalendarICS: asset ="
-		// + assetManager);
-		// fin = (InputStream) assetManager.open("ete_2013.ics");
-		// CalendarBuilder builder = new CalendarBuilder(
-		// new TimeZoneRegistryImpl());
-		// Calendar calendar = builder.build(fin);
-		//
-		// for (Iterator i = calendar.getComponents().iterator(); i
-		// .hasNext();) {
-		// Property property = (Property) i.next();
-		// Log.v("ScheduleActivity",
-		// "ScheduleActivity: getCalendarICS: calendar="
-		// + property.getName() + " , "
-		// + property.getValue());
-		// }
-		//
-		// } catch (FileNotFoundException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// } catch (ParserException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
-		// });
 	}
 
 	private CurrentCalendar currentCalendar;
@@ -139,7 +104,6 @@ public class ScheduleActivity extends FragmentActivity {
 	private final OnCellTouchListener mNumGridView_OnCellTouchListener = new OnCellTouchListener() {
 		@Override
 		public void onCellTouch(final NumGridView v, final int x, final int y) {
-			// if (task.getStatus() != Status.RUNNING) {
 			CalendarCell cell = v.getCell(x, y);
 			cell.deleteObservers();
 
@@ -193,7 +157,6 @@ public class ScheduleActivity extends FragmentActivity {
 		// get data async
 		handler = new CalendarTaskHandler(this);
 		new CalendarTaskMonth(handler).execute(creds);
-		getCalendarICS();
 
 		// set the navigation bar
 		navBar = (NavBar) findViewById(R.id.navBar1);
@@ -230,7 +193,7 @@ public class ScheduleActivity extends FragmentActivity {
 				.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
 		// assignation des session déja en mémoire
-		currentGridView.setSessions(ETSMobileApp.getInstance().getSessions());
+		currentGridView.setSessions(ETSMobileApp.getInstance().getSessionsFromPrefs());
 
 		// Affiche le mois courant
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);

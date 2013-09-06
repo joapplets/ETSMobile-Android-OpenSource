@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
 import android.app.Application;
@@ -11,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import ca.etsmtl.applets.etsmobile.models.Session;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -24,19 +26,16 @@ public class ETSMobileApp extends Application {
 
 	@Override
 	public void onCreate() {
-		// ACRA.init(this);
-		// BugSenseHandler.initAndStartSession(this, "4422c148");
 		super.onCreate();
+
+		ACRA.init(this);
+		BugSenseHandler.initAndStartSession(this, "4422c148");
 		instance = this;
 		prefs = getSharedPreferences("etsmobile-calendrier", MODE_PRIVATE);
 	}
 
 	public static ETSMobileApp getInstance() {
 		return instance;
-	}
-
-	public ArrayList<Session> getSessions() {
-		return sessions;
 	}
 
 	public void setSessions(ArrayList<Session> sessions) {

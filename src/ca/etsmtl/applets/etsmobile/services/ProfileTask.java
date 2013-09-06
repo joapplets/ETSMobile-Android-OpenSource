@@ -27,13 +27,12 @@ public class ProfileTask extends
 	@Override
 	protected StudentProfile doInBackground(final UserCredentials... params) {
 		onPreExecute();
+		StudentProfile profile = null;
+		List<StudentPrograms> programms = null;
+
 		final SignetBackgroundThread<StudentProfile, StudentProfile> signets = new SignetBackgroundThread<StudentProfile, StudentProfile>(
 				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
 				"infoEtudiant", params[0], StudentProfile.class);
-		StudentProfile profile = null;
-		List<StudentPrograms> programms = null;
-		profile = signets.fetchObject();
-
 		final SignetBackgroundThread<List<StudentPrograms>, StudentPrograms> signetsListPrograms = new SignetBackgroundThread<List<StudentPrograms>, StudentPrograms>(
 				"https://signets-ens.etsmtl.ca/Secure/WebServices/SignetsMobile.asmx",
 				"listeProgrammes", params[0], StudentPrograms.class);
@@ -41,7 +40,9 @@ public class ProfileTask extends
 		profile = signets.fetchObject();
 		programms = signetsListPrograms.fetchArray();
 
-		profile.setStudentPrograms(programms);
+		if (profile != null) {
+			profile.setStudentPrograms(programms);
+		}
 
 		return profile;
 	}
