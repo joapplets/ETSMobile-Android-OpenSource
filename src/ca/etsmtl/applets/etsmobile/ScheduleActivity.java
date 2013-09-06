@@ -65,7 +65,7 @@ public class ScheduleActivity extends FragmentActivity {
 					// update calendar
 					if (retreivedSessions != null
 							&& !retreivedSessions.isEmpty()) {
-						
+
 						ETSMobileApp.getInstance().setSessions(
 								retreivedSessions);
 
@@ -193,7 +193,8 @@ public class ScheduleActivity extends FragmentActivity {
 				.setOnCellTouchListener(mNumGridView_OnCellTouchListener);
 
 		// assignation des session déja en mémoire
-		currentGridView.setSessions(ETSMobileApp.getInstance().getSessionsFromPrefs());
+		currentGridView.setSessions(ETSMobileApp.getInstance()
+				.getSessionsFromPrefs());
 
 		// Affiche le mois courant
 		final CalendarTextView txtcalendar_title = (CalendarTextView) findViewById(R.id.calendar_title);
@@ -206,9 +207,10 @@ public class ScheduleActivity extends FragmentActivity {
 
 		// set DatePicker
 		final Date date = currentCalendar.getCalendar().getTime();
-		datePickerDialog = new DatePickerDialogFragment(ScheduleActivity.this,
-				0, mDateSetListener, date.getYear(), date.getMonth(),
-				date.getDay());
+		datePickerDialog = new DatePickerDialogFragment(
+				ScheduleActivity.this, android.R.style.Theme_Dialog,
+				mDateSetListener, date.getYear() % 12, date.getMonth() % 12,
+				date.getDay() % 12);
 		txtcalendar_title.setOnClickListener(new OnClickListener() {
 
 			@Override

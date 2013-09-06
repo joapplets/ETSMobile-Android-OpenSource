@@ -62,11 +62,11 @@ public class ProfileActivity extends Activity implements OnClickListener,
 			super.handleMessage(msg);
 
 			final ProfileActivity act = ref.get();
+			if (act != null && !act.isFinishing()) {
 
-			switch (msg.what) {
+				switch (msg.what) {
 
-			case 2:// show bandwith
-				if (!act.isFinishing()) {
+				case 2:// show bandwith
 					if (msg.obj != null) {
 
 						final float[] result = (float[]) msg.obj;
@@ -79,12 +79,12 @@ public class ProfileActivity extends Activity implements OnClickListener,
 
 						act.progess.setMax((int) result[1]);
 						act.progess.setProgress((int) result[0]);
-					} else {
 					}
+
+					act.appt_input.setEnabled(true);
+					act.phase_input.setEnabled(true);
+					break;
 				}
-				act.appt_input.setEnabled(true);
-				act.phase_input.setEnabled(true);
-				break;
 			}
 		}
 
@@ -315,7 +315,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 
 			@Override
 			protected void onPostExecute(float[] result) {
-				handler.obtainMessage(2, result).sendToTarget();
+				handlerBandwith.obtainMessage(2, result).sendToTarget();
 				super.onPostExecute(result);
 			}
 

@@ -6,7 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class StudentProfile extends Model {
-	private final String nom, prenom, codePerm, soldeTotal;
+	private String nom, prenom, codePerm, soldeTotal;
 
 	public static final Creator<StudentProfile> CREATOR = new Parcelable.Creator<StudentProfile>() {
 		@Override
@@ -21,6 +21,9 @@ public class StudentProfile extends Model {
 	};
 
 	private List<StudentPrograms> programms;
+
+	public StudentProfile() {
+	}
 
 	public StudentProfile(final Parcel in) {
 		super(in);

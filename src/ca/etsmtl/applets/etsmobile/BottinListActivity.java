@@ -311,7 +311,6 @@ public class BottinListActivity extends ListActivity implements TextWatcher,
 										final int which) {
 									dialog.cancel();
 									dialog.dismiss();
-									unbindService(connection);
 								}
 							});
 			d = builder.create();

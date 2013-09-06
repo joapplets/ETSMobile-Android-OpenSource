@@ -4,17 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-	<ImageView 
+	<ImageView
 	    android:id="@+id/grid_item_image"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_horizontal"
-	    android:contentDescription="@string/gridview_item_image"/>
+	    android:contentDescription="@string/gridview_item_image"
+	    android:src="@drawable/icon_biblio" />
 	
-	<TextView 
+	<TextView
 	    android:id="@+id/grid_item_title"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_gravity="center_horizontal"/>
+	    android:layout_gravity="center_horizontal"
+	    android:text="@null" />
 	
 </LinearLayout>

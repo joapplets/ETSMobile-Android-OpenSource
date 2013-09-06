@@ -10,6 +10,8 @@ import org.acra.annotation.ReportsCrashes;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import ca.etsmtl.applets.etsmobile.models.Session;
 
 import com.bugsense.trace.BugSenseHandler;
@@ -31,7 +33,8 @@ public class ETSMobileApp extends Application {
 		ACRA.init(this);
 		BugSenseHandler.initAndStartSession(this, "4422c148");
 		instance = this;
-		prefs = getSharedPreferences("etsmobile-calendrier", MODE_PRIVATE);
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);// getSharedPreferences("etsmobile-calendrier",
+																	// MODE_PRIVATE);
 	}
 
 	public static ETSMobileApp getInstance() {
@@ -45,10 +48,14 @@ public class ETSMobileApp extends Application {
 	public void saveSessionsToPrefs(ArrayList<Session> result) {
 
 		final Gson gson = new Gson();
-		final String json = gson.toJson(result);
-		prefs = getSharedPreferences("etsmobile-calendrier", MODE_PRIVATE);
-		final Editor edit = prefs.edit();
-		edit.putString(ETSMOBILE_CALENDRIER_SESSIONS, json).commit();
+		if (!result.isEmpty()) {
+			final String json = gson.toJson(result);
+			Log.d("ETSMobileApp::CalendrierToJSON", json);
+
+			final Editor edit = prefs.edit();
+			edit.putString(ETSMOBILE_CALENDRIER_SESSIONS, json);
+			edit.commit();
+		}
 	}
 
 	public ArrayList<Session> getSessionsFromPrefs() {
@@ -57,11 +64,15 @@ public class ETSMobileApp extends Application {
 		final Type type = new TypeToken<List<Session>>() {
 		}.getType();
 
-		list = new Gson().fromJson(
-				prefs.getString(ETSMOBILE_CALENDRIER_SESSIONS, "[]"), type);
+		final String string = prefs.getString(ETSMOBILE_CALENDRIER_SESSIONS, "[]");
+		
+		Log.d("ETSMobileApp::CalendrierJSONtoPOJO", string);
+		
+		list = new Gson().fromJson(string, type);
 		if (list == null) {
 			list = new ArrayList<Session>();
 		}
+		Log.d("ETSMobileApp::CalendrierJSONtoPOJO", "" + list.size());
 		return list;
 	}
 

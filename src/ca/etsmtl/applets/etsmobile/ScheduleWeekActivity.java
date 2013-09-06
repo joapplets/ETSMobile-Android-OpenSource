@@ -51,13 +51,14 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		@Override
 		public void handleMessage(final Message msg) {
 			super.handleMessage(msg);
+
 			final ScheduleWeekActivity act = ref.get();
+
 			final ArrayList<Session> retreivedSessions = (ArrayList<Session>) msg.obj;
-			Log.v("ScheduleWeekActivity", "ScheduleWeekActivity: msg.what="
-					+ msg.what);
-			switch (msg.what) {
-			case CalendarTaskWeek.ON_POST_EXEC:
-				if (act != null) {
+
+			if (act != null && !act.isFinishing()) {
+				switch (msg.what) {
+				case CalendarTaskWeek.ON_POST_EXEC:
 					if (act.navBar != null) {
 						act.navBar.hideLoading();
 					}
@@ -65,10 +66,10 @@ public class ScheduleWeekActivity extends FragmentActivity {
 					// update calendar
 					if (retreivedSessions != null
 							&& !retreivedSessions.isEmpty()) {
-						ETSMobileApp.getInstance().setSessions(
+
+						ETSMobileApp.getInstance().saveSessionsToPrefs(
 								retreivedSessions);
-						Log.d(TAG, "updating Calendar : session count : "
-								+ retreivedSessions.size() + "\n");
+
 						act.currentGridView.setSessions(retreivedSessions);
 						act.currentGridView.setCurrentCell(null);
 						act.currentCalendar.setChanged();
@@ -85,11 +86,13 @@ public class ScheduleWeekActivity extends FragmentActivity {
 									.notifyObservers();
 						}
 					}
+					break;
+				default:
+					if (act.navBar != null) {
+						act.navBar.showLoading();
+					}
+					break;
 				}
-				break;
-			default:
-				act.navBar.showLoading();
-				break;
 			}
 		}
 	}
@@ -209,8 +212,9 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		// set DatePicker
 		final Date date = currentCalendar.getCalendar().getTime();
 		datePickerDialog = new DatePickerDialogFragment(
-				ScheduleWeekActivity.this, 0, mDateSetListener, date.getYear(),
-				date.getMonth(), date.getDay());
+				ScheduleWeekActivity.this, android.R.style.Theme_Dialog,
+				mDateSetListener, date.getYear() % 12, date.getMonth() % 12,
+				date.getDay() % 12);
 		txtcalendar_title.setOnClickListener(new OnClickListener() {
 
 			@Override

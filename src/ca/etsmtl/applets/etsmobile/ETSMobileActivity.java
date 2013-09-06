@@ -30,7 +30,8 @@ import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
 public class ETSMobileActivity extends Activity implements OnItemClickListener,
-		OnTouchListener, android.content.DialogInterface.OnClickListener {
+// OnTouchListener,
+		android.content.DialogInterface.OnClickListener {
 
 	/**
 	 * Handles login; save to sharedPrefs if the {@link StudentProfile} is valid
@@ -157,7 +158,7 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		}
 
 		gridview.setOnItemClickListener(this);
-		gridview.setOnTouchListener(this);
+//		gridview.setOnTouchListener(this);
 
 		// about bnt
 		((ImageButton) findViewById(R.id.imgBtnabout))
@@ -242,16 +243,16 @@ public class ETSMobileActivity extends Activity implements OnItemClickListener,
 		}
 	}
 
-	/** Disable scrolling of the main view */
-	@Override
-	public boolean onTouch(final View v, final MotionEvent event) {
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_MOVE:
-			return true;
-		default:
-			break;
-		}
-		return false;
-	}
+	// /** Disable scrolling of the main view */
+	// @Override
+	// public boolean onTouch(final View v, final MotionEvent event) {
+	// switch (event.getAction()) {
+	// case MotionEvent.ACTION_MOVE:
+	// return true;
+	// default:
+	// break;
+	// }
+	// return false;
+	// }
 
 }
