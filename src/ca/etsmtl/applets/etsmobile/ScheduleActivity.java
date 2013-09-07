@@ -4,6 +4,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.testflightapp.lib.TestFlight;
+
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
@@ -151,7 +153,7 @@ public class ScheduleActivity extends FragmentActivity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calendar_view);
-
+		TestFlight.passCheckpoint(this.getClass().getName());
 		creds = new UserCredentials(
 				PreferenceManager.getDefaultSharedPreferences(this));
 		// get data async

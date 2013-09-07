@@ -3,6 +3,8 @@ package ca.etsmtl.applets.etsmobile;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import com.testflightapp.lib.TestFlight;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,7 +32,7 @@ public class MyCourseDetailActivity extends ListActivity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_courses_view);
-
+		TestFlight.passCheckpoint(this.getClass().getName());
 		// Initialize courseEvaluation data from cache
 		if (savedInstanceState != null) {
 			courseEvaluation = (CourseEvaluation) savedInstanceState

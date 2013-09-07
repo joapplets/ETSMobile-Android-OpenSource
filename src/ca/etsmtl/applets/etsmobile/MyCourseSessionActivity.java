@@ -2,6 +2,8 @@ package ca.etsmtl.applets.etsmobile;
 
 import java.util.ArrayList;
 
+import com.testflightapp.lib.TestFlight;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +31,7 @@ public class MyCourseSessionActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.my_courses_view);
-
+		TestFlight.passCheckpoint(this.getClass().getName());
 		navBar = (NavBar) findViewById(R.id.navBar3);
 		navBar.hideRightButton();
 		navBar.setTitle(R.drawable.navbar_notes_title);

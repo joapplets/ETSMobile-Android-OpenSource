@@ -3,6 +3,8 @@ package ca.etsmtl.applets.etsmobile;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import com.testflightapp.lib.TestFlight;
+
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -163,7 +165,7 @@ public class MyCourseListActivity extends ListActivity implements
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_courses_view);
-
+		TestFlight.passCheckpoint(this.getClass().getName());
 		navBar = (NavBar) findViewById(R.id.navBar3);
 		navBar.hideRightButton();
 		navBar.setTitle(R.drawable.navbar_notes_title);

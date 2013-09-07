@@ -74,11 +74,13 @@
             android:name=".ScheduleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-         <activity
+        <activity
             android:name=".ScheduleWeekActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        <activity android:name=".ProfileActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".BottinListActivity" />
         <activity android:name=".ScheduleDetailActivity" />
         <activity android:name=".AboutActivity" />
@@ -90,9 +92,9 @@
         <activity android:name=".MyCourseDetailActivity" />
         <activity android:name=".MyCourseListActivity" />
         <activity android:name=".ETSMobileEmplActivity" />
-        <activity 
-                  android:name=".EmailWebView" 
-                  android:configChanges="keyboardHidden|orientation"/>
+        <activity
+            android:name=".EmailWebView"
+            android:configChanges="keyboardHidden|orientation" />
         <activity android:name=".ContactAdder" />
     </application>
 

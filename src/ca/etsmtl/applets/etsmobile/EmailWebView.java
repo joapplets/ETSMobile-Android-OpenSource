@@ -12,6 +12,8 @@ import android.webkit.WebViewClient;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 
+import com.testflightapp.lib.TestFlight;
+
 @SuppressLint("SetJavaScriptEnabled")
 public class EmailWebView extends Activity {
 
@@ -23,6 +25,7 @@ public class EmailWebView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.webview);
+		TestFlight.passCheckpoint(this.getClass().getName());
 
 		webView = (WebView) findViewById(R.id.webView1);
 

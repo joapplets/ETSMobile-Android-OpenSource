@@ -17,6 +17,7 @@ import ca.etsmtl.applets.etsmobile.models.Session;
 import com.bugsense.trace.BugSenseHandler;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.testflightapp.lib.TestFlight;
 
 @ReportsCrashes(formUri = "http://www.bugsense.com/api/acra?api_key=4422c148", formKey = "")
 public class ETSMobileApp extends Application {
@@ -32,6 +33,8 @@ public class ETSMobileApp extends Application {
 
 		ACRA.init(this);
 		BugSenseHandler.initAndStartSession(this, "4422c148");
+		TestFlight.takeOff(this, "8531a36e-8e9d-4dff-915b-716ed7768795");
+
 		instance = this;
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);// getSharedPreferences("etsmobile-calendrier",
 																	// MODE_PRIVATE);

@@ -261,6 +261,8 @@
             android:layout_alignRight="@+id/item_value_ec_type"
             android:layout_below="@+id/item_value_ec_type"
             android:background="@drawable/bkg_white_round_corners"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:padding="10dp" >
 
@@ -361,7 +363,6 @@
             android:layout_below="@+id/RelativeLayout2"
             android:layout_marginTop="20dp"
             android:text="@string/login" />
-
     </RelativeLayout>
 
 </ScrollView>
