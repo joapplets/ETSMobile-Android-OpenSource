@@ -77,4 +77,17 @@ public class StudentProfile extends Model {
 	public List<StudentPrograms> getStudentPrograms() {
 		return programms;
 	}
+
+	public StudentPrograms getActiveStudentProfile() {
+
+		StudentPrograms activeProgram = null;
+
+		for (StudentPrograms program : programms) {
+			if (program.getStatut().equals("actif")) {
+				activeProgram = program;
+			}
+		}
+
+		return activeProgram;
+	}
 }

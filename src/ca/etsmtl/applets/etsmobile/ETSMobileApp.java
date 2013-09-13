@@ -4,7 +4,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
 import android.app.Application;
@@ -14,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import ca.etsmtl.applets.etsmobile.models.Session;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.testflightapp.lib.TestFlight;
@@ -31,8 +29,8 @@ public class ETSMobileApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-		ACRA.init(this);
-		BugSenseHandler.initAndStartSession(this, "4422c148");
+		// ACRA.init(this);
+		// BugSenseHandler.initAndStartSession(this, "4422c148");
 		TestFlight.takeOff(this, "8531a36e-8e9d-4dff-915b-716ed7768795");
 
 		instance = this;
@@ -67,10 +65,11 @@ public class ETSMobileApp extends Application {
 		final Type type = new TypeToken<List<Session>>() {
 		}.getType();
 
-		final String string = prefs.getString(ETSMOBILE_CALENDRIER_SESSIONS, "[]");
-		
+		final String string = prefs.getString(ETSMOBILE_CALENDRIER_SESSIONS,
+				"[]");
+
 		Log.d("ETSMobileApp::CalendrierJSONtoPOJO", string);
-		
+
 		list = new Gson().fromJson(string, type);
 		if (list == null) {
 			list = new ArrayList<Session>();

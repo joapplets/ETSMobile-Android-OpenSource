@@ -2,17 +2,19 @@ package ca.etsmtl.applets.etsmobile;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
-import com.testflightapp.lib.TestFlight;
-
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -35,6 +37,8 @@ import ca.etsmtl.applets.etsmobile.views.CalendarTextView;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
 import ca.etsmtl.applets.etsmobile.views.NumGridView;
 import ca.etsmtl.applets.etsmobile.views.NumGridView.OnCellTouchListener;
+
+import com.testflightapp.lib.TestFlight;
 
 public class ScheduleActivity extends FragmentActivity {
 
@@ -207,20 +211,15 @@ public class ScheduleActivity extends FragmentActivity {
 		currentCalendar.addObserver(currentGridView);
 		currentCalendar.addObserver(txtcalendar_title);
 
-		// set DatePicker
-		final Date date = currentCalendar.getCalendar().getTime();
-		datePickerDialog = new DatePickerDialogFragment(
-				ScheduleActivity.this, android.R.style.Theme_Dialog,
-				mDateSetListener, date.getYear() % 12, date.getMonth() % 12,
-				date.getDay() % 12);
 		txtcalendar_title.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				datePickerDialog.show();
+				new DatePickerFragment(new WeakReference<ScheduleActivity>(
+						ScheduleActivity.this)).show(
+						getSupportFragmentManager(), "date-frag-tag");
 			}
 		});
-		currentCalendar.addObserver(datePickerDialog);
 		currentCalendar.setChanged();
 		currentCalendar.notifyObservers(currentCalendar.getCalendar());
 
@@ -276,14 +275,36 @@ public class ScheduleActivity extends FragmentActivity {
 		return true;
 	}
 
-	private final DatePickerDialog.OnDateSetListener mDateSetListener = new OnDateSetListener() {
-		@Override
-		public void onDateSet(DatePicker datepicker, int year, int month,
-				int day) {
-			currentCalendar.setDate(year, month, day);
-			currentCalendar.setChanged();
+	@SuppressLint("ValidFragment")
+	public static class DatePickerFragment extends DialogFragment implements
+			DatePickerDialog.OnDateSetListener {
 
+		private final WeakReference<ScheduleActivity> ref;
+
+		public DatePickerFragment(WeakReference<ScheduleActivity> ref) {
+			this.ref = ref;
 		}
 
-	};
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			// Use the current date as the default date in the picker
+			final Calendar c = Calendar.getInstance();
+			int year = c.get(Calendar.YEAR);
+			int month = c.get(Calendar.MONTH);
+			int day = c.get(Calendar.DAY_OF_MONTH);
+
+			// Create a new instance of DatePickerDialog and return it
+			return new DatePickerDialog(getActivity(), this, year, month, day);
+		}
+
+		public void onDateSet(DatePicker view, int year, int month, int day) {
+			final ScheduleActivity scheduleActivity = ref.get();
+			scheduleActivity.getCurrentCalendar().setDate(year, month, day);
+			scheduleActivity.getCurrentCalendar().setChanged();
+		}
+	}
+
+	public CurrentCalendar getCurrentCalendar() {
+		return currentCalendar;
+	}
 }

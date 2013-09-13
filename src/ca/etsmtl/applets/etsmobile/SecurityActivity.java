@@ -89,7 +89,7 @@ public class SecurityActivity extends FragmentActivity {
 					.fromResource(R.drawable.icon));
 			mapView.addMarker(etsMarker);
 		} else {
-			map.getView().setVisibility(View.INVISIBLE);
+			map.getView().setVisibility(View.GONE);
 		}
 	}
 }

@@ -22,7 +22,7 @@
 
         <TableLayout
             android:id="@+id/layout1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/navBar1"
             android:layout_centerHorizontal="true"
@@ -54,6 +54,7 @@
                     android:gravity="right"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/blue_ets" />
+
             </TableRow>
 
             <TableRow

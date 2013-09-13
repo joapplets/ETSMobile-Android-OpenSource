@@ -142,7 +142,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 							act.solde.setText(studentProfile.getSolde());
 
 							final StudentPrograms studentPrograms = studentProfile
-									.getStudentPrograms().get(0);
+									.getActiveStudentProfile();
 							act.credits_done.setText(studentPrograms
 									.getNbCreditsCompletes());
 							act.credit_failed.setText(studentPrograms
@@ -155,7 +155,7 @@ public class ProfileActivity extends Activity implements OnClickListener,
 							libelle = "";
 							int i = 0;
 							for (final String string : split) {
-								if (i > 0 && i % 2 == 0) {
+								if (i > 0 && i % 1 == 0) {
 									libelle += "\n";
 								}
 								libelle += " " + string;

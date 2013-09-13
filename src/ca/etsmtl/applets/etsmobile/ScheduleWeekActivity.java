@@ -2,17 +2,19 @@ package ca.etsmtl.applets.etsmobile;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
-import com.testflightapp.lib.TestFlight;
-
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -23,7 +25,6 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import ca.etsmtl.applets.etsmobile.dialogs.DatePickerDialogFragment;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
 import ca.etsmtl.applets.etsmobile.models.CurrentCalendar;
 import ca.etsmtl.applets.etsmobile.models.Session;
@@ -36,10 +37,14 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek.OnCellTouchListener;
 
+import com.google.android.gms.internal.y;
+import com.testflightapp.lib.TestFlight;
+
 public class ScheduleWeekActivity extends FragmentActivity {
 
+	private static final String TAG = "ScheduleWeekActivity";
 	public UserCredentials creds;
-	private DatePickerDialogFragment datePickerDialog;
+	private DatePickerDialog datePickerDialog;
 
 	public static class CalendarTaskHandlerWeek extends Handler {
 		private static final String TAG = "CalendarTaskHandlerWeek";
@@ -152,6 +157,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
 	};
 	private CalendarTaskHandlerWeek handler;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -212,19 +218,17 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		currentCalendar.addObserver(txtcalendar_title);
 
 		// set DatePicker
-		final Date date = currentCalendar.getCalendar().getTime();
-		datePickerDialog = new DatePickerDialogFragment(
-				ScheduleWeekActivity.this, android.R.style.Theme_Dialog,
-				mDateSetListener, date.getYear() % 12, date.getMonth() % 12,
-				date.getDay() % 12);
+		// ScheduleWeekActivity.this, 0, mDateSetListener, i, j, k);
 		txtcalendar_title.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				datePickerDialog.show();
+				new DatePickerFragment(new WeakReference<ScheduleWeekActivity>(
+						ScheduleWeekActivity.this)).show(
+						getSupportFragmentManager(), "");
 			}
 		});
-		currentCalendar.addObserver(datePickerDialog);
+		// currentCalendar.addObserver(datePickerDialog);
 		currentCalendar.setChanged();
 		currentCalendar.notifyObservers(currentCalendar.getCalendar());
 
@@ -303,4 +307,38 @@ public class ScheduleWeekActivity extends FragmentActivity {
 		}
 
 	};
+
+	@SuppressLint("ValidFragment")
+	public static class DatePickerFragment extends DialogFragment implements
+			DatePickerDialog.OnDateSetListener {
+
+		private final WeakReference<ScheduleWeekActivity> ref;
+
+		public DatePickerFragment(
+				WeakReference<ScheduleWeekActivity> weakReference) {
+			this.ref = weakReference;
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			// Use the current date as the default date in the picker
+			final Calendar c = Calendar.getInstance();
+			int year = c.get(Calendar.YEAR);
+			int month = c.get(Calendar.MONTH);
+			int day = c.get(Calendar.DAY_OF_MONTH);
+
+			// Create a new instance of DatePickerDialog and return it
+			return new DatePickerDialog(getActivity(), this, year, month, day);
+		}
+
+		public void onDateSet(DatePicker view, int year, int month, int day) {
+			ScheduleWeekActivity scheduleActivity = ref.get();
+			scheduleActivity.getCurrentCalendar().setDate(year, month, day);
+			scheduleActivity.getCurrentCalendar().setChanged();
+		}
+	}
+
+	public CurrentCalendar getCurrentCalendar() {
+		return currentCalendar;
+	}
 }
