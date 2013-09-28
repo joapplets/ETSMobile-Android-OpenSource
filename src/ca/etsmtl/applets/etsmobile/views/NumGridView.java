@@ -70,7 +70,10 @@ public class NumGridView extends View implements Observer {
 	protected boolean mStretch; // Can cells be stretched (non-square)
 	protected int mCellCountX; // Width of the grid in cells (set in XML)
 	protected int mCellCountY; // Height of the grid in cells (set in XML)
-	protected CalendarCell[][] mCells; // Contains number to be shown in each
+	protected CalendarCell[][] mCells = new CalendarCell[][] {}; // Contains
+																	// number to
+																	// be shown
+																	// in each
 	// grid cell
 	protected int mCellWidth; // Width of a cell in pixels
 	protected int mCellHeight; // Height of a cell in pixels
@@ -254,87 +257,91 @@ public class NumGridView extends View implements Observer {
 
 		now = Calendar.getInstance(TimeZone.getTimeZone("Canada/Eastern"),
 				Locale.CANADA_FRENCH).getTime();
-		// Draw all cells
-		for (int y = 0; y < mCellCountY; y++) {
-			for (int x = 0; x < mCellCountX; x++) {
-				// Draw a rectangle
-				final int dx = x * mCellWidth + mOffsetX;
-				final int dy = y * mCellHeight + mOffsetY;
+		if (mCells.length > 0) {
+			// Draw all cells
+			for (int y = 0; y < mCellCountY; y++) {
+				for (int x = 0; x < mCellCountX; x++) {
+					// Draw a rectangle
+					final int dx = x * mCellWidth + mOffsetX;
+					final int dy = y * mCellHeight + mOffsetY;
 
-				cell = mCells[x][y];
+					cell = mCells[x][y];
 
-				if (cell.equals(currentCell)) {
-					mPaintFg.setAlpha(100);
-					mPaintBg.setColor(getResources().getColor(
-							R.color.calendar_selected_cell_background_color));
-					mPaintFg.setColor(getResources().getColor(
-							R.color.calendar_selected_cell_text_color));
-				} else if (cell.getDate().getYear() == now.getYear()
-						&& cell.getDate().getMonth() == now.getMonth()
-						&& cell.getDate().getDate() == now.getDate()) {
-					mPaintFg.setAlpha(100);
-					mPaintBg.setColor(getResources().getColor(
-							R.color.calendar_current_day_cell_background_color));
-					mPaintFg.setColor(getResources().getColor(
-							R.color.calendar_current_day_cell_text_color));
-				} else if (cell.getDate().getMonth() == current.getTime()
-						.getMonth()) {
-					mPaintFg.setAlpha(100);
-					mPaintBg.setColor(getResources().getColor(
-							R.color.calendar_cell_background_color));
-					mPaintFg.setColor(getResources().getColor(
-							R.color.calendar_cell_text_color));
+					if (cell.equals(currentCell)) {
+						mPaintFg.setAlpha(100);
+						mPaintBg.setColor(getResources()
+								.getColor(
+										R.color.calendar_selected_cell_background_color));
+						mPaintFg.setColor(getResources().getColor(
+								R.color.calendar_selected_cell_text_color));
+					} else if (cell.getDate().getYear() == now.getYear()
+							&& cell.getDate().getMonth() == now.getMonth()
+							&& cell.getDate().getDate() == now.getDate()) {
+						mPaintFg.setAlpha(100);
+						mPaintBg.setColor(getResources()
+								.getColor(
+										R.color.calendar_current_day_cell_background_color));
+						mPaintFg.setColor(getResources().getColor(
+								R.color.calendar_current_day_cell_text_color));
+					} else if (cell.getDate().getMonth() == current.getTime()
+							.getMonth()) {
+						mPaintFg.setAlpha(100);
+						mPaintBg.setColor(getResources().getColor(
+								R.color.calendar_cell_background_color));
+						mPaintFg.setColor(getResources().getColor(
+								R.color.calendar_cell_text_color));
 
-				} else {
-					mPaintBg.setColor(getResources().getColor(
-							R.color.calendar_cell_background_color));
-					mPaintFg.setColor(getResources().getColor(
-							R.color.calendar_cell_text_color));
-					mPaintFg.setAlpha(50);
+					} else {
+						mPaintBg.setColor(getResources().getColor(
+								R.color.calendar_cell_background_color));
+						mPaintFg.setColor(getResources().getColor(
+								R.color.calendar_cell_text_color));
+						mPaintFg.setAlpha(50);
+					}
+
+					canvas.drawRect(new Rect(dx + 1, dy + 1, dx + mCellWidth
+							- 2, dy + mCellHeight - 2), mPaintBorders);
+
+					canvas.drawRect(new Rect(dx + 1, dy + 1, dx + mCellWidth
+							- 2, dy + mCellHeight - 2), mPaintBg);
+
+					// Draw the cell value
+					final int v = cell.getDate().getDate();
+					canvas.drawText("" + v, dx + tx, dy + ty, mPaintFg);
+
+					final Iterator<ActivityCalendar> it = cell.iterator();
+
+					int i = 0;
+
+					final float radius = mCellWidth / (3 * maxIndicators + 1);
+
+					final float startpos = dx
+							+ tx
+							- ((2 * cell.size() + cell.size() - 1) * radius / 2 - radius);
+
+					ActivityCalendar event;
+					while (it.hasNext()) {
+						event = it.next();
+
+						final Drawable d = getResources().getDrawable(
+								event.getDrawableResId());
+
+						final int left = (int) (startpos + 3 * i * radius - radius);
+
+						final int right = (int) (left + radius * 2);
+
+						final int bottom = dy + mCellHeight - ty / 4 + 2;
+
+						final int top = (int) (bottom - 2 * radius);
+
+						d.setBounds(left, top, right, bottom);
+
+						d.draw(canvas);
+
+						i++;
+					}
+
 				}
-
-				canvas.drawRect(new Rect(dx + 1, dy + 1, dx + mCellWidth - 2,
-						dy + mCellHeight - 2), mPaintBorders);
-
-				canvas.drawRect(new Rect(dx + 1, dy + 1, dx + mCellWidth - 2,
-						dy + mCellHeight - 2), mPaintBg);
-
-				// Draw the cell value
-				final int v = cell.getDate().getDate();
-				canvas.drawText("" + v, dx + tx, dy + ty, mPaintFg);
-
-				final Iterator<ActivityCalendar> it = cell.iterator();
-
-				int i = 0;
-
-				final float radius = mCellWidth / (3 * maxIndicators + 1);
-
-				final float startpos = dx
-						+ tx
-						- ((2 * cell.size() + cell.size() - 1) * radius / 2 - radius);
-
-				ActivityCalendar event;
-				while (it.hasNext()) {
-					event = it.next();
-
-					final Drawable d = getResources().getDrawable(
-							event.getDrawableResId());
-
-					final int left = (int) (startpos + 3 * i * radius - radius);
-
-					final int right = (int) (left + radius * 2);
-
-					final int bottom = dy + mCellHeight - ty / 4 + 2;
-
-					final int top = (int) (bottom - 2 * radius);
-
-					d.setBounds(left, top, right, bottom);
-
-					d.draw(canvas);
-
-					i++;
-				}
-
 			}
 		}
 	}

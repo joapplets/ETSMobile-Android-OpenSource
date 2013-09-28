@@ -61,9 +61,15 @@ public class CalendarEventsAdapter extends ArrayAdapter<ActivityCalendar> {
 		}
 
 		if (event.getStartDate() != null) {
+			String endDate = " - ";
+			if (endDate != null) {
+				endDate += event.getEndDate();
+			} else {
+				endDate = "";
+			}
 			holder.text1.setText(String.format(
 					res.getString(R.string.calendar_event_list_item_title),
-					event.getStartDate(), event.getCours()));
+					event.getStartDate() + endDate, event.getCours()));
 		} else {
 			holder.text1.setText(event.getCours());
 		}

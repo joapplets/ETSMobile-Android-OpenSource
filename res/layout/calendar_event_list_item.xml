@@ -34,9 +34,10 @@
         android:id="@+id/img_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="10dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/kal_marker_aqua" />
 
