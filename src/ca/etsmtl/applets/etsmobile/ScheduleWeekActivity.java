@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -37,7 +36,6 @@ import ca.etsmtl.applets.etsmobile.views.NavBar;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek;
 import ca.etsmtl.applets.etsmobile.views.NumGridViewWeek.OnCellTouchListener;
 
-import com.google.android.gms.internal.y;
 import com.testflightapp.lib.TestFlight;
 
 public class ScheduleWeekActivity extends FragmentActivity {

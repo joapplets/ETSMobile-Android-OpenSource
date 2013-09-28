@@ -3,8 +3,6 @@ package ca.etsmtl.applets.etsmobile;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import com.testflightapp.lib.TestFlight;
-
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -28,6 +26,8 @@ import ca.etsmtl.applets.etsmobile.models.StudentProfile;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.services.ProfileTask;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
+
+import com.testflightapp.lib.TestFlight;
 
 /**
  * Liste des Cours

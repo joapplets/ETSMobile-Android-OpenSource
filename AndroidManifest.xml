@@ -82,7 +82,6 @@
             android:name=".ProfileActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".BottinListActivity" />
-        <activity android:name=".ScheduleDetailActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".BottinViewActivity" />
         <activity android:name=".BibliothequeActivity" />

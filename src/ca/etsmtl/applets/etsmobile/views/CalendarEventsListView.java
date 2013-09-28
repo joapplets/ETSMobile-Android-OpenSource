@@ -1,23 +1,15 @@
 package ca.etsmtl.applets.etsmobile.views;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.os.Bundle;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import ca.etsmtl.applets.etsmobile.R;
-import ca.etsmtl.applets.etsmobile.ScheduleDetailActivity;
 import ca.etsmtl.applets.etsmobile.adapters.CalendarEventsAdapter;
 import ca.etsmtl.applets.etsmobile.models.ActivityCalendar;
 import ca.etsmtl.applets.etsmobile.models.CalendarCell;
@@ -61,45 +53,45 @@ public class CalendarEventsListView extends ListView implements Observer {
 				R.layout.calendar_event_list_item, events);
 		this.setDivider(getResources().getDrawable(
 				R.drawable.divider_horizontal_light_opaque));
-		setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(final AdapterView<?> arg0, final View v,
-					final int position, final long arg3) {
-				// TODO Auto-generated method stub
-
-				final Resources res = context.getResources();
-
-				final Bundle b = new Bundle();
-				final ActivityCalendar item = adapter.getItem(position);
-				selectedItem = item;
-				b.putString("cours", item.getCours());
-
-				if (item.getLocation() != null) {
-					b.putString("local", item.getLocation());
-				}
-
-				b.putString("date", new SimpleDateFormat("EEEE dd MMMM yyyy",
-						Locale.CANADA_FRENCH).format(date));
-
-				if (item.getStartDate() != null && item.getEndDate() != null) {
-					b.putString(
-							"hours",
-							String.format(
-									res.getString(R.string.calendar_event_detail_hours),
-									item.getStartDate(), item.getEndDate()));
-				}
-
-				if (item.getName() != null) {
-					b.putString("name", item.getName());
-				}
-
-				final Intent nextActivity = new Intent(context,
-						ScheduleDetailActivity.class);
-				nextActivity.putExtras(b);
-			}
-
-		});
+		// setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(final AdapterView<?> arg0, final View v,
+		// final int position, final long arg3) {
+		// // TODO Auto-generated method stub
+		//
+		// final Resources res = context.getResources();
+		//
+		// final Bundle b = new Bundle();
+		// final ActivityCalendar item = adapter.getItem(position);
+		// selectedItem = item;
+		// b.putString("cours", item.getCours());
+		//
+		// if (item.getLocation() != null) {
+		// b.putString("local", item.getLocation());
+		// }
+		//
+		// b.putString("date", new SimpleDateFormat("EEEE dd MMMM yyyy",
+		// Locale.CANADA_FRENCH).format(date));
+		//
+		// if (item.getStartDate() != null && item.getEndDate() != null) {
+		// b.putString(
+		// "hours",
+		// String.format(
+		// res.getString(R.string.calendar_event_detail_hours),
+		// item.getStartDate(), item.getEndDate()));
+		// }
+		//
+		// if (item.getName() != null) {
+		// b.putString("name", item.getName());
+		// }
+		//
+		// final Intent nextActivity = new Intent(context,
+		// ScheduleDetailActivity.class);
+		// nextActivity.putExtras(b);
+		// }
+		//
+		// });
 		setAdapter(adapter);
 
 	}

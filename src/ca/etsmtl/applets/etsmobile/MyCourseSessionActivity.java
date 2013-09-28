@@ -2,8 +2,6 @@ package ca.etsmtl.applets.etsmobile;
 
 import java.util.ArrayList;
 
-import com.testflightapp.lib.TestFlight;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +16,8 @@ import ca.etsmtl.applets.etsmobile.api.SignetBackgroundThread;
 import ca.etsmtl.applets.etsmobile.models.Session;
 import ca.etsmtl.applets.etsmobile.models.UserCredentials;
 import ca.etsmtl.applets.etsmobile.views.NavBar;
+
+import com.testflightapp.lib.TestFlight;
 
 public class MyCourseSessionActivity extends ListActivity {
 
