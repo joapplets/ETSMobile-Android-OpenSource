@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2013 Club ApplETS
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package ca.etsmtl.applets.etsmobile.tools.xml;
 
 import java.util.ArrayList;
@@ -114,11 +129,11 @@ public class XMLBottinParser extends XMLAbstractHandler {
 			final String qName, final Attributes attributes)
 			throws SAXException {
 		// super.startElement(uri, localName, qName, attributes);
-		// On reinitialise le buffer à chaque fois qu'on trouver un nouveau tag
+		// On reinitialise le buffer ï¿½ chaque fois qu'on trouver un nouveau tag
 		// d'ouverture xml.
 		buffer = new StringBuffer();
 
-		// Si le tag est un "item", on crée un nouveau "news" vide et on indique
+		// Si le tag est un "item", on crï¿½e un nouveau "news" vide et on indique
 		// qu'on est dans un "item"
 		if (localName.equalsIgnoreCase(XMLBottinParser.ENTRY_TAG)) {
 			// Log.d("XMLBottinParser", localName);

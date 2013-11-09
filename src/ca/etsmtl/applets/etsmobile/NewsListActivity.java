@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2013 Club ApplETS
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package ca.etsmtl.applets.etsmobile;
 
 import java.util.Calendar;
@@ -126,14 +141,14 @@ public class NewsListActivity extends FragmentActivity implements
 	@Override
 	public void onItemClick(final View v) {
 
-		// On crée un nouveau intent qui va nous permettre de lancer
+		// On crï¿½e un nouveau intent qui va nous permettre de lancer
 		// la nouvelle activity
 
 		final Intent intent = new Intent(getApplicationContext(),
 				SingleNewsActivity.class);
 		intent.putExtra("id", (Integer) v.getTag(R.string.viewholderidtag));
 
-		// On lance l'intent qui va créer la nouvelle activity.
+		// On lance l'intent qui va crï¿½er la nouvelle activity.
 		startActivity(intent);
 	}
 
