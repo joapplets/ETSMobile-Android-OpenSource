@@ -63,6 +63,7 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 				}
 			}
 		}
+		
 		ctx = context;
 		li = (LayoutInflater) ctx.getSystemService(inflater);
 	}
@@ -130,13 +131,13 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 			case 2:// NOTE À CE JOUR
 				holder.txtView.setText(R.string.noteACejour);
 				final String note = courseEvaluation.getScoreFinalSur100();
-				holder.txtViewValue.setText(note + "/" + total + " (" + courseEvaluation.getNoteACeJour() + "%)");
+				holder.txtViewValue.setText(note + "/" + (int) total + " (" + courseEvaluation.getNoteACeJour() + "%)");
 				break;
 			case 3:// MOYENNE CLASSE
 				holder.txtView.setText(R.string.moyenne);
 				final String m = courseEvaluation.getMoyenneClasse();
 				try {
-					holder.txtViewValue.setText(m + "/" + total + " ("
+					holder.txtViewValue.setText(m + "/" + (int) total + " ("
 							+ nf_enUS.format(+(nf_frCA.parse(m).doubleValue() / total) * 100) + "%)");
 				} catch (final ParseException e1) {
 					e1.printStackTrace();
