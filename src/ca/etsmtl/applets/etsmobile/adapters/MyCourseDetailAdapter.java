@@ -43,17 +43,14 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 	private final Context ctx;
 	private ViewHolder holder = null;
 
-	public MyCourseDetailAdapter(final Context context,
-			final CourseEvaluation courseEvaluation) {
+	public MyCourseDetailAdapter(final Context context, final CourseEvaluation courseEvaluation) {
 		super();
 		this.courseEvaluation = courseEvaluation;
-		nf_frCA = new DecimalFormat("##,#", new DecimalFormatSymbols(
-				Locale.CANADA_FRENCH));
+		nf_frCA = new DecimalFormat("##,#", new DecimalFormatSymbols(Locale.CANADA_FRENCH));
 		nf_enUS = new DecimalFormat("##.#");
 
 		// parse exams results
-		for (final EvaluationElement evaluationElement : courseEvaluation
-				.getEvaluationElements()) {
+		for (final EvaluationElement evaluationElement : courseEvaluation.getEvaluationElements()) {
 			if (evaluationElement.getNote().length() > 1) {
 				try {
 
@@ -76,8 +73,7 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 
 		if (position > 7) {
 			// offset for static rows
-			evaluationElement = courseEvaluation.getEvaluationElements().get(
-					position - 8);
+			evaluationElement = courseEvaluation.getEvaluationElements().get(position - 8);
 		}
 		return evaluationElement;
 	}
@@ -89,33 +85,23 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(final int position, View convertView,
-			final ViewGroup parent) {
+	public View getView(final int position, View convertView, final ViewGroup parent) {
 
 		final int type = getItemViewType(position);
 		if (convertView == null) {
 			holder = new ViewHolder();
 			// inflate from xml
-			convertView = li
-					.inflate(
-							type == MyCourseDetailAdapter.ITEM_VIEW_TYPE_LIST_ITEM ? R.layout.list_item_value
-									: R.layout.list_separator, null);
+			convertView = li.inflate(type == MyCourseDetailAdapter.ITEM_VIEW_TYPE_LIST_ITEM ? R.layout.list_item_value
+					: R.layout.list_separator, null);
 			// init objs
-			holder.txtViewSeparator = (TextView) convertView
-					.findViewById(R.id.textViewSeparator);
+			holder.txtViewSeparator = (TextView) convertView.findViewById(R.id.textViewSeparator);
 			holder.txtView = (TextView) convertView.findViewById(R.id.textView);
-			holder.txtViewValue = (TextView) convertView
-					.findViewById(R.id.value);
-			holder.txtViewMoy = (TextView) convertView
-					.findViewById(R.id.item_value_moy);
-			holder.txtViewMed = (TextView) convertView
-					.findViewById(R.id.item_value_med);
-			holder.txtViewCent = (TextView) convertView
-					.findViewById(R.id.item_value_centile);
-			holder.txtViewEcType = (TextView) convertView
-					.findViewById(R.id.item_value_ec_type);
-			holder.txtViewPond = (TextView) convertView
-					.findViewById(R.id.item_value_pond);
+			holder.txtViewValue = (TextView) convertView.findViewById(R.id.value);
+			holder.txtViewMoy = (TextView) convertView.findViewById(R.id.item_value_moy);
+			holder.txtViewMed = (TextView) convertView.findViewById(R.id.item_value_med);
+			holder.txtViewCent = (TextView) convertView.findViewById(R.id.item_value_centile);
+			holder.txtViewEcType = (TextView) convertView.findViewById(R.id.item_value_ec_type);
+			holder.txtViewPond = (TextView) convertView.findViewById(R.id.item_value_pond);
 			// set tag
 			convertView.setTag(holder);
 		} else {
@@ -141,48 +127,37 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 				holder.txtView.setText(R.string.cote);
 				holder.txtViewValue.setText(courseEvaluation.getCote());
 				break;
-			case 2:// NOTE À CE JOUR
+			case 2:// NOTE Ã€ CE JOUR
 				holder.txtView.setText(R.string.noteACejour);
 				final String note = courseEvaluation.getScoreFinalSur100();
-				holder.txtViewValue.setText(courseEvaluation.getNoteACeJour()
-						+ "/" + total + " (" + note + "%)");
+				holder.txtViewValue.setText(note + "/" + total + " (" + courseEvaluation.getNoteACeJour() + "%)");
 				break;
 			case 3:// MOYENNE CLASSE
 				holder.txtView.setText(R.string.moyenne);
 				final String m = courseEvaluation.getMoyenneClasse();
 				try {
-					holder.txtViewValue
-							.setText(m
-									+ "/"
-									+ total
-									+ " ("
-									+ nf_enUS.format(+(nf_frCA.parse(m)
-											.doubleValue() / total) * 100)
-									+ "%)");
+					holder.txtViewValue.setText(m + "/" + total + " ("
+							+ nf_enUS.format(+(nf_frCA.parse(m).doubleValue() / total) * 100) + "%)");
 				} catch (final ParseException e1) {
 					e1.printStackTrace();
 				}
 				break;
-			case 4:// ÉCART TYPE
+			case 4:// ï¿½CART TYPE
 				holder.txtView.setText(R.string.ecartType);
-				holder.txtViewValue.setText(courseEvaluation
-						.getEcartTypeClasse());
+				holder.txtViewValue.setText(courseEvaluation.getEcartTypeClasse());
 				break;
-			case 5:// MÉDIANE
+			case 5:// Mï¿½DIANE
 				holder.txtView.setText(R.string.mediane);
 				final String n = courseEvaluation.getMedianeClasse();
 				try {
-					holder.txtViewValue.setText(nf_enUS.format(nf_frCA.parse(n)
-							.doubleValue() / total * 100)
-							+ "%");
+					holder.txtViewValue.setText(nf_enUS.format(nf_frCA.parse(n).doubleValue() / total * 100) + "%");
 				} catch (final ParseException e1) {
 					e1.printStackTrace();
 				}
 				break;
 			case 6:// RAND CENTILLE
 				holder.txtView.setText(R.string.rangCentille);
-				holder.txtViewValue.setText(courseEvaluation
-						.getRangCentileClasse());
+				holder.txtViewValue.setText(courseEvaluation.getRangCentileClasse());
 				break;
 			default:// ELSE
 				final EvaluationElement element = getItem(position);
@@ -194,12 +169,10 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 						final String sur = element.getCorrigeSur();
 						double sur100 = 0;
 						if (!notee.equals("") && !sur.equals("")) {
-							sur100 = nf_frCA.parse(notee).doubleValue()
-									/ nf_frCA.parse(sur).doubleValue() * 100;
+							sur100 = nf_frCA.parse(notee).doubleValue() / nf_frCA.parse(sur).doubleValue() * 100;
 
 							final String tmp = nf_enUS.format(sur100);
-							holder.txtViewValue.setText(element.getNote() + "/"
-									+ element.getCorrigeSur() + " (" + tmp
+							holder.txtViewValue.setText(element.getNote() + "/" + element.getCorrigeSur() + " (" + tmp
 									+ "%)");
 
 							holder.txtViewMoy.setVisibility(View.VISIBLE);
@@ -210,25 +183,18 @@ public class MyCourseDetailAdapter extends BaseAdapter {
 
 							holder.txtViewMoy.setText("Moyenne: "
 									+ " "
-									+ nf_enUS.format(nf_frCA.parse(
-											element.getMoyenne()).doubleValue()
-											/ nf_frCA.parse(sur).doubleValue()
-											* 100) + "%");
+									+ nf_enUS.format(nf_frCA.parse(element.getMoyenne()).doubleValue()
+											/ nf_frCA.parse(sur).doubleValue() * 100) + "%");
 
-							holder.txtViewMed.setText("Médiane: "
-									+ nf_enUS.format(nf_frCA.parse(
-											element.getMediane()).doubleValue()
-											/ nf_frCA.parse(sur).doubleValue()
-											* 100) + "%");
+							holder.txtViewMed.setText("Mï¿½diane: "
+									+ nf_enUS.format(nf_frCA.parse(element.getMediane()).doubleValue()
+											/ nf_frCA.parse(sur).doubleValue() * 100) + "%");
 
-							holder.txtViewCent.setText("Rang centile: "
-									+ element.getRangCentile());
+							holder.txtViewCent.setText("Rang centile: " + element.getRangCentile());
 
-							holder.txtViewEcType.setText("Écart-type: "
-									+ element.getEcartType());
+							holder.txtViewEcType.setText("ï¿½cart-type: " + element.getEcartType());
 
-							holder.txtViewPond.setText("Pondération: "
-									+ element.getPonderation() + "%");
+							holder.txtViewPond.setText("Pondï¿½ration: " + element.getPonderation() + "%");
 						} else {
 							holder.txtViewValue.setText("/" + sur);
 						}
